@@ -6,7 +6,7 @@ import {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native';
-import {CirclesFour, Planet, ShareNetwork} from 'phosphor-react-native';
+import {CirclesFour} from 'phosphor-react-native';
 import React from 'react';
 
 import type {HomeDrawerScreenProps} from './DrawerNavigator';

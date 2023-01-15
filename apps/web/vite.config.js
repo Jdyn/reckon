@@ -1,5 +1,5 @@
 import { relativeAliasResolver } from '@reckon/config/vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import svg from 'vite-plugin-svgr';
