@@ -10,6 +10,10 @@ defmodule Reckon.Auth.OAuth do
     end
   end
 
+  @spec callback(provider :: binary(), params :: map(), session_params :: map()) ::
+          {:ok, %{:user => map(), optional(atom()) => any()}}
+          | {:error, term()}
+          | {:not_found, binary()}
   def callback(provider, params, session_params \\ %{}) do
     if config = config(provider) do
       config =

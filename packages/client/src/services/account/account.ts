@@ -9,23 +9,16 @@ export const accountApi = createApi({
 	reducerPath: 'account',
 	baseQuery,
 	tagTypes: ['User'],
-	endpoints: (builder) => ({
-		getAccount: builder.query<{ user: User }, void>({
-			query: () => ({
-				url: `/account`,
-				method: 'GET'
-			})
-		}),
-		getSessions: builder.query<{ sessions: Session[] }, void>({
-			query: () => `/account/sessions`
-		}),
-		deleteSession: builder.mutation<Nothing, string>({
+	endpoints: ({ query, mutation }) => ({
+		getAccount: query<{ user: User }, void>({ query: () => `/account` }),
+		getSessions: query<{ sessions: Session[] }, void>({ query: () => `/account/sessions` }),
+		deleteSession: mutation<Nothing, string>({
 			query: (trackingId) => ({
 				url: `/account/sessions/${trackingId}`,
 				method: 'DELETE'
 			})
 		}),
-		clearSessions: builder.mutation<Nothing, void>({
+		clearSessions: mutation<Nothing, void>({
 			query: () => ({
 				url: `/account/sessions/clear`,
 				method: 'DELETE'
@@ -34,4 +27,4 @@ export const accountApi = createApi({
 	})
 });
 
-export const { useGetAccountQuery } = accountApi;
+export const { useGetAccountQuery, useDeleteSessionMutation } = accountApi;

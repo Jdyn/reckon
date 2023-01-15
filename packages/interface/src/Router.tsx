@@ -4,6 +4,7 @@ import RootLayout from '~/Layout';
 import HomeScreen from '~/screens/Overview';
 
 function AppRouter() {
+
 	return (
 		<Routes>
 			<Route element={<RootLayout />}>

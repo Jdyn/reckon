@@ -7,13 +7,13 @@ defmodule Reckon.User do
 
   alias Reckon.{User, UserToken}
 
-  @registration_fields ~w(email first_name last_name)a
+  @registration_fields ~w(email username first_name last_name)a
 
   schema "users" do
     field(:email, :string)
+    field(:username, :string)
     field(:first_name, :string)
     field(:last_name, :string)
-    field(:role, :string, default: "user")
     field(:avatar, :string)
 
     field(:phone, :string)
@@ -42,6 +42,7 @@ defmodule Reckon.User do
     |> cast(attrs, @registration_fields ++ [:password])
     |> validate_required(@registration_fields ++ [:password])
     |> validate_email()
+    |> validate_username()
     |> validate_password()
   end
 
@@ -59,6 +60,14 @@ defmodule Reckon.User do
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/)
     |> validate_length(:email, max: 80)
     |> unique_constraint(:email)
+  end
+
+  defp validate_username(changeset) do
+    changeset
+    |> validate_length(:username, min: 3, max: 25)
+    |> validate_format(:username, ~r/^(?=[a-zA-Z0-9._ ]{4,20}$)(?!.*[_. ]{2})[^_. ].*[^_. ]$/)
+    |> update_change(:username, &String.downcase(&1))
+    |> unique_constraint(:username)
   end
 
   defp validate_password(changeset) do

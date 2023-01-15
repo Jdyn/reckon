@@ -22,6 +22,7 @@ defmodule Reckon.UserView do
   def render("user.json", %{user: user}) do
     %{
       id: user.id,
+      username: user.username,
       firstName: user.first_name,
       email: user.email,
       confirmedAt: user.confirmed_at,

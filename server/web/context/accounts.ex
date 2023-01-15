@@ -3,6 +3,29 @@ defmodule Reckon.Accounts do
   alias Reckon.{User, UserToken, UserNotifier}
   alias Reckon.Auth.OAuth
 
+  @doc """
+    If an email and password is given, authenticate a given `%User{}` email and password
+    against the database and return the user if valid.
+
+    ## Examples
+
+    iex> authenticate(test@test.com, "password")
+    {:ok, %User{}}
+
+    iex> authenticate(test@test.com, "wrong password")
+    {:unauthorized, reason}
+
+    If a `provider` and `params` map is given, Authenticate using OAuth provider
+    and return the user if valid.
+
+    ## Examples
+
+    iex> authenticate("github", %{...})
+    {:ok, %User{}}
+
+    iex> register_user("invalid provider", %{...})
+    {:unauthorized, reason}
+  """
   def authenticate(email, password) when is_binary(email) and is_binary(password) do
     with %User{} = user <- Repo.get_by(User, email: email),
          true <- User.valid_password?(user, password) do
@@ -21,7 +44,8 @@ defmodule Reckon.Accounts do
           {:ok, user}
         else
           true ->
-            {:not_found, "Confirm your email before signing in with #{provider}."}
+            # If the user has not confirmed their email yet.
+            {:unauthorized, "Confirm your email before signing in with #{provider}."}
 
           nil ->
             user = oauth_register(open_user, open_token)
