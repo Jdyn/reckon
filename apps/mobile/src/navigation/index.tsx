@@ -1,9 +1,9 @@
+import DrawerNavigator, {DrawerNavParamList} from './DrawerNavigator';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {
   NativeStackScreenProps,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
-import DrawerNavigator, {DrawerNavParamList} from './DrawerNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

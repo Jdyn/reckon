@@ -1,3 +1,6 @@
+import type {RootStackParamList} from '.';
+import type {TabParamList} from './TabNavigator';
+import TabNavigator from './TabNavigator';
 import {
   DrawerScreenProps,
   createDrawerNavigator,
@@ -8,10 +11,6 @@ import {
 } from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {Text, View} from 'react-native';
-
-import type {RootStackParamList} from '.';
-import type {TabParamList} from './TabNavigator';
-import TabNavigator from './TabNavigator';
 
 const Drawer = createDrawerNavigator<DrawerNavParamList>();
 

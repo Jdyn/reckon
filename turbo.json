@@ -1,17 +1,17 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
-    "build": {
-      "outputs": ["dist/**"]
-    },
-    "lint": {
-      "outputs": []
-    },
-    "typecheck": {
+	"$schema": "https://turbo.build/schema.json",
+	"pipeline": {
+		"build": {
+			"outputs": ["dist/**"]
+		},
+		"lint": {
 			"outputs": []
 		},
-    "dev": {
-      "cache": false
-    }
-  }
+		"typecheck": {
+			"outputs": []
+		},
+		"dev": {
+			"cache": false
+		}
+	}
 }

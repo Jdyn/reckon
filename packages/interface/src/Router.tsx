@@ -1,10 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-
 import RootLayout from '~/Layout';
 import HomeScreen from '~/screens/Overview';
 
 function AppRouter() {
-
 	return (
 		<Routes>
 			<Route element={<RootLayout />}>

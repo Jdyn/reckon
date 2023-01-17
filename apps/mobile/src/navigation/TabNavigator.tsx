@@ -1,3 +1,5 @@
+import type {HomeDrawerScreenProps} from './DrawerNavigator';
+import OverviewStack, {OverviewStackParamList} from './tabs/OverviewTab';
 import {
   BottomTabScreenProps,
   createBottomTabNavigator,
@@ -9,8 +11,6 @@ import {
 import {CirclesFour} from 'phosphor-react-native';
 import React from 'react';
 
-import type {HomeDrawerScreenProps} from './DrawerNavigator';
-import OverviewStack, {OverviewStackParamList} from './tabs/OverviewTab';
 // import NodesStack, { NodesStackParamList } from './tabs/NodesStack';
 // import OverviewStack, { OverviewStackParamList } from './tabs/OverviewStack';
 // import SpacesStack, { SpacesStackParamList } from './tabs/SpacesStack';

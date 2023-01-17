@@ -8,7 +8,6 @@ type Nothing = Record<string, never>;
 export const accountApi = createApi({
 	reducerPath: 'account',
 	baseQuery,
-	tagTypes: ['User'],
 	endpoints: ({ query, mutation }) => ({
 		getAccount: query<{ user: User }, void>({ query: () => `/account` }),
 		getSessions: query<{ sessions: Session[] }, void>({ query: () => `/account/sessions` }),

@@ -1,5 +1,5 @@
-import {SafeAreaView, Text, View} from 'react-native';
 import {OverviewStackScreenProps} from '../navigation/tabs/OverviewTab';
+import {SafeAreaView, Text, View} from 'react-native';
 
 export default function OverviewScreen({
   navigation,
