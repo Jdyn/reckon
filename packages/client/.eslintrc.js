@@ -1,5 +1,5 @@
 module.exports = {
-	...require('@reckon/config/eslint-react.js'),
+	extends: [require.resolve('@reckon/config/eslint/web.js')],
 	parserOptions: {
 		tsconfigRootDir: __dirname,
 		project: './tsconfig.json'

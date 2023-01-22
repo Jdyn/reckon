@@ -1,3 +1,3 @@
-import { Alias } from "vite"
+import type { Alias } from 'vite';
 
-export const relativeAliasResolver: Alias
+export let relativeAliasResolver: Alias;
