@@ -12,3 +12,16 @@ export interface Session {
 	token: string;
 	trackingId: string;
 }
+
+export interface SignUpPayload {
+	email: string;
+	username: string;
+	first_name: string;
+	last_name: string;
+	password: string;
+}
+
+export interface SignInPayload {
+	email: string;
+	password: string;
+}
