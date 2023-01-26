@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import { ErrorFallback } from '~/ErrorFallback';
 import router from '~/Router';
+import './global.css';
 
 function ReckonInterface() {
 	return (

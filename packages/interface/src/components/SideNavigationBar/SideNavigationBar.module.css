@@ -1,0 +1,57 @@
+.root {
+	display: flex;
+	position: relative;
+	--left-nav-width-collapsed: 75px;
+	--left-nav-width-expanded: 240px;
+	--left-nav-width: var(--left-nav-width-collapsed);
+	width: var(--left-nav-width-collapsed);
+  height: 100vh;
+	transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.root[data-hover-expand='true']:hover {
+	--left-nav-width: var(--left-nav-width-expanded);
+  --nav-shadow: hsla(222deg 33% 4% / 1);
+}
+
+.root[data-expanded='true'] {
+	--left-nav-width: var(--left-nav-width-expanded);
+	width: var(--left-nav-width);
+  --nav-shadow: hsla(222deg 33% 4% / 1);
+}
+
+.wrapper {
+	position: absolute;
+	width: var(--left-nav-width);
+	height: 100%;
+	background: grey;
+	padding-top: var(--sp-3);
+	display: flex;
+	flex-direction: column;
+	grid-gap: var(--sp-4);
+	gap: var(--sp-4);
+	font-size: calc(0.25 * 4rem);
+	transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	box-shadow: 0 0 calc(0.25 * 2rem) var(--nav-shadow);
+}
+
+.wrapper[data-expand='left'] {
+	right: 0;
+}
+
+.wrapper[data-expand='right'] {
+	left: 0;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	flex: 1;
+	list-style: none;
+	padding: 0;
+}
+
+.listItem {
+	padding: 5px 10px;
+}
