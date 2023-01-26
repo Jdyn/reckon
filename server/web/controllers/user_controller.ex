@@ -77,12 +77,11 @@ defmodule Reckon.UserController do
       |> renew_session(token)
       |> render("login.json", user: user)
     else
-      nil ->
-        {:unauthorized, "You are already signed in."}
+      {:unauthorized, reason} ->
+        {:unauthorized, reason}
 
-      error ->
-        dbg error
-        error
+      _ ->
+        {:unauthorized, "You are already signed in."}
     end
   end
 

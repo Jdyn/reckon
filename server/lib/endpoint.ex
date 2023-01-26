@@ -38,7 +38,7 @@ defmodule Reckon.Endpoint do
     json_decoder: Phoenix.json_library()
   )
 
-  plug(CORSPlug, origin: ["http://localhost:3000", "http://127.0.0.1:8002"])
+  plug(CORSPlug, origin: ["http://localhost:8002", "http://127.0.0.1:8002"])
 
   plug(Plug.MethodOverride)
   plug(Plug.Head)

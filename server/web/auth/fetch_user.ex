@@ -14,13 +14,19 @@ defmodule Reckon.Auth.FetchUser do
   """
   def call(conn, _opts \\ %{}) do
     {token, conn} = ensure_user_token(conn)
-    user = token && Accounts.find_by_session_token(token)
+
+    user =
+      token &&
+        ConCache.get_or_store(:user_cache, token, fn ->
+          Accounts.find_by_session_token(token)
+        end)
+
     assign(conn, :current_user, user)
   end
 
   defp ensure_user_token(conn) do
     if user_token = get_session(conn, :user_token) do
-        {user_token, conn}
+      {user_token, conn}
     else
       conn = fetch_cookies(conn, signed: [@remember_me_cookie])
 

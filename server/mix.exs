@@ -19,7 +19,7 @@ defmodule Reckon.MixProject do
   def application do
     [
       mod: {Reckon.Application, []},
-      extra_applications: [:logger, :runtime_tools, :inets]
+      extra_applications: [:logger, :runtime_tools, :inets, :con_cache]
     ]
   end
 
@@ -42,7 +42,8 @@ defmodule Reckon.MixProject do
       {:jason, "~> 1.4.0"},
       {:cors_plug, "~> 3.0.3"},
       {:pbkdf2_elixir, "~> 2.0.0"},
-      {:plug_cowboy, "~> 2.5.2"}
+      {:plug_cowboy, "~> 2.5.2"},
+      {:con_cache, "~> 1.0"}
     ]
   end
 
