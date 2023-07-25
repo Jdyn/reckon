@@ -4,7 +4,7 @@ defmodule Reckon.Auth.FetchUser do
 
   alias Reckon.Accounts
 
-  @remember_me_cookie "remember_token"
+  @remember_token "remember_token"
 
   def init(opts), do: opts
 
@@ -28,9 +28,9 @@ defmodule Reckon.Auth.FetchUser do
     if user_token = get_session(conn, :user_token) do
       {user_token, conn}
     else
-      conn = fetch_cookies(conn, signed: [@remember_me_cookie])
+      conn = fetch_cookies(conn, signed: [@remember_token])
 
-      if user_token = conn.cookies[@remember_me_cookie] do
+      if user_token = conn.cookies[@remember_token] do
         {user_token, put_session(conn, :user_token, user_token)}
       else
         {nil, conn}

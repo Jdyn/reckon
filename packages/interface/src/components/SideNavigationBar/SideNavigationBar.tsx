@@ -25,7 +25,7 @@ const SideNavigationBar = ({ expand }: SideNavigationBarProps) => {
 					</NavigationMenu.Item>
 				</div>
 				<NavigationMenu.Item asChild>
-					<button onClick={() => setExpanded((prev) => !prev)}>
+					<button className={styles.collapse} onClick={() => setExpanded((prev) => !prev)}>
 						{expanded ? 'Collapse' : 'Expand'}
 					</button>
 				</NavigationMenu.Item>
