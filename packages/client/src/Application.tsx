@@ -26,7 +26,7 @@ function ReckonInterface() {
 	return (
 		<ErrorBoundary FallbackComponent={ErrorFallback}>
 			<Provider store={store}>
-				<Theme appearance="light" radius="large" accentColor="indigo">
+				<Theme appearance="light" radius="large" accentColor="violet">
 					<RouterProvider router={router} />
 				</Theme>
 			</Provider>

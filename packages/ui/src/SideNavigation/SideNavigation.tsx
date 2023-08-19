@@ -1,10 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-
 /* eslint-disable no-nested-ternary */
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
-import { AnchorHTMLAttributes, cloneElement, forwardRef, useEffect, useMemo, useState } from 'react';
+import { AnchorHTMLAttributes, forwardRef, useEffect, useMemo, useState } from 'react';
 import type { DetailedHTMLProps, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
@@ -51,16 +50,16 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 			className={styles.root}
 			style={style}
 			orientation="vertical"
-			data-hover-expand
 			data-expanded={expanded}
 			data-expand={expand}
 			value={value}
-			onValueChange={(newValue) => {
-				setValue(() => {
-					if (newValue) return newValue;
-					return current;
-				});
-			}}
+			// onValueChange={(newValue) => {
+			// 	console.log(newValue)
+			// 	setValue(() => {
+			// 		if (newValue) return newValue;
+			// 		return current;
+			// 	});
+			// }}
 		>
 			<div className={styles.wrapper} data-expand={expand} ref={observe}>
 				<NavigationMenu.Item asChild>
@@ -69,7 +68,6 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 						onClick={() => setExpanded((prev) => !prev)}
 						style={{ justifyContent: expand === 'right' ? 'flex-end' : 'flex-start' }}
 						type="button"
-						title="collapse side menu"
 					>
 						{expanded && expand === 'left' ? (
 							<ArrowRightIcon width="18px" height="18px" />
@@ -82,34 +80,15 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 						)}
 					</button>
 				</NavigationMenu.Item>
-				<NavigationMenu.List asChild >
-					<div className={styles.list}>
-						{Array.isArray(children) ? (
-							children.map((child, index) => (
-								<NavigationMenu.Item
-									key={index}
-									value={`${index}`}
-									asChild
-									className={clsx(value === index.toString() && styles.active)}
-								>
-									<NavigationMenu.Link asChild>{cloneElement(child, { expanded })}</NavigationMenu.Link>
+				<NavigationMenu.List className={styles.list}>
+					{Array.isArray(children)
+						? children.map((child, index) => (
+								<NavigationMenu.Item key={index} value={`${index}`}>
+									{child}
 								</NavigationMenu.Item>
-							))
-						) : (
-							<NavigationMenu.Item
-								value="0"
-								asChild
-								className={clsx(value === '0' && styles.active)}
-							>
-								<NavigationMenu.Link asChild>{children}</NavigationMenu.Link>
-							</NavigationMenu.Item>
-						)}
-						<NavigationMenu.Indicator
-							tabIndex={-1}
-							className={styles.indicator}
-							style={{ width: width - 20 }}
-						/>
-					</div>
+						  ))
+						: children}
+					<NavigationMenu.Indicator className={styles.indicator} style={{ width: width - 20 }} />
 				</NavigationMenu.List>
 			</div>
 		</NavigationMenu.Root>
@@ -123,7 +102,10 @@ SideNavigation.defaultProps = {
 
 export const SideNavigationLink = forwardRef<
 	HTMLButtonElement,
-	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & { expanded?: boolean; }, HTMLAnchorElement>
+	DetailedHTMLProps<
+		AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & { expanded?: boolean },
+		HTMLAnchorElement
+	>
 >(({ children, to, onClick, expanded }, ref) => (
 	<NavigationMenu.Trigger ref={ref} asChild>
 		<Link onClick={onClick} id={to.toString()} className={clsx(styles.listItem)} to={to}>

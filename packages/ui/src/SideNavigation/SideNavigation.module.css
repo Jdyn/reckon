@@ -9,20 +9,20 @@
   z-index: 1;
 }
 
-.root[data-hover-expand="true"]:hover:not([data-expanded="true"]) {
+.root:hover:not([data-expanded="true"]) {
   --left-nav-width: var(--left-nav-width-expanded);
   --nav-shadow: var(--shadow-6);
 }
 
-.root[data-hover-expand="true"][data-expand="left"]:hover:not([data-expanded="true"]) > div {
+.root[data-expand="left"]:hover:not([data-expanded="true"]) > div {
 	border-top-left-radius: 25px;
 }
 
-.root[data-hover-expand="true"][data-expand="right"]:hover:not([data-expanded="true"]) > div {
+.root[data-expand="right"]:hover:not([data-expanded="true"]) > div {
 	border-top-right-radius: 25px;
 }
 
-.root[data-hover-expand="true"]:not(:hover):not([data-expanded="true"]) > div > div > div > .listItem > span {
+.root:not(:hover):not([data-expanded="true"]) > div > div > div > .listItem > span {
 	color: transparent;
 }
 
@@ -72,14 +72,12 @@
 .collapse {
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	gap: 10px;
 	border: none;
 	flex-direction: row;
   padding: 10px 20px;
   background: transparent;
   cursor: pointer;
-	justify-content: flex-end;
   transition-duration: 0.2s;
 	font-size: 1rem;
 }
@@ -104,8 +102,7 @@
   border-radius: 0px 16px 16px 0px;
 	padding: 10px 20px 10px 20px;
 	align-items: center;
-	/* transition-duration: 0.3s; */
-	transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	transition: all 0.2s ease-in-out;
 	background:transparent;
 	border-left: none;
 	color: var(--text);
@@ -118,13 +115,26 @@
 	white-space: nowrap;
 }
 
+.listItem:hover {
+	color: var(--accent-a11);
+}
+
 .listItem > span {
+	transition: color 0.2s ease-in-out;
 	overflow: hidden;
-	transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .listItem > svg {
+	transition: transform 0.1s linear;
 	overflow: visible;
+}
+
+.listItem:hover > svg {
+	transform: scale(1.2);
+}
+
+.listItem:active > svg {
+	transform: scale(0.9);
 }
 
 .listItem[data-state="open"] {
@@ -151,14 +161,4 @@
 
 .indicator[data-state='hidden'] {
   animation: fadeOut 200ms ease;
-}
-
-.arrow {
-  position: relative;
-  background: black;
-	z-index: 100;
-	width: 10px;
-  height: 10px;
-  transform: rotate(45deg);
-  border-top-left-radius: 2px;
 }
