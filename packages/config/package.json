@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"exports": {
 		"./*": "./*",
-		"./vite": "./vite/index.js"
+		"./vite": "./vite"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^5.48.0",
