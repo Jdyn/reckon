@@ -1,2 +1,3 @@
-export * from './services';
-export * from './store';
+import ReckonInterface from './Application';
+
+export default ReckonInterface;

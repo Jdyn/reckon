@@ -1,0 +1,27 @@
+{
+	"name": "@reckon/core",
+	"version": "0.0.0",
+	"private": true,
+	"main": "./src/index.ts",
+	"files": [
+		"dist/**"
+	],
+	"scripts": {
+		"test": "jest",
+		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+		"lint": "eslint src"
+	},
+	"dependencies": {
+		"@reckon/config": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.21",
+		"tsconfig": "*",
+		"typescript": "^4.8.4"
+	},
+	"peerDependencies": {
+		"react": "^18.x",
+		"react-redux": "^8.x",
+		"@reduxjs/toolkit": "1.9.x"
+	}
+}

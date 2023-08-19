@@ -1,4 +1,4 @@
-import ReckonInterface from '@reckon/interface';
+import ReckonInterface from '@reckon/client';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 

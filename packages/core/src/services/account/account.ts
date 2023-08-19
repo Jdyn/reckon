@@ -5,7 +5,7 @@ import { Session, SignInPayload, SignUpPayload, User } from './types';
 
 type Empty = Record<string, never>;
 
-export const accountApi = createApi({
+const accountApi = createApi({
 	reducerPath: 'account',
 	baseQuery,
 	tagTypes: ['user', 'sessions'],
@@ -58,3 +58,17 @@ export const accountApi = createApi({
 		})
 	})
 });
+
+
+export const {
+	useGetAccountQuery,
+	useGetSessionsQuery,
+	useDeleteSessionMutation,
+	useClearSessionsMutation,
+	useSendEmailConfirmationQuery,
+	useDoEmailConfirmationMutation,
+	useAccountSignUpMutation,
+	useAccountSignInMutation,
+	useAccountSignOutMutation
+} = accountApi;
+export default accountApi;

@@ -1,0 +1,164 @@
+.root {
+  display: flex;
+  height: 100%;
+  --left-nav-width-collapsed: 75px;
+  --left-nav-width-expanded: 225px;
+  --left-nav-width: var(--left-nav-width-collapsed);
+  width: var(--left-nav-width-collapsed);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.root[data-hover-expand="true"]:hover:not([data-expanded="true"]) {
+  --left-nav-width: var(--left-nav-width-expanded);
+  --nav-shadow: var(--shadow-6);
+}
+
+.root[data-hover-expand="true"][data-expand="left"]:hover:not([data-expanded="true"]) > div {
+	border-top-left-radius: 25px;
+}
+
+.root[data-hover-expand="true"][data-expand="right"]:hover:not([data-expanded="true"]) > div {
+	border-top-right-radius: 25px;
+}
+
+.root[data-hover-expand="true"]:not(:hover):not([data-expanded="true"]) > div > div > div > .listItem > span {
+	color: transparent;
+}
+
+.root[data-expanded="true"] {
+  --left-nav-width: var(--left-nav-width-expanded);
+  width: var(--left-nav-width);
+  /* --nav-shadow: 0px 10px 38px -10px hsl(206 22% 7% / 35%), 0px 10px 20px -15px hsl(206 22% 7% / 20%); */
+}
+
+.wrapper {
+	position: absolute !important;
+  width: var(--left-nav-width);
+  height: calc(100vh - 70px);
+	padding: 0;
+  background-color: var(--accent-3);
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--nav-shadow);
+  transition: all 1s ease-in-out, all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wrapper[data-expand="left"] {
+  right: 0;
+}
+
+.wrapper[data-expand="right"] {
+  left: 0;
+}
+
+.wrapper > div {
+	display: flex;
+	flex: 1;
+	overflow: hidden;
+}
+
+
+.list {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  list-style: none;
+  padding: 30px 10px 20px 0px;
+	overflow: hidden;
+}
+
+.collapse {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	border: none;
+	flex-direction: row;
+  padding: 10px 20px;
+  background: transparent;
+  cursor: pointer;
+	justify-content: flex-end;
+  transition-duration: 0.2s;
+	font-size: 1rem;
+}
+
+.collapse > svg {
+	border-radius: 50%;
+	overflow: visible;
+	color: var(--text);
+	transition-duration: 0.3s;
+}
+.collapse > svg:hover {
+	box-shadow: var(--card-small)
+}
+
+.collapse > span {
+	overflow: hidden;
+}
+
+.listItem {
+  display: flex;
+	gap: 20px;
+  border-radius: 0px 16px 16px 0px;
+	padding: 10px 20px 10px 20px;
+	align-items: center;
+	/* transition-duration: 0.3s; */
+	transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+	background:transparent;
+	border-left: none;
+	color: var(--text);
+  text-decoration: none;
+	cursor: pointer;
+	overflow: hidden;
+	text-transform: uppercase;
+	font-weight: 700;
+	z-index: 2;
+	white-space: nowrap;
+}
+
+.listItem > span {
+	overflow: hidden;
+	transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.listItem > svg {
+	overflow: visible;
+}
+
+.listItem[data-state="open"] {
+	color: var(--accent-a11);
+}
+
+.indicator {
+  display: flex;
+	position: relative;
+  justify-content: center;
+  overflow: hidden;
+	pointer-events: none;
+	z-index: 1;
+	background-color: var(--accent-a5);
+	border-radius: 0px 12px 12px 0px;
+  transition: width, transform 150ms ease;
+	border-left: none;
+	pointer-events: none;
+}
+
+.indicator[data-state='visible'] {
+  animation: fadeIn 200ms ease;
+}
+
+.indicator[data-state='hidden'] {
+  animation: fadeOut 200ms ease;
+}
+
+.arrow {
+  position: relative;
+  background: black;
+	z-index: 100;
+	width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  border-top-left-radius: 2px;
+}

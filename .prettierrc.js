@@ -10,7 +10,7 @@ module.exports = {
 	semi: true,
 	tabWidth: 2,
 	quoteProps: 'consistent',
-	importOrder: ['^[./]', '^@reckon/interface/(.*)$', '^@reckon/client/(.*)$', '^@reckon/ui/(.*)$'],
+	importOrder: ['^[./]', '^@reckon/client/(.*)$', '^@reckon/core/(.*)$', '^@reckon/ui/(.*)$'],
 	importOrderSeparation: true,
 	importOrderSortSpecifiers: true,
 	importOrderParserPlugins: ['importAssertions', 'typescript', 'jsx'],

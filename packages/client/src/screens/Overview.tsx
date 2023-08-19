@@ -1,12 +1,11 @@
-import { accountApi } from '@reckon/client';
-
-const {
-	useGetAccountQuery,
+import {
 	useAccountSignInMutation,
-	useGetSessionsQuery,
+	useAccountSignOutMutation,
 	useClearSessionsMutation,
-	useAccountSignOutMutation
-} = accountApi;
+	useGetAccountQuery,
+	useGetSessionsQuery
+} from '@reckon/core';
+import { Button } from '@reckon/ui';
 
 const HomeScreen = () => {
 	const [signIn] = useAccountSignInMutation();
@@ -16,12 +15,9 @@ const HomeScreen = () => {
 	const { data: sessions } = useGetSessionsQuery();
 
 	return (
-		<div>
-			Home screen
-			<button onClick={() => signIn({ email: 'test@test.com', password: 'Password123' })}>
-				sign in
-			</button>
-			<button onClick={() => signOut()}>sign out</button>
+		<>
+			{/* <Button>sign in</Button>
+			<Button>sign out</Button>
 			<div>
 				{sessions &&
 					sessions.tokens.map((token) => (
@@ -31,8 +27,8 @@ const HomeScreen = () => {
 						</div>
 					))}
 			</div>
-			<button onClick={() => clearSessions()}>clear sessions</button>
-		</div>
+			<Button onClick={() => clearSessions()}>clear sessions</Button> */}
+		</>
 	);
 };
 
