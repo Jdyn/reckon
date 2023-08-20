@@ -1,0 +1,32 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+			{
+					"label": "dev",
+					"runOptions": {
+							"runOn": "folderOpen"
+					},
+					"dependsOrder": "parallel",
+					"dependsOn": [
+							"server",
+							"web",
+					]
+			},
+			{
+					"label": "server",
+					"type": "shell",
+					"command": "cd server && mix phx.server",
+					"presentation": {
+							"panel": "dedicated"
+					}
+			},
+			{
+					"label": "web",
+					"type": "shell",
+					"command": "pnpm run dev",
+					"presentation": {
+							"panel": "dedicated"
+					}
+			}
+	]
+}

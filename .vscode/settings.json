@@ -13,7 +13,7 @@
 	"eslint.workingDirectories": [
 		"apps/web",
 		"apps/mobile",
-		"packages/client",
+		"client",
 		"packages/core",
 		"packages/config",
 		"packages/ui"

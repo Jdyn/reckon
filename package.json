@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"build": "turbo run build",
-		"dev": "turbo run dev --filter=@reckon/web",
+		"dev": "turbo run dev --filter=@reckon/web && cd server && mix phx.server",
 		"format": "prettier --config --write \"**/*.{ts,tsx,html,scss,json,yml,md}\"",
 		"desktop": "pnpm --filter @reckon/desktop --",
 		"web": "pnpm --filter @reckon/web -- ",
