@@ -1,13 +1,5 @@
-defmodule Reckon.Web do
-
-  def view do
-    quote do
-      import Phoenix.View
-
-      import Reckon.ErrorHelpers
-      alias Reckon.Router.Helpers, as: Routes
-    end
-  end
+defmodule Nimble.Web do
+  @moduledoc false
 
   def model do
     quote do
@@ -15,8 +7,8 @@ defmodule Reckon.Web do
 
       import Ecto
       import Ecto.Changeset
-      import Ecto.Query
       import Ecto.Multi
+      import Ecto.Query
 
       @timestamps_opts [type: :utc_datetime]
     end
@@ -24,15 +16,16 @@ defmodule Reckon.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: Reckon
-      import Ecto.Query
+      use Phoenix.Controller, namespace: Nimble, formats: [:json]
 
+      import Ecto.Query
       import Plug.Conn
-      alias Reckon.Router.Helpers, as: Routes
+
+      alias Nimble.Router.Helpers, as: Routes
     end
   end
 
-  def service do
+  def context do
     quote do
       use Ecto.Schema
 

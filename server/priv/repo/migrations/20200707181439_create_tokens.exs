@@ -1,4 +1,4 @@
-defmodule Reckon.Repo.Migrations.CreateTokens do
+defmodule Nimble.Repo.Migrations.CreateTokens do
   use Ecto.Migration
 
   def change do

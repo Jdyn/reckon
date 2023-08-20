@@ -7,15 +7,15 @@
 # General application configuration
 import Config
 
-config :reckon,
-  ecto_repos: [Reckon.Repo]
+config :nimble,
+  ecto_repos: [Nimble.Repo]
 
 # Configures the endpoint
-config :reckon, Reckon.Endpoint,
+config :nimble, Nimble.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "hbfYDlpG/H+OUeyXAdH3v71oxfA504VjHz/LWlmJS0f4u/c9HxHpBdGhSa+TyLd2",
-  render_errors: [view: Reckon.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Reckon.PubSub,
+  render_errors: [view: Nimble.ErrorView, accepts: ~w(json), layout: false],
+  pubsub_server: Nimble.PubSub,
   live_view: [signing_salt: "JOaxJkdG"]
 
 # Configures Elixir's Logger

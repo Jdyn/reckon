@@ -1,4 +1,4 @@
-defmodule Reckon.Application do
+defmodule Nimble.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,42 +8,26 @@ defmodule Reckon.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      Reckon.Repo,
-      # Start the Telemetry supervisor
-      Reckon.Telemetry,
+      Nimble.Repo,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Reckon.PubSub},
+      {Phoenix.PubSub, name: Nimble.PubSub},
       # Start the Endpoint (http/https)
-      Reckon.Endpoint,
-      # Start a worker by calling: Reckon.Worker.start_link(arg)
-      # {Reckon.Worker, arg}
-      con_cache_child(:user_cache, 5),
+      Nimble.Endpoint,
+      {Finch, name: Swoosh.Finch}
+      # Start a worker by calling: Nimble.Worker.start_link(arg)
+      # {Nimble.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Reckon.Supervisor]
+    opts = [strategy: :one_for_one, name: Nimble.Supervisor]
     Supervisor.start_link(children, opts)
-  end
-
-  defp con_cache_child(name, global_ttl) do
-    Supervisor.child_spec(
-      {
-        ConCache,
-        [
-          name: name,
-          ttl_check_interval: :timer.seconds(10),
-          global_ttl: :timer.minutes(global_ttl)
-        ]
-      },
-      id: {ConCache, name}
-    )
   end
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    Reckon.Endpoint.config_change(changed, removed)
+    Nimble.Endpoint.config_change(changed, removed)
     :ok
   end
 end

@@ -1,8 +1,8 @@
-defmodule Reckon.Auth.EnsureAuth do
-  import Plug.Conn
+defmodule Nimble.Auth.EnsureAuth do
+  @moduledoc false
   use Phoenix.Controller
 
-  alias Reckon.ErrorView
+  import Plug.Conn
 
   def init(opts), do: opts
 
@@ -15,7 +15,7 @@ defmodule Reckon.Auth.EnsureAuth do
     else
       conn
       |> put_status(:unauthorized)
-      |> put_view(ErrorView)
+      |> put_view(Nimble.ErrorJSON)
       |> render("error.json", error: "You do not have access to this resource.")
       |> halt()
     end

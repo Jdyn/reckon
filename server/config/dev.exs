@@ -1,10 +1,10 @@
 import Config
 
 # Configure your database
-config :reckon, Reckon.Repo,
+config :nimble, Nimble.Repo,
   username: "postgres",
   password: "postgres",
-  database: "reckon_dev",
+  database: "nimble_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -15,25 +15,25 @@ config :reckon, Reckon.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :reckon, Reckon.Endpoint,
+config :nimble, Nimble.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
   watchers: []
 
-config :reckon, Nibmle.Mailer, adapter: Swoosh.Adapters.Local
+config :nimble, Nibmle.Mailer, adapter: Swoosh.Adapters.Local
 config :swoosh, :api_client, false
 
-config :reckon, :strategies,
+config :nimble, :strategies,
   github: [
     client_id: "REPLACE_WITH_CLIENT_ID",
     client_secret: "REPLACE_WITH_CLIENT_SECRET",
     strategy: Assent.Strategy.Github
   ],
   google: [
-    client_id: "405268503410-jl07d9kvkn8dhg88ndsl58qvglfsp9pu.apps.googleusercontent.com",
-    client_secret: "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",
+    client_id: "REPLACE_WITH_CLIENT_ID",
+    client_secret: "REPLACE_WITH_CLIENT_SECRET",
     strategy: Assent.Strategy.Google,
     authorization_params: [
       access_type: "offline",

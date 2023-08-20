@@ -1,19 +1,22 @@
-defmodule Reckon.User do
+defmodule Nimble.User do
   @moduledoc """
   Defines a User model to track and authenticate users across the application.
   """
+  @derive {Inspect, except: [:password]}
 
-  use Reckon.Web, :model
+  use Nimble.Web, :model
 
-  alias Reckon.{User, UserToken}
+  alias Nimble.Repo
+  alias Nimble.User
+  alias Nimble.UserToken
 
-  @registration_fields ~w(email username first_name last_name)a
+  @registration_fields ~w(email first_name last_name)a
 
   schema "users" do
     field(:email, :string)
-    field(:username, :string)
     field(:first_name, :string)
     field(:last_name, :string)
+    field(:role, :string, default: "user")
     field(:avatar, :string)
 
     field(:phone, :string)
@@ -42,8 +45,14 @@ defmodule Reckon.User do
     |> cast(attrs, @registration_fields ++ [:password])
     |> validate_required(@registration_fields ++ [:password])
     |> validate_email()
-    |> validate_username()
     |> validate_password()
+  end
+
+  def update_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, @registration_fields)
+    |> validate_required(@registration_fields)
+    |> validate_email()
   end
 
   def oauth_registration_changeset(%User{} = user, attrs) do
@@ -57,28 +66,19 @@ defmodule Reckon.User do
     changeset
     |> validate_required([:email])
     |> update_change(:email, &String.downcase(&1))
-    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/)
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 80)
+    |> unsafe_validate_unique(:email, Repo)
     |> unique_constraint(:email)
-  end
-
-  defp validate_username(changeset) do
-    changeset
-    |> validate_length(:username, min: 3, max: 25)
-    |> validate_format(:username, ~r/^(?=[a-zA-Z0-9._ ]{4,20}$)(?!.*[_. ]{2})[^_. ].*[^_. ]$/)
-    |> update_change(:username, &String.downcase(&1))
-    |> unique_constraint(:username)
   end
 
   defp validate_password(changeset) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 8, max: 80)
+    |> validate_length(:password, min: 12, max: 80)
     |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/,
-      message: "at least one digit or punctuation character"
-    )
+    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> prepare_changes(&maybe_hash_password/1)
   end
 
@@ -119,18 +119,17 @@ defmodule Reckon.User do
   @doc """
   Confirms the account by setting `confirmed_at`.
   """
-  def confirm_changeset(user) do
-    now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
-    change(user, confirmed_at: now)
+  def confirm_changeset(user_or_changeset) do
+    now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+    change(user_or_changeset, confirmed_at: now)
   end
 
   def confirm_oauth_email(changeset, true) do
-    now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+    now = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
     change(changeset, confirmed_at: now)
   end
 
-  def confirm_oauth_email(changeset, false),
-    do: add_error(changeset, :email_verified, "Email not verified")
+  def confirm_oauth_email(changeset, false), do: add_error(changeset, :email_verified, "Email not verified")
 
   @doc """
   Verifies the password.

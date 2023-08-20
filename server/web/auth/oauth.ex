@@ -1,6 +1,9 @@
-defmodule Reckon.Auth.OAuth do
+defmodule Nimble.Auth.OAuth do
+  @moduledoc false
   alias Assent.Config
+  alias Nimble.User
 
+  @spec request(String.t()) :: {:ok, %{url: String.t(), session_params: map}} | {:not_found, String.t()}
   def request(provider) do
     if config = config(provider) do
       config = Config.put(config, :redirect_uri, build_uri(provider))
@@ -10,14 +13,12 @@ defmodule Reckon.Auth.OAuth do
     end
   end
 
-  @spec callback(provider :: binary(), params :: map(), session_params :: map()) ::
-          {:ok, %{:user => map(), optional(atom()) => any()}}
-          | {:error, term()}
-          | {:not_found, binary()}
+  @spec callback(String.t(), map, map) :: {:ok, %{user: User.t(), token: String.t()}} | {:not_found, String.t()}
   def callback(provider, params, session_params \\ %{}) do
     if config = config(provider) do
       config =
-        Config.put(config, :session_params, session_params)
+        config
+        |> Config.put(:session_params, session_params)
         |> Config.put(:redirect_uri, build_uri(provider))
 
       config[:strategy].callback(config, params)
@@ -26,16 +27,15 @@ defmodule Reckon.Auth.OAuth do
     end
   end
 
+  @spec config(String.t()) :: list | nil
   defp config(provider) do
-    try do
-      Application.get_env(:reckon, :strategies)[String.to_existing_atom(provider)]
-    rescue
-      ArgumentError ->
-        nil
-    end
+    Application.get_env(:nimble, :strategies)[String.to_existing_atom(provider)]
+  rescue
+    ArgumentError ->
+      nil
   end
 
   defp build_uri(provider) do
-    "#{Reckon.Endpoint.url()}/api/account/#{provider}/callback"
+    "#{Nimble.Endpoint.url()}/api/account/#{provider}/callback"
   end
 end
