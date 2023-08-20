@@ -24,18 +24,34 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 	const [current, setCurrent] = useState<string | undefined>(undefined);
 
 	const routes = useMemo(() => {
+
 		if (Array.isArray(children)) {
-			const result: Record<string, number> = {};
+			const test = children.reduce((acc, child, index) => {
+				acc[`${child.props.to}/*`] = index;
+				return acc;
+			}, {});
+
+			console.log(test)
+		}
+
+		if (Array.isArray(children)) {
+			const result: Record<string, any> = {};
 			children.map((child, index) => {
 				result[`${child.props.to}/*`] = index;
 			});
+
+			console.log(result)
 			return result;
 		}
 		return {};
+
+
 	}, [children]);
 
+	console.log(routes)
+
 	useEffect(() => {
-		Object.keys(routes).forEach((key) => {
+		Object.keys(routes).forEach((key: string) => {
 			const match = matchPath({ path: key, end: false, caseSensitive: false }, location.pathname);
 			if (match) {
 				const index = routes[key].toString();
@@ -45,6 +61,20 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 		});
 	}, [location.pathname]);
 
+	const ArrowIcon = useMemo(
+		() =>
+			expanded && expand === 'left' ? (
+				<ArrowRightIcon width="18px" height="18px" />
+			) : expanded && expand === 'right' ? (
+				<ArrowLeftIcon width="18px" height="18px" />
+			) : expand === 'left' ? (
+				<ArrowLeftIcon width="18px" height="18px" />
+			) : (
+				<ArrowRightIcon width="18px" height="18px" />
+			),
+		[expanded, expand]
+	);
+
 	return (
 		<NavigationMenu.Root
 			className={styles.root}
@@ -53,13 +83,7 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 			data-expanded={expanded}
 			data-expand={expand}
 			value={value}
-			// onValueChange={(newValue) => {
-			// 	console.log(newValue)
-			// 	setValue(() => {
-			// 		if (newValue) return newValue;
-			// 		return current;
-			// 	});
-			// }}
+			onValueChange={(v) => setValue(() => (v ? v : current))}
 		>
 			<div className={styles.wrapper} data-expand={expand} ref={observe}>
 				<NavigationMenu.Item asChild>
@@ -69,15 +93,7 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 						style={{ justifyContent: expand === 'right' ? 'flex-end' : 'flex-start' }}
 						type="button"
 					>
-						{expanded && expand === 'left' ? (
-							<ArrowRightIcon width="18px" height="18px" />
-						) : expanded && expand === 'right' ? (
-							<ArrowLeftIcon width="18px" height="18px" />
-						) : expand === 'left' ? (
-							<ArrowLeftIcon width="18px" height="18px" />
-						) : (
-							<ArrowRightIcon width="18px" height="18px" />
-						)}
+						{ArrowIcon}
 					</button>
 				</NavigationMenu.Item>
 				<NavigationMenu.List className={styles.list}>
@@ -102,11 +118,8 @@ SideNavigation.defaultProps = {
 
 export const SideNavigationLink = forwardRef<
 	HTMLButtonElement,
-	DetailedHTMLProps<
-		AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & { expanded?: boolean },
-		HTMLAnchorElement
-	>
->(({ children, to, onClick, expanded }, ref) => (
+	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps, HTMLAnchorElement>
+>(({ children, to, onClick }, ref) => (
 	<NavigationMenu.Trigger ref={ref} asChild>
 		<Link onClick={onClick} id={to.toString()} className={clsx(styles.listItem)} to={to}>
 			{children}
