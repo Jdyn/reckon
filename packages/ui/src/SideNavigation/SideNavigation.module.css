@@ -1,65 +1,49 @@
 .root {
   display: flex;
   height: 100%;
-	background: transparent;
-  --left-nav-width-collapsed: 75px;
-  --left-nav-width-expanded: 225px;
-  --left-nav-width: var(--left-nav-width-collapsed);
-  width: var(--left-nav-width-collapsed);
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1;
-}
+	z-index: 1;
+  width: var(--nav-width-collapsed);
 
+	--nav-width-collapsed: 75px;
+  --nav-width-expanded: 225px;
+  --nav-width: var(--nav-width-collapsed);
+	--nav-height: calc(100vh - 70px);
+	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
+}
 .root:hover:not([data-expanded="true"]) {
-  --left-nav-width: var(--left-nav-width-expanded);
+  --nav-width: var(--nav-width-expanded);
   --nav-shadow: var(--shadow-6);
 }
-
 .root[data-expand="left"]:hover:not([data-expanded="true"]) > div {
 	border-top-left-radius: 25px;
 }
-
 .root[data-expand="right"]:hover:not([data-expanded="true"]) > div {
 	border-top-right-radius: 25px;
 }
-
-.root:not(:hover):not([data-expanded="true"]) > div > div > div > .listItem > span {
+.root:not(:hover):not([data-expanded="true"]) > div > div > ul > li > .listItem > span {
 	color: transparent;
 }
-
 .root[data-expanded="true"] {
-  --left-nav-width: var(--left-nav-width-expanded);
-  width: var(--left-nav-width);
-  /* --nav-shadow: 0px 10px 38px -10px hsl(206 22% 7% / 35%), 0px 10px 20px -15px hsl(206 22% 7% / 20%); */
+  --nav-width: var(--nav-width-expanded);
+  width: var(--nav-width);
 }
 
 .wrapper {
-	position: absolute !important;
-  width: var(--left-nav-width);
-  height: calc(100vh - 70px);
-	padding: 0;
+	display: flex;
+	position: absolute;
+  width: var(--nav-width);
+  height: var(--nav-height);
   background-color: var(--color-panel);
-  border-radius: 0px;
-  display: flex;
   flex-direction: column;
   box-shadow: var(--nav-shadow);
-  transition: all 1s ease-in-out, all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.8s var(--nav-bezier);
 }
-
 .wrapper[data-expand="left"] {
   right: 0;
 }
-
 .wrapper[data-expand="right"] {
   left: 0;
 }
-
-.wrapper > div {
-	display: flex;
-	flex: 1;
-	overflow: hidden;
-}
-
 
 .list {
   display: flex;
@@ -88,7 +72,6 @@
 .collapse[data-expand="right"] {
 	justify-content: flex-end;
 }
-
 .collapse > svg {
 	border-radius: 50%;
 	overflow: visible;
@@ -98,7 +81,6 @@
 .collapse > svg:hover {
 	box-shadow: var(--card-small)
 }
-
 .collapse > span {
 	overflow: hidden;
 }
@@ -112,7 +94,7 @@
 	transition: all 0.2s ease-in-out;
 	background:transparent;
 	border-left: none;
-	color: var(--text);
+	color: var(--color);
   text-decoration: none;
 	cursor: pointer;
 	overflow: hidden;
@@ -120,10 +102,6 @@
 	font-weight: 700;
 	z-index: 2;
 	white-space: nowrap;
-}
-
-.listItem:hover {
-	color: var(--accent-a11);
 }
 
 .listItem > span {
@@ -160,12 +138,4 @@
   transition: width, transform 150ms ease;
 	border-left: none;
 	pointer-events: none;
-}
-
-.indicator[data-state='visible'] {
-  animation: fadeIn 200ms ease;
-}
-
-.indicator[data-state='hidden'] {
-  animation: fadeOut 200ms ease;
 }

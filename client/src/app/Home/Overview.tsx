@@ -7,7 +7,7 @@ import {
 } from '@reckon/core';
 import { Button } from '@reckon/ui';
 
-const HomeScreen = () => {
+const Home = () => {
 	const [signIn] = useAccountSignInMutation();
 	const [clearSessions] = useClearSessionsMutation();
 	const [signOut] = useAccountSignOutMutation();
@@ -32,4 +32,4 @@ const HomeScreen = () => {
 	);
 };
 
-export default HomeScreen;
+export default Home;

@@ -1,6 +1,6 @@
 import { RootLayout } from '@reckon/ui';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
-import HomeScreen from '~/screens/Overview';
+import HomeScreen from '~/app/Home/Overview';
 
 const router = createBrowserRouter([
 	{
