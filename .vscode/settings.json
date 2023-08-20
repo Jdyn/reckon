@@ -18,6 +18,7 @@
 		"packages/config",
 		"packages/ui"
 	],
+	"explorer.compactFolders": false,
 	"eslint.lintTask.enable": true,
 	"explorer.fileNesting.enabled": true,
 	"explorer.fileNesting.patterns": {

@@ -18,7 +18,9 @@ const resolver: Alias = {
 		if (relativeImporter.includes('/src/')) {
 			const [pkg] = relativeImporter.split('/src/');
 
-			root = `${projectPath}${pkg}/src`;
+			// ORIGINALLY root = `${projectPath}${pkg}/src`;
+			// But was duplicating the path
+			root = `${pkg}/src`;
 		} else {
 			let parent = importer!;
 
