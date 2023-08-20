@@ -1,6 +1,7 @@
 .root {
   display: flex;
   height: 100%;
+	background: transparent;
   --left-nav-width-collapsed: 75px;
   --left-nav-width-expanded: 225px;
   --left-nav-width: var(--left-nav-width-collapsed);
@@ -37,7 +38,7 @@
   width: var(--left-nav-width);
   height: calc(100vh - 70px);
 	padding: 0;
-  background-color: var(--accent-3);
+  background-color: var(--color-panel);
   border-radius: 0px;
   display: flex;
   flex-direction: column;

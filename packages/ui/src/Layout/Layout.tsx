@@ -1,6 +1,7 @@
 import { HomeIcon, PaperPlaneIcon } from '@radix-ui/react-icons';
 import { Outlet } from 'react-router-dom';
 
+import Background from '../Background';
 import { SideNavigation, SideNavigationLink } from '../SideNavigation';
 import Header from './Header';
 import styles from './Layout.module.css';
@@ -8,8 +9,8 @@ import styles from './Layout.module.css';
 export function RootLayout() {
 	return (
 		<div className={styles.root}>
-			<Header />
 			<main className={styles.main}>
+			<Header />
 				<SideNavigation expand="right">
 					<SideNavigationLink to="/overview">
 						<PaperPlaneIcon width="18px" height="18px" /> <span>Overview</span>
@@ -25,6 +26,7 @@ export function RootLayout() {
 				</div>
 				<SideNavigation expand="left" />
 			</main>
+			<Background />
 		</div>
 	);
 }

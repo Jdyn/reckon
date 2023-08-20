@@ -20,5 +20,5 @@
   --color-surface: rgba(0, 0, 0, 0.25);
 
 	/* page-background would be the background of the html */
-	--color-page-background: red;
+	--color-page-background: blue;
 }
