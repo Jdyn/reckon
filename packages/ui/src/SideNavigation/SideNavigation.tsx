@@ -1,10 +1,8 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-nested-ternary */
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import { AnchorHTMLAttributes, forwardRef, useEffect, useMemo, useState } from 'react';
-import type { DetailedHTMLProps, ReactNode } from 'react';
+import type { DetailedHTMLProps, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
 
@@ -12,7 +10,7 @@ import styles from './SideNavigation.module.css';
 
 interface SideNavigationProps {
 	expand: 'left' | 'right';
-	children: ReactNode;
+	children: ReactElement<LinkProps>[] | ReactNode;
 	style?: React.CSSProperties;
 }
 
@@ -23,43 +21,26 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 	const location = useLocation();
 	const [current, setCurrent] = useState<string | undefined>(undefined);
 
-	const routes = useMemo(() => {
-
+	const routes: Record<string, any> = useMemo(() => {
 		if (Array.isArray(children)) {
-			const test = children.reduce((acc, child, index) => {
+			return children.reduce((acc, child, index) => {
 				acc[`${child.props.to}/*`] = index;
 				return acc;
-			}, {});
-
-			console.log(test)
-		}
-
-		if (Array.isArray(children)) {
-			const result: Record<string, any> = {};
-			children.map((child, index) => {
-				result[`${child.props.to}/*`] = index;
-			});
-
-			console.log(result)
-			return result;
+			}, {} as Record<string, any>);
 		}
 		return {};
-
-
 	}, [children]);
-
-	console.log(routes)
 
 	useEffect(() => {
 		Object.keys(routes).forEach((key: string) => {
-			const match = matchPath({ path: key, end: false, caseSensitive: false }, location.pathname);
+			const match = matchPath({ path: key, end: false }, location.pathname);
 			if (match) {
 				const index = routes[key].toString();
 				setValue(index);
 				setCurrent(index);
 			}
 		});
-	}, [location.pathname]);
+	}, [location.pathname, routes]);
 
 	const ArrowIcon = useMemo(
 		() =>
@@ -89,8 +70,8 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 				<NavigationMenu.Item asChild>
 					<button
 						className={styles.collapse}
-						onClick={() => setExpanded((prev) => !prev)}
-						style={{ justifyContent: expand === 'right' ? 'flex-end' : 'flex-start' }}
+						onClick={() => setExpanded((p) => !p)}
+						data-expand={expand}
 						type="button"
 					>
 						{ArrowIcon}
@@ -99,7 +80,7 @@ export function SideNavigation({ style, expand, children }: SideNavigationProps)
 				<NavigationMenu.List className={styles.list}>
 					{Array.isArray(children)
 						? children.map((child, index) => (
-								<NavigationMenu.Item key={index} value={`${index}`}>
+								<NavigationMenu.Item key={child.props.to.toString()} value={index.toString()}>
 									{child}
 								</NavigationMenu.Item>
 						  ))

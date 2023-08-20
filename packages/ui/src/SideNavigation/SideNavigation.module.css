@@ -81,6 +81,12 @@
   transition-duration: 0.2s;
 	font-size: 1rem;
 }
+.collapse[data-expand="left"] {
+	justify-content: flex-start;
+}
+.collapse[data-expand="right"] {
+	justify-content: flex-end;
+}
 
 .collapse > svg {
 	border-radius: 50%;

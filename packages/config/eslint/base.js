@@ -12,8 +12,8 @@ module.exports = {
 		'plugin:react/recommended',
 		'plugin:react-hooks/recommended',
 		'plugin:@typescript-eslint/recommended',
-		'prettier',
-		'turbo'
+		'turbo',
+		'prettier'
 	],
 	plugins: ['react'],
 	rules: {
@@ -31,8 +31,9 @@ module.exports = {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-empty-interface': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
+		'@typescript-eslint/ban-types': 'off',
 		'no-control-regex': 'off',
-		'no-mixed-spaces-and-tabs': ['warn', 'smart-tabs']
+		'no-mixed-spaces-and-tabs': ['warn', 'smart-tabs'],
 	},
 	ignorePatterns: ['dist', '**/*.js', '**/*.json', 'node_modules'],
 	settings: {
