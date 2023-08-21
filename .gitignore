@@ -64,7 +64,4 @@ todos.md
 examples/*/*.lock
 /target
 prisma*.rs
-
-/sdserver_data
-.spacedrive
 dev.db-journal
