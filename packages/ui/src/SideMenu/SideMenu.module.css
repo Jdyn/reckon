@@ -11,7 +11,7 @@
 	--nav-height: calc(100vh - 70px);
 	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
 }
-.root:hover:not([data-expanded="true"]) {
+/* .root:hover:not([data-expanded="true"]) {
   --nav-width: var(--nav-width-expanded);
   --nav-shadow: var(--shadow-6);
 }
@@ -20,7 +20,7 @@
 }
 .root[data-expand="right"]:hover:not([data-expanded="true"]) > div {
 	border-top-right-radius: 25px;
-}
+} */
 .root:not(:hover):not([data-expanded="true"]) > div > div > ul > li > .listItem > span {
 	color: transparent;
 }

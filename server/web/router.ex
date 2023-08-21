@@ -34,6 +34,7 @@ defmodule Nimble.Router do
 
     resources("/account", UserController, singleton: true, only: [:show]) do
       get("/sessions", UserController, :show_sessions)
+      get("/sessions/current", UserController, :show_session)
 
       post("/email/confirm", UserController, :send_email_confirmation)
       patch("/email/confirm/:token", UserController, :do_email_confirmation)

@@ -1,8 +1,10 @@
 defmodule Nimble.UserSocket do
   use Phoenix.Socket
 
+  alias Nimble.Accounts
+
   ## Channels
-  # channel "room:*", Nimble.RoomChannel
+  channel "group:*", Nimble.GroupChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -16,8 +18,16 @@ defmodule Nimble.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket, _connect_info) do
+    token = Base.url_decode64!(token, padding: false)
+
+    case Accounts.find_by_session_token(token) do
+      nil ->
+        :error
+
+      user ->
+        {:ok, assign(socket, :user, user)}
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

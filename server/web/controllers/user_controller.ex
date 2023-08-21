@@ -33,6 +33,17 @@ defmodule Nimble.UserController do
   end
 
   @doc """
+  Shows the current session that the user is requesting from user.
+  """
+  def show_session(conn, _params) do
+    current_user = conn.assigns[:current_user]
+    token = get_session(conn, :user_token)
+
+    token = Accounts.find_session(current_user, token: token)
+    render(conn, :session, token: token)
+  end
+
+  @doc """
   Deletes a session associated with a user.
   """
   def delete_session(conn, %{"tracking_id" => tracking_id}) do

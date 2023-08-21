@@ -40,6 +40,13 @@ defmodule Nimble.Groups do
   """
   def get_group!(id), do: Repo.get!(Group, id)
 
+  def get_group(id), do: Repo.get(Group, id)
+
+  def is_member?(group_id, user_id) do
+    Repo.exists?(Query.find_group_member(group_id, user_id))
+  |> dbg
+  end
+
   @doc """
   Creates a group.
 

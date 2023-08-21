@@ -8,9 +8,13 @@ type Empty = Record<string, never>;
 const accountApi = createApi({
 	reducerPath: 'account',
 	baseQuery,
-	tagTypes: ['user', 'sessions'],
+	tagTypes: ['user', 'sessions', 'session'],
 	endpoints: ({ query, mutation }) => ({
 		getAccount: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
+		session: query<{ session: Session }, void>({
+			query: () => `/account/sessions/current`,
+			providesTags: ['session']
+		}),
 		getSessions: query<{ sessions: Session[] }, void>({
 			query: () => `/account/sessions`,
 			providesTags: ['sessions']
@@ -54,7 +58,8 @@ const accountApi = createApi({
 			query: () => ({
 				url: '/account/signout',
 				method: 'DELETE'
-			})
+			}),
+			invalidatesTags: ['sessions'],
 		})
 	})
 });
@@ -62,6 +67,7 @@ const accountApi = createApi({
 
 export const {
 	useGetAccountQuery,
+	useSessionQuery,
 	useGetSessionsQuery,
 	useDeleteSessionMutation,
 	useClearSessionsMutation,
