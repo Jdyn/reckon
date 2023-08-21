@@ -1,0 +1,61 @@
+.trigger {
+	display: flex;
+	position: relative;
+	flex-direction: row;
+	background: none;
+	border: none;
+	padding: 0px;
+}
+
+.card {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	gap: 10px !important;
+	padding: 8px 15px 8px 15px;
+	margin-right: 10px;
+	overflow: hidden;
+}
+
+.card > span {
+	display: flex;
+	align-items: center;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	background: var(--color-panel);
+	box-shadow: var(--shadow-3);
+	border-radius: var(--radius-4);
+	padding: var(--space-3);
+	animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	animation-name: slideDownAndFade;
+}
+
+.item {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	cursor: pointer;
+	transition-duration: 0.1s;
+	padding: var(--space-3);
+	border-radius: var(--radius-4);
+	align-items: center;
+}
+
+.item:hover {
+	background-color: var(--accent-a5);
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

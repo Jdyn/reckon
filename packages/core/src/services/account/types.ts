@@ -22,6 +22,6 @@ export interface SignUpPayload {
 }
 
 export interface SignInPayload {
-	email: string;
+	identifier: string;
 	password: string;
 }

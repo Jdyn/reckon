@@ -1,5 +1,5 @@
 import '@radix-ui/themes/styles.css';
-import '@reckon/ui/theme-config.css'
+// import '@reckon/ui/theme-config.css'
 import { store } from '@reckon/core';
 import { Theme } from '@reckon/ui';
 import { useEffect } from 'react';
@@ -26,7 +26,7 @@ function ReckonInterface() {
 	return (
 		<ErrorBoundary FallbackComponent={ErrorFallback}>
 			<Provider store={store}>
-				<Theme appearance="dark" radius="large" accentColor="indigo" panelBackground='translucent'>
+				<Theme appearance="light" radius="large" accentColor="red" panelBackground='solid'>
 					<RouterProvider router={router} />
 				</Theme>
 			</Provider>

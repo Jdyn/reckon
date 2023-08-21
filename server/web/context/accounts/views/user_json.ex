@@ -1,4 +1,5 @@
 defmodule Nimble.UserJSON do
+  alias Nimble.GroupJSON
   alias Nimble.User
   alias Nimble.UserTokenJSON
 
@@ -35,5 +36,11 @@ defmodule Nimble.UserJSON do
       confirmedAt: user.confirmed_at,
       isAdmin: user.is_admin
     }
+  end
+
+  def user_with_groups(%User{} = user) do
+    Map.merge(user(user), %{
+      groups: for(group <- user.groups, do: GroupJSON.show(group).data)
+    })
   end
 end

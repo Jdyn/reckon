@@ -1,7 +1,7 @@
 import { ReactComponent as BackgroundComp } from './bg.svg'
 
 
-const Background = () => {
+export const Background = () => {
 	return (
 		<div style={{
 			position: 'absolute',
@@ -17,5 +17,3 @@ const Background = () => {
 		</div>
 	);
 }
-
-export default Background;

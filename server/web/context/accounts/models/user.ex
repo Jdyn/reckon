@@ -25,15 +25,13 @@ defmodule Nimble.User do
     field(:username, :string)
     field(:full_name, :string)
     field(:avatar, :string)
-
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
-
     field(:confirmed_at, :naive_datetime)
-
     field(:is_admin, :boolean, default: false)
-
     has_many(:tokens, UserToken)
+
+    many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
     timestamps()
   end
@@ -54,18 +52,18 @@ defmodule Nimble.User do
     |> check_constraint(:users, name: :validate_email_or_phone)
   end
 
-  def update_changeset(%User{} = user, attrs) do
-    user
-    |> cast(attrs, @update_fields)
-    |> validate_required(@update_fields)
-    |> validate_identifier()
-  end
-
   def oauth_registration_changeset(%User{} = user, attrs) do
     user
     |> cast(attrs, @registration_fields)
     |> validate_required(@registration_fields)
     |> confirm_oauth_email(attrs.email_verified)
+  end
+
+  def update_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, @update_fields)
+    |> validate_required(@update_fields)
+    |> validate_identifier()
   end
 
   defp validate_identifier(changeset) do
@@ -109,8 +107,7 @@ defmodule Nimble.User do
       |> unique_constraint(:phone)
     else
       {:error, message} -> add_error(changeset, :phone, message)
-      _ -> add_error(changeset, :phone, "That's not a valid
-                           phone number or it's missing your country code.")
+      _ -> add_error(changeset, :phone, "That's not a valid phone number or it's missing your country code.")
     end
   end
 

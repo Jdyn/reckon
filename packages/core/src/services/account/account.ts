@@ -11,7 +11,7 @@ const accountApi = createApi({
 	tagTypes: ['user', 'sessions'],
 	endpoints: ({ query, mutation }) => ({
 		getAccount: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
-		getSessions: query<{ tokens: Session[] }, void>({
+		getSessions: query<{ sessions: Session[] }, void>({
 			query: () => `/account/sessions`,
 			providesTags: ['sessions']
 		}),
@@ -71,4 +71,5 @@ export const {
 	useAccountSignInMutation,
 	useAccountSignOutMutation
 } = accountApi;
+
 export default accountApi;

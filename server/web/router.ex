@@ -48,5 +48,7 @@ defmodule Nimble.Router do
 
       delete("/signout", UserController, :sign_out)
     end
+
+    resources("/groups", GroupController, only: [:index, :create, :show, :update, :delete])
   end
 end

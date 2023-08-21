@@ -8,6 +8,13 @@ defmodule Nimble.ErrorController do
     |> render(:changeset_error, changeset: changeset)
   end
 
+  def call(conn, {:error, _key, %Ecto.Changeset{} = changeset, _}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(Nimble.ErrorJSON)
+    |> render(:changeset_error, changeset: changeset)
+  end
+
   def call(conn, {:not_found, reason}) do
     conn
     |> put_status(:not_found)

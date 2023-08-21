@@ -22,3 +22,7 @@
 	/* page-background would be the background of the html */
 	/* --color-page-background: red */
 }
+
+.radix-themes:where([data-panel-background='translucent']) {
+	--color-panel: var(--color-panel-translucent);
+}
