@@ -19,8 +19,9 @@ const resolver: Alias = {
 			const [pkg] = relativeImporter.split('/src/');
 
 			// ORIGINALLY root = `${projectPath}${pkg}/src`;
-			// But was duplicating the path
-			root = `${pkg}/src`;
+			// But was duplicating the path on windows
+			// For windows it must be: `${pkg}/src`
+			root = `${projectPath}${pkg}/src`;
 		} else {
 			let parent = importer!;
 

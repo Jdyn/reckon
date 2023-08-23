@@ -11,7 +11,7 @@ import GroupMemberList from '~/app/Group/MemberList';
 
 export function RootLayout() {
 	return (
-		<PhoenixProvider>
+		<PhoenixProvider options={ {  } }>
 			<div className={styles.root}>
 				<main className={styles.main}>
 					<Header />
@@ -19,7 +19,7 @@ export function RootLayout() {
 						<GroupDropdown />
 						<SideNavigationList>
 							<SideNavigationLink to="/home">
-								<HomeIcon width="18px" height="18px" /> <span>Home</span>
+								<HomeIcon width="18px" height="18px" /> <span>Feed</span>
 							</SideNavigationLink>
 							<SideNavigationLink to="/group">
 								<PaperPlaneIcon width="18px" height="18px" /> <span>Group</span>

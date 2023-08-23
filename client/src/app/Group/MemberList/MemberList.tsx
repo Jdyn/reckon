@@ -1,17 +1,18 @@
 
 import { useSessionQuery } from '@reckon/core';
 import { ListBulletIcon } from '@radix-ui/react-icons';
-import { useEvent, usePhoenix } from 'use-phoenix';
+import { useEvent, usePhoenix, usePresence } from 'use-phoenix';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
 import styles from './MemberList.module.css';
+import { User } from '@reckon/core/src/services/account/types';
 
 const GroupMemberList = () => {
 	const { id } = useParams<{ id: string }>();
 	const { data } = useSessionQuery();
 	const { socket, connect } = usePhoenix();
-	console.log(id)
+
 	useEffect(() => {
 		if (data?.session) {
 			connect('ws://localhost:4000/socket', {
@@ -20,11 +21,8 @@ const GroupMemberList = () => {
 		}
 	}, [connect, data?.session]);
 
-	useEvent('group:' + id, 'presence_state', (message: any) => {
-		console.log(message)
-	})
-
-
+	const items = usePresence<{ user: User }>(id && 'group:' + id)
+	console.log(items)
 	return (
 			<div className={styles.root} style={{ flexGrow: 1 }}>
 				<h3>

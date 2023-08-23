@@ -15,19 +15,16 @@ defmodule Nimble.Presence do
     query =
       from(m in GroupMember, where: m.group_id == ^group_id, join: u in User, on: m.user_id == u.id, select: {u.id, u})
 
-    group_members = query |> Repo.all() |> Map.new()
+    group_members = query |> Repo.all() |> Map.new(fn {k, v} -> {Integer.to_string(k), v} end)
 
-    dbg presences
-
-      for {key, user} <- group_members, into: %{} do
-        if Map.has_key?(presences, key) do
-          metas = Map.get(presences, key).metas
-          {key, %{metas: metas, user: Map.merge(Nimble.UserJSON.user(user), metas)}}
-        else
-          {key, %{metas: %{}, user: Map.merge(Nimble.UserJSON.user(user), %{})}}
-        end
+    for {key, user} <- group_members, into: %{} do
+      if Map.has_key?(presences, key) do
+        %{metas: metas} = Map.get(presences, key)
+        {key, %{metas: metas, user: Nimble.UserJSON.user(user)}}
+      else
+        {key, %{metas: [], user: Nimble.UserJSON.user(user)}}
       end
-      |> dbg
+    end
   end
 
   @impl true

@@ -4,7 +4,7 @@
 			{
 					"label": "dev",
 					"runOptions": {
-							"runOn": "folderOpen"
+							"runOn": "default"
 					},
 					"dependsOrder": "parallel",
 					"dependsOn": [
