@@ -18,4 +18,10 @@ defmodule Nimble.GroupMember do
     |> cast(attrs, [:group_id, :user_id])
     |> validate_required([:group_id, :user_id])
   end
+
+    @doc false
+    def update_changeset(group, attrs) do
+      group
+      |> cast(attrs, [:updated_at])
+    end
 end

@@ -9,11 +9,14 @@ const groupApi = createApi({
 	tagTypes: ['groups', 'group'],
 	endpoints: ({ query, mutation }) => ({
 		getGroups: query<{ data: Group[]}, void>({ query: () => `/groups`, providesTags: ['groups'] }),
+		getGroup: query<{ data: Group}, string | undefined>({ query: (id) => `/groups/${id}`, providesTags: ['group'] }),
 	})
 });
 
 export const {
 	useGetGroupsQuery,
+	useGetGroupQuery,
+	useLazyGetGroupQuery
 } = groupApi;
 
 export default groupApi;

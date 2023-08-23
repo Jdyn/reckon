@@ -13,9 +13,14 @@ defmodule Nimble.Presence do
   @impl true
   def fetch("group:" <> group_id, presences) do
     query =
-      from(m in GroupMember, where: m.group_id == ^group_id, join: u in User, on: m.user_id == u.id, select: {u.id, u})
+      from(m in GroupMember,
+        where: m.group_id == ^group_id,
+        join: u in User,
+        on: m.user_id == u.id,
+        select: {u.id,  %{ u | updated_at: m.updated_at} }
+      )
 
-    group_members = query |> Repo.all() |> Map.new(fn {k, v} -> {Integer.to_string(k), v} end)
+    group_members = query |> Repo.all() |> Map.new(fn {k, v} -> {Integer.to_string(k), v} end) |> dbg
 
     for {key, user} <- group_members, into: %{} do
       if Map.has_key?(presences, key) do

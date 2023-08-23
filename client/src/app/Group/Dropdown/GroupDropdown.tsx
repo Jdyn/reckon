@@ -1,14 +1,21 @@
 import * as DropdownPrimative from '@radix-ui/react-dropdown-menu';
 import { CaretDownIcon } from '@radix-ui/react-icons';
-import { Avatar, Flex, Text } from '@radix-ui/themes';
-import { useGetGroupsQuery } from '@reckon/core';
+import { Avatar, Text } from '@radix-ui/themes';
+import { Group, useGetGroupQuery, useGetGroupsQuery, useLazyGetGroupQuery } from '@reckon/core';
 import { Theme } from '@reckon/ui';
 import clsx from 'clsx';
 
 import styles from './GroupDropdown.module.css';
+import { useState } from 'react';
 
-const GroupDropdown = () => {
+interface GroupDropdownProps {
+	selectedGroup: (group: Group) => void;
+}
+
+const GroupDropdown = ({ selectedGroup }: GroupDropdownProps) => {
+	const [currentGroup, setGroup] = useState<Group | null>(null);
 	const { data } = useGetGroupsQuery();
+	const [fetchGroup] = useLazyGetGroupQuery();
 
 	return (
 		<DropdownPrimative.Root>
@@ -16,7 +23,7 @@ const GroupDropdown = () => {
 				<div className={styles.card}>
 					<Avatar width="45px" height="45px" fallback variant='solid' />
 					<span>
-						Groups
+						{currentGroup?.name}
 						<CaretDownIcon />
 					</span>
 				</div>
@@ -26,7 +33,11 @@ const GroupDropdown = () => {
 					<DropdownPrimative.Content className={clsx(styles.content)}>
 						{data &&
 							data.data.map((group) => (
-								<DropdownPrimative.Item key={group.id} className={styles.item}>
+								<DropdownPrimative.Item key={group.id} className={styles.item} onClick={() => {
+									setGroup(group);
+									fetchGroup(group.id)
+									selectedGroup(group);
+								}}>
 									<Avatar fallback variant='solid' />
 									<Text>{group.name}</Text>
 								</DropdownPrimative.Item>

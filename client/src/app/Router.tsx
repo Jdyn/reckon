@@ -11,19 +11,25 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Navigate to="/home" />
+				element: <Navigate to="/feed" />
 			},
 			{
-				path: 'home',
+				path: 'feed',
 				element: <Home />
 			},
 			{
-				path: 'group/:id',
-				element: <Group />
+				path: 'pay',
+				element: <Home />
 			},
 			{
-				path: 'group',
+				path: 'groups',
 				element: <Group />,
+				children: [
+					{
+						path: ':id',
+						element: <Group />
+					},
+				]
 			}
 		]
 	}

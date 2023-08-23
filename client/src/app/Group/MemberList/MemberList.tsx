@@ -2,8 +2,9 @@ import { ListBulletIcon } from '@radix-ui/react-icons';
 import { useSessionQuery } from '@reckon/core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useEvent, usePhoenix, usePresence } from 'use-phoenix';
+import { usePhoenix, usePresence } from 'use-phoenix';
 
+import MemberCard from './MemberCard/MemberCard';
 import styles from './MemberList.module.css';
 
 import { User } from '@reckon/core/src/services/account/types';
@@ -21,7 +22,7 @@ const GroupMemberList = () => {
 		}
 	}, [connect, data?.session]);
 
-	const presences = usePresence<{ user: User }>(id && 'group:' + id);
+	const presences = usePresence<{ user: User }, { onlineAt: string }>(id && 'group:' + id);
 
 	return (
 		<div className={styles.root} style={{ flexGrow: 1 }}>
@@ -29,7 +30,7 @@ const GroupMemberList = () => {
 				<ListBulletIcon width="24px" style={{ overflow: 'visible' }} /> Member List
 			</h3>
 			{presences.map((presence) => (
-				<div key={presence.id}>{presence.user.fullName}</div>
+				<MemberCard key={presence.id} user={presence.user} online={presence.metas.onlineAt} />
 			))}
 		</div>
 	);

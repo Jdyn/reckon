@@ -31,6 +31,7 @@ defmodule Nimble.UserJSON do
     %{
       id: user.id,
       fullName: user.full_name,
+      username: user.username,
       phone: user.phone,
       email: user.email,
       confirmedAt: user.confirmed_at,

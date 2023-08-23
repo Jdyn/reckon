@@ -44,7 +44,18 @@ defmodule Nimble.Groups do
 
   def is_member?(group_id, user_id) do
     Repo.exists?(Query.find_group_member(group_id, user_id))
-  |> dbg
+  end
+
+  def update_member_last_seen(group_id, user_id) do
+    member = Repo.one(Query.find_group_member(group_id, user_id))
+    Repo.update!(GroupMember.changeset(member, %{updated_at: DateTime.utc_now()}))
+  end
+
+  def get_group_for_user(group_id, user_id) do
+    case Repo.one(Query.group_for_member(group_id, user_id)) do
+      nil -> {:error, "You are not a member, or this group does not exist."}
+      group -> {:ok, group}
+    end
   end
 
   @doc """

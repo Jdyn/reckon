@@ -1,10 +1,10 @@
 defmodule Nimble.GroupController do
   use Nimble.Web, :controller
 
-  alias Nimble.Groups
   alias Nimble.Group
+  alias Nimble.Groups
 
-  action_fallback Nimble.ErrorController
+  action_fallback(Nimble.ErrorController)
 
   def index(conn, _params) do
     current_user = conn.assigns[:current_user]
@@ -20,9 +20,12 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    group = Groups.get_group!(id)
-    render(conn, :show, group: group)
+  def show(conn, %{"id" => group_id}) do
+    current_user = conn.assigns[:current_user]
+
+    with {:ok, group} <- Groups.get_group_for_user(current_user.id, group_id) do
+      render(conn, :show, group: group)
+    end
   end
 
   def update(conn, %{"id" => id, "group" => group_params}) do
