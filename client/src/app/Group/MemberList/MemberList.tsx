@@ -1,11 +1,11 @@
-
-import { useSessionQuery } from '@reckon/core';
 import { ListBulletIcon } from '@radix-ui/react-icons';
-import { useEvent, usePhoenix, usePresence } from 'use-phoenix';
+import { useSessionQuery } from '@reckon/core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useEvent, usePhoenix, usePresence } from 'use-phoenix';
 
 import styles from './MemberList.module.css';
+
 import { User } from '@reckon/core/src/services/account/types';
 
 const GroupMemberList = () => {
@@ -21,17 +21,17 @@ const GroupMemberList = () => {
 		}
 	}, [connect, data?.session]);
 
-	const items = usePresence<{ user: User }>(id && 'group:' + id)
-	console.log(items)
+	const presences = usePresence<{ user: User }>(id && 'group:' + id);
+
 	return (
-			<div className={styles.root} style={{ flexGrow: 1 }}>
-				<h3>
-					<ListBulletIcon width="24px" style={{ overflow: 'visible' }} /> Member List
-				</h3>
-				{/* {userList.map((user: any) => (
-					<UserListCard key={user.id} user={user} online={user.onlineAt} />
-				))} */}
-			</div>
+		<div className={styles.root} style={{ flexGrow: 1 }}>
+			<h3>
+				<ListBulletIcon width="24px" style={{ overflow: 'visible' }} /> Member List
+			</h3>
+			{presences.map((presence) => (
+				<div key={presence.id}>{presence.user.fullName}</div>
+			))}
+		</div>
 	);
 };
 
