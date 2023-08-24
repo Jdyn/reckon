@@ -11,19 +11,22 @@ interface MemberCardProps {
 const MemberCard = ({ user, online }: MemberCardProps) => {
 	return (
 		<div className={styles.root}>
-			<Avatar fallback />
+			<div className={styles.avatarContainer}>
+				<Avatar fallback />
+				<span className={styles.indicator} />
+			</div>
 			<div className={styles.header}>
 				<Heading className={styles.name} size="2">
 					{user.username}
 				</Heading>
 				<div className={styles.status}>
-					{online ? (
-						<>
-							<span className={styles.indicator} />
-							<Text size="1">Online</Text>
-						</>
-					) : null
-					// `Seen ${lastUpdated(user.updatedAt)}`
+					{
+						online ? (
+							<>
+								<Text size="1">Online</Text>
+							</>
+						) : null
+						// `Seen ${lastUpdated(user.updatedAt)}`
 					}
 				</div>
 			</div>

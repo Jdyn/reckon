@@ -41,7 +41,7 @@ defmodule Nimble.UserJSON do
 
   def user_with_groups(%User{} = user) do
     Map.merge(user(user), %{
-      groups: for(group <- user.groups, do: GroupJSON.show(group).data)
+      groups: for(group <- user.groups, do: GroupJSON.show(group).group)
     })
   end
 end

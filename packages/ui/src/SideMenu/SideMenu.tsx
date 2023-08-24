@@ -101,7 +101,7 @@ export const SideNavigationList = ({ children }: SideMenuNavList) => {
 	const routes: Record<string, any> = useMemo(() => {
 		if (Array.isArray(children)) {
 			return children.reduce((acc, child, index) => {
-				acc[`${child.props.to}/*`] = index;
+				acc[`${child.props.to}`] = index;
 				return acc;
 			}, {} as Record<string, any>);
 		}
@@ -109,10 +109,12 @@ export const SideNavigationList = ({ children }: SideMenuNavList) => {
 	}, [children]);
 
 	useEffect(() => {
+		console.log(routes)
 		Object.keys(routes).forEach((key: string) => {
 			const match = matchPath({ path: key, end: false }, location.pathname);
 			if (match) {
 				const index = routes[key].toString();
+				console.log(index)
 				setValue(index);
 				// setCurrent(index);
 			}

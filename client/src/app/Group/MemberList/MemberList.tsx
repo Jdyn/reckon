@@ -25,9 +25,9 @@ const GroupMemberList = () => {
 	const presences = usePresence<{ user: User }, { onlineAt: string }>(id && 'group:' + id);
 
 	return (
-		<div className={styles.root} style={{ flexGrow: 1 }}>
+		<div className={styles.userList} style={{ flexGrow: 1 }}>
 			<h3>
-				<ListBulletIcon width="24px" style={{ overflow: 'visible' }} /> Member List
+				<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} /> Members
 			</h3>
 			{presences.map((presence) => (
 				<MemberCard key={presence.id} user={presence.user} online={presence.metas.onlineAt} />

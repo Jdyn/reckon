@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: row;
-	gap: 10px;
+	gap: 20px;
 	padding: 10px 0px 10px 10px;
 }
 
@@ -24,8 +24,15 @@
 
 .indicator {
 	display: inline-flex;
-	width: 10px;
-	height: 10px;
+	width: 15px;
+	height: 15px;
 	border-radius: 100%;
 	background: var(--green-9);
+	margin-left: -12px;
+	border: 2px solid var(--color-panel);
+}
+
+.avatarContainer {
+	display: flex;
+	align-items: flex-end;
 }

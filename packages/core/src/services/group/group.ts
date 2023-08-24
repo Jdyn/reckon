@@ -8,8 +8,8 @@ const groupApi = createApi({
 	baseQuery,
 	tagTypes: ['groups', 'group'],
 	endpoints: ({ query, mutation }) => ({
-		getGroups: query<{ data: Group[]}, void>({ query: () => `/groups`, providesTags: ['groups'] }),
-		getGroup: query<{ data: Group}, string | undefined>({ query: (id) => `/groups/${id}`, providesTags: ['group'] }),
+		getGroups: query<{ groups: Group[]}, void>({ query: () => `/groups`, providesTags: ['groups'] }),
+		getGroup: query<{ group: Group}, string | undefined>({ query: (id) => `/groups/${id}`, providesTags: ['group'] }),
 	})
 });
 

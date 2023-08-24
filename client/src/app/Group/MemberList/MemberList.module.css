@@ -1,0 +1,17 @@
+.userList {
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 20px 0px 20px 10px;
+}
+
+.userList > h3 {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	font-size: 1rem;
+	padding: 20px;
+	font-weight: 700;
+	text-transform: uppercase;
+}

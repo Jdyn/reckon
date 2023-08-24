@@ -20,7 +20,7 @@ defmodule Nimble.Presence do
         select: {u.id,  %{ u | updated_at: m.updated_at} }
       )
 
-    group_members = query |> Repo.all() |> Map.new(fn {k, v} -> {Integer.to_string(k), v} end) |> dbg
+    group_members = query |> Repo.all() |> Map.new(fn {k, v} -> {Integer.to_string(k), v} end)
 
     for {key, user} <- group_members, into: %{} do
       if Map.has_key?(presences, key) do
