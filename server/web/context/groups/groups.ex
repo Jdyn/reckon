@@ -43,11 +43,11 @@ defmodule Nimble.Groups do
   def get_group(id), do: Repo.get(Group, id)
 
   def is_member?(group_id, user_id) do
-    Repo.exists?(Query.find_group_member(group_id, user_id))
+    Repo.exists?(Query.group_member(group_id, user_id))
   end
 
   def update_member_last_seen(group_id, user_id) do
-    member = Repo.one(Query.find_group_member(group_id, user_id))
+    member = Repo.one(Query.group_member(group_id, user_id))
     Repo.update!(GroupMember.changeset(member, %{updated_at: DateTime.utc_now()}))
   end
 
@@ -134,6 +134,6 @@ defmodule Nimble.Groups do
   end
 
   def remove_member(%Group{} = group, %User{} = user) do
-    Repo.delete!(Repo.one(Query.find_group_member(group.id, user.id)))
+    Repo.delete!(Repo.one(Query.group_member(group.id, user.id)))
   end
 end

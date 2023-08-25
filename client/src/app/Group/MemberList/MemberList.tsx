@@ -7,12 +7,12 @@ import { usePhoenix, usePresence } from 'use-phoenix';
 import MemberCard from './MemberCard/MemberCard';
 import styles from './MemberList.module.css';
 
-import { User } from '@reckon/core/src/services/account/types';
+import { User } from '@reckon/core';
 
 const GroupMemberList = () => {
 	const { id } = useParams<{ id: string }>();
 	const { data } = useSessionQuery();
-	const { socket, connect } = usePhoenix();
+	const { connect } = usePhoenix();
 
 	useEffect(() => {
 		if (data?.session) {

@@ -6,7 +6,7 @@ defmodule Nimble.Groups.Query do
   alias Nimble.GroupMember
   alias Nimble.User
 
-  def find_group_member(group_id, user_id) do
+  def group_member(group_id, user_id) do
     from(m in GroupMember,
       where: m.group_id == ^group_id and m.user_id == ^user_id,
       select: m

@@ -8,7 +8,8 @@
 		"**/*.next": true,
 		"apps/mobile/ios/Pods": true,
 		"apps/mobile/android": true,
-		"apps/mobile/ios": true
+		"apps/mobile/ios": true,
+		"server/test/*": true
 	},
 	"eslint.workingDirectories": [
 		"apps/web",

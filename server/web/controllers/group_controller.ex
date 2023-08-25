@@ -13,6 +13,8 @@ defmodule Nimble.GroupController do
   end
 
   def create(conn, params) do
+    current_user = conn.assigns[:current_user]
+    params = Map.put(params, "creator_id", current_user.id)
     with {:ok, %Group{} = group} <- Groups.create_group(params) do
       conn
       |> put_status(:created)
