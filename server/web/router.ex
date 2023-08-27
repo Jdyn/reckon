@@ -12,6 +12,10 @@ defmodule Nimble.Router do
     plug(Nimble.Auth.EnsureAuth)
   end
 
+  pipeline :ensure_group do
+    plug(Nimble.Auth.EnsureGroup)
+  end
+
   if Mix.env() == :dev, do: forward("/mailbox", Plug.Swoosh.MailboxPreview)
 
   scope "/api", Nimble do
@@ -50,6 +54,14 @@ defmodule Nimble.Router do
       delete("/signout", UserController, :sign_out)
     end
 
-    resources("/groups", GroupController, only: [:index, :create, :show, :update, :delete])
+    resources("/groups", GroupController, only: [:index, :create])
+
+  end
+
+  scope "/api", Nimble do
+    pipe_through([:api, :ensure_auth, :ensure_group])
+
+    resources("/groups", GroupController, only: [:show, :update, :delete], param: "group_id")
+    post("groups/:group_id/invite/:identifier", GroupController, :invite_member)
   end
 end

@@ -91,4 +91,26 @@ defmodule Nimble.UserNotifier do
     ==============================
     """)
   end
+
+    @doc """
+  Deliver instructions to join a group
+  """
+  def deliver_group_invite_instructions(user, token) do
+    deliver(user.email, "Nibmel Group Invite", """
+
+    ==============================
+
+    Hi #{user.email},
+
+    You have been invited to a group. Click the link to join
+
+    <p>
+      <a href="#{@delivery_url}/groups/invite/#{token}">
+        #{@delivery_url}/groups/invite/#{token}
+      </a>
+    </p>
+
+    ==============================
+    """)
+  end
 end

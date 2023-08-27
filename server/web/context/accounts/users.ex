@@ -12,8 +12,10 @@ defmodule Nimble.Users do
   Delivers the confirmation email instructions to the given user.
 
   ## Examples
+
       iex> deliver_user_confirmation_instructions(user)
       {:ok, encoded_token}
+
       iex> deliver_user_confirmation_instructions(confirmed_user)
       {:not_found, "Your email has already been confirmed."}
   """

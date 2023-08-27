@@ -8,8 +8,11 @@ defmodule Nimble.Groups do
   alias Nimble.Group
   alias Nimble.GroupMember
   alias Nimble.Groups.Query
+  alias Nimble.GroupInvite
   alias Nimble.Repo
   alias Nimble.User
+  alias Nimble.UserNotifier
+  alias Nimble.Users
 
   @doc """
   Returns the list of groups.
@@ -22,6 +25,22 @@ defmodule Nimble.Groups do
   """
   def list_user_groups(%User{} = user) do
     Repo.all(Query.groups_for_member(user.id))
+  end
+
+  # def deliver_group_invite_link(%Group{} = group, %User{} = user, sent_to) do
+  #   {encoded_token, group_token} = GroupInvite.build_invite_token(group, user, sent_to)
+  #   Repo.insert!(group_token)
+
+  #   recipient = Users.get_by_identifier(sent_to)
+
+  #   UserNotifier.deliver_group_invite_instructions(recipient, encoded_token)
+  #   {:ok, encoded_token}
+  # end
+
+  def invite_member(group_id, identifier) do
+    with user = %User{} <-  Users.get_by_identifier(identifier) do
+
+    end
   end
 
   @doc """
