@@ -17,7 +17,7 @@ defmodule Nimble.Repo.Migrations.CreateUsers do
       timestamps()
     end
 
-    create(constraint(:users, :validate_email_or_phone, check: "num_nulls(email, phone) = 1"))
+    create(constraint(:users, :ensure_email_or_phone_or_username, check: "num_nulls(email, phone, username) = 2"))
     create unique_index(:users, [:email])
     create unique_index(:users, [:phone])
 

@@ -19,18 +19,20 @@ defmodule Nimble.GroupJSON do
     %{
       id: group.id,
       name: group.name,
-      creator: UserJSON.user(group.creator),
     }
   end
 
-  def invite(invite) do
+  def invites(%{invites: invites}) do
+    %{
+      invites: for(invite <- invites, do: user_invite(invite))
+    }
+  end
+
+  def user_invite(invite) do
     %{
       id: invite.id,
-      recipient: %{
-        identifier: invite.recipient.identifier,
-        full_name: invite.recipient.full_name,
-      },
-      group_id: invite.group_id,
+      recipient_id: invite.recipient_id,
+      group: group(invite.group),
     }
   end
 end

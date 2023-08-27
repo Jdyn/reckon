@@ -23,9 +23,13 @@ defmodule Nimble.Repo.Migrations.CreateGroups do
 
       add(:sender_id, references(:users, on_delete: :delete_all), null: false)
       add(:group_id, references(:groups, on_delete: :delete_all), null: false)
-      add(:recipient, :map)
+
+      add(:recipient_id, references(:users, on_delete: :delete_all), null: true)
+      add(:recipient_meta, :map, null: true)
 
       timestamps(updated_at: false)
     end
+
+    create unique_index(:groups_invites, [:group_id, :recipient_id], name: :no_duplicate_invites)
   end
 end

@@ -3,6 +3,7 @@ defmodule Nimble.UserController do
 
   alias Nimble.Accounts
   alias Nimble.Auth.OAuth
+  alias Nimble.Groups.GroupInvites
   alias Nimble.User
   alias Nimble.Users
 
@@ -35,8 +36,11 @@ defmodule Nimble.UserController do
   def show_invites(conn, _params) do
     current_user = conn.assigns[:current_user]
 
-    invites = Users.get_group_invites(current_user)
-    render(conn, :invites, invites: invites)
+    invites = GroupInvites.find_invites(current_user)
+
+    conn
+    |> put_view(Nimble.GroupJSON)
+    |> render(:invites, invites: invites)
   end
 
   @doc """

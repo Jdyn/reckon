@@ -3,6 +3,7 @@ defmodule Nimble.GroupController do
 
   alias Nimble.Group
   alias Nimble.Groups
+  alias Nimble.Groups.GroupInvites
 
   action_fallback(Nimble.ErrorController)
 
@@ -15,6 +16,7 @@ defmodule Nimble.GroupController do
   def create(conn, params) do
     current_user = conn.assigns[:current_user]
     params = Map.put(params, "creator_id", current_user.id)
+
     with {:ok, %Group{} = group} <- Groups.create_group(params) do
       conn
       |> put_status(:created)
@@ -38,10 +40,10 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def invite(conn, %{ "group_id" => group_id, "identifier" => identifier} = _params) do
+  def invite(conn, %{"group_id" => group_id, "identifier" => identifier} = _params) do
     current_user = conn.assigns[:current_user]
-    Groups.invite_member(group_id, current_user, identifier)
-    send_resp(conn, :no_content, "")
+    GroupInvites.invite_member(group_id, current_user, identifier)
+    json(conn, %{ok: true, message: "If that user exists, an invite has been sent!"})
   end
 
   def delete(conn, %{"group_id" => id}) do

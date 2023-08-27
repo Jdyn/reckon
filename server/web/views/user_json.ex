@@ -27,12 +27,6 @@ defmodule Nimble.UserJSON do
     }
   end
 
-  def invites(%{invites: invites}) do
-    %{
-      invites: for(invite <- invites, do: GroupJSON.invite(invite))
-    }
-  end
-
   def user(%User{} = user) do
     %{
       id: user.id,

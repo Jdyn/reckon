@@ -108,16 +108,6 @@ defmodule Nimble.Users do
     {:ok, encoded_token}
   end
 
-  def get_group_invites(user) do
-    {_field, identifier} = retrieve_identifer(user)
-
-    Repo.all(
-      from(gi in GroupInvite,
-        where: gi.recipient["identifier"] == ^identifier
-      )
-    )
-  end
-
   def retrieve_identifer(user) do
     cond do
       user.email != nil -> {:email, user.email}

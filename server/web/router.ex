@@ -64,6 +64,6 @@ defmodule Nimble.Router do
     pipe_through([:api, :ensure_auth, :ensure_group])
 
     resources("/groups", GroupController, only: [:show, :update, :delete], param: "group_id")
-    post("groups/:group_id/invite/:identifier", GroupController, :invite)
+    post("/groups/:group_id/invite/:identifier", GroupController, :invite)
   end
 end
