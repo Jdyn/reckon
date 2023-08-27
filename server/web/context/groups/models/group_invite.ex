@@ -13,7 +13,7 @@ defmodule Nimble.GroupInvite do
     field(:expiry, :utc_datetime)
 
     belongs_to(:sender, User)
-    belongs_to(:group, Group)
+    belongs_to(:group, Group, foreign_key: :group_id)
 
     embeds_one(:recipient, Recipient) do
       field(:identifier, :string)
@@ -22,4 +22,6 @@ defmodule Nimble.GroupInvite do
 
     timestamps(updated_at: false)
   end
+
+  # create unique constraint on [user_id, group_id] to prevent duplicate invites
 end

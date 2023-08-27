@@ -39,7 +39,9 @@ defmodule Nimble.GroupController do
   end
 
   def invite(conn, %{ "group_id" => group_id, "identifier" => identifier} = _params) do
-    Groups.invite_member(group_id, identifier)
+    current_user = conn.assigns[:current_user]
+    Groups.invite_member(group_id, current_user, identifier)
+    send_resp(conn, :no_content, "")
   end
 
   def delete(conn, %{"group_id" => id}) do

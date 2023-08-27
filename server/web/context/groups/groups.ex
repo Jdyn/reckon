@@ -6,9 +6,9 @@ defmodule Nimble.Groups do
 
   alias Ecto.Multi
   alias Nimble.Group
+  alias Nimble.GroupInvite
   alias Nimble.GroupMember
   alias Nimble.Groups.Query
-  alias Nimble.GroupInvite
   alias Nimble.Repo
   alias Nimble.User
   alias Nimble.UserNotifier
@@ -37,9 +37,14 @@ defmodule Nimble.Groups do
   #   {:ok, encoded_token}
   # end
 
-  def invite_member(group_id, identifier) do
-    with user = %User{} <-  Users.get_by_identifier(identifier) do
-
+  def invite_member(group_id, sender, identifier) do
+    with recipient = %User{} <- Users.get_by_identifier(identifier) do
+      Repo.insert!(%GroupInvite{
+        group_id: String.to_integer(group_id),
+        sender_id: sender.id,
+        recipient: %{:identifier => recipient.email}
+      })
+      :ok
     end
   end
 

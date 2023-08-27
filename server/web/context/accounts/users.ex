@@ -3,6 +3,7 @@ defmodule Nimble.Users do
   use Nimble.Web, :context
 
   alias Nimble.Accounts.Query
+  alias Nimble.GroupInvite
   alias Nimble.Repo
   alias Nimble.User
   alias Nimble.UserNotifier
@@ -105,6 +106,24 @@ defmodule Nimble.Users do
     Repo.insert!(user_token)
     UserNotifier.deliver_password_reset_instructions(user, encoded_token)
     {:ok, encoded_token}
+  end
+
+  def get_group_invites(user) do
+    {_field, identifier} = retrieve_identifer(user)
+
+    Repo.all(
+      from(gi in GroupInvite,
+        where: gi.recipient["identifier"] == ^identifier
+      )
+    )
+  end
+
+  def retrieve_identifer(user) do
+    cond do
+      user.email != nil -> {:email, user.email}
+      user.phone != nil -> {:phone, user.phone}
+      user.username != nil -> {:username, user.username}
+    end
   end
 
   @doc """

@@ -4,7 +4,6 @@ defmodule Nimble.User do
   """
   use Nimble.Web, :model
 
-  alias Nimble.GroupInvite
   alias Nimble.GroupMember
   alias Nimble.Repo
   alias Nimble.User
@@ -33,7 +32,6 @@ defmodule Nimble.User do
     field(:is_admin, :boolean, default: false)
     has_many(:tokens, UserToken)
 
-    has_many(:group_invites, GroupInvite, foreign_key: :recipient_id)
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
     timestamps()

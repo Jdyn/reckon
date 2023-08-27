@@ -51,6 +51,8 @@ defmodule Nimble.Router do
       delete("/sessions/clear", UserController, :delete_sessions)
       delete("/sessions/:tracking_id", UserController, :delete_session)
 
+      get("/invites", UserController, :show_invites)
+
       delete("/signout", UserController, :sign_out)
     end
 
@@ -62,6 +64,6 @@ defmodule Nimble.Router do
     pipe_through([:api, :ensure_auth, :ensure_group])
 
     resources("/groups", GroupController, only: [:show, :update, :delete], param: "group_id")
-    post("groups/:group_id/invite/:identifier", GroupController, :invite_member)
+    post("groups/:group_id/invite/:identifier", GroupController, :invite)
   end
 end

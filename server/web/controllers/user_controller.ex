@@ -32,6 +32,13 @@ defmodule Nimble.UserController do
     render(conn, :sessions, tokens: tokens)
   end
 
+  def show_invites(conn, _params) do
+    current_user = conn.assigns[:current_user]
+
+    invites = Users.get_group_invites(current_user)
+    render(conn, :invites, invites: invites)
+  end
+
   @doc """
   Shows the current session that the user is requesting from user.
   """
