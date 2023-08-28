@@ -1,15 +1,15 @@
 defmodule Nimble.SessionJSON do
-  alias Nimble.UserTokenJSON
+  alias Nimble.UserJSON
 
-  def sessions(%{tokens: tokens}) do
+  def index(%{tokens: tokens}) do
     %{
-      sessions: for(token <- tokens, do: UserTokenJSON.token(token))
+      sessions: for(token <- tokens, do: UserJSON.token(token))
     }
   end
 
-  def session(%{token: token}) do
+  def show(%{token: token}) do
     %{
-      session: UserTokenJSON.token(token)
+      session: UserJSON.token(token)
     }
   end
 end

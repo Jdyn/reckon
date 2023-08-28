@@ -1,7 +1,7 @@
 defmodule Nimble.UserJSON do
   alias Nimble.GroupJSON
   alias Nimble.User
-  alias Nimble.UserTokenJSON
+  alias Nimble.UserToken
 
   def show(%{user: user}) do
     %{
@@ -31,5 +31,13 @@ defmodule Nimble.UserJSON do
     Map.merge(user(user), %{
       groups: for(group <- user.groups, do: GroupJSON.show(group).group)
     })
+  end
+
+  def token(%UserToken{} = token) do
+    %{
+      trackingId: token.tracking_id,
+      context: token.context,
+      insertedAt: token.inserted_at
+    }
   end
 end

@@ -2,7 +2,6 @@ defmodule Nimble.SessionController do
   use Nimble.Web, :controller
 
   alias Nimble.Accounts
-  alias Nimble.UserJSON
 
   action_fallback(Nimble.ErrorController)
 
@@ -13,7 +12,7 @@ defmodule Nimble.SessionController do
     current_user = conn.assigns[:current_user]
 
     tokens = Accounts.find_all_sessions(current_user)
-    render(conn, :sessions, tokens: tokens)
+    render(conn, :index, tokens: tokens)
   end
 
   @doc """
@@ -24,7 +23,7 @@ defmodule Nimble.SessionController do
     token = get_session(conn, :user_token)
 
     token = Accounts.find_session(current_user, token: token)
-    render(conn, :session, token: token)
+    render(conn, :show, token: token)
   end
 
   @doc """
@@ -47,7 +46,7 @@ defmodule Nimble.SessionController do
     token = get_session(conn, :user_token)
 
     with token <- Accounts.delete_session_tokens(user, token) do
-      render(conn, :sessions, tokens: [token])
+      render(conn, :index, tokens: [token])
     end
   end
 end

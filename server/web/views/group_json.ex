@@ -1,5 +1,4 @@
 defmodule Nimble.GroupJSON do
-  alias Nimble.UserJSON
 
   @doc """
   Renders a list of groups.

@@ -29,7 +29,7 @@ defmodule Nimble.Groups.GroupInvites do
           GroupInvite.non_existing_user_changeset(%GroupInvite{}, attrs)
       end
 
-    with {:ok, invite} <- Repo.insert(changeset) do
+    with {:ok, _invite} <- Repo.insert(changeset) do
       # TODO: discern between existing and non-existing user and send
       # the appropriate email or text message depending on
       # What field the user was invited by

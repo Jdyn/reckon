@@ -3,7 +3,6 @@ defmodule Nimble.Users do
   use Nimble.Web, :context
 
   alias Nimble.Accounts.Query
-  alias Nimble.GroupInvite
   alias Nimble.Repo
   alias Nimble.User
   alias Nimble.UserNotifier

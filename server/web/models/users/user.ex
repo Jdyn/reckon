@@ -73,10 +73,12 @@ defmodule Nimble.User do
   def validate_identifier(changeset) do
     identifier = get_change(changeset, :identifier)
 
-    if {:ok, %ExPhoneNumber.Model.PhoneNumber{}} = PhoneNumber.parse_phone_number(identifier) do
-      validate_phone(changeset)
-    else
-      validate_email(changeset)
+    case PhoneNumber.parse_phone_number(identifier) do
+      {:ok, _number} ->
+        validate_phone(changeset)
+
+      _ ->
+        validate_email(changeset)
     end
   end
 
