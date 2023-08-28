@@ -9,6 +9,21 @@ defmodule Nimble.Accounts do
   alias Nimble.Accounts.Users
   alias Nimble.UserToken
 
+  @doc """
+  Authenticates a user.
+
+  ## Examples
+
+      iex> authenticate("email", "password")
+      {:ok, %User{}}
+
+      iex> authenticate("email", "bad_password")
+      {:unauthorized, "Email or Password is incorrect."}
+
+      iex> authenticate("bad_email", "password")
+      {:unauthorized, "Email or Password is incorrect."}
+
+  """
   def authenticate(identifier, password) when is_binary(identifier) and is_binary(password) do
     with %User{} = user <- Users.get_by_identifier_and_password(identifier, password) do
       {:ok, user}

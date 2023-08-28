@@ -18,8 +18,6 @@ defmodule Nimble.AccountsFixtures do
   end
 
   def user_fixture(attrs \\ %{}) do
-    dbg(Nimble.Repo.all(Nimble.User))
-
     {:ok, user} =
       attrs
       |> valid_user_attributes()

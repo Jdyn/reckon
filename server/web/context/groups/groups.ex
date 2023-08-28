@@ -42,15 +42,49 @@ defmodule Nimble.Groups do
 
   def get_group(id), do: Repo.get(Group, id)
 
+  @doc """
+  Checks if a user is a member of a group.
+
+  ## Examples
+
+      iex> is_member?(group_id, valid_member_id)
+      true
+
+      iex> is_member?(group_id, invalid_member_id)
+      false
+
+  """
   def is_member?(group_id, user_id) do
     Repo.exists?(Query.group_member(group_id, user_id))
   end
 
+  @doc """
+  Updates the `updated_at` field on the `GroupMember` join table
+  to indicate that the user has just viewed the group.
+
+  ## Examples
+
+      iex> update_member_last_seen(group_id, user_id)
+      %GroupMember{}
+
+  """
   def update_member_last_seen(group_id, user_id) do
     member = Repo.one(Query.group_member(group_id, user_id))
     Repo.update!(GroupMember.changeset(member, %{updated_at: DateTime.utc_now()}))
   end
 
+  @doc """
+  Gets a group for a user.
+
+  ## Examples
+
+      iex> get_group_for_user(group_id, user_id)
+      {:ok, %Group{}}
+
+      iex> get_group_for_user(group_id, user_id)
+      {:error, "You are not a member, or this group does not exist."}
+
+  """
   def get_group_for_user(group_id, user_id) do
     case Repo.one(Query.group_for_member(group_id, user_id)) do
       nil -> {:error, "You are not a member, or this group does not exist."}
@@ -129,11 +163,11 @@ defmodule Nimble.Groups do
     Group.changeset(group, attrs)
   end
 
-  def add_member(%Group{} = group, %User{} = user) do
+  def add_member!(%Group{} = group, %User{} = user) do
     Repo.insert!(GroupMember.changeset(%GroupMember{}, %{group_id: group.id, user_id: user.id}))
   end
 
-  def remove_member(%Group{} = group, %User{} = user) do
+  def remove_member!(%Group{} = group, %User{} = user) do
     Repo.delete!(Repo.one(Query.group_member(group.id, user.id)))
   end
 end

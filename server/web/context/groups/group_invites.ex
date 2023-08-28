@@ -2,10 +2,10 @@ defmodule Nimble.Groups.GroupInvites do
   @moduledoc false
   use Nimble.Web, :context
 
+  alias Nimble.Accounts.Users
   alias Nimble.GroupInvite
   alias Nimble.Repo
   alias Nimble.User
-  alias Nimble.Accounts.Users
 
   # def deliver_group_invite_link(%Group{} = group, %User{} = user, sent_to) do
   #   {encoded_token, group_token} = GroupInvite.build_invite_token(group, user, sent_to)
@@ -17,6 +17,15 @@ defmodule Nimble.Groups.GroupInvites do
   #   {:ok, encoded_token}
   # end
 
+  @doc """
+  Invites an existing user to a group, or sends an invite to a non-existing user.
+
+  ## Examples
+
+      iex> invite_member(group_id, sender, recipient)
+      {:ok, %GroupInvite{}}
+
+  """
   def invite_member(group_id, sender, recipient) do
     changeset =
       with %{"identifier" => identifier} <- recipient,
@@ -36,6 +45,14 @@ defmodule Nimble.Groups.GroupInvites do
     end
   end
 
+  @doc """
+  Returns a list of all invites sent to a user.
+
+  ## Examples
+
+      iex> find_invites(user)
+      [%GroupInvite{}, ...]
+  """
   def find_invites(user) do
     Repo.all(
       from(i in GroupInvite,

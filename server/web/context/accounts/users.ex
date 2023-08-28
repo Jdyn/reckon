@@ -80,7 +80,6 @@ defmodule Nimble.Accounts.Users do
       :ok
     else
       error ->
-        dbg error
         {:not_found, "Invalid link. Please generate a new one."}
     end
   end
