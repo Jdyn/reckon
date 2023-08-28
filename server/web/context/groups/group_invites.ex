@@ -5,7 +5,7 @@ defmodule Nimble.Groups.GroupInvites do
   alias Nimble.GroupInvite
   alias Nimble.Repo
   alias Nimble.User
-  alias Nimble.Users
+  alias Nimble.Accounts.Users
 
   # def deliver_group_invite_link(%Group{} = group, %User{} = user, sent_to) do
   #   {encoded_token, group_token} = GroupInvite.build_invite_token(group, user, sent_to)

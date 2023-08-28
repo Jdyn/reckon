@@ -1,11 +1,11 @@
-defmodule Nimble.UsersTest do
+defmodule Nimble.Accounts.UsersTest do
   use Nimble.DataCase
 
   import Nimble.AccountsFixtures
 
-  alias Nimble.Accounts
+  alias Nimble.Accounts.Sessions
+  alias Nimble.Accounts.Users
   alias Nimble.User
-  alias Nimble.Users
   alias Nimble.UserToken
 
   describe "get_by_identifier/1" do
@@ -178,7 +178,7 @@ defmodule Nimble.UsersTest do
     end
 
     test "deletes all tokens for the given user", %{user: user} do
-      _ = Accounts.create_session_token(user)
+      _ = Sessions.create_session_token(user)
 
       {:ok, _} =
         Users.update_password(user, valid_user_password(), %{
@@ -224,7 +224,7 @@ defmodule Nimble.UsersTest do
     end
 
     test "deletes all tokens for the given user", %{user: user} do
-      _ = Accounts.create_session_token(user)
+      _ = Sessions.create_session_token(user)
       {:ok, _} = Users.reset_password(user, %{password: "New valid password 123"})
       refute Repo.get_by(UserToken, user_id: user.id)
     end

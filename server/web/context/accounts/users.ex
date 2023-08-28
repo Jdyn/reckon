@@ -1,4 +1,4 @@
-defmodule Nimble.Users do
+defmodule Nimble.Accounts.Users do
   @moduledoc false
   use Nimble.Web, :context
 
@@ -79,7 +79,9 @@ defmodule Nimble.Users do
          {:ok, _} <- Repo.transaction(email_multi(user, email, context)) do
       :ok
     else
-      _ -> {:not_found, "Invalid link. Please generate a new one."}
+      error ->
+        dbg error
+        {:not_found, "Invalid link. Please generate a new one."}
     end
   end
 

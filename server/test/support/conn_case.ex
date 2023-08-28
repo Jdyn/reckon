@@ -24,6 +24,8 @@ defmodule Nimble.ConnCase do
       import Phoenix.ConnTest
       import Plug.Conn
 
+      use Nimble.Web, :controller
+
       @endpoint Nimble.Endpoint
     end
   end
@@ -52,7 +54,7 @@ defmodule Nimble.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user) do
-    token = Nimble.Accounts.create_session_token(user)
+    token = Nimble.Accounts.Sessions.create_session_token(user)
 
     conn
     |> Phoenix.ConnTest.init_test_session(%{})

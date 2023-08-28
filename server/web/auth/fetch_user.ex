@@ -4,7 +4,7 @@ defmodule Nimble.Auth.FetchUser do
 
   import Plug.Conn
 
-  alias Nimble.Accounts
+  alias Nimble.Accounts.Sessions
 
   @remember_me_cookie "remember_token"
 
@@ -16,7 +16,7 @@ defmodule Nimble.Auth.FetchUser do
   """
   def call(conn, _opts \\ %{}) do
     {token, conn} = ensure_user_token(conn)
-    user = token && Accounts.find_by_session_token(token)
+    user = token && Sessions.user_from_session(token)
     assign(conn, :current_user, user)
   end
 

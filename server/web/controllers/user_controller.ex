@@ -2,10 +2,10 @@ defmodule Nimble.UserController do
   use Nimble.Web, :controller
 
   alias Nimble.Accounts
+  alias Nimble.Accounts.Sessions
+  alias Nimble.Accounts.Users
   alias Nimble.Auth.OAuth
   alias Nimble.Groups.GroupInvites
-  alias Nimble.User
-  alias Nimble.Users
 
   action_fallback(Nimble.ErrorController)
 
@@ -38,7 +38,7 @@ defmodule Nimble.UserController do
   """
   def sign_up(conn, params) do
     with {:ok, user} <- Accounts.register(params) do
-      token = Accounts.create_session_token(user)
+      token = Sessions.create_session_token(user)
 
       conn
       |> renew_session()
@@ -56,7 +56,7 @@ defmodule Nimble.UserController do
   """
   def sign_in(conn, %{"identifier" => identifier, "password" => password} = _params) do
     with {:ok, user} <- Accounts.authenticate(identifier, password) do
-      token = Accounts.create_session_token(user)
+      token = Sessions.create_session_token(user)
 
       conn
       |> renew_session()
@@ -78,7 +78,7 @@ defmodule Nimble.UserController do
   """
   def sign_out(conn, _params) do
     token = get_session(conn, :user_token)
-    token && Accounts.delete_session_token(token)
+    token && Sessions.delete_session_token(token)
 
     conn
     |> renew_session()
@@ -95,9 +95,9 @@ defmodule Nimble.UserController do
   def provider_callback(conn, %{"provider" => provider} = params) do
     with {:ok, user} <- Accounts.authenticate(provider, params) do
       token = get_session(conn, :user_token)
-      token && Accounts.delete_session_token(token)
+      token && Sessions.delete_session_token(token)
 
-      token = Accounts.create_session_token(user)
+      token = Sessions.create_session_token(user)
 
       conn
       |> renew_session()
@@ -159,7 +159,7 @@ defmodule Nimble.UserController do
   # Do not log in the user after reset password to avoid a
   # leaked token giving the user access to the account.
   def do_reset_password(conn, params) do
-    with user = %User{} <- Accounts.get_user_by_reset_password_token(params["token"]),
+    with {:ok, user} <- Accounts.get_user_by_reset_password_token(params["token"]),
          {:ok, _user} <- Users.reset_password(user, params) do
       json(conn, %{data: "Password changed successfully, You may login again."})
     end
