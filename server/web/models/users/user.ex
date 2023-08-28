@@ -17,7 +17,6 @@ defmodule Nimble.User do
 
   schema "users" do
     # Field used to accept an email OR phone to create an account.
-    # It is not stored in the database.
     field(:identifier, :string, virtual: true)
 
     field(:email, :string)
@@ -38,10 +37,6 @@ defmodule Nimble.User do
 
   @doc """
   A user changeset for registration.
-  It is important to validate the length of both e-mail and password.
-  Otherwise databases may truncate the e-mail without warnings, which
-  could lead to unpredictable or insecure behaviour. Long passwords may
-  also be very expensive to hash for certain algorithms.
   """
   def registration_changeset(%User{} = user, attrs) do
     user
