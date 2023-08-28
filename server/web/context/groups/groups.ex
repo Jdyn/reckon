@@ -12,7 +12,7 @@ defmodule Nimble.Groups do
   alias Nimble.User
 
   @doc """
-  Returns the list of groups.
+  Returns all of the groups that the user is a member of.
 
   ## Examples
 
