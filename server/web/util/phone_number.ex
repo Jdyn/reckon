@@ -21,7 +21,7 @@ defmodule Nimble.Util.PhoneNumber do
           raw_input: nil
       }}
   """
-  def parse_phone_number(phone_number, opts \\ "") do
+  def parse_phone_number(phone_number, opts \\ "US") do
     ExPhoneNumber.parse(phone_number, opts)
   end
 

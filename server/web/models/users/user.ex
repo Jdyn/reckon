@@ -14,6 +14,7 @@ defmodule Nimble.User do
 
   @registration_fields ~w(identifier username full_name)a
   @update_fields ~w(email phone username full_name)a
+  @email_regex ~r/^[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+$/i
 
   schema "users" do
     # Field used to accept an email OR phone to create an account.
@@ -73,12 +74,10 @@ defmodule Nimble.User do
   def validate_identifier(changeset) do
     identifier = get_change(changeset, :identifier)
 
-    case PhoneNumber.parse_phone_number(identifier) do
-      {:ok, _number} ->
-        validate_phone(changeset)
-
-      _ ->
-        validate_email(changeset)
+    if String.match?(identifier, @email_regex) do
+      validate_email(changeset)
+    else
+      validate_phone(changeset)
     end
   end
 
@@ -89,7 +88,7 @@ defmodule Nimble.User do
     |> put_change(:email, identifier)
     |> validate_required([:email])
     |> update_change(:email, &String.downcase(&1))
-    |> validate_format(:email, ~r/^[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+$/i, message: "must be a valid email address")
+    |> validate_format(:email, @email_regex, message: "must be a valid email address")
     |> validate_length(:email, max: 80)
     |> put_change(:identifier, get_change(changeset, :email))
   end
@@ -119,7 +118,7 @@ defmodule Nimble.User do
       |> put_change(:identifier, phone_number)
     else
       {:error, message} -> add_error(changeset, :phone, message)
-      _ -> add_error(changeset, :phone, "That's not a valid phone number or it's missing the country code.")
+      _ -> add_error(changeset, :phone, "That's not a valid United States phone number.")
     end
   end
 
