@@ -23,16 +23,6 @@ defmodule Nimble.UserController do
     |> render(:show, user: conn.assigns[:current_user])
   end
 
-  @doc """
-  Shows all sessions associated with a user.
-  """
-  def show_sessions(conn, _params) do
-    current_user = conn.assigns[:current_user]
-
-    tokens = Accounts.find_all_sessions(current_user)
-    render(conn, :sessions, tokens: tokens)
-  end
-
   def show_invites(conn, _params) do
     current_user = conn.assigns[:current_user]
 
@@ -41,38 +31,6 @@ defmodule Nimble.UserController do
     conn
     |> put_view(Nimble.GroupJSON)
     |> render(:invites, invites: invites)
-  end
-
-  @doc """
-  Shows the current session that the user is requesting from user.
-  """
-  def show_session(conn, _params) do
-    current_user = conn.assigns[:current_user]
-    token = get_session(conn, :user_token)
-
-    token = Accounts.find_session(current_user, token: token)
-    render(conn, :session, token: token)
-  end
-
-  @doc """
-  Deletes a session associated with a user.
-  """
-  def delete_session(conn, %{"tracking_id" => tracking_id}) do
-    user = conn.assigns[:current_user]
-    token = get_session(conn, :user_token)
-
-    with :ok <- Accounts.delete_session_token(user, tracking_id, token) do
-      json(conn, %{ok: true})
-    end
-  end
-
-  def delete_sessions(conn, _params) do
-    user = conn.assigns[:current_user]
-    token = get_session(conn, :user_token)
-
-    with token <- Accounts.delete_session_tokens(user, token) do
-      render(conn, :sessions, tokens: [token])
-    end
   end
 
   @doc """

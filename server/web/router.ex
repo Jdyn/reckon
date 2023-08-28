@@ -37,8 +37,10 @@ defmodule Nimble.Router do
     pipe_through([:api, :ensure_auth])
 
     resources("/account", UserController, singleton: true, only: [:show]) do
-      get("/sessions", UserController, :show_sessions)
-      get("/sessions/current", UserController, :show_session)
+      get("/session", SessionController, :show)
+      get("/sessions", SessionController, :index)
+      delete("/sessions/:tracking_id", SessionController, :delete)
+      delete("/sessions", SessionController, :delete_all)
 
       post("/email/confirm", UserController, :send_email_confirmation)
       patch("/email/confirm/:token", UserController, :do_email_confirmation)
@@ -47,9 +49,6 @@ defmodule Nimble.Router do
       patch("/email/update/:token", UserController, :do_update_email)
 
       post("/password/update", UserController, :update_password)
-
-      delete("/sessions/clear", UserController, :delete_sessions)
-      delete("/sessions/:tracking_id", UserController, :delete_session)
 
       get("/invites", UserController, :show_invites)
 

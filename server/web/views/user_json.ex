@@ -9,18 +9,6 @@ defmodule Nimble.UserJSON do
     }
   end
 
-  def sessions(%{tokens: tokens}) do
-    %{
-      sessions: for(token <- tokens, do: UserTokenJSON.token(token))
-    }
-  end
-
-  def session(%{token: token}) do
-    %{
-      session: UserTokenJSON.token(token)
-    }
-  end
-
   def get_provider(%{url: url}) do
     %{
       url: url
