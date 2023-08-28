@@ -17,13 +17,20 @@ defmodule Nimble.Groups.GroupInvites do
   #   {:ok, encoded_token}
   # end
 
-  def invite_member(group_id, sender, identifier) do
-    with recipient = %User{} <- Users.get_by_identifier(identifier) do
-      attrs = GroupInvite.build_invite(:existing_user, group_id, sender.id, recipient)
+  def invite_member(group_id, sender, recipient) do
+    changeset =
+      with %{"identifier" => identifier} <- recipient,
+           user = %User{} <- Users.get_by_identifier(identifier) do
+        attrs = GroupInvite.build_invite(:existing_user, group_id, sender.id, user)
+        GroupInvite.existing_user_changeset(%GroupInvite{}, attrs)
+      else
+        nil ->
+          attrs = GroupInvite.build_invite(:non_existing_user, group_id, sender.id, recipient)
+          GroupInvite.non_existing_user_changeset(%GroupInvite{}, attrs)
+      end
 
-      %GroupInvite{}
-      |> GroupInvite.existing_member_changeset(attrs)
-      |> Repo.insert()
+    with {:ok, invite} <- Repo.insert(changeset) do
+      dbg(invite)
     end
   end
 
@@ -32,7 +39,7 @@ defmodule Nimble.Groups.GroupInvites do
       from(i in GroupInvite,
         where: i.recipient_id == ^user.id,
         left_join: g in assoc(i, :group),
-        select: %{ i | group: g}
+        select: %{i | group: g}
       )
     )
   end

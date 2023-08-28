@@ -108,14 +108,6 @@ defmodule Nimble.Users do
     {:ok, encoded_token}
   end
 
-  def retrieve_identifer(user) do
-    cond do
-      user.email != nil -> {:email, user.email}
-      user.phone != nil -> {:phone, user.phone}
-      user.username != nil -> {:username, user.username}
-    end
-  end
-
   @doc """
   Resets the user password.
 
