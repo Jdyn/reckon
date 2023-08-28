@@ -43,7 +43,7 @@ defmodule Nimble.MixProject do
       {:cors_plug, "~> 3.0.3"},
       {:ex_phone_number, "~>0.4.2"},
       {:pbkdf2_elixir, "~> 2.1.0"},
-      {:plug_cowboy, "~> 2.6.1"}
+      {:bandit, "~> 1.0.0-pre.13", override: true}
     ]
   end
 

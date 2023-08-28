@@ -79,7 +79,7 @@ defmodule Nimble.Accounts.Users do
          {:ok, _} <- Repo.transaction(email_multi(user, email, context)) do
       :ok
     else
-      error ->
+      _ ->
         {:not_found, "Invalid link. Please generate a new one."}
     end
   end

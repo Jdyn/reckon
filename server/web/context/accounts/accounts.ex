@@ -2,11 +2,11 @@ defmodule Nimble.Accounts do
   @moduledoc """
   Defines a context for managing user accounts.
   """
-  alias Nimble.Accounts
+  alias Nimble.Accounts.Query
+  alias Nimble.Accounts.Users
   alias Nimble.Auth.OAuth
   alias Nimble.Repo
   alias Nimble.User
-  alias Nimble.Accounts.Users
   alias Nimble.UserToken
 
   @doc """
@@ -24,6 +24,7 @@ defmodule Nimble.Accounts do
       {:unauthorized, "Email or Password is incorrect."}
 
   """
+  @spec authenticate(binary, binary) :: {:ok, User.t()} | {:unauthorized, String.t()}
   def authenticate(identifier, password) when is_binary(identifier) and is_binary(password) do
     with %User{} = user <- Users.get_by_identifier_and_password(identifier, password) do
       {:ok, user}
@@ -33,6 +34,7 @@ defmodule Nimble.Accounts do
     end
   end
 
+  @spec authenticate(binary, map) :: {:ok, User.t()} | {:unauthorized, String.t()}
   def authenticate(provider, %{} = params) when is_binary(provider) and is_map(params) do
     case OAuth.callback(provider, params) do
       {:ok, %{user: open_user, token: _token}} ->
@@ -41,7 +43,7 @@ defmodule Nimble.Accounts do
           {:ok, user}
         else
           true ->
-            {:not_found, "Confirm your email before signing in with #{provider}."}
+            {:unauthorized, "Confirm your email before signing in with #{provider}."}
 
           nil ->
             register(open_user, :oauth)
@@ -105,5 +107,5 @@ defmodule Nimble.Accounts do
   @doc """
   Returns all tokens for the given user.
   """
-  def find_all_tokens(user), do: Repo.all(Accounts.Query.user_and_contexts_query(user, ["all"]))
+  def find_all_tokens(user), do: Repo.all(Query.user_and_contexts_query(user, ["all"]))
 end
