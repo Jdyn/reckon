@@ -17,6 +17,7 @@ defmodule Nimble.GroupMember do
     group
     |> cast(attrs, [:group_id, :user_id])
     |> validate_required([:group_id, :user_id])
+    |> unique_constraint(:group, name: :no_duplicate_members)
   end
 
     @doc false

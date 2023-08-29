@@ -17,7 +17,7 @@ defmodule Nimble.Auth.EnsureGroup do
     group_id = Map.get(conn.path_params, "id") || Map.get(conn.path_params, "group_id")
 
     if not is_nil(group_id) and is_member?(group_id, current_user.id) do
-      conn
+      assign(conn, :group_id, String.to_integer(group_id))
     else
       conn
       |> put_status(:unauthorized)

@@ -86,7 +86,7 @@ defmodule Nimble.Groups do
 
   """
   def get_group_for_user(group_id, user_id) do
-    case Repo.one(Query.group_for_member(group_id, user_id)) do
+    case Repo.one(Query.group_for_member(group_id, user_id)) |> Repo.preload(:members) do
       nil -> {:error, "You are not a member, or this group does not exist."}
       group -> {:ok, group}
     end
@@ -163,8 +163,8 @@ defmodule Nimble.Groups do
     Group.changeset(group, attrs)
   end
 
-  def add_member!(%Group{} = group, %User{} = user) do
-    Repo.insert!(GroupMember.changeset(%GroupMember{}, %{group_id: group.id, user_id: user.id}))
+  def add_member(group_id, user_id) do
+    Repo.insert(GroupMember.changeset(%GroupMember{}, %{group_id: group_id, user_id: user_id}))
   end
 
   def remove_member!(%Group{} = group, %User{} = user) do

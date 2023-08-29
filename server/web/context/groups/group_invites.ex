@@ -4,6 +4,8 @@ defmodule Nimble.Groups.GroupInvites do
 
   alias Nimble.Accounts.Users
   alias Nimble.GroupInvite
+  alias Nimble.Groups
+  alias Nimble.Groups.Query
   alias Nimble.Repo
   alias Nimble.User
 
@@ -28,20 +30,33 @@ defmodule Nimble.Groups.GroupInvites do
   """
   def invite_member(group_id, sender, recipient) do
     changeset =
-      with %{"identifier" => identifier} <- recipient,
-           user = %User{} <- Users.get_by_identifier(identifier) do
-        attrs = GroupInvite.build_invite(:existing_user, group_id, sender.id, user)
-        GroupInvite.existing_user_changeset(%GroupInvite{}, attrs)
+      with user = %User{} <- Users.get_by_identifier(recipient["identifier"]) do
+        :existing_user
+        |> GroupInvite.build_invite(group_id, sender.id, user)
+        |> GroupInvite.existing_user_changeset()
       else
         nil ->
-          attrs = GroupInvite.build_invite(:non_existing_user, group_id, sender.id, recipient)
-          GroupInvite.non_existing_user_changeset(%GroupInvite{}, attrs)
+          :non_existing_user
+          |> GroupInvite.build_invite(group_id, sender.id, recipient)
+          |> GroupInvite.non_existing_user_changeset()
       end
 
     with {:ok, _invite} <- Repo.insert(changeset) do
       # TODO: discern between existing and non-existing user and send
       # the appropriate email or text message depending on
       # What field the user was invited by
+    end
+  end
+
+  def accept_invite(group_id, user_id) do
+    with %GroupInvite{} = invite <- Repo.one(Query.group_invite_for_user(group_id, user_id)),
+         {:ok, _member} <- Groups.add_member(group_id, user_id) do
+      Repo.delete!(invite)
+
+      {:ok, Groups.get_group!(group_id)}
+    else
+      _ ->
+        {:error, "Invite not found."}
     end
   end
 

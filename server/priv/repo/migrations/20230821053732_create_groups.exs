@@ -16,6 +16,8 @@ defmodule Nimble.Repo.Migrations.CreateGroups do
       timestamps()
     end
 
+    create unique_index(:groups_members, [:group_id, :user_id], name: :no_duplicate_members)
+
     create table(:groups_invites) do
       add(:token, :string)
       add(:context, :string)

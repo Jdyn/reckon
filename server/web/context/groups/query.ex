@@ -3,6 +3,7 @@ defmodule Nimble.Groups.Query do
   use Nimble.Web, :context
 
   alias Nimble.Group
+  alias Nimble.GroupInvite
   alias Nimble.GroupMember
   alias Nimble.User
 
@@ -14,10 +15,10 @@ defmodule Nimble.Groups.Query do
   end
 
   def group_for_member(group_id, user_id) do
-    from(m in GroupMember,
-      where: m.user_id == ^user_id and m.group_id == ^group_id,
-      join: g in assoc(m, :group),
-      join: c in assoc(g, :creator),
+    from(gm in GroupMember,
+      where: gm.user_id == ^user_id and gm.group_id == ^group_id,
+      join: g in assoc(gm, :group),
+        join: c in assoc(g, :creator),
       select: %{g | creator: c}
     )
   end
@@ -30,6 +31,13 @@ defmodule Nimble.Groups.Query do
       join: u in User,
       on: g.creator_id == u.id,
       select: %{g | creator: u}
+    )
+  end
+
+  def group_invite_for_user(group_id, user_id) do
+    from(i in GroupInvite,
+      where: i.group_id == ^group_id and i.recipient_id == ^user_id,
+      select: i
     )
   end
 end

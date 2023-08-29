@@ -3,6 +3,12 @@ defmodule Nimble.UserJSON do
   alias Nimble.User
   alias Nimble.UserToken
 
+  def index(%{users: users}) do
+    %{
+      users: for(user <- users, do: user(user))
+    }
+  end
+
   def show(%{user: user}) do
     %{
       user: user(user)
