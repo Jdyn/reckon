@@ -30,8 +30,12 @@ defmodule Nimble.User do
     field(:confirmed_at, :naive_datetime)
     field(:is_admin, :boolean, default: false)
 
-    has_many(:tokens, UserToken)
+    has_one(:ledger, Nimble.UserLedger)
+
     has_many(:edicts, Nimble.Edict)
+    has_many(:contributions, through: [:ledger, :contributions])
+
+    has_many(:tokens, UserToken)
 
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
