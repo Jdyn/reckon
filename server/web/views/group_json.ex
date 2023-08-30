@@ -18,7 +18,7 @@ defmodule Nimble.GroupJSON do
   def external_group(group) do
     %{
       id: group.id,
-      name: group.name,
+      name: group.name
     }
   end
 
@@ -27,11 +27,15 @@ defmodule Nimble.GroupJSON do
       id: group.id,
       name: group.name,
       creator: UserJSON.user(group.creator),
-      members: for(member <- group.members, do: %{
-        id: member.id,
-        full_name: member.full_name,
-        email: member.email,
-      })
+      members:
+        for(
+          member <- group.members,
+          do: %{
+            id: member.id,
+            full_name: member.full_name,
+            email: member.email
+          }
+        )
     }
   end
 

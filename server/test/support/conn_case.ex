@@ -19,12 +19,11 @@ defmodule Nimble.ConnCase do
 
   using do
     quote do
+      use Nimble.Web, :controller
       # Import conveniences for testing with connections
       import Nimble.ConnCase
       import Phoenix.ConnTest
       import Plug.Conn
-
-      use Nimble.Web, :controller
 
       @endpoint Nimble.Endpoint
     end

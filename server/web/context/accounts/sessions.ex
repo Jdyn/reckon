@@ -77,6 +77,17 @@ defmodule Nimble.Accounts.Sessions do
   """
   def find_sessions(user), do: Repo.all(Query.user_and_contexts_query(user, ["session"]))
 
+  @doc """
+  Returns a session token for the given user.
+  it can be found by either the tracking_id or the token.
+
+    ## Examples
+      iex> find_session(user, tracking_id: tracking_id)
+      token
+
+      iex> find_session(user, token: token)
+      token
+  """
   def find_session(%User{} = user, tracking_id: id) do
     Repo.one(Query.user_and_tracking_id_query(user, id))
   end

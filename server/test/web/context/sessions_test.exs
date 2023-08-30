@@ -1,6 +1,6 @@
 defmodule Nimble.SessionsTest do
   use Nimble.DataCase
-  
+
   import Nimble.AccountsFixtures
 
   alias Nimble.Accounts.Sessions

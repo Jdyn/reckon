@@ -1,10 +1,11 @@
 defmodule Nimble.Accounts.Usersocket do
+  @moduledoc false
   use Phoenix.Socket
 
   alias Nimble.Accounts.Sessions
 
   ## Channels
-  channel "group:*", Nimble.GroupChannel
+  channel("group:*", Nimble.GroupChannel)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
