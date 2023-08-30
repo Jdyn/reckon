@@ -1,4 +1,4 @@
-defmodule Nimble.Util.PhoneNumber do
+defmodule Nimble.Util.Phone do
   @moduledoc """
   Functions for implementing phone number validations and formatting
   using [ex_phone_number](https://hex.pm/packages/ex_phone_number).
@@ -21,7 +21,7 @@ defmodule Nimble.Util.PhoneNumber do
           raw_input: nil
       }}
   """
-  def parse_phone_number(phone_number, opts \\ "US") do
+  def parse(phone_number, opts \\ "US") do
     ExPhoneNumber.parse(phone_number, opts)
   end
 
@@ -29,7 +29,7 @@ defmodule Nimble.Util.PhoneNumber do
   Checks whether a given phone number is possible.
   Returns true or false.
   """
-  def possible_phone?(phone_number) do
+  def possible?(phone_number) do
     ExPhoneNumber.is_possible_number?(phone_number)
   end
 
@@ -37,7 +37,7 @@ defmodule Nimble.Util.PhoneNumber do
   Checks whether a given phone number is valid.
   Returns true or false.
   """
-  def valid_phone?(phone_number) do
+  def valid?(phone_number) do
     ExPhoneNumber.is_valid_number?(phone_number)
   end
 
@@ -45,7 +45,7 @@ defmodule Nimble.Util.PhoneNumber do
   Checks the type of phone number, e.g. `:fixed` or
   `:fixed_line_or_mobile`.
   """
-  def get_phone_number_type(phone_number) do
+  def type(phone_number) do
     ExPhoneNumber.get_number_type(phone_number)
   end
 
@@ -53,7 +53,7 @@ defmodule Nimble.Util.PhoneNumber do
   Formats a phone number.
   opts: :national, :international, :e164, :rfc3966
   """
-  def format_phone_number(phone_number, opts) do
+  def format(phone_number, opts) do
     ExPhoneNumber.format(phone_number, opts)
   end
 end

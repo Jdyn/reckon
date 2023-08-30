@@ -8,7 +8,7 @@ defmodule Nimble.User do
   alias Nimble.Repo
   alias Nimble.User
   alias Nimble.UserToken
-  alias Nimble.Util.PhoneNumber
+  alias Nimble.Util.Phone
 
   @derive {Inspect, except: [:password]}
 
@@ -29,7 +29,9 @@ defmodule Nimble.User do
     field(:password, :string, virtual: true)
     field(:confirmed_at, :naive_datetime)
     field(:is_admin, :boolean, default: false)
+
     has_many(:tokens, UserToken)
+    has_many(:edicts, Nimble.Edict)
 
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
@@ -106,10 +108,10 @@ defmodule Nimble.User do
   defp validate_phone(changeset) do
     phone = get_change(changeset, :identifier)
 
-    with {:ok, phone_number} <- PhoneNumber.parse_phone_number(phone),
-         true <- PhoneNumber.possible_phone?(phone_number),
-         true <- PhoneNumber.valid_phone?(phone_number) do
-      phone_number = PhoneNumber.format_phone_number(phone_number, :e164)
+    with {:ok, phone_number} <- Phone.parse(phone),
+         true <- Phone.possible?(phone_number),
+         true <- Phone.valid?(phone_number) do
+      phone_number = Phone.format(phone_number, :e164)
 
       changeset
       |> put_change(:phone, phone_number)

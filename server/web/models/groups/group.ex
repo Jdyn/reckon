@@ -8,9 +8,11 @@ defmodule Nimble.Group do
   schema "groups" do
     field(:name, :string)
 
-    belongs_to(:creator, User)
+    has_many(:edicts, Nimble.Edict)
 
     many_to_many(:members, User, join_through: GroupMember)
+
+    belongs_to(:creator, User)
 
     timestamps()
   end
