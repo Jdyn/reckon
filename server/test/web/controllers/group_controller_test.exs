@@ -1,9 +1,10 @@
-defmodule NimbleWeb.GroupControllerTest do
-  use NimbleWeb.ConnCase
+defmodule Nimble.GroupControllerTest do
+  use Nimble.ConnCase, async: true
 
   import Nimble.GroupsFixtures
 
-  alias Nimble.Groups.Group
+  alias Nimble.Group
+  alias Nimble.Groups
 
   @create_attrs %{
     name: "some name"
@@ -13,14 +14,22 @@ defmodule NimbleWeb.GroupControllerTest do
   }
   @invalid_attrs %{name: nil}
 
-  setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
-  end
+  setup :register_and_log_in_user
 
   describe "index" do
-    test "lists all groups", %{conn: conn} do
+    test "lists all groups for user with no groups", %{conn: conn} do
       conn = get(conn, ~p"/api/groups")
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200)["groups"] == []
+    end
+
+    test "lists all groups for the user with groups", %{conn: conn, user: user} do
+      group_id = group_fixture(%{creator_id: user.id}).id
+      conn = get(conn, ~p"/api/groups")
+
+      assert List.first(json_response(conn, 200)["groups"]) == %{
+               "id" => group_id,
+               "name" => "some name"
+             }
     end
   end
 
@@ -71,9 +80,9 @@ defmodule NimbleWeb.GroupControllerTest do
       conn = delete(conn, ~p"/api/groups/#{group}")
       assert response(conn, 204)
 
-      assert_error_sent 404, fn ->
+      assert_error_sent(404, fn ->
         get(conn, ~p"/api/groups/#{group}")
-      end
+      end)
     end
   end
 

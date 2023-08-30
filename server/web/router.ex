@@ -55,7 +55,9 @@ defmodule Nimble.Router do
       delete("/signout", UserController, :sign_out)
     end
 
-    resources("/groups", GroupController, only: [:index, :create])
+    resources("/groups", GroupController, only: [:index, :create]) do
+      get("/join", GroupController, :join)
+    end
   end
 
   scope "/api", Nimble do

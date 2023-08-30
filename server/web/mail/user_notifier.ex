@@ -92,7 +92,7 @@ defmodule Nimble.UserNotifier do
     """)
   end
 
-    @doc """
+  @doc """
   Deliver instructions to join a group
   """
   def deliver_group_invite_instructions(user, token) do

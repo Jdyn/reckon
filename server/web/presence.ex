@@ -17,7 +17,7 @@ defmodule Nimble.Presence do
         where: m.group_id == ^group_id,
         join: u in User,
         on: m.user_id == u.id,
-        select: {u.id,  %{ u | updated_at: m.updated_at} }
+        select: {u.id, %{u | updated_at: m.updated_at}}
       )
 
     group_members = query |> Repo.all() |> Map.new(fn {k, v} -> {Integer.to_string(k), v} end)

@@ -1,15 +1,16 @@
 defmodule Nimble.Group do
+  @moduledoc false
   use Nimble.Web, :model
 
-  alias Nimble.User
   alias Nimble.GroupMember
+  alias Nimble.User
 
   schema "groups" do
-    field :name, :string
+    field(:name, :string)
 
-    belongs_to :creator, User
+    belongs_to(:creator, User)
 
-    many_to_many :members, User, join_through: GroupMember
+    many_to_many(:members, User, join_through: GroupMember)
 
     timestamps()
   end

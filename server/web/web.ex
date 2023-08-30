@@ -21,7 +21,7 @@ defmodule Nimble.Web do
       import Ecto.Query
       import Plug.Conn
 
-      alias Nimble.Router.Helpers, as: Routes
+      unquote(verified_routes())
     end
   end
 
@@ -45,6 +45,15 @@ defmodule Nimble.Web do
   def channel do
     quote do
       use Phoenix.Channel
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: Nimble.Endpoint,
+        router: Nimble.Router,
+        statics: []
     end
   end
 

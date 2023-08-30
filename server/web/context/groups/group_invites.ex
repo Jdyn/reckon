@@ -2,10 +2,12 @@ defmodule Nimble.Groups.GroupInvites do
   @moduledoc false
   use Nimble.Web, :context
 
+  alias Nimble.Accounts.Users
   alias Nimble.GroupInvite
+  alias Nimble.Groups
+  alias Nimble.Groups.Query
   alias Nimble.Repo
   alias Nimble.User
-  alias Nimble.Users
 
   # def deliver_group_invite_link(%Group{} = group, %User{} = user, sent_to) do
   #   {encoded_token, group_token} = GroupInvite.build_invite_token(group, user, sent_to)
@@ -17,16 +19,26 @@ defmodule Nimble.Groups.GroupInvites do
   #   {:ok, encoded_token}
   # end
 
+  @doc """
+  Invites an existing user to a group, or sends an invite to a non-existing user.
+
+  ## Examples
+
+      iex> invite_member(group_id, sender, recipient)
+      {:ok, %GroupInvite{}}
+
+  """
   def invite_member(group_id, sender, recipient) do
     changeset =
-      with %{"identifier" => identifier} <- recipient,
-           user = %User{} <- Users.get_by_identifier(identifier) do
-        attrs = GroupInvite.build_invite(:existing_user, group_id, sender.id, user)
-        GroupInvite.existing_user_changeset(%GroupInvite{}, attrs)
+      with user = %User{} <- Users.get_by_identifier(recipient["identifier"]) do
+        :existing_user
+        |> GroupInvite.build_invite(group_id, sender.id, user)
+        |> GroupInvite.existing_user_changeset()
       else
         nil ->
-          attrs = GroupInvite.build_invite(:non_existing_user, group_id, sender.id, recipient)
-          GroupInvite.non_existing_user_changeset(%GroupInvite{}, attrs)
+          :non_existing_user
+          |> GroupInvite.build_invite(group_id, sender.id, recipient)
+          |> GroupInvite.non_existing_user_changeset()
       end
 
     with {:ok, _invite} <- Repo.insert(changeset) do
@@ -36,6 +48,26 @@ defmodule Nimble.Groups.GroupInvites do
     end
   end
 
+  def accept_invite(group_id, user_id) do
+    with %GroupInvite{} = invite <- Repo.one(Query.group_invite(group_id, user_id)),
+         {:ok, _member} <- Groups.add_member(group_id, user_id) do
+      Repo.delete!(invite)
+
+      {:ok, Groups.get_group!(group_id)}
+    else
+      _ ->
+        {:error, "Invite not found."}
+    end
+  end
+
+  @doc """
+  Returns a list of all invites sent to a user.
+
+  ## Examples
+
+      iex> find_invites(user)
+      [%GroupInvite{}, ...]
+  """
   def find_invites(user) do
     Repo.all(
       from(i in GroupInvite,

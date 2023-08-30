@@ -12,7 +12,7 @@ defmodule Nimble.Endpoint do
     secure: true
   ]
 
-  socket("/socket", Nimble.UserSocket,
+  socket("/socket", Nimble.Accounts.Usersocket,
     websocket: true,
     longpoll: false
   )

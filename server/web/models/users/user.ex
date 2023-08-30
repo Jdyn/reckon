@@ -74,7 +74,7 @@ defmodule Nimble.User do
   def validate_identifier(changeset) do
     identifier = get_change(changeset, :identifier)
 
-    if String.match?(identifier, @email_regex) do
+    if not is_nil(identifier) and String.match?(identifier, @email_regex) do
       validate_email(changeset)
     else
       validate_phone(changeset)
@@ -82,7 +82,7 @@ defmodule Nimble.User do
   end
 
   defp validate_email(changeset) do
-    identifier = get_change(changeset, :identifier)
+    identifier = get_change(changeset, :identifier) || get_change(changeset, :email)
 
     changeset
     |> put_change(:email, identifier)

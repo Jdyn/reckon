@@ -1,10 +1,11 @@
-defmodule Nimble.UserSocket do
+defmodule Nimble.Accounts.Usersocket do
+  @moduledoc false
   use Phoenix.Socket
 
-  alias Nimble.Accounts
+  alias Nimble.Accounts.Sessions
 
   ## Channels
-  channel "group:*", Nimble.GroupChannel
+  channel("group:*", Nimble.GroupChannel)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -21,7 +22,7 @@ defmodule Nimble.UserSocket do
   def connect(%{"token" => token}, socket, _connect_info) do
     token = Base.url_decode64!(token, padding: false)
 
-    case Accounts.find_by_session_token(token) do
+    case Sessions.user_from_session(token) do
       nil ->
         :error
 

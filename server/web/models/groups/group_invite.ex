@@ -28,19 +28,18 @@ defmodule Nimble.GroupInvite do
     timestamps(updated_at: false)
   end
 
-  def base_changeset(%GroupInvite{} = invite, attrs \\ %{}) do
+  def base_changeset(%GroupInvite{} = invite) do
     invite
-    |> cast(attrs, [:context, :group_id, :sender_id, :expiry])
+    |> change()
     |> validate_required([:context, :group_id, :sender_id, :expiry])
     |> validate_inclusion(:context, ["existing_user", "non_existing_user", "mass"])
     |> unique_constraint(:token)
   end
 
   # create unique constraint on [user_id, group_id] to prevent duplicate invites
-  def existing_user_changeset(%GroupInvite{} = invite, attrs) do
+  def existing_user_changeset(%GroupInvite{} = invite) do
     invite
-    |> base_changeset(attrs)
-    |> cast(attrs, [:recipient_id])
+    |> base_changeset()
     |> validate_required(:recipient_id)
     |> unique_constraint(:recipient,
       name: :no_duplicate_invites,
@@ -48,9 +47,9 @@ defmodule Nimble.GroupInvite do
     )
   end
 
-  def non_existing_user_changeset(%GroupInvite{} = invite, attrs) do
+  def non_existing_user_changeset(%GroupInvite{} = invite) do
     invite
-    |> base_changeset(attrs)
+    |> base_changeset()
     |> cast_embed(:recipient_meta, required: true, with: &recipient_meta_changeset/2)
   end
 
@@ -64,18 +63,18 @@ defmodule Nimble.GroupInvite do
   def build_invite(type, group_id, sender_id, recipient, expiry_in_days \\ 7)
 
   def build_invite(:existing_user, group_id, sender_id, recipient, expiry_in_days) do
-    %{
+    %GroupInvite{
       group_id: group_id,
       sender_id: sender_id,
       recipient_id: recipient.id,
       recipient_meta: nil,
       context: "existing_user",
-      expiry: DateTime.add(DateTime.utc_now(), expiry_in_days, :day)
+      expiry: generate_expiry(expiry_in_days)
     }
   end
 
   def build_invite(:non_existing_user, group_id, sender_id, recipient, expiry_in_days) do
-    %{
+    %GroupInvite{
       group_id: group_id,
       sender_id: sender_id,
       recipient_meta: %{
@@ -83,7 +82,11 @@ defmodule Nimble.GroupInvite do
         full_name: recipient["full_name"]
       },
       context: "non_existing_user",
-      expiry: DateTime.add(DateTime.utc_now(), expiry_in_days, :day)
+      expiry: generate_expiry(expiry_in_days)
     }
+  end
+
+  defp generate_expiry(expiry_in_days) do
+    DateTime.truncate(DateTime.add(DateTime.utc_now(), expiry_in_days, :day), :second)
   end
 end

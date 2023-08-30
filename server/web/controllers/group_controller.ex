@@ -24,10 +24,10 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def show(conn, %{"group_id" => group_id}) do
-    current_user = conn.assigns[:current_user]
+  def show(conn, _params) do
+    %{group_id: group_id, current_user: current_user} = conn.assigns
 
-    with {:ok, group} <- Groups.get_group_for_user(current_user.id, group_id) do
+    with {:ok, group} <- Groups.get_group_for_user(group_id, current_user.id) do
       render(conn, :show, group: group)
     end
   end
@@ -40,10 +40,18 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def invite(conn, %{"group_id" => group_id, "recipient" => recipient} = _params) do
-    current_user = conn.assigns[:current_user]
+  def invite(conn, %{"recipient" => recipient} = _params) do
+    %{group_id: group_id, current_user: current_user} = conn.assigns
     GroupInvites.invite_member(group_id, current_user, recipient)
     json(conn, %{ok: true, message: "If that user exists, an invite has been sent!"})
+  end
+
+  def join(conn, _params) do
+    %{group_id: group_id, current_user: current_user} = conn.assigns
+
+    with {:ok, _group} <- GroupInvites.accept_invite(group_id, current_user.id) do
+      json(conn, %{ok: true})
+    end
   end
 
   def delete(conn, %{"group_id" => id}) do
