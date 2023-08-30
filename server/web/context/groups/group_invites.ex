@@ -49,7 +49,7 @@ defmodule Nimble.Groups.GroupInvites do
   end
 
   def accept_invite(group_id, user_id) do
-    with %GroupInvite{} = invite <- Repo.one(Query.group_invite_for_user(group_id, user_id)),
+    with %GroupInvite{} = invite <- Repo.one(Query.group_invite(group_id, user_id)),
          {:ok, _member} <- Groups.add_member(group_id, user_id) do
       Repo.delete!(invite)
 
