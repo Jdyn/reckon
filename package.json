@@ -12,7 +12,8 @@
 		"client": "pnpm --filter @reckon/client -- ",
 		"server": "cd server && mix phx.server",
 		"migrate": "cd server && ecto.migrate",
-		"typecheck": "pnpm -r exec tsc"
+		"typecheck": "pnpm -r exec tsc",
+		"clean": "rm -Rf node_modules"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.3.0",

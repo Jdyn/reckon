@@ -1,26 +1,28 @@
-const { makeMetroConfig } = require('@rnx-kit/metro-config');
-
-const path = require('path');
-
+// Learn more https://docs.expo.dev/guides/monorepos
 const { getDefaultConfig } = require('expo/metro-config');
-const expoDefaultConfig = getDefaultConfig(__dirname);
+const { FileStore } = require('metro-cache');
+const path = require('node:path');
 
+// Find the project and workspace directories
 const projectRoot = __dirname;
+// This can be replaced with `find-yarn-workspace-root`
 const workspaceRoot = path.resolve(projectRoot, '../..');
 
-const metroConfig = makeMetroConfig({
-	...expoDefaultConfig,
-	projectRoot,
-	watchFolders: [workspaceRoot],
-	resolver: {
-		...expoDefaultConfig.resolver,
-		disableHierarchicalLookup: false,
-		nodeModulesPaths: [
-			path.resolve(projectRoot, 'node_modules'),
-			path.resolve(workspaceRoot, 'node_modules')
-		],
-		platforms: ['ios', 'android']
-	},
-});
+const config = getDefaultConfig(projectRoot);
 
-module.exports = metroConfig;
+// 1. Watch all files within the monorepo
+config.watchFolders = [workspaceRoot];
+// 2. Let Metro know where to resolve packages and in what order
+config.resolver.nodeModulesPaths = [
+    path.resolve(projectRoot, 'node_modules'),
+    path.resolve(workspaceRoot, 'node_modules'),
+];
+// #3 - Force resolving nested modules to the folders below
+config.resolver.disableHierarchicalLookup = true;
+
+// Use turborepo to restore the cache when possible
+config.cacheStores = [
+    new FileStore({ root: path.join(projectRoot, 'node_modules', '.cache', 'metro') }),
+];
+
+module.exports = config;
