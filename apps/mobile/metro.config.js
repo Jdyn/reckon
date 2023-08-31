@@ -1,17 +1,26 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+const { makeMetroConfig } = require('@rnx-kit/metro-config');
 
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: true,
-      },
-    }),
-  },
-};
+const path = require('path');
+
+const { getDefaultConfig } = require('expo/metro-config');
+const expoDefaultConfig = getDefaultConfig(__dirname);
+
+const projectRoot = __dirname;
+const workspaceRoot = path.resolve(projectRoot, '../..');
+
+const metroConfig = makeMetroConfig({
+	...expoDefaultConfig,
+	projectRoot,
+	watchFolders: [workspaceRoot],
+	resolver: {
+		...expoDefaultConfig.resolver,
+		disableHierarchicalLookup: false,
+		nodeModulesPaths: [
+			path.resolve(projectRoot, 'node_modules'),
+			path.resolve(workspaceRoot, 'node_modules')
+		],
+		platforms: ['ios', 'android']
+	},
+});
+
+module.exports = metroConfig;
