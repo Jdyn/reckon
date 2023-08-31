@@ -46,8 +46,8 @@ defmodule Nimble.GroupController do
     json(conn, %{ok: true, message: "If that user exists, an invite has been sent!"})
   end
 
-  def join(conn, _params) do
-    %{group_id: group_id, current_user: current_user} = conn.assigns
+  def join(conn, %{"group_id" => group_id}) do
+    current_user = conn.assigns[:current_user]
 
     with {:ok, _group} <- GroupInvites.accept_invite(group_id, current_user.id) do
       json(conn, %{ok: true})
