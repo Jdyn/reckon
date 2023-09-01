@@ -1,4 +1,4 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const {makeMetroConfig} = require('@rnx-kit/metro-config');
 
 const path = require('path');
 
@@ -11,7 +11,7 @@ const workspaceRoot = path.resolve(projectRoot, '../..');
  *
  * @type {import('metro-config').MetroConfig}
  */
-const config = {
+module.exports = makeMetroConfig({
 	resolver: {
 		unstable_enableSymlinks: true,
 	},
@@ -19,6 +19,4 @@ const config = {
 		path.resolve(projectRoot, 'node_modules'),
 		path.resolve(workspaceRoot, 'node_modules'),
 	],
-};
-
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+});
