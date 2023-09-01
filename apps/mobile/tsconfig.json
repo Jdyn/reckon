@@ -18,6 +18,11 @@
 		"forceConsistentCasingInFileNames": true,
 		"allowSyntheticDefaultImports": true
 	},
+	"references": [
+		{
+			"path": "../../packages/core"
+		}
+	],
 	"exclude": [
 		"node_modules",
 		"babel.config.js",
