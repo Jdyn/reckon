@@ -1,26 +1,24 @@
-const { makeMetroConfig } = require('@rnx-kit/metro-config');
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
 const path = require('path');
-
-const { getDefaultConfig } = require('expo/metro-config');
-const expoDefaultConfig = getDefaultConfig(__dirname);
 
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, '../..');
 
-const metroConfig = makeMetroConfig({
-	...expoDefaultConfig,
-	projectRoot,
-	watchFolders: [workspaceRoot],
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {
 	resolver: {
-		...expoDefaultConfig.resolver,
-		disableHierarchicalLookup: false,
-		nodeModulesPaths: [
-			path.resolve(projectRoot, 'node_modules'),
-			path.resolve(workspaceRoot, 'node_modules')
-		],
-		platforms: ['ios', 'android']
+		unstable_enableSymlinks: true,
 	},
-});
+	watchFolders: [
+		path.resolve(projectRoot, 'node_modules'),
+		path.resolve(workspaceRoot, 'node_modules'),
+	],
+};
 
-module.exports = metroConfig;
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
