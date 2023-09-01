@@ -12,6 +12,7 @@ const workspaceRoot = path.resolve(projectRoot, '../..');
  * @type {import('metro-config').MetroConfig}
  */
 module.exports = makeMetroConfig({
+	projectRoot,
 	resolver: {
 		unstable_enableSymlinks: true,
 		nodeModulesPaths: [
@@ -21,7 +22,6 @@ module.exports = makeMetroConfig({
 	},
 	watchFolders: [
 		path.resolve(projectRoot, 'node_modules'),
-		path.resolve(projectRoot, 'node_modules/@reckon/core'),
 		path.resolve(workspaceRoot, 'node_modules'),
 	],
 });
