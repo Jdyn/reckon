@@ -4,15 +4,16 @@
  *
  * @format
  */
-import Main from './src/main';
 // import {Provider, store} from '@reckon/core';
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar, View, Text} from 'react-native';
+import { ScrollView, StatusBar, Text, View } from 'react-native';
+
+import Main from './src/main';
 
 function App(): JSX.Element {
 	return (
 		// <Provider store={store}>
-			<Main />
+		<Main />
 		// </Provider>
 	);
 }

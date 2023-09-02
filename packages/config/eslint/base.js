@@ -18,10 +18,7 @@ module.exports = {
 	rules: {
 		'react/display-name': 'off',
 		'react/prop-types': 'off',
-		'react/no-unescaped-entities': 'off',
 		'react/react-in-jsx-scope': 'off',
-		'react-hooks/rules-of-hooks': 'warn',
-		'react-hooks/exhaustive-deps': 'warn',
 		'@typescript-eslint/no-unused-vars': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',

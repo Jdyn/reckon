@@ -1,7 +1,8 @@
+import { Text, View } from 'react-native';
+
 import RootNavigator from './RootNavigator';
 import LeftDrawer from './RootNavigator/LeftDrawer';
-import {RootDrawerParamList} from './types';
-import {View, Text} from 'react-native';
+import { RootDrawerParamList } from './types';
 
 export default function Navigation() {
 	return (

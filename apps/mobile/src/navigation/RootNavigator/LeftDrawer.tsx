@@ -1,9 +1,8 @@
 import { DrawerItemList } from '@react-navigation/drawer';
-import {View, Text, StyleSheet, Platform} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 const LeftDrawer = (props) => {
-
 	return (
 		<View style={styles.root}>
 			<View style={styles.group}>

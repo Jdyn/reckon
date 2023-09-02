@@ -1,7 +1,7 @@
 module.exports = {
 	extends: [require.resolve('./base.js')],
 	plugins: ['react-native'],
-	ignorePatterns: ['android', 'ios', '.expo'],
+	ignorePatterns: ['android', 'ios'],
 	rules: {
 		'no-restricted-imports': [
 			'error',
