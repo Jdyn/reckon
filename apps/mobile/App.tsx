@@ -4,22 +4,16 @@
  *
  * @format
  */
-
-import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
-import {Provider, store} from '@reckon/core';
 import Main from './src/main';
+// import {Provider, store} from '@reckon/core';
+import React from 'react';
+import {SafeAreaView, ScrollView, StatusBar, View, Text} from 'react-native';
 
 function App(): JSX.Element {
 	return (
-		<Provider store={store}>
-			<SafeAreaView>
-				<StatusBar />
-				<ScrollView>
-					<Main />
-				</ScrollView>
-			</SafeAreaView>
-		</Provider>
+		// <Provider store={store}>
+			<Main />
+		// </Provider>
 	);
 }
 
