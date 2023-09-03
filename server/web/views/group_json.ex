@@ -38,18 +38,4 @@ defmodule Nimble.GroupJSON do
         )
     }
   end
-
-  def invites(%{invites: invites}) do
-    %{
-      invites: for(invite <- invites, do: user_invite(invite))
-    }
-  end
-
-  def user_invite(invite) do
-    %{
-      id: invite.id,
-      recipient_id: invite.recipient_id,
-      group: external_group(invite.group)
-    }
-  end
 end

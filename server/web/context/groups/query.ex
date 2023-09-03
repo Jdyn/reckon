@@ -42,4 +42,10 @@ defmodule Nimble.Groups.Query do
       where: i.group_id == ^group_id and i.recipient_id == ^user_id
     )
   end
+
+  def group_invites(group_id) do
+    from(i in GroupInvite,
+      where: i.group_id == ^group_id
+    )
+  end
 end

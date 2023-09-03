@@ -22,6 +22,10 @@ defmodule Nimble.Groups.GroupInvites do
   #   {:ok, encoded_token}
   # end
 
+  def list_group_invites(group_id) do
+    Repo.all(Query.group_invites(group_id))
+  end
+
   @doc """
   Invites an existing user to a group, or sends an invite to a non-existing user.
 
@@ -80,9 +84,7 @@ defmodule Nimble.Groups.GroupInvites do
   def find_invites(user) do
     Repo.all(
       from(i in GroupInvite,
-        where: i.recipient_id == ^user.id,
-        left_join: g in assoc(i, :group),
-        select: %{i | group: g}
+        where: i.recipient_id == ^user.id
       )
     )
   end
