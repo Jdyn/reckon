@@ -9,6 +9,9 @@ defmodule Nimble.Groups.GroupInvites do
   alias Nimble.Repo
   alias Nimble.User
 
+  @rand_size 16
+  @hash_algorithm :sha256
+
   # def deliver_group_invite_link(%Group{} = group, %User{} = user, sent_to) do
   #   {encoded_token, group_token} = GroupInvite.build_invite_token(group, user, sent_to)
   #   Repo.insert!(group_token)
@@ -28,24 +31,30 @@ defmodule Nimble.Groups.GroupInvites do
       {:ok, %GroupInvite{}}
 
   """
-  def invite_member(group_id, sender, recipient) do
-    changeset =
-      with user = %User{} <- Users.get_by_identifier(recipient["identifier"]) do
-        :existing_user
-        |> GroupInvite.build_invite(group_id, sender.id, user)
-        |> GroupInvite.existing_user_changeset()
-      else
-        nil ->
-          :non_existing_user
-          |> GroupInvite.build_invite(group_id, sender.id, recipient)
-          |> GroupInvite.non_existing_user_changeset()
-      end
+  def invite_member(group_id, sender_id, %{"context" => "user"} = params) do
+    %{"recipient" => %{"identifier" => identifier}} = params
 
-    with {:ok, _invite} <- Repo.insert(changeset) do
-      # TODO: discern between existing and non-existing user and send
-      # the appropriate email or text message depending on
-      # What field the user was invited by
+    with user = %User{} <- Users.get_by_identifier(identifier),
+         {_token, attrs} <-
+           build_invite(group_id, sender_id, %{
+             recipient_id: user.id,
+             recipient_meta: params["recipient"],
+             context: "user"
+           }),
+         {:ok, invite} <- Repo.insert(GroupInvite.user_changeset(attrs)) do
+      {:ok, invite}
+    else
+      nil ->
+        {:error, "Hm, that didn't work. Double check that the information is correct."}
+
+      error ->
+        dbg(error)
     end
+  end
+
+  def invite_member(group_id, sender_id, %{"context" => "nonuser"} = params) do
+    {_token, attrs} = build_invite(group_id, sender_id, %{recipient_meta: params["recipient"], context: "nonuser"})
+    Repo.insert(GroupInvite.nonuser_changeset(attrs))
   end
 
   def accept_invite(group_id, user_id) do
@@ -76,5 +85,28 @@ defmodule Nimble.Groups.GroupInvites do
         select: %{i | group: g}
       )
     )
+  end
+
+  defp build_invite(group_id, sender_id, attrs, expiry_in_days \\ 7) do
+    {token, hashed_token} = build_invite_token(@rand_size, @hash_algorithm)
+
+    {token,
+     Map.merge(attrs, %{
+       token: hashed_token,
+       group_id: group_id,
+       sender_id: sender_id,
+       expiry: generate_expiry(expiry_in_days)
+     })}
+  end
+
+  defp build_invite_token(size, algorithm) do
+    token = :crypto.strong_rand_bytes(size)
+    hashed_token = :crypto.hash(algorithm, token)
+
+    {Base.url_encode64(token, padding: false), hashed_token}
+  end
+
+  defp generate_expiry(expiry_in_days) do
+    DateTime.truncate(DateTime.add(DateTime.utc_now(), expiry_in_days, :day), :second)
   end
 end

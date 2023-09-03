@@ -54,6 +54,10 @@ defmodule Nimble.Groups do
       false
 
   """
+  def is_member?(group_id, identifier: identifier) do
+    Repo.exists?(Query.group_member(group_id, identifier: identifier))
+  end
+
   def is_member?(group_id, user_id) do
     Repo.exists?(Query.group_member(group_id, user_id))
   end

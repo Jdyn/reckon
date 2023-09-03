@@ -6,10 +6,10 @@ defmodule Nimble.GroupInvite do
   alias Nimble.GroupInvite
   alias Nimble.User
 
-  # context: member, nonmember, mass
+  # context: user, nonuser, mass
 
   schema "groups_invites" do
-    field(:token, :string)
+    field(:token, :binary)
     field(:context, :string)
     field(:expiry, :utc_datetime)
 
@@ -28,18 +28,20 @@ defmodule Nimble.GroupInvite do
     timestamps(updated_at: false)
   end
 
-  def base_changeset(%GroupInvite{} = invite) do
+  def base_changeset(%GroupInvite{} = invite, attrs) do
     invite
-    |> change()
+    |> cast(attrs, [:token, :context, :expiry, :sender_id, :group_id, :recipient_id])
     |> validate_required([:context, :group_id, :sender_id, :expiry])
-    |> validate_inclusion(:context, ["existing_user", "non_existing_user", "mass"])
+    |> validate_inclusion(:context, ["user", "nonuser", "mass"])
+    |> cast_embed(:recipient_meta, required: true, with: &recipient_meta_changeset/2)
+    |> validate_self_refferential()
     |> unique_constraint(:token)
   end
 
   # create unique constraint on [user_id, group_id] to prevent duplicate invites
-  def existing_user_changeset(%GroupInvite{} = invite) do
-    invite
-    |> base_changeset()
+  def user_changeset(attrs) do
+    %GroupInvite{}
+    |> base_changeset(attrs)
     |> validate_required(:recipient_id)
     |> unique_constraint(:recipient,
       name: :no_duplicate_invites,
@@ -47,10 +49,8 @@ defmodule Nimble.GroupInvite do
     )
   end
 
-  def non_existing_user_changeset(%GroupInvite{} = invite) do
-    invite
-    |> base_changeset()
-    |> cast_embed(:recipient_meta, required: true, with: &recipient_meta_changeset/2)
+  def nonuser_changeset(attrs) do
+    base_changeset(%GroupInvite{}, attrs)
   end
 
   def recipient_meta_changeset(recipient, attrs \\ %{}) do
@@ -60,33 +60,21 @@ defmodule Nimble.GroupInvite do
     |> validate_required([:identifier])
   end
 
-  def build_invite(type, group_id, sender_id, recipient, expiry_in_days \\ 7)
+  defp validate_self_refferential(changeset) do
+    sender_id = get_change(changeset, :sender_id)
+    recipient_id = get_change(changeset, :recipient_id)
+    group_id = get_change(changeset, :group_id)
+    %{identifier: identifier} = get_embed(changeset, :recipient_meta, :struct)
 
-  def build_invite(:existing_user, group_id, sender_id, recipient, expiry_in_days) do
-    %GroupInvite{
-      group_id: group_id,
-      sender_id: sender_id,
-      recipient_id: recipient.id,
-      recipient_meta: nil,
-      context: "existing_user",
-      expiry: generate_expiry(expiry_in_days)
-    }
-  end
+    cond do
+      recipient_id == sender_id ->
+        add_error(changeset, :identifier, "You can't invite yourself to a group.")
 
-  def build_invite(:non_existing_user, group_id, sender_id, recipient, expiry_in_days) do
-    %GroupInvite{
-      group_id: group_id,
-      sender_id: sender_id,
-      recipient_meta: %{
-        identifier: recipient["identifier"],
-        full_name: recipient["full_name"]
-      },
-      context: "non_existing_user",
-      expiry: generate_expiry(expiry_in_days)
-    }
-  end
+      Nimble.Groups.is_member?(group_id, identifier: identifier) == true ->
+        add_error(changeset, :identifier, "That user is already a member of the group.")
 
-  defp generate_expiry(expiry_in_days) do
-    DateTime.truncate(DateTime.add(DateTime.utc_now(), expiry_in_days, :day), :second)
+      true ->
+        changeset
+    end
   end
 end
