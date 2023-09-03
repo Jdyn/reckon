@@ -21,6 +21,10 @@ defmodule Nimble.Router do
   scope "/api", Nimble do
     pipe_through([:api])
 
+    # TODO
+    # get("/groups/invite/:token", GroupInviteController, :show)
+    # post("/groups/join/:token", GroupController, :join)
+
     resources("/account", UserController, singleton: true, only: []) do
       post("/signup", UserController, :sign_up)
       post("/signin", UserController, :sign_in)

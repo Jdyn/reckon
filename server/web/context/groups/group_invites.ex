@@ -52,7 +52,7 @@ defmodule Nimble.Groups.GroupInvites do
         {:error, "Hm, that didn't work. Double check that the information is correct."}
 
       error ->
-        dbg(error)
+        error
     end
   end
 
