@@ -4,17 +4,20 @@ defmodule Nimble.UserLedger do
   """
   use Nimble.Web, :model
 
+  alias Hex.API.User
+  alias Nimble.BillCharge
   alias Nimble.User
   alias Nimble.UserLedger
 
   schema "users_ledgers" do
     field(:balance, Money.Ecto.Composite.Type)
 
-    belongs_to(:user, User, foreign_key: :user_id)
+    belongs_to(:user, User)
 
-    has_many(:edicts, through: [:user, :edicts])
-    has_many(:contributions, Nimble.Edict.Contribution)
+    has_many(:charges, BillCharge)
 
+    has_many(:created_bills, Nimble.Bill)
+    has_many(:bills, through: [:charges, :bill])
     timestamps()
   end
 

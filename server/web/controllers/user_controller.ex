@@ -49,6 +49,15 @@ defmodule Nimble.UserController do
     end
   end
 
+  def sign_up_and_accept_invite(_conn, _attrs) do
+    # TODO
+    # Sage.new()
+    # |> SageExample.Users.Sagas.create_user()
+    # |> SageExample.Teams.Sagas.accept_invitation()
+    # |> SageExample.Billing.Sagas.prorate_team_size()
+    # |> Sage.execute(attrs)
+  end
+
   @doc """
   Logs the user in.
   It renews the session ID and clears the whole session

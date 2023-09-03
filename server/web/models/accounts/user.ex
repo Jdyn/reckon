@@ -31,9 +31,7 @@ defmodule Nimble.User do
     field(:is_admin, :boolean, default: false)
 
     has_one(:ledger, Nimble.UserLedger)
-
-    has_many(:edicts, Nimble.Edict)
-    has_many(:contributions, through: [:ledger, :contributions])
+    has_many(:bills, through: [:ledger, :bills])
 
     has_many(:tokens, UserToken)
 

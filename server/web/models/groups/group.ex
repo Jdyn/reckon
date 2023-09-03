@@ -8,7 +8,7 @@ defmodule Nimble.Group do
   schema "groups" do
     field(:name, :string)
 
-    has_many(:edicts, Nimble.Edict)
+    has_many(:bills, Nimble.Bill)
 
     many_to_many(:members, User, join_through: GroupMember)
 
