@@ -1,4 +1,7 @@
 module.exports = {
-  root: true,
-  extends: '@react-native-community',
+	extends: [require.resolve('@reckon/config/eslint/mobile.js')],
+	parserOptions: {
+		tsconfigRootDir: __dirname,
+		project: './tsconfig.json'
+	}
 };

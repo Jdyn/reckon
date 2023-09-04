@@ -16,6 +16,7 @@
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"module": "ESNext",
+		"outDir": "dist",
 		"target": "ESNext",
 		"types": ["vite-plugin-svgr/client", "vite/client"]
 	}

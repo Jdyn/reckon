@@ -15,7 +15,16 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
+    }
+}
+
+allprojects {
+    project.pluginManager.withPlugin("com.facebook.react") {
+        react {
+            reactNativeDir = rootProject.file("../../node_modules/react-native/")
+            codegenDir = rootProject.file("../../node_modules/react-native-codegen/")
+        }
     }
 }

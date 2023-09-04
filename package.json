@@ -3,22 +3,20 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"build": "turbo run build",
-		"dev": "turbo run dev --filter=@reckon/web && cd server && mix phx.server",
+		"dev": "pnpm --filter=@reckon/web run dev",
 		"format": "prettier --config --write \"**/*.{ts,tsx,html,scss,json,yml,md}\"",
-		"desktop": "pnpm --filter @reckon/desktop --",
 		"web": "pnpm --filter @reckon/web -- ",
+		"mobile": "pnpm --filter @reckon/mobile -- ",
 		"interface": "pnpm --filter @reckon/interface -- ",
 		"client": "pnpm --filter @reckon/client -- ",
 		"server": "cd server && mix phx.server",
 		"migrate": "cd server && ecto.migrate",
-		"typecheck": "pnpm -r exec tsc"
+		"typecheck": "pnpm -r exec tsc",
+		"reset": "find . -name node_modules | xargs rm -rf && rm -rf pnpm-lock.yaml"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.3.0",
 		"prettier": "^2.8.3",
-		"turbo": "^1.5.5",
-		"turbo-ignore": "^0.3.0",
 		"typescript": "^4.9.4"
 	},
 	"overrides": {

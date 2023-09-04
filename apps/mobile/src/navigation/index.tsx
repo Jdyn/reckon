@@ -1,33 +1,28 @@
-import DrawerNavigator, {DrawerNavParamList} from './DrawerNavigator';
-import {NavigatorScreenParams} from '@react-navigation/native';
-import {
-  NativeStackScreenProps,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
+import { Text, View } from 'react-native';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+import RootNavigator from './RootNavigator';
+import LeftDrawer from './RootNavigator/LeftDrawer';
+import { RootDrawerParamList } from './types';
 
-function RootNavigator() {
-  return (
-    <Stack.Navigator initialRouteName="Root">
-      <Stack.Screen
-        name="Root"
-        component={DrawerNavigator}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  );
+export default function Navigation() {
+	return (
+		<RootNavigator>
+			<LeftDrawer />
+			<View>
+				<Text>Center</Text>
+			</View>
+			<View>
+				<Text>Right</Text>
+			</View>
+		</RootNavigator>
+	);
 }
 
-export type RootStackParamList = {
-  Root: NavigatorScreenParams<DrawerNavParamList>;
-  NotFound: undefined;
-  // Modals
-  Search: undefined;
-  // Settings: NavigatorScreenParams<SettingsStackParamList>;
-};
-
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
-  NativeStackScreenProps<RootStackParamList, Screen>;
-
-export default RootNavigator;
+// This declaration is used by useNavigation, Link, ref etc.
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace ReactNavigation {
+		// eslint-disable-next-line @typescript-eslint/no-empty-interface
+		interface RootParamList extends RootDrawerParamList {}
+	}
+}

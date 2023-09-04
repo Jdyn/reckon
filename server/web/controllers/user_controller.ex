@@ -29,8 +29,8 @@ defmodule Nimble.UserController do
     invites = GroupInvites.find_invites(current_user)
 
     conn
-    |> put_view(Nimble.GroupJSON)
-    |> render(:invites, invites: invites)
+    |> put_view(Nimble.GroupInviteJSON)
+    |> render(:index, invites: invites)
   end
 
   @doc """

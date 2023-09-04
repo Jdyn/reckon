@@ -92,9 +92,9 @@ defmodule Nimble.User do
     |> put_change(:email, identifier)
     |> validate_required([:email])
     |> update_change(:email, &String.downcase(&1))
+    |> update_change(:identifier, &String.downcase(&1))
     |> validate_format(:email, @email_regex, message: "must be a valid email address")
     |> validate_length(:email, max: 80)
-    |> put_change(:identifier, get_change(changeset, :email))
   end
 
   defp maybe_validate_email_constraints(changeset) do

@@ -5,6 +5,14 @@ defmodule Nimble.Groups.Query do
   alias Nimble.GroupInvite
   alias Nimble.GroupMember
 
+  def group_member(group_id, identifier: identifier) do
+    from(m in GroupMember,
+      left_join: u in assoc(m, :user),
+      where: m.group_id == ^group_id,
+      where: u.email == ^identifier or u.phone == ^identifier
+    )
+  end
+
   def group_member(group_id, user_id) do
     from(m in GroupMember,
       where: m.group_id == ^group_id and m.user_id == ^user_id
@@ -34,4 +42,7 @@ defmodule Nimble.Groups.Query do
       where: i.group_id == ^group_id and i.recipient_id == ^user_id
     )
   end
+
+  def invites_for_group(group_id), do: from(i in GroupInvite, where: i.group_id == ^group_id)
+  def invites_for_user(user_id), do: from(i in GroupInvite, where: i.recipient_id == ^user_id)
 end
