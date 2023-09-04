@@ -43,9 +43,6 @@ defmodule Nimble.Groups.Query do
     )
   end
 
-  def group_invites(group_id) do
-    from(i in GroupInvite,
-      where: i.group_id == ^group_id
-    )
-  end
+  def invites_for_group(group_id), do: from(i in GroupInvite, where: i.group_id == ^group_id)
+  def invites_for_user(user_id), do: from(i in GroupInvite, where: i.recipient_id == ^user_id)
 end

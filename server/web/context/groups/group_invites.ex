@@ -23,7 +23,7 @@ defmodule Nimble.Groups.GroupInvites do
   # end
 
   def list_group_invites(group_id) do
-    Repo.all(Query.group_invites(group_id))
+    Repo.all(Query.invites_for_group(group_id))
   end
 
   @doc """
@@ -38,21 +38,18 @@ defmodule Nimble.Groups.GroupInvites do
   def invite_member(group_id, sender_id, %{"context" => "user"} = params) do
     %{"recipient" => %{"identifier" => identifier}} = params
 
-    with user = %User{} <- Users.get_by_identifier(identifier),
-         {_token, attrs} <-
-           build_invite(group_id, sender_id, %{
-             recipient_id: user.id,
-             recipient_meta: params["recipient"],
-             context: "user"
-           }),
-         {:ok, invite} <- Repo.insert(GroupInvite.user_changeset(attrs)) do
-      {:ok, invite}
+    with user = %User{} <- Users.get_by_identifier(identifier) do
+      {_token, attrs} =
+        build_invite(group_id, sender_id, %{
+          recipient_id: user.id,
+          recipient_meta: params["recipient"],
+          context: "user"
+        })
+
+      Repo.insert(GroupInvite.user_changeset(attrs))
     else
       nil ->
         {:error, "Hm, that didn't work. Double check that the information is correct."}
-
-      error ->
-        error
     end
   end
 
@@ -82,11 +79,7 @@ defmodule Nimble.Groups.GroupInvites do
       [%GroupInvite{}, ...]
   """
   def find_invites(user) do
-    Repo.all(
-      from(i in GroupInvite,
-        where: i.recipient_id == ^user.id
-      )
-    )
+    Repo.all(Query.invites_for_user(user.id))
   end
 
   defp build_invite(group_id, sender_id, attrs, expiry_in_days \\ 7) do
