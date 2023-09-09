@@ -13,7 +13,7 @@ defmodule Nimble.Bill do
     field(:total, Money.Ecto.Composite.Type)
 
     # The type of split to use for the bill, either even or custom
-    field(:split_type, :string, default: "even")
+    field(:split, :string, default: "evenly")
 
     # The status of the bill
     # pending: Waiting for all members to accept the bill
@@ -40,8 +40,8 @@ defmodule Nimble.Bill do
 
     belongs_to(:group, Nimble.Group)
 
-    belongs_to(:creator_ledger, Nimble.UserLedger, foreign_key: :user_ledger_id)
-    has_one(:creator, through: [:creator_ledger, :user])
+    belongs_to(:user_ledger, Nimble.UserLedger)
+    has_one(:creator, through: [:user_ledger, :user])
 
     timestamps()
   end
