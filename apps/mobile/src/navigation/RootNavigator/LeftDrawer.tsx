@@ -1,17 +1,20 @@
-import { DrawerItemList } from '@react-navigation/drawer';
+import { DrawerContentComponentProps, DrawerItemList } from '@react-navigation/drawer';
+import { useGetGroupsQuery } from '@reckon/core';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const LeftDrawer = (props) => {
+const LeftDrawer = (props: DrawerContentComponentProps) => {
+	const { data } = useGetGroupsQuery();
+	// console.log(data)
 	return (
-		<View style={styles.root}>
+		<SafeAreaView style={styles.root}>
 			<View style={styles.group}>
 				<DrawerItemList {...props} />
 			</View>
-			<Animated.View style={styles.menu}>
+			<View style={styles.menu}>
 				<Text>menu</Text>
-			</Animated.View>
-		</View>
+			</View>
+		</SafeAreaView>
 	);
 };
 
@@ -21,10 +24,13 @@ const styles = StyleSheet.create({
 		gap: 10,
 		margin: 10,
 		marginTop: 15,
+		marginBottom: 15,
 		flexDirection: 'row'
 	},
 	group: {
 		width: 75,
+		flexDirection: 'column',
+		flex: 1,
 		backgroundColor: 'white',
 		padding: 5,
 		borderRadius: 8

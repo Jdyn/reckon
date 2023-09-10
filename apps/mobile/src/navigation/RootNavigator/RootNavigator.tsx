@@ -5,11 +5,8 @@ import {
 	createDrawerNavigator
 } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { ReactElement, cloneElement } from 'react';
+import React, { ReactElement, cloneElement, memo, useCallback } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-
-const RootDrawer = createDrawerNavigator();
-const InnerDrawer = createDrawerNavigator();
 
 const styles = StyleSheet.create({
 	root: {
@@ -28,34 +25,104 @@ const screenOptions: DrawerNavigationOptions = {
 	headerShown: false
 };
 
-const build = (drawer: ReactElement, drawerProps: DrawerContentComponentProps) =>
-	React.cloneElement(drawer, { ...drawerProps });
+type RootDrawerParamList = {
+	InnerScreen: undefined;
+	Group1: undefined;
+	Group2: undefined;
+};
 
 interface RootNavigatorProps {
-	children: [any, any, any];
+	children: [ReactElement, ReactElement, ReactElement];
 }
+
+const RootDrawer = createDrawerNavigator<RootDrawerParamList>();
+const InnerDrawer = createDrawerNavigator();
 
 const RootNavigator = ({ children }: RootNavigatorProps) => {
 	const [left, center, right] = children;
+
+	const LeftScreen = useCallback(
+		(props: DrawerContentComponentProps) => cloneElement(left, { ...props }),
+		[left]
+	);
+
+	const RightScreen = useCallback(
+		(props: DrawerContentComponentProps) => cloneElement(right, { ...props }),
+		[right]
+	);
+
 	return (
 		<NavigationContainer>
 			<RootDrawer.Navigator
 				id="RootDrawer"
-				screenOptions={{ ...screenOptions, drawerPosition: 'right' }}
-				drawerContent={(props) => build(right, props)}
+				screenOptions={{
+					...screenOptions,
+					drawerPosition: 'left'
+				}}
+				drawerContent={LeftScreen}
 			>
-				<RootDrawer.Screen name="HomeDrawer">
-					{() => (
+				<RootDrawer.Screen
+					name="InnerScreen"
+					options={{
+						drawerItemStyle: { display: 'none' },
+						headerShown: false
+					}}
+				>
+					{(props) => (
 						<InnerDrawer.Navigator
-							id="HomeDrawer"
-							drawerContent={(props) => build(left, props)}
+							id="InnerDrawer"
+							drawerContent={RightScreen}
 							screenOptions={{
 								...screenOptions,
-								drawerPosition: 'left'
+								drawerPosition: 'right'
+							}}
+						>
+							<InnerDrawer.Screen
+								name="Home"
+								options={{
+									headerShown: true,
+									header: () => (
+										<View>
+											<Text>Hello</Text>
+										</View>
+									)
+								}}
+							>
+								{() => cloneElement(center, props)}
+							</InnerDrawer.Screen>
+						</InnerDrawer.Navigator>
+					)}
+				</RootDrawer.Screen>
+
+				<RootDrawer.Screen name="Group1">
+					{(props) => (
+						<InnerDrawer.Navigator
+							id="InnerDrawer"
+							drawerContent={RightScreen}
+							screenOptions={{
+								...screenOptions,
+								drawerPosition: 'right'
 							}}
 						>
 							<InnerDrawer.Screen name="Home">
-								{(props) => cloneElement(center, props)}
+								{() => cloneElement(center, props)}
+							</InnerDrawer.Screen>
+						</InnerDrawer.Navigator>
+					)}
+				</RootDrawer.Screen>
+
+				<RootDrawer.Screen name="Group2">
+					{(props) => (
+						<InnerDrawer.Navigator
+							id="InnerDrawer"
+							drawerContent={RightScreen}
+							screenOptions={{
+								...screenOptions,
+								drawerPosition: 'right'
+							}}
+						>
+							<InnerDrawer.Screen name="Home">
+								{() => cloneElement(center, props)}
 							</InnerDrawer.Screen>
 						</InnerDrawer.Navigator>
 					)}
@@ -65,4 +132,4 @@ const RootNavigator = ({ children }: RootNavigatorProps) => {
 	);
 };
 
-export default RootNavigator;
+export default memo(RootNavigator);
