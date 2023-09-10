@@ -1,20 +1,23 @@
-import { CardStackIcon, HomeIcon, PaperPlaneIcon } from '@radix-ui/react-icons';
-import { Group } from '@reckon/core';
+import { Group, useGetGroupsQuery } from '@reckon/core';
 import { Background } from '@reckon/ui';
-import { SideMenu, SideNavigationLink, SideNavigationList } from '@reckon/ui';
 import { useMemo, useState } from 'react';
 import { Outlet, useMatch } from 'react-router-dom';
 import { PhoenixProvider } from 'use-phoenix';
-import GroupDropdown from '~/app/Group/Dropdown';
 import GroupMemberList from '~/app/Group/MemberList';
-
+import { SideMenu, SideNavigationLink, SideNavigationList } from '../SideMenu';
 import Header from './Header';
 import styles from './Layout.module.css';
 
+function getInitials(input: string): string {
+	return input
+		.split(' ')
+		.map((word) => (word[0] as string).toUpperCase())
+		.slice(0, 2)
+		.join('');
+}
+
 export function RootLayout() {
-	const [group, setGroup] = useState<Group | null>(null);
-	const match = useMatch({ path: '/groups/:id', end: true });
-	const groupId = useMemo(() => match?.params?.id || group?.id, [match?.params?.id, group?.id]);
+	const { data } = useGetGroupsQuery();
 
 	return (
 		<PhoenixProvider>
@@ -22,23 +25,19 @@ export function RootLayout() {
 				<main className={styles.main}>
 					<Header />
 					<SideMenu expand="right">
-						<GroupDropdown
-							selectedGroup={(newGroup) => {
-								setGroup(newGroup);
-							}}
-						/>
-						<SideNavigationList>
-							<SideNavigationLink to="/feed">
-								<HomeIcon width="18px" height="18px" /> <span>Feed</span>
-							</SideNavigationLink>
-							<SideNavigationLink to="/pay">
-								<CardStackIcon width="18px" height="18px" /> <span>pay</span>
-							</SideNavigationLink>
-							<SideNavigationLink to={groupId ? `/groups/${groupId}` : 'groups'}>
-								<PaperPlaneIcon width="18px" height="18px" />
-								<span>{group?.name || 'groups'}</span>
-							</SideNavigationLink>
-						</SideNavigationList>
+						<div className={styles.container}>
+							<SideNavigationList>
+								{data &&
+									data.groups.map((group) => (
+										<SideNavigationLink key={group.id} to={`/groups/${group.id}`}>
+											<span>{getInitials(group.name)}</span>
+										</SideNavigationLink>
+									))}
+							</SideNavigationList>
+							<div className={styles.optionMenu}>
+
+							</div>
+						</div>
 					</SideMenu>
 					<div className={styles.container}>
 						<div className={styles.wrapper}>

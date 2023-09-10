@@ -172,6 +172,9 @@ importers:
       react-router-dom:
         specifier: 6.6.1
         version: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+      use-phoenix:
+        specifier: 0.0.1-alpha.1
+        version: 0.0.1-alpha.1(react@18.2.0)
     devDependencies:
       '@reckon/config':
         specifier: workspace:*
@@ -7960,6 +7963,10 @@ packages:
     resolution: {integrity: sha512-sTitTPYnn23esFR3RlqYBWn4c45WGeLcsKzQiUpXJAyfcWkolvlYpV8FLo7JishK946oQwMFUCHXQ9AjGPKExw==}
     dev: true
 
+  /phoenix@1.7.7:
+    resolution: {integrity: sha512-moAN6e4Z16x/x1nswUpnTR2v5gm7HsI7eluZ2YnYUUsBNzi3cY/5frmiJfXIEi877IQAafzTfp8hd6vEUMme+w==}
+    dev: false
+
   /picocolors@1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
 
@@ -9286,6 +9293,15 @@ packages:
     peerDependencies:
       react: '>=16.8'
     dependencies:
+      react: 18.2.0
+    dev: false
+
+  /use-phoenix@0.0.1-alpha.1(react@18.2.0):
+    resolution: {integrity: sha512-AdIhTFzewVUSC+FLm+yIbiEZwjS7Dfr629EVv+kvajKKEeuM4VW26Tu7RuqW15cjGimeMbDhWJNJSsYYPxt4tg==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      phoenix: 1.7.7
       react: 18.2.0
     dev: false
 

@@ -10,12 +10,12 @@ const accountApi = createApi({
 	baseQuery,
 	tagTypes: ['user', 'sessions', 'session'],
 	endpoints: ({ query, mutation }) => ({
-		getAccount: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
+		account: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
 		session: query<{ session: Session }, void>({
-			query: () => `/account/sessions/current`,
+			query: () => `/account/session`,
 			providesTags: ['session']
 		}),
-		getSessions: query<{ sessions: Session[] }, void>({
+		sessions: query<{ sessions: Session[] }, void>({
 			query: () => `/account/sessions`,
 			providesTags: ['sessions']
 		}),
@@ -27,7 +27,7 @@ const accountApi = createApi({
 		}),
 		clearSessions: mutation<Empty, void>({
 			query: () => ({
-				url: `/account/sessions/clear`,
+				url: `/account/sessions`,
 				method: 'DELETE'
 			}),
 			invalidatesTags: ['sessions']
@@ -39,14 +39,14 @@ const accountApi = createApi({
 				method: 'POST'
 			})
 		}),
-		accountSignUp: mutation<{ user: User }, SignUpPayload>({
+		SignUp: mutation<{ user: User }, SignUpPayload>({
 			query: (body) => ({
 				url: `/account/signup`,
 				method: 'POST',
 				body
 			})
 		}),
-		accountSignIn: mutation<{ user: User }, SignInPayload>({
+		SignIn: mutation<{ user: User }, SignInPayload>({
 			query: (body) => ({
 				url: '/account/signin',
 				method: 'POST',
@@ -54,7 +54,7 @@ const accountApi = createApi({
 			}),
 			invalidatesTags: ['sessions']
 		}),
-		accountSignOut: mutation<Empty, void>({
+		SignOut: mutation<Empty, void>({
 			query: () => ({
 				url: '/account/signout',
 				method: 'DELETE'
@@ -66,16 +66,16 @@ const accountApi = createApi({
 
 
 export const {
-	useGetAccountQuery,
+	useAccountQuery,
 	useSessionQuery,
-	useGetSessionsQuery,
+	useSessionsQuery,
 	useDeleteSessionMutation,
 	useClearSessionsMutation,
 	useSendEmailConfirmationQuery,
 	useDoEmailConfirmationMutation,
-	useAccountSignUpMutation,
-	useAccountSignInMutation,
-	useAccountSignOutMutation
+	useSignUpMutation,
+	useSignInMutation,
+	useSignOutMutation
 } = accountApi;
 
 export default accountApi;

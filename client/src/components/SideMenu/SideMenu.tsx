@@ -24,7 +24,6 @@ interface SideMenuProps {
 
 const SideMenuContext = createContext<{
 	value: string | undefined;
-	width: number;
 	setValue: Dispatch<React.SetStateAction<string | undefined>>;
 } | null>(null);
 
@@ -39,7 +38,6 @@ const useSideMenu = () => {
 export function SideMenu({ style, expand, children }: SideMenuProps) {
 	const [expanded, setExpanded] = useState(true);
 	const [value, setValue] = useState<string | undefined>(undefined);
-	const { observe, width } = useDimensions();
 	// const [current, setCurrent] = useState<string | undefined>(undefined);
 
 	const ArrowIcon = useMemo(
@@ -66,8 +64,8 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 			value={value}
 			// onValueChange={(v) => setValue(() => (v ? v : current))}
 		>
-			<SideMenuContext.Provider value={{ value, width, setValue }}>
-				<div className={styles.wrapper} data-expand={expand} ref={observe}>
+			<SideMenuContext.Provider value={{ value, setValue }}>
+				<div className={styles.wrapper} data-expand={expand}>
 					<NavigationMenu.Item asChild>
 						<button
 							className={styles.collapse}
@@ -91,12 +89,13 @@ SideMenu.defaultProps = {
 };
 
 interface SideMenuNavList {
-	children: ReactElement<LinkProps>[];
+	children?: ReactElement<LinkProps>[] | ReactElement<LinkProps>;
 }
 
 export const SideNavigationList = ({ children }: SideMenuNavList) => {
-	const { width, setValue } = useSideMenu();
+	const { setValue } = useSideMenu();
 	const location = useLocation();
+	const { observe, width } = useDimensions();
 
 	const routes: Record<string, any> = useMemo(() => {
 		if (Array.isArray(children)) {
@@ -109,12 +108,10 @@ export const SideNavigationList = ({ children }: SideMenuNavList) => {
 	}, [children]);
 
 	useEffect(() => {
-		console.log(routes)
 		Object.keys(routes).forEach((key: string) => {
 			const match = matchPath({ path: key, end: false }, location.pathname);
 			if (match) {
 				const index = routes[key].toString();
-				console.log(index)
 				setValue(index);
 				// setCurrent(index);
 			}
@@ -122,13 +119,17 @@ export const SideNavigationList = ({ children }: SideMenuNavList) => {
 	}, [location.pathname, routes, setValue]);
 
 	return (
-		<NavigationMenu.List className={styles.list}>
-			{children.map((child, index) => (
+		<NavigationMenu.List className={styles.list} ref={observe}>
+			{children && Array.isArray(children) ? children.map((child, index) => (
 				<NavigationMenu.Item key={child.props.to.toString()} value={index.toString()}>
 					{child}
 				</NavigationMenu.Item>
-			))}
-			<NavigationMenu.Indicator className={styles.indicator} style={{ width: width - 20 }} />
+			)) : (
+				<NavigationMenu.Item key={1} value={'0'}>
+				{children}
+			</NavigationMenu.Item>
+			)}
+			<NavigationMenu.Indicator className={styles.indicator} style={{ width: width }} />
 		</NavigationMenu.List>
 	);
 };
