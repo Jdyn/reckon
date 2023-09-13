@@ -10,13 +10,13 @@ defmodule Nimble.UserLedger do
   alias Nimble.UserLedger
 
   schema "users_ledgers" do
-    field(:balance, Money.Ecto.Composite.Type)
+    field(:balance, Money.Ecto.Composite.Type, default_currency: :USD, default: Money.new(:USD, 0))
 
     belongs_to(:user, User)
 
     has_many(:charges, BillCharge)
 
-    has_many(:created_bills, Nimble.Bill)
+    has_many(:created_bills, Nimble.Bill, foreign_key: :creator_ledger_id)
     has_many(:bills, through: [:charges, :bill])
     timestamps()
   end
@@ -24,9 +24,9 @@ defmodule Nimble.UserLedger do
   @doc """
   A user ledger changeset for registration.
   """
-  def changeset(%UserLedger{} = user_ledger, attrs) do
+  def registration_changeset(%UserLedger{} = user_ledger, attrs) do
     user_ledger
-    |> cast(attrs, [:balance])
-    |> validate_required([:balance])
+    |> cast(attrs, [:user_id])
+    |> validate_required([:user_id])
   end
 end

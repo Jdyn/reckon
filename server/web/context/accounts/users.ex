@@ -224,4 +224,8 @@ defmodule Nimble.Accounts.Users do
     |> Ecto.Multi.update(:user, User.confirm_changeset(user))
     |> Ecto.Multi.delete_all(:tokens, Query.user_and_contexts_query(user, ["confirm"]))
   end
+
+  def get_ledger(user_id) do
+    Repo.one(Query.ledger_from_user_query(user_id))
+  end
 end

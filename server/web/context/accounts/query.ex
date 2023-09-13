@@ -5,6 +5,7 @@ defmodule Nimble.Accounts.Query do
   use Nimble.Web, :context
 
   alias Nimble.User
+  alias Nimble.UserLedger
   alias Nimble.UserToken
 
   @doc """
@@ -52,5 +53,9 @@ defmodule Nimble.Accounts.Query do
   @spec user_and_token_query(User.t(), String.t()) :: Ecto.Query.t()
   def user_and_token_query(%{id: id} = %User{}, token) do
     from(t in UserToken, where: t.user_id == ^id and t.token == ^token)
+  end
+
+  def ledger_from_user_query(user_id) do
+    from(ul in UserLedger, where: ul.user_id == ^user_id, select: ul)
   end
 end

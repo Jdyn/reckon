@@ -7,6 +7,7 @@ defmodule Nimble.Accounts do
   alias Nimble.Auth.OAuth
   alias Nimble.Repo
   alias Nimble.User
+  alias Nimble.UserLedger
   alias Nimble.UserToken
 
   @doc """
@@ -66,7 +67,15 @@ defmodule Nimble.Accounts do
       {:error, %Ecto.Changeset{}}
   """
   def register(attrs) do
-    %User{} |> User.registration_changeset(attrs) |> Repo.insert()
+    with {:ok, %{user: user, ledger: _ledger}} <-
+           Ecto.Multi.new()
+           |> Ecto.Multi.insert(:user, User.registration_changeset(%User{}, attrs))
+           |> Ecto.Multi.insert(:ledger, fn %{user: user} ->
+             UserLedger.registration_changeset(%UserLedger{}, %{user_id: user.id})
+           end)
+           |> Repo.transaction() do
+      {:ok, user}
+    end
   end
 
   def register(attrs, :oauth) do

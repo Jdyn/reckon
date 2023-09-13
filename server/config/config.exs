@@ -10,6 +10,8 @@ import Config
 config :nimble,
   ecto_repos: [Nimble.Repo]
 
+config :ex_cldr, default_backend: Nimble.Cldr
+
 # Configures the endpoint
 config :nimble, Nimble.Endpoint,
   adapter: Bandit.PhoenixAdapter,

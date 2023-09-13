@@ -28,4 +28,14 @@ defmodule Nimble.BillCharge do
     has_one(:user, through: [:user_ledger, :user])
     timestamps()
   end
+
+  def create_changeset(bill_charge, attrs \\ %{}) do
+    bill_charge
+    |> cast(attrs, [:amount, :split_percent, :bill_id, :user_ledger_id])
+    |> validate_required([:amount, :split_percent, :bill_id, :user_ledger_id])
+  end
+
+  # def cast_charges(bill_changeset, attrs) do
+
+  # end
 end
