@@ -12,9 +12,6 @@ defmodule Nimble.Bill do
     field(:description, :string)
     field(:total, Money.Ecto.Composite.Type, default_currency: :USD)
 
-    # The type of split to use for the bill, either even or custom
-    field(:split_type, :string, default: "evenly")
-
     # The status of the bill
     # pending: Waiting for all members to accept the bill
     # ready: The bill is ready to be submitted, only used if `requires_confirmation` is true
@@ -48,38 +45,93 @@ defmodule Nimble.Bill do
 
   def create_changeset(bill, attrs \\ %{}) do
     bill
-    |> cast(attrs, [:description, :total, :split_type, :status, :group_id, :creator_ledger_id])
+    |> cast(attrs, [:description, :total, :status, :group_id, :creator_ledger_id])
     |> validate_required([:description, :total, :group_id, :creator_ledger_id])
     |> cast_embed(:options, required: true, with: &options_changeset/2)
     |> cast_assoc(:items, required: false, with: &BillItem.create_changeset/2)
-    |> cast_assoc(:charges, required: false, with: &BillCharge.create_changeset/2)
-    |> validate_item_total()
-
-    # |> BillCharge.cast_charges(attrs)
+    |> cast_charges()
+    |> validate_total(:items, :cost)
+    |> validate_total(:charges, :amount)
   end
 
   def options_changeset(bill_options, attrs \\ %{}) do
     cast(bill_options, attrs, [:requires_confirmation, :start_date, :due_date])
   end
 
+  defp cast_charges(changeset) do
+    total = get_change(changeset, :total)
+    charges = Map.fetch!(changeset.params, "charges")
+
+    charges =
+      Enum.reduce(charges, [], fn charge, acc ->
+        charge = charge |> BillCharge.put_amount(total) |> BillCharge.put_ledger()
+        [charge | acc]
+      end)
+
+    changeset
+    |> Map.put(:params, %{changeset.params | "charges" => charges})
+    |> cast_assoc(:charges, required: false, with: &BillCharge.create_changeset/2)
+    |> validate_split()
+  end
+
+  def validate_split(changeset) do
+    charges = get_change(changeset, :charges)
+    charge_total = sum_costs(charges, :amount)
+    total = get_change(changeset, :total)
+
+    remainder = total |> Money.sub!(charge_total) |> Money.round()
+
+    charge = List.first(charges, %BillCharge{})
+    charge_changeset = BillCharge.create_changeset(charge, %{amount: Money.add!(get_change(charge, :amount), remainder)})
+    put_change(changeset, :charges, [charge_changeset | List.delete_at(charges, 0)])
+  end
+
   @doc """
   Validates that the sum of the individual item costs matches the total cost of the bill.
   If not, an error is added to the changeset.
   """
-  def validate_item_total(changeset) do
+  def validate_total(changeset, key, field) do
     total = get_change(changeset, :total)
-    item_changesets = get_change(changeset, :items)
+    changesets = get_change(changeset, key)
 
-    case BillItem.valid_costs?(total, item_changesets) do
-      :equal ->
+    case valid_costs?(total, changesets, field) do
+      {:eq, _} ->
         changeset
 
-      comparor ->
+      {cmp, item_total} ->
         add_error(
           changeset,
-          :total,
-          "The cost of the items are #{Atom.to_string(comparor)} than the cost of the bill."
+          key,
+          "The #{key} are #{item_total}, which is #{if cmp == :gt, do: "greater", else: "less"} than the #{Money.to_string!(total)} total."
         )
     end
+  end
+
+  defp valid_costs?(total, changesets, field) do
+    item_total = sum_costs(changesets, field)
+    dbg(total)
+    dbg(item_total)
+    {Money.compare!(item_total, total), item_total}
+  end
+
+  @doc """
+    Takes in a list of BillItem `Ecto.Changeset`s and sums the cost within the 'changes' field
+    of each changeset. Returns the sum as a Money struct.
+
+    ## Example
+      iex> sum_costs([
+        #Ecto.Changeset<changes: %{ cost: Money.new(:USD, "10") }>,
+        #Ecto.Changeset<changes: %{ cost: Money.new(:USD, "20") }>
+      ])
+      Money.new(:USD, "30")
+  """
+  def sum_costs(changesets, field) do
+    Enum.reduce(changesets, Money.zero(:USD), fn item_changeset, acc ->
+      with money = %Money{} <- get_change(item_changeset, field) do
+        Money.add!(acc, money)
+      else
+        _ -> acc
+      end
+    end)
   end
 end

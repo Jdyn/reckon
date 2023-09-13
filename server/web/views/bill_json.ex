@@ -20,7 +20,8 @@ defmodule Nimble.BillJSON do
       creator_ledger_id: bill.creator_ledger_id,
       inserted_at: bill.inserted_at,
       updated_at: bill.updated_at,
-      bill_items: for(bill_item <- bill.items, do: bill_item(bill_item)),
+      items: for(bill_item <- bill.items, do: bill_item(bill_item)),
+      charges: for(bill_charge <- bill.charges, do: bill_charge(bill_charge))
     }
   end
 
@@ -29,10 +30,18 @@ defmodule Nimble.BillJSON do
       id: bill_item.id,
       description: bill_item.description,
       notes: bill_item.notes,
-      cost: bill_item.cost,
-      bill_id: bill_item.bill_id,
-      inserted_at: bill_item.inserted_at,
-      updated_at: bill_item.updated_at
+      cost: bill_item.cost
+    }
+  end
+
+  def bill_charge(bill_charge) do
+    %{
+      id: bill_charge.id,
+      amount: bill_charge.amount,
+      split_percent: bill_charge.split_percent,
+      accepted: bill_charge.accepted,
+      payment_status: bill_charge.payment_status,
+      user_ledger_id: bill_charge.user_ledger_id
     }
   end
 end

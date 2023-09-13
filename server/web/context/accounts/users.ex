@@ -228,4 +228,8 @@ defmodule Nimble.Accounts.Users do
   def get_ledger(user_id) do
     Repo.one(Query.ledger_from_user_query(user_id))
   end
+
+  def get_ledgers(user_ids) do
+    Repo.all(Query.ledgers_from_user_ids(user_ids))
+  end
 end
