@@ -61,8 +61,7 @@ defmodule Nimble.Bill do
     total = get_change(changeset, :total)
 
     with {:ok, charges} <- Map.fetch(changeset.params, "charges") do
-      count = Enum.count(charges)
-      {amount, remainder} = Money.split(total, count)
+      {amount, remainder} = Money.split(total, Enum.count(charges))
 
       [first | rest] = Enum.reduce(charges, [], &[Map.put(&1, "amount", amount) | &2])
       charges = [%{first | "amount" => Money.add!(first["amount"], remainder)} | rest]

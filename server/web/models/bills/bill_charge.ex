@@ -31,6 +31,7 @@ defmodule Nimble.BillCharge do
     bill_charge
     |> cast(attrs, [:amount, :split_percent, :user_id])
     |> validate_required([:amount, :split_percent, :user_id])
+    |> unique_constraint(:member, name: :no_duplicate_charges, message: "Cannot be charged twice for the same bill")
   end
 
   def put_amount(%{"split_percent" => split} = charge, total) do

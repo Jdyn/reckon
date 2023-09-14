@@ -27,6 +27,8 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       timestamps()
     end
 
+    create unique_index(:bills_charges, [:user_id, :bill_id], name: :no_duplicate_charges)
+
     create table(:bills_items) do
       add(:description, :text)
       add(:notes, :text)
