@@ -5,14 +5,20 @@ defmodule Nimble.Bill do
   alias Nimble.BillCharge
   alias Nimble.BillItem
 
-  @statuses ~w(pending ready processing requires_action paid)a
-  @split_types ~w(even custom)a
+  # @statuses ~w(pending ready processing requires_action paid)a
 
   schema "bills" do
     field(:description, :string)
+
+    # The type of split
+    # split: Evenly split the bill between all members
+    # fixed: every member pays a fixed amount
+    # custom: each member pays a custom amount based on the charge split_percent
+    field(:type, :string, default: "split")
     field(:total, Money.Ecto.Composite.Type, default_currency: :USD)
 
     # The status of the bill
+    # draft: Bill items and charges are not finalized
     # pending: Waiting for all members to accept the bill
     # ready: The bill is ready to be submitted, only used if `requires_confirmation` is true
     # processing: The bill has been submitted and is beginning payment processing
@@ -45,6 +51,7 @@ defmodule Nimble.Bill do
     bill
     |> cast(attrs, [:description, :total, :status, :group_id, :creator_id])
     |> validate_required([:description, :total, :group_id, :creator_id])
+    |> validate_inclusion(:type, ["split", "fixed", "custom"])
     |> cast_embed(:options, required: true, with: &options_changeset/2)
     |> build_even_split()
     |> cast_assoc(:items, required: false, with: &BillItem.create_changeset/2)
@@ -57,7 +64,7 @@ defmodule Nimble.Bill do
     cast(bill_options, attrs, [:requires_confirmation, :start_date, :due_date])
   end
 
-  defp build_even_split(changeset) do
+  def build_even_split(changeset) do
     total = get_change(changeset, :total)
 
     with {:ok, charges} <- Map.fetch(changeset.params, "charges") do

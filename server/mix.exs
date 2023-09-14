@@ -25,7 +25,7 @@ defmodule Nimble.MixProject do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_), do: ["lib", "web"]
+  defp elixirc_paths(_), do: ["lib", "web", "test", "test/support"]
 
   # Specifies your project dependencies.
   # Type `mix help deps` for examples and options.
