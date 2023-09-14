@@ -51,7 +51,6 @@ defmodule Nimble.Bill do
     |> cast_assoc(:items, required: false, with: &BillItem.create_changeset/2)
     |> cast_charges()
     |> validate_total(:items, :cost)
-    |> validate_total(:charges, :amount)
   end
 
   def options_changeset(bill_options, attrs \\ %{}) do
@@ -60,30 +59,42 @@ defmodule Nimble.Bill do
 
   defp cast_charges(changeset) do
     total = get_change(changeset, :total)
-    charges = Map.fetch!(changeset.params, "charges")
 
-    charges =
-      Enum.reduce(charges, [], fn charge, acc ->
-        charge = charge |> BillCharge.put_amount(total) |> BillCharge.put_ledger()
-        [charge | acc]
-      end)
+    with {:ok, charges} <- Map.fetch(changeset.params, "charges") do
+      charges =
+        Enum.reduce(charges, [], fn charge, acc ->
+          charge =
+            charge
+            |> BillCharge.put_amount(total)
+            |> BillCharge.put_ledger()
 
-    changeset
-    |> Map.put(:params, %{changeset.params | "charges" => charges})
-    |> cast_assoc(:charges, required: false, with: &BillCharge.create_changeset/2)
-    |> validate_split()
+          [charge | acc]
+        end)
+
+      changeset
+      |> Map.put(:params, %{changeset.params | "charges" => charges})
+      |> cast_assoc(:charges, required: true, with: &BillCharge.create_changeset/2)
+      |> validate_split()
+      |> validate_total(:charges, :amount)
+    else
+      :error ->
+        add_error(changeset, :charges, "Must specify atleast one charge.")
+    end
   end
 
+  @doc """
+  This function computes the remainder of the total cost of the bill and adds it to the first charge.
+  This covers the case where the total cost of the bill is not evenly divisible by the number of charges.
+  """
   def validate_split(changeset) do
     charges = get_change(changeset, :charges)
     charge_total = sum_costs(charges, :amount)
     total = get_change(changeset, :total)
 
     remainder = total |> Money.sub!(charge_total) |> Money.round()
-
     charge = List.first(charges, %BillCharge{})
     charge_changeset = BillCharge.create_changeset(charge, %{amount: Money.add!(get_change(charge, :amount), remainder)})
-    put_change(changeset, :charges, [charge_changeset | List.delete_at(charges, 0)])
+    put_change(changeset, :charges, List.replace_at(charges, 0, charge_changeset))
   end
 
   @doc """
