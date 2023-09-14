@@ -24,7 +24,7 @@ defmodule Nimble.Bill do
 
     has_many(:items, BillItem)
     has_many(:charges, BillCharge)
-    has_many(:contributors, through: [:charges, :user])
+    has_many(:members, through: [:charges, :user])
 
     embeds_one(:options, BillOptions, primary_key: false) do
       # whether the bill requires confirmation BY the creator before the bill is submited
@@ -36,72 +36,49 @@ defmodule Nimble.Bill do
     end
 
     belongs_to(:group, Nimble.Group)
-
-    belongs_to(:creator_ledger, Nimble.UserLedger)
-    has_one(:creator, through: [:creator_ledger, :user])
+    belongs_to(:creator, Nimble.User)
 
     timestamps()
   end
 
   def create_changeset(bill, attrs \\ %{}) do
     bill
-    |> cast(attrs, [:description, :total, :status, :group_id, :creator_ledger_id])
-    |> validate_required([:description, :total, :group_id, :creator_ledger_id])
+    |> cast(attrs, [:description, :total, :status, :group_id, :creator_id])
+    |> validate_required([:description, :total, :group_id, :creator_id])
     |> cast_embed(:options, required: true, with: &options_changeset/2)
+    |> build_even_split()
     |> cast_assoc(:items, required: false, with: &BillItem.create_changeset/2)
-    |> cast_charges()
-    |> validate_total(:items, :cost)
+    |> cast_assoc(:charges, required: true, with: &BillCharge.create_changeset/2)
+    |> cross_validate_total(:items, :cost)
+    |> cross_validate_total(:charges, :amount)
   end
 
   def options_changeset(bill_options, attrs \\ %{}) do
     cast(bill_options, attrs, [:requires_confirmation, :start_date, :due_date])
   end
 
-  defp cast_charges(changeset) do
+  defp build_even_split(changeset) do
     total = get_change(changeset, :total)
 
     with {:ok, charges} <- Map.fetch(changeset.params, "charges") do
-      charges =
-        Enum.reduce(charges, [], fn charge, acc ->
-          charge =
-            charge
-            |> BillCharge.put_amount(total)
-            |> BillCharge.put_ledger()
+      count = Enum.count(charges)
+      {amount, remainder} = Money.split(total, count)
 
-          [charge | acc]
-        end)
+      [first | rest] = Enum.reduce(charges, [], &[Map.put(&1, "amount", amount) | &2])
+      charges = [%{first | "amount" => Money.add!(first["amount"], remainder)} | rest]
 
-      changeset
-      |> Map.put(:params, %{changeset.params | "charges" => charges})
-      |> cast_assoc(:charges, required: true, with: &BillCharge.create_changeset/2)
-      |> validate_split()
-      |> validate_total(:charges, :amount)
+      Map.put(changeset, :params, %{changeset.params | "charges" => charges})
     else
       :error ->
-        add_error(changeset, :charges, "Must specify atleast one charge.")
+        add_error(changeset, :charges, "Must specify atleast one member of the bill.")
     end
   end
 
   @doc """
-  This function computes the remainder of the total cost of the bill and adds it to the first charge.
-  This covers the case where the total cost of the bill is not evenly divisible by the number of charges.
+  Cross validates that the total of the bill is equal to the total of the items or charges.
+  Otherwise, it will add an error to the changeset.
   """
-  def validate_split(changeset) do
-    charges = get_change(changeset, :charges)
-    charge_total = sum_costs(charges, :amount)
-    total = get_change(changeset, :total)
-
-    remainder = total |> Money.sub!(charge_total) |> Money.round()
-    charge = List.first(charges, %BillCharge{})
-    charge_changeset = BillCharge.create_changeset(charge, %{amount: Money.add!(get_change(charge, :amount), remainder)})
-    put_change(changeset, :charges, List.replace_at(charges, 0, charge_changeset))
-  end
-
-  @doc """
-  Validates that the sum of the individual item costs matches the total cost of the bill.
-  If not, an error is added to the changeset.
-  """
-  def validate_total(changeset, key, field) do
+  def cross_validate_total(changeset, key, field) do
     total = get_change(changeset, :total)
     changesets = get_change(changeset, key)
 
@@ -118,16 +95,26 @@ defmodule Nimble.Bill do
     end
   end
 
-  defp valid_costs?(total, changesets, field) do
+  @doc """
+  Checks whether the sum of the `changes` in the `Money` :field of the `changesets` is equal to the `total`.
+
+  Returns a tuple of the comparison result :eq | :lt | :gt and the sum of the `changes`.
+
+    ## Example
+      iex> valid_costs?(Money.new(:USD, "30"), [
+        #Ecto.Changeset<changes: %{ cost: Money.new(:USD, "10") }>,
+        #Ecto.Changeset<changes: %{ cost: Money.new(:USD, "20") }>
+      ], :cost)
+      {:eq, Money.new(:USD, "30")}
+  """
+  def valid_costs?(total, changesets, field) do
     item_total = sum_costs(changesets, field)
-    dbg(total)
-    dbg(item_total)
     {Money.compare!(item_total, total), item_total}
   end
 
   @doc """
-    Takes in a list of BillItem `Ecto.Changeset`s and sums the cost within the 'changes' field
-    of each changeset. Returns the sum as a Money struct.
+    Takes in a list of Ecto.Changeset`s with `changes` in a `Money` :field and computes the sum of the :field.
+    Returns the sum as a Money struct.
 
     ## Example
       iex> sum_costs([

@@ -17,7 +17,7 @@ defmodule Nimble.BillJSON do
       description: bill.description,
       total: bill.total,
       group_id: bill.group_id,
-      creator_ledger_id: bill.creator_ledger_id,
+      creator_id: bill.creator_id,
       inserted_at: bill.inserted_at,
       updated_at: bill.updated_at,
       items: for(bill_item <- bill.items, do: bill_item(bill_item)),
@@ -41,7 +41,7 @@ defmodule Nimble.BillJSON do
       split_percent: bill_charge.split_percent,
       accepted: bill_charge.accepted,
       payment_status: bill_charge.payment_status,
-      user_ledger_id: bill_charge.user_ledger_id
+      user_id: bill_charge.user_id
     }
   end
 end

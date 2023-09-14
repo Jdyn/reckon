@@ -6,13 +6,11 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       add(:description, :text)
       add(:total, :money_with_currency)
 
-      add(:split_type, :string, default: "evenly")
       add(:status, :string)
-
       add(:options, :map)
 
       add(:group_id, references(:groups, on_delete: :nothing))
-      add(:creator_ledger_id, references(:users_ledgers, on_delete: :nothing))
+      add(:creator_id, references(:users, on_delete: :nothing))
 
       timestamps()
     end
@@ -24,7 +22,7 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       add(:payment_status, :string, default: "uncharged")
 
       add(:bill_id, references(:bills, on_delete: :nothing))
-      add(:user_ledger_id, references(:users_ledgers, on_delete: :nothing))
+      add(:user_id, references(:users, on_delete: :nothing))
 
       timestamps()
     end

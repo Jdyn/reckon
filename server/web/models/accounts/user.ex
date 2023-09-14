@@ -25,16 +25,18 @@ defmodule Nimble.User do
     field(:username, :string)
     field(:full_name, :string)
     field(:avatar, :string)
+
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
+
     field(:confirmed_at, :naive_datetime)
     field(:is_admin, :boolean, default: false)
 
-    has_one(:ledger, Nimble.UserLedger)
-    has_many(:bills, through: [:ledger, :bills])
+    has_many(:owned_bills, Nimble.Bill, foreign_key: :creator_id)
+    has_many(:bill_charges, Nimble.BillCharge)
+    has_many(:associated_bills, through: [:bill_charges, :bill])
 
     has_many(:tokens, UserToken)
-
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
     timestamps()
