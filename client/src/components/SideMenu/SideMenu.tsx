@@ -120,14 +120,16 @@ export const SideNavigationList = ({ children }: SideMenuNavList) => {
 
 	return (
 		<NavigationMenu.List className={styles.list} ref={observe}>
-			{children && Array.isArray(children) ? children.map((child, index) => (
-				<NavigationMenu.Item key={child.props.to.toString()} value={index.toString()}>
-					{child}
-				</NavigationMenu.Item>
-			)) : (
+			{children && Array.isArray(children) ? (
+				children.map((child, index) => (
+					<NavigationMenu.Item key={child.props.to.toString()} value={index.toString()}>
+						{child}
+					</NavigationMenu.Item>
+				))
+			) : (
 				<NavigationMenu.Item key={1} value={'0'}>
-				{children}
-			</NavigationMenu.Item>
+					{children}
+				</NavigationMenu.Item>
 			)}
 			<NavigationMenu.Indicator className={styles.indicator} style={{ width: width }} />
 		</NavigationMenu.List>

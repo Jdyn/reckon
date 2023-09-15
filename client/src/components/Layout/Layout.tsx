@@ -1,9 +1,11 @@
+import { Separator } from '@radix-ui/themes';
 import { Group, useGetGroupsQuery } from '@reckon/core';
 import { Background } from '@reckon/ui';
 import { useMemo, useState } from 'react';
 import { Outlet, useMatch } from 'react-router-dom';
 import { PhoenixProvider } from 'use-phoenix';
 import GroupMemberList from '~/app/Group/MemberList';
+
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../SideMenu';
 import Header from './Header';
 import styles from './Layout.module.css';
@@ -34,9 +36,7 @@ export function RootLayout() {
 										</SideNavigationLink>
 									))}
 							</SideNavigationList>
-							<div className={styles.optionMenu}>
-
-							</div>
+							<div className={styles.optionMenu}></div>
 						</div>
 					</SideMenu>
 					<div className={styles.container}>

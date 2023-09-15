@@ -30,12 +30,7 @@ defmodule Nimble.BillCharge do
   def create_changeset(bill_charge, attrs \\ %{}) do
     bill_charge
     |> cast(attrs, [:amount, :split_percent, :user_id])
-    |> validate_required([:amount, :split_percent, :user_id])
-    |> unique_constraint(:member, name: :no_duplicate_charges, message: "Cannot be charged twice for the same bill")
-  end
-
-  def put_amount(%{"split_percent" => split} = charge, total) do
-    amount = Money.mult!(total, split)
-    Map.put(charge, "amount", Money.round(amount))
+    |> validate_required([:amount, :user_id])
+    |> unique_constraint(:member, name: :no_duplicate_charges, message: "Cannot be included twice.")
   end
 end

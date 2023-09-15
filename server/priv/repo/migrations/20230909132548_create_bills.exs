@@ -4,6 +4,7 @@ defmodule Nimble.Repo.Migrations.CreateBills do
   def change do
     create table(:bills) do
       add(:description, :text)
+      add(:type, :string)
       add(:total, :money_with_currency)
 
       add(:status, :string)

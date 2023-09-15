@@ -15,6 +15,7 @@ defmodule Nimble.Bill do
     # fixed: every member pays a fixed amount
     # custom: each member pays a custom amount based on the charge split_percent
     field(:type, :string, default: "split")
+
     field(:total, Money.Ecto.Composite.Type, default_currency: :USD)
 
     # The status of the bill

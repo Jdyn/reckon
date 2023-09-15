@@ -142,7 +142,7 @@
   overflow: hidden;
 	z-index: 1;
 	margin-left: 10px;
-	background-color: var(--accent-a11);
+	background-color: var(--accent-11);
 	border-radius: 12px;
   transition: width, transform 150ms ease;
 	border-left: none;

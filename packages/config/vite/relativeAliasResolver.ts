@@ -21,8 +21,8 @@ const resolver: Alias = {
 			// ORIGINALLY root = `${projectPath}${pkg}/src`;
 			// But was duplicating the path on windows
 			// For windows it must be: `${pkg}/src`
-			// root = `${projectPath}${pkg}/src`;
-			root = `${pkg}/src`
+			root = `${projectPath}${pkg}/src`;
+			// root = `${pkg}/src`
 		} else {
 			let parent = importer!;
 

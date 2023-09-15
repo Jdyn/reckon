@@ -59,6 +59,8 @@ defmodule Nimble.Router do
       delete("/signout", UserController, :sign_out)
     end
 
+    get("/bills", BillController, :user_bills)
+
     resources("/groups", GroupController, only: [:index, :create]) do
       get("/join", GroupController, :join)
     end
@@ -71,6 +73,7 @@ defmodule Nimble.Router do
       get("/invites", GroupInviteController, :index)
       post("/invite", GroupInviteController, :create)
 
+      get("/bills", BillController, :group_bills)
       post("/bills", BillController, :create)
     end
   end

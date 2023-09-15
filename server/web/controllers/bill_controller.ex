@@ -5,6 +5,22 @@ defmodule Nimble.BillController do
 
   action_fallback(Nimble.ErrorController)
 
+  def group_bills(conn, _params) do
+    group_id = conn.assigns[:group_id]
+
+    with {:ok, bills} <- Bills.for_group(group_id) do
+      render(conn, "index.json", bills: bills)
+    end
+  end
+
+  def user_bills(conn, _params) do
+    user = current_user(conn)
+
+    with {:ok, bills} <- Bills.for_user(user) do
+      render(conn, "index.json", bills: bills)
+    end
+  end
+
   def create(conn, params) do
     %{group_id: group_id, current_user: current_user} = conn.assigns
 
