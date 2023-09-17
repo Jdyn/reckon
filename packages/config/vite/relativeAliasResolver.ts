@@ -2,7 +2,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { Alias } from 'vite';
 
-const projectPath = path.resolve(__dirname, '../../../').replace(/\\/g, '/');
+const normalizePath = (path: string) => path.replace(/\\/g, '/');
+
+const projectPath = normalizePath(path.resolve(__dirname, '../../../'));
 const pkgJsonCache = new Map();
 
 const resolver: Alias = {
@@ -12,7 +14,7 @@ const resolver: Alias = {
 		let root: null | string = null;
 
 		const [_, sourcePath] = source.split('~/');
-		importer = importer!.replace(/\\/g, '/');
+		importer = normalizePath(importer!)
 		const relativeImporter = importer!.replace(projectPath, '');
 
 		if (relativeImporter.includes('/src/')) {
