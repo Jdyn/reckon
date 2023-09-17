@@ -39,7 +39,7 @@ defmodule Nimble.BillJSON do
       id: bill_charge.id,
       amount: bill_charge.amount,
       split_percent: bill_charge.split_percent,
-      accepted: bill_charge.accepted,
+      approved: bill_charge.approved,
       payment_status: bill_charge.payment_status,
       user_id: bill_charge.user_id
     }

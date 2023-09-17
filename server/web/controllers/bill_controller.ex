@@ -28,4 +28,12 @@ defmodule Nimble.BillController do
       render(conn, "show.json", bill: bill)
     end
   end
+
+  def approve_charge(conn, %{"id" => id}) do
+    user = current_user(conn)
+
+    with {:ok, _charge} <- Bills.approve_charge(id, user.id) do
+      json(conn, %{ok: true})
+    end
+  end
 end

@@ -36,9 +36,15 @@ defmodule Nimble.Bills.Query do
 
   use Nimble.Repo
 
+  alias Nimble.BillCharge
+
   @type opts :: {:filter, map()} | {:sort, map()}
 
   @fields ["description"]
+
+  def charge_from_bill(bill_id, user_id) do
+    from(c in BillCharge, where: c.bill_id == ^bill_id and c.user_id == ^user_id)
+  end
 
   @spec apply(Ecto.Query.t(), [opts]) :: Ecto.Query.t()
   def apply(query, opts) do
@@ -83,74 +89,55 @@ defmodule Nimble.Bills.Query do
     end)
   end
 
-  defp build_condition("$and", input),
-    do: build_and(input)
+  defp build_condition("$and", input), do: build_and(input)
 
-  defp build_condition("$or", input),
-    do: build_or(input)
+  defp build_condition("$or", input), do: build_or(input)
 
-  defp build_condition("$not", input),
-    do: dynamic(not (^build_and(input)))
+  defp build_condition("$not", input), do: dynamic(not (^build_and(input)))
 
-  defp build_condition(field, input) when field in @fields,
-    do: build_condition(String.to_existing_atom(field), input)
+  defp build_condition(field, input) when field in @fields, do: build_condition(String.to_existing_atom(field), input)
 
-  defp build_condition(field, %{"$gt" => value}) when is_atom(field),
-    do: dynamic([c], field(c, ^field) > ^value)
+  defp build_condition(field, %{"$gt" => value}) when is_atom(field), do: dynamic([c], field(c, ^field) > ^value)
 
-  defp build_condition(field, %{"$gte" => value}) when is_atom(field),
-    do: dynamic([c], field(c, ^field) >= ^value)
+  defp build_condition(field, %{"$gte" => value}) when is_atom(field), do: dynamic([c], field(c, ^field) >= ^value)
 
-  defp build_condition(field, %{"$lt" => value}) when is_atom(field),
-    do: dynamic([c], field(c, ^field) < ^value)
+  defp build_condition(field, %{"$lt" => value}) when is_atom(field), do: dynamic([c], field(c, ^field) < ^value)
 
-  defp build_condition(field, %{"$lte" => value}) when is_atom(field),
-    do: dynamic([c], field(c, ^field) <= ^value)
+  defp build_condition(field, %{"$lte" => value}) when is_atom(field), do: dynamic([c], field(c, ^field) <= ^value)
 
   defp build_condition(field, %{"$in" => value}) when is_atom(field) and is_list(value),
     do: dynamic([c], field(c, ^field) in ^value)
 
-  defp build_condition(field, %{"$like" => value}) when is_atom(field),
-    do: dynamic([c], like(field(c, ^field), ^value))
+  defp build_condition(field, %{"$like" => value}) when is_atom(field), do: dynamic([c], like(field(c, ^field), ^value))
 
-    defp build_condition(field, %{"$ilike" => value}) when is_atom(field),
-    do: dynamic([c], ilike(field(c, ^field), ^value))
+  defp build_condition(field, %{"$ilike" => value}) when is_atom(field), do: dynamic([c], ilike(field(c, ^field), ^value))
 
+  defp build_condition(field, value) when is_atom(field) and value in [nil], do: dynamic([c], is_nil(field(c, ^field)))
 
-  defp build_condition(field, value) when is_atom(field) and value in [nil],
-    do: dynamic([c], is_nil(field(c, ^field)))
-
-  defp build_condition(field, value)
-       when is_atom(field) and (is_binary(value) or is_number(value)),
-       do: dynamic([c], field(c, ^field) == ^value)
+  defp build_condition(field, value) when is_atom(field) and (is_binary(value) or is_number(value)),
+    do: dynamic([c], field(c, ^field) == ^value)
 
   defp build_condition("data." <> raw_path, input) do
     path = String.split(raw_path, ".")
     build_data_condition(path, input)
   end
 
-  defp build_condition(field, value),
-    do: raise(~s{Unsupported filter "#{field}": "#{inspect(value)}"})
+  defp build_condition(field, value), do: raise(~s{Unsupported filter "#{field}": "#{inspect(value)}"})
 
   defp build_data_condition(path, input)
 
-  defp build_data_condition(path, %{"$gt" => value}),
-    do: dynamic([c], fragment("?#>?", c.data, ^path) > ^value)
+  defp build_data_condition(path, %{"$gt" => value}), do: dynamic([c], fragment("?#>?", c.data, ^path) > ^value)
 
-  defp build_data_condition(path, %{"$gte" => value}),
-    do: dynamic([c], fragment("?#>?", c.data, ^path) >= ^value)
+  defp build_data_condition(path, %{"$gte" => value}), do: dynamic([c], fragment("?#>?", c.data, ^path) >= ^value)
 
-  defp build_data_condition(path, %{"$lt" => value}),
-    do: dynamic([c], fragment("?#>?", c.data, ^path) < ^value)
+  defp build_data_condition(path, %{"$lt" => value}), do: dynamic([c], fragment("?#>?", c.data, ^path) < ^value)
 
-  defp build_data_condition(path, %{"$lte" => value}),
-    do: dynamic([c], fragment("?#>?", c.data, ^path) <= ^value)
+  defp build_data_condition(path, %{"$lte" => value}), do: dynamic([c], fragment("?#>?", c.data, ^path) <= ^value)
 
   defp build_data_condition(path, %{"$in" => value}) when is_list(value),
     do: dynamic([c], fragment("?#>?", c.data, ^path) in ^value)
 
-  defp build_data_condition(path, %{"$like" => value}),
-    do: dynamic([c], like(fragment("?#>?", c.data, ^path), ^value))
+  defp build_data_condition(path, %{"$like" => value}), do: dynamic([c], like(fragment("?#>?", c.data, ^path), ^value))
 
   defp build_data_condition(path, value) when is_binary(value) or is_number(value) do
     value_in_array = [value]

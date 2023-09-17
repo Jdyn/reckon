@@ -3,6 +3,7 @@ defmodule Nimble.Bills do
   use Nimble.Web, :context
 
   alias Nimble.Bill
+  alias Nimble.BillCharge
   alias Nimble.Bills.Query
   alias Nimble.Repo
 
@@ -33,5 +34,15 @@ defmodule Nimble.Bills do
     %Bill{}
     |> Bill.create_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def approve_charge(bill_id, user_id) do
+    with charge = %BillCharge{} <- Repo.one(Query.charge_from_bill(bill_id, user_id)) do
+      charge
+      |> BillCharge.approval_changeset()
+      |> Repo.update()
+    else
+      _ -> {:error, "Charge not found"}
+    end
   end
 end

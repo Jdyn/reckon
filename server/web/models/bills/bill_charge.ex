@@ -15,7 +15,7 @@ defmodule Nimble.BillCharge do
     # The percentage of the Bill the chargee owes.
     field(:split_percent, :decimal)
     # Whether the chargee has accepted the charge.
-    field(:accepted, :boolean, default: false)
+    field(:approved, :boolean, default: false)
 
     # the status of the charge payment
     # uncharged -> processing -> ( succeeded | requires_payment_method )
@@ -32,5 +32,27 @@ defmodule Nimble.BillCharge do
     |> cast(attrs, [:amount, :split_percent, :user_id])
     |> validate_required([:amount, :user_id])
     |> unique_constraint(:member, name: :no_duplicate_charges, message: "Cannot be included twice.")
+  end
+
+  @doc """
+  Flips the approved field of a BillCharge.
+
+    ## Example
+      iex> bill_charge = %BillCharge{approved: false}
+      iex> BillCharge.approval_changeset(bill_charge)
+      Ecto.Changeset<
+        action: nil,
+        changes: %{approved: true},
+        errors: [],
+        data: #Nimble.BillCharge<>,
+        valid?: true
+      >
+  """
+  def approval_changeset(bill_charge) do
+    approved = bill_charge.approved
+
+    bill_charge
+    |> cast(%{approved: not approved}, [:approved])
+    |> validate_required([:approved])
   end
 end
