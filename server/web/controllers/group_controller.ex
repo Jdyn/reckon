@@ -8,14 +8,14 @@ defmodule Nimble.GroupController do
   action_fallback(Nimble.ErrorController)
 
   def index(conn, _params) do
-    current_user = conn.assigns[:current_user]
-    groups = Groups.list_user_groups(current_user)
+    user = current_user(conn)
+    groups = Groups.list_user_groups(user)
     render(conn, :index, groups: groups)
   end
 
   def create(conn, params) do
-    current_user = conn.assigns[:current_user]
-    params = Map.put(params, "creator_id", current_user.id)
+    user = current_user(conn)
+    params = Map.put(params, "creator_id", user.id)
 
     with {:ok, %Group{} = group} <- Groups.create_group(params) do
       conn
@@ -25,7 +25,8 @@ defmodule Nimble.GroupController do
   end
 
   def show(conn, _params) do
-    %{group_id: group_id, current_user: current_user} = conn.assigns
+    current_user = current_user(conn)
+    group_id = current_group_id(conn)
 
     with {:ok, group} <- Groups.get_group_for_user(group_id, current_user.id) do
       render(conn, :show, group: group)
@@ -41,9 +42,9 @@ defmodule Nimble.GroupController do
   end
 
   def join(conn, %{"group_id" => group_id}) do
-    current_user = conn.assigns[:current_user]
+    user = current_user(conn)
 
-    with {:ok, _group} <- GroupInvites.accept_invite(group_id, current_user.id) do
+    with {:ok, _group} <- GroupInvites.accept_invite(group_id, user.id) do
       json(conn, %{ok: true})
     end
   end
@@ -55,4 +56,7 @@ defmodule Nimble.GroupController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  defp current_user(conn), do: conn.assigns[:current_user]
+  defp current_group_id(conn), do: conn.assigns[:group_id]
 end

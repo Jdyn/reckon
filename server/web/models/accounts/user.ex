@@ -49,11 +49,11 @@ defmodule Nimble.User do
     user
     |> cast(attrs, [:identifier, :username, :full_name, :password])
     |> validate_required([:identifier, :username, :full_name, :password])
-    |> validate_identifier()
-    |> maybe_validate_email_constraints()
-    |> maybe_validate_phone_constraints()
     |> validate_password()
     |> validate_username()
+    |> validate_identifier()
+    |> maybe_validate_email()
+    |> maybe_validate_phone()
     |> check_constraint(:identifier, name: :valid_email_or_phone, message: "Could not ensure a valid email or phone")
   end
 
@@ -99,7 +99,7 @@ defmodule Nimble.User do
     |> validate_length(:email, max: 80)
   end
 
-  defp maybe_validate_email_constraints(changeset) do
+  defp maybe_validate_email(changeset) do
     if get_change(changeset, :email) do
       changeset
       |> unsafe_validate_unique(:email, Repo)
@@ -128,7 +128,7 @@ defmodule Nimble.User do
     end
   end
 
-  defp maybe_validate_phone_constraints(changeset) do
+  defp maybe_validate_phone(changeset) do
     if get_change(changeset, :phone) do
       changeset
       |> unsafe_validate_unique(:phone, Repo)
