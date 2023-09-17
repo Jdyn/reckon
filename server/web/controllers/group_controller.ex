@@ -57,6 +57,5 @@ defmodule Nimble.GroupController do
     end
   end
 
-  defp current_user(conn), do: conn.assigns[:current_user]
   defp current_group_id(conn), do: conn.assigns[:group_id]
 end

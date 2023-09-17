@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { Alias } from 'vite';
 
-const projectPath = path.resolve(__dirname, '../../../');
+const projectPath = path.resolve(__dirname, '../../../').replace(/\\/g, '/');
 const pkgJsonCache = new Map();
 
 const resolver: Alias = {
@@ -12,17 +12,12 @@ const resolver: Alias = {
 		let root: null | string = null;
 
 		const [_, sourcePath] = source.split('~/');
-
+		importer = importer!.replace(/\\/g, '/');
 		const relativeImporter = importer!.replace(projectPath, '');
 
 		if (relativeImporter.includes('/src/')) {
 			const [pkg] = relativeImporter.split('/src/');
-
-			// ORIGINALLY root = `${projectPath}${pkg}/src`;
-			// But was duplicating the path on windows
-			// For windows it must be: `${pkg}/src`
 			root = `${projectPath}${pkg}/src`;
-			// root = `${pkg}/src`
 		} else {
 			let parent = importer!;
 
