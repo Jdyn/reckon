@@ -1,7 +1,5 @@
 .root {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
   vertical-align: middle;
   overflow: hidden;
   user-select: none;
@@ -23,6 +21,7 @@
   align-items: center;
   justify-content: center;
   color: white;
+	background: var(--accent-9);
   font-weight: 700;
   font-size: 15px;
   line-height: 1;

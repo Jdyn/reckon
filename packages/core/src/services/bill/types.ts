@@ -1,3 +1,5 @@
+import { User } from "../account";
+
 export type Money = {
 	amount: string;
 	currency: string;
@@ -11,6 +13,7 @@ export type Bill = {
 	inserted_at: string;
 	items: BillItem[];
 	charges: BillCharge[];
+	creator: User;
 }
 
 export type BillItem = {

@@ -1,11 +1,13 @@
 .radix-themes {
 	/* ORIGINAL */
 	color: var(--gray-12);
+	--default-font-family: dinn;
 
   --color-overlay: var(--gray-a8);
   --color-panel-solid: white;
   --color-panel-translucent: rgba(255, 255, 255, 0.8);
   --color-surface: rgba(255, 255, 255, 0.9);
+	--accent-panel: var(--accent-5);
 }
 
 :is(.dark, .dark-theme),
@@ -18,6 +20,7 @@
   --color-panel-solid: var(--gray-2);
   --color-panel-translucent: var(--gray-2-translucent);
   --color-surface: rgba(0, 0, 0, 0.25);
+	--accent-panel: var(--gray-1);
 
 	/* page-background would be the background of the html */
 	/* --color-page-background: red */

@@ -3,9 +3,6 @@
 	"version": "0.0.0",
 	"private": true,
 	"main": "./src/index.ts",
-	"files": [
-		"dist/**"
-	],
 	"scripts": {
 		"test": "jest",
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",

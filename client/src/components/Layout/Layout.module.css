@@ -6,6 +6,7 @@
 	height: 100vh;
 	overflow: hidden;
 	--header-height: 64px;
+	--layout-background: var(--accent-panel);
 }
 
 .main {
@@ -23,7 +24,6 @@
 	flex-direction: column;
 	width: 100%;
 	background: transparent;
-	padding-bottom: 10px;
 	grid-area: main;
 	overflow: hidden;
 }
@@ -34,7 +34,7 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 25px;
-	box-shadow: 0 0 0 300vh var(--accent-5);
+	box-shadow: 0 0 0 300vh var(--layout-background);
 	padding: 10px;
 }
 
@@ -54,7 +54,7 @@
 .header {
 	display: flex;
 	height: 64px;
-  background-color: var(--accent-5);
+  background-color: var(--layout-background);
 	grid-area: header;
 }
 

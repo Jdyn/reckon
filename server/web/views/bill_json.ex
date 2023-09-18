@@ -21,7 +21,8 @@ defmodule Nimble.BillJSON do
       inserted_at: bill.inserted_at,
       updated_at: bill.updated_at,
       items: for(bill_item <- bill.items, do: bill_item(bill_item)),
-      charges: for(bill_charge <- bill.charges, do: bill_charge(bill_charge))
+      charges: for(bill_charge <- bill.charges, do: bill_charge(bill_charge)),
+      creator: Nimble.UserJSON.user(bill.creator)
     }
   end
 
@@ -41,7 +42,7 @@ defmodule Nimble.BillJSON do
       split_percent: bill_charge.split_percent,
       approved: bill_charge.approved,
       payment_status: bill_charge.payment_status,
-      user_id: bill_charge.user_id
+      user: Nimble.UserJSON.user(bill_charge.user)
     }
   end
 end

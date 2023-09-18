@@ -12,7 +12,7 @@ defmodule Nimble.Bills do
       from(b in Bill, where: b.group_id == ^group_id)
       # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
       |> Repo.all()
-      |> Repo.preload([:items, :charges])
+      |> Repo.preload([:items, :creator, charges: [:user]])
 
     {:ok, bills}
   end

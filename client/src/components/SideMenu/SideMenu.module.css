@@ -11,16 +11,7 @@
 	--nav-height: calc(100vh - 64px);
 	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
 }
-/* .root:hover:not([data-expanded="true"]) {
-  --nav-width: var(--nav-width-expanded);
-  --nav-shadow: var(--shadow-6);
-}
-.root[data-expand="left"]:hover:not([data-expanded="true"]) > div {
-	border-top-left-radius: 25px;
-}
-.root[data-expand="right"]:hover:not([data-expanded="true"]) > div {
-	border-top-right-radius: 25px;
-} */
+
 .root:not(:hover):not([data-expanded="true"]) > div > div > ul > li > .listItem > span {
 	color: transparent;
 }
@@ -34,7 +25,8 @@
 	position: absolute;
   width: var(--nav-width);
   height: var(--nav-height);
-  background-color: var(--accent-5);
+  background: var(--accent-panel);
+	/* background: var(--color-panel); */
   flex-direction: column;
   box-shadow: var(--nav-shadow);
   transition: all 0.4s var(--nav-bezier);
@@ -52,7 +44,7 @@
 	gap: 10px;
 	border: none;
 	flex-direction: row;
-  padding: 0px 20px;
+  padding: 10px 20px;
   background: transparent;
   cursor: pointer;
   transition-duration: 0.2s;

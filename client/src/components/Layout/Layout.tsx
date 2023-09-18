@@ -39,7 +39,6 @@ export function RootLayout() {
 									</SideNavigationLink>
 								))}
 							</SideNavigationList>
-							<div className={styles.optionMenu}></div>
 						</div>
 					</SideMenu>
 					<div className={styles.container}>
