@@ -27,7 +27,7 @@ defmodule Nimble.Bill do
     #   In this case, all successful charges will go through, and a mark will be placed on the failed charges.
     #   Allowing the chargee to update their payment information and try again.
     # paid: The bill has been paid by all and is complete
-    field(:status, :string)
+    field(:status, :string, default: "pending")
 
     has_many(:items, BillItem)
     has_many(:charges, BillCharge)

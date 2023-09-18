@@ -14,6 +14,7 @@ export type Bill = {
 	items: BillItem[];
 	charges: BillCharge[];
 	creator: User;
+	status: string;
 }
 
 export type BillItem = {
@@ -29,4 +30,5 @@ export type BillCharge = {
 	amount: Money;
 	payment_status: string;
 	approved: boolean;
+	user: User;
 }

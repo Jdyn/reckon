@@ -1,6 +1,7 @@
 .radix-themes {
 	/* ORIGINAL */
 	color: var(--gray-12);
+	--subcolor: var(--gray-10);
 	--default-font-family: dinn;
 
   --color-overlay: var(--gray-a8);

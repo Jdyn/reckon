@@ -16,6 +16,7 @@ defmodule Nimble.BillJSON do
       id: bill.id,
       description: bill.description,
       total: bill.total,
+      status: bill.status,
       group_id: bill.group_id,
       creator_id: bill.creator_id,
       inserted_at: bill.inserted_at,
