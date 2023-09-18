@@ -41,18 +41,21 @@ const BillCard = ({ bill }: BillCardProps) => {
 					))}
 				</div> */}
 				<div className={styles.items}>
-					<Heading size="3">MEMBERS</Heading>
+					<Heading size="3">People</Heading>
 					{bill.charges.map((charge) => (
 						<div key={charge.id} className={styles.item}>
 							<Flex gap="3" align="center">
-								<Avatar text={charge.user.fullName} />
+								<Avatar height="32px" width="32px" text={charge.user.fullName} />
 								<Text size="2">{charge.user.fullName}</Text>
 							</Flex>
-							<Text className={styles.amount} size="2" weight="medium">
-								- ${charge.amount.amount}
+							<Text className={styles.cost} size="2" weight="medium">
+								+ ${charge.amount.amount}
 							</Text>
 						</div>
 					))}
+				</div>
+				<div className={styles.prices}>
+					{bill.total.amount}
 				</div>
 			</div>
 		</div>

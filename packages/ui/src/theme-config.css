@@ -18,10 +18,10 @@
   --color-overlay: rgba(0, 0, 0, 0.75);
 
 	/* panel-solid would be the color of most UI elements like dialogs and dropdowns */
-  --color-panel-solid: var(--gray-2);
+  --color-panel-solid: var(--gray-1);
   --color-panel-translucent: var(--gray-2-translucent);
   --color-surface: rgba(0, 0, 0, 0.25);
-	--accent-panel: var(--gray-1);
+	--accent-panel: var(--gray-2);
 
 	/* page-background would be the background of the html */
 	/* --color-page-background: red */

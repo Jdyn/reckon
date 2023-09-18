@@ -26,7 +26,6 @@
   width: var(--nav-width);
   height: var(--nav-height);
   background: var(--accent-panel);
-	/* background: var(--color-panel); */
   flex-direction: column;
   box-shadow: var(--nav-shadow);
   transition: all 0.4s var(--nav-bezier);

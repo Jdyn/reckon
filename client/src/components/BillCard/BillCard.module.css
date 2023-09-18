@@ -1,15 +1,15 @@
 .root {
 	display: flex;
 	flex-direction: row;
-	width: 80%;
+	width: 70%;
 	justify-content: flex-start;
-	border-radius: var(--radius-4);
+	/* border-radius: var(--radius-4);
 	background: var(--accent-panel);
+	border: 1px solid var(--accent-a5); */
 	color: var(--color);
 	padding: var(--space-4);
 	gap: var(--space-4);
 	flex-basis: 150px;
-	border: 1px solid var(--accent-a5);
 	/* box-shadow: var(--shadow-9); */
 }
 
@@ -67,4 +67,8 @@
 
 .text {
 	color: var(--subcolor);
+}
+
+.prices {
+	background: linear-gradient(180deg,var(--guideDashedColor),var(--guideDashedColor) 50%,transparent 0,transparent)
 }

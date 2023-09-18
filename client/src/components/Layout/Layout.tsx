@@ -50,7 +50,7 @@ export function RootLayout() {
 						<GroupMemberList />
 					</SideMenu>
 				</main>
-				<Background />
+				{/* <Background /> */}
 			</div>
 		</PhoenixProvider>
 	);
