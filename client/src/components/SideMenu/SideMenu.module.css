@@ -86,6 +86,7 @@
 	gap: 10px;
   padding: 0px 10px 20px 10px;
 	overflow: hidden;
+
 }
 
 .listItem {
@@ -119,16 +120,11 @@
 }
 
 .listItem > svg {
+	transition: color 0.1s linear;
+	z-index: 2;
+	overflow: hidden;
 	transition: transform 0.1s linear;
 	overflow: visible;
-}
-
-.listItem:hover > svg {
-	transform: scale(1.2);
-}
-
-.listItem:active > svg {
-	transform: scale(0.9);
 }
 
 .listItem[data-state="open"] {

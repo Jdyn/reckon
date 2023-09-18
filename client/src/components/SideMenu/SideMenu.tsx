@@ -29,16 +29,13 @@ const SideMenuContext = createContext<{
 
 const useSideMenu = () => {
 	const context = useContext(SideMenuContext);
-	if (!context) {
-		throw new Error('useSideMenu must be used within a SideMenuProvider');
-	}
+	if (!context) throw new Error('useSideMenu must be used within a SideMenuProvider');
 	return context;
 };
 
 export function SideMenu({ style, expand, children }: SideMenuProps) {
 	const [expanded, setExpanded] = useState(true);
 	const [value, setValue] = useState<string | undefined>(undefined);
-	// const [current, setCurrent] = useState<string | undefined>(undefined);
 
 	const ArrowIcon = useMemo(
 		() =>
@@ -62,7 +59,6 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 			data-expanded={expanded}
 			data-expand={expand}
 			value={value}
-			// onValueChange={(v) => setValue(() => (v ? v : current))}
 		>
 			<SideMenuContext.Provider value={{ value, setValue }}>
 				<div className={styles.wrapper} data-expand={expand}>
@@ -88,49 +84,16 @@ SideMenu.defaultProps = {
 	children: null
 };
 
-interface SideMenuNavList {
-	children?: ReactElement<LinkProps>[] | ReactElement<LinkProps>;
+interface SideNavigationListProps {
+	children?: ReactNode[];
 }
 
-export const SideNavigationList = ({ children }: SideMenuNavList) => {
-	const { setValue } = useSideMenu();
-	const location = useLocation();
+export const SideNavigationList = ({ children }: SideNavigationListProps) => {
 	const { observe, width } = useDimensions();
-
-	const routes: Record<string, any> = useMemo(() => {
-		if (Array.isArray(children)) {
-			return children.reduce((acc, child, index) => {
-				acc[`${child.props.to}`] = index;
-				return acc;
-			}, {} as Record<string, any>);
-		}
-		return {};
-	}, [children]);
-
-	useEffect(() => {
-		Object.keys(routes).forEach((key: string) => {
-			const match = matchPath({ path: key, end: false }, location.pathname);
-			if (match) {
-				const index = routes[key].toString();
-				setValue(index);
-				// setCurrent(index);
-			}
-		});
-	}, [location.pathname, routes, setValue]);
 
 	return (
 		<NavigationMenu.List className={styles.list} ref={observe}>
-			{children && Array.isArray(children) ? (
-				children.map((child, index) => (
-					<NavigationMenu.Item key={child.props.to.toString()} value={index.toString()}>
-						{child}
-					</NavigationMenu.Item>
-				))
-			) : (
-				<NavigationMenu.Item key={1} value={'0'}>
-					{children}
-				</NavigationMenu.Item>
-			)}
+			{children}
 			<NavigationMenu.Indicator className={styles.indicator} style={{ width: width }} />
 		</NavigationMenu.List>
 	);
@@ -139,10 +102,31 @@ export const SideNavigationList = ({ children }: SideMenuNavList) => {
 export const SideNavigationLink = forwardRef<
 	HTMLButtonElement,
 	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps, HTMLAnchorElement>
->(({ children, to, onClick }, ref) => (
-	<NavigationMenu.Trigger ref={ref} asChild>
-		<Link onClick={onClick} id={to.toString()} className={clsx(styles.listItem)} to={to}>
-			{children}
-		</Link>
-	</NavigationMenu.Trigger>
-));
+>(({ children, to, onClick }, ref) => {
+	const { setValue } = useSideMenu();
+	const { pathname } = useLocation();
+
+	useEffect(() => {
+		const match = matchPath({ path: to.toString(), end: false }, location.pathname);
+		if (match) {
+			setValue(to.toString());
+		}
+	}, [pathname, setValue, to])
+
+	return (
+		<NavigationMenu.Item value={to.toString()}>
+			<NavigationMenu.Trigger ref={ref} asChild>
+				<Link
+					onClick={(e) => {
+						setValue(to.toString());
+						onClick && onClick(e);
+					}}
+					className={clsx(styles.listItem)}
+					to={to}
+				>
+					{children}
+				</Link>
+			</NavigationMenu.Trigger>
+		</NavigationMenu.Item>
+	);
+});

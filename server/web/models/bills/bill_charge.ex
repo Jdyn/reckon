@@ -32,6 +32,7 @@ defmodule Nimble.BillCharge do
     |> cast(attrs, [:amount, :split_percent, :user_id])
     |> validate_required([:amount, :user_id])
     |> unique_constraint(:member, name: :no_duplicate_charges, message: "Cannot be included twice.")
+    |> foreign_key_constraint(:user_id)
   end
 
   @doc """

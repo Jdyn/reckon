@@ -1,8 +1,8 @@
+import { HomeIcon } from '@radix-ui/react-icons';
 import { Separator } from '@radix-ui/themes';
-import { Group, useGetGroupsQuery } from '@reckon/core';
+import { useGetGroupsQuery } from '@reckon/core';
 import { Background } from '@reckon/ui';
-import { useMemo, useState } from 'react';
-import { Outlet, useMatch } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { PhoenixProvider } from 'use-phoenix';
 import GroupMemberList from '~/app/Group/MemberList';
 
@@ -29,12 +29,15 @@ export function RootLayout() {
 					<SideMenu expand="right">
 						<div className={styles.container}>
 							<SideNavigationList>
-								{data &&
-									data.groups.map((group) => (
-										<SideNavigationLink key={group.id} to={`/groups/${group.id}`}>
-											<span>{getInitials(group.name)}</span>
-										</SideNavigationLink>
-									))}
+								<SideNavigationLink key={'me'} to={`/feed`}>
+									<HomeIcon width="24px" height="24px" />
+								</SideNavigationLink>
+								<Separator size="4" />
+								{(data?.groups || []).map((group) => (
+									<SideNavigationLink key={group.id} to={`/groups/${group.id}`}>
+										<span>{getInitials(group.name)}</span>
+									</SideNavigationLink>
+								))}
 							</SideNavigationList>
 							<div className={styles.optionMenu}></div>
 						</div>
