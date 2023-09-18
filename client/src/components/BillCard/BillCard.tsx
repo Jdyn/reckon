@@ -18,17 +18,17 @@ const BillCard = ({ bill }: BillCardProps) => {
 				<Text className={styles.heading} size="3">
 					{bill.creator.fullName} started a bill
 					<div className={styles.status}>
-						<ExclamationCircleIcon height="24px" />
-						<Text>{bill.status}</Text>
+						<ExclamationCircleIcon height="18px" />
+						<Text size="2">{bill.status}</Text>
 					</div>
 				</Text>
 				<Text className={styles.text} size="2">
 					{formatTimeAgo(bill.inserted_at)}
 				</Text>
 
-				<Heading size="5" my="4">
+				<Text size="4" my="2">
 					{bill.description}
-				</Heading>
+				</Text>
 				{/* <div className={styles.items}>
 					<Heading size="3">ITEMS</Heading>
 					{bill.items.map((item) => (
@@ -41,7 +41,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 					))}
 				</div> */}
 				<div className={styles.items}>
-					<Heading size="3">People</Heading>
+					{/* <Heading size="3">People</Heading> */}
 					{bill.charges.map((charge) => (
 						<div key={charge.id} className={styles.item}>
 							<Flex gap="3" align="center">
@@ -54,9 +54,12 @@ const BillCard = ({ bill }: BillCardProps) => {
 						</div>
 					))}
 				</div>
-				<div className={styles.prices}>
-					{bill.total.amount}
-				</div>
+				{/* <div className={styles.item}>
+					<Text size="3">Total</Text>
+					<Text size="2" weight="medium">
+						${bill.total.amount}
+					</Text>
+				</div> */}
 			</div>
 		</div>
 	);

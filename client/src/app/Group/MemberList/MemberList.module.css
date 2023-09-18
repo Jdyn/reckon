@@ -3,7 +3,7 @@
 	flex-direction: column;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding: 20px 0px 20px 10px;
+	padding: 0px 0px 20px 10px;
 }
 
 .userList > h3 {

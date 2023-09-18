@@ -15,6 +15,7 @@ import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
 
 import styles from './SideMenu.module.css';
+import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
 interface SideMenuProps {
 	expand: 'left' | 'right';
@@ -40,13 +41,13 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 	const ArrowIcon = useMemo(
 		() =>
 			expanded && expand === 'left' ? (
-				<ArrowRightIcon width="18px" height="18px" />
+				<ArrowRightOnRectangleIcon width="24px" height="24px" />
 			) : expanded && expand === 'right' ? (
-				<ArrowLeftIcon width="18px" height="18px" />
+				<ArrowLeftOnRectangleIcon width="24px" height="24px" />
 			) : expand === 'left' ? (
-				<ArrowLeftIcon width="18px" height="18px" />
+				<ArrowLeftOnRectangleIcon width="24px" height="24px" />
 			) : (
-				<ArrowRightIcon width="18px" height="18px" />
+				<ArrowRightOnRectangleIcon width="24px" height="24px" />
 			),
 		[expanded, expand]
 	);

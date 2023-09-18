@@ -23,7 +23,7 @@ defmodule Nimble.Bills do
       |> assoc(:associated_bills)
       # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
       |> Repo.all()
-      |> Repo.preload([:items, :charges])
+      |> Repo.preload([:items, :creator, charges: [:user]])
 
     {:ok, bills}
   end
@@ -34,6 +34,13 @@ defmodule Nimble.Bills do
     %Bill{}
     |> Bill.create_changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, bill} ->
+        {:ok, Repo.preload(bill, [:items, :creator, charges: [:user]])}
+
+      error ->
+        error
+    end
   end
 
   def approve_charge(bill_id, user_id) do
