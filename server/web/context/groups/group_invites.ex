@@ -31,56 +31,44 @@ defmodule Nimble.Groups.GroupInvites do
 
   ## Examples
 
-      iex> invite_member(group_id, sender, recipient)
+      iex> invite(group_id, sender, recipient)
       {:ok, %GroupInvite{}}
 
   """
-  def invite_member(group_id, sender_id, %{"recipient" => %{"identifier" => identifier}} = params) do
-    with invite = %GroupInvite{} <- find_invite(group_id, identifier),
-        false <- expired?(invite.expiry) do
+  def invite(group_id, sender_id, %{"recipient" => recipient}) do
+    with invite = %GroupInvite{} <- find_invite(group_id, recipient["identifier"]) do
       # TODO: Resend the email or text message
-      {:ok, "An invite has been resent!"}
 
+      if expired?(invite) do
+        delete_invite!(invite)
+        {:error, "The invite has expired! Please request a new one."}
+      else
+        {:ok, "An invite has been resent!"}
+      end
     else
       nil ->
-        # The invite does not exist
-        case Users.get_by_identifier(identifier) do
+        # An invite does not already exist
+        case Users.get_by_identifier(recipient["identifier"]) do
+          %User{} = user ->
+            {_token, attrs} =
+              build_invite(group_id, sender_id, %{
+                recipient_id: user.id,
+                meta: recipient,
+                context: "user"
+              })
 
-        end
-      false ->
-        # The invite is expired
-        nil
-    end
-
-
-
-    case Users.get_by_identifier(identifier) do
-      %User{} = user ->
-        {_token, attrs} =
-          build_invite(group_id, sender_id, %{
-            recipient_id: user.id,
-            recipient_meta: params["recipient"],
-            context: "user"
-          })
-
-        invite = Repo.insert(GroupInvite.user_changeset(attrs))
-        {:ok, {:user, invite}}
-
-      nil ->
-        case find_invite(identifier, group_id) do
-          %GroupInvite{} = invite ->
+            Repo.insert(GroupInvite.user_changeset(attrs))
+            {:ok, "An invite has been sent!"}
 
           nil ->
             {_token, attrs} =
               build_invite(group_id, sender_id, %{
-                recipient_meta: params["recipient"],
+                meta: recipient,
                 context: "nonuser"
               })
 
-            invite = Repo.insert(GroupInvite.nonuser_changeset(attrs))
-            dbg(invite)
-
-            {:ok, {:nonuser, invite}}
+            Repo.insert(GroupInvite.nonuser_changeset(attrs))
+            {:ok, "An invite has been sent!"}
         end
     end
   end
@@ -94,6 +82,10 @@ defmodule Nimble.Groups.GroupInvites do
       _ ->
         :error
     end
+  end
+
+  def delete_invite!(invite) do
+    Repo.delete!(invite)
   end
 
   @doc """
@@ -135,7 +127,7 @@ defmodule Nimble.Groups.GroupInvites do
     DateTime.truncate(DateTime.add(DateTime.utc_now(), expiry_in_days, :day), :second)
   end
 
-  def expired?(invite.expiry) do
+  def expired?(invite) do
     DateTime.utc_now() > invite.expiry
   end
 end
