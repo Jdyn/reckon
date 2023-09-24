@@ -27,7 +27,7 @@ defmodule Nimble.Repo.Migrations.CreateGroups do
       add(:group_id, references(:groups, on_delete: :delete_all), null: false)
 
       add(:recipient_id, references(:users, on_delete: :delete_all), null: true)
-      add(:recipient_meta, :map, null: true)
+      add(:meta, :map, null: false)
 
       timestamps(updated_at: false)
     end

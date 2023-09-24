@@ -22,7 +22,7 @@ defmodule Nimble.Router do
     pipe_through([:api])
 
     # TODO
-    # get("/groups/invite/:token", GroupInviteController, :show)
+    # post("/groups/invite/:token", GroupInviteController, :create)
     # post("/groups/join/:token", GroupController, :join)
 
     resources("/account", UserController, singleton: true, only: []) do
@@ -69,6 +69,7 @@ defmodule Nimble.Router do
 
     resources("/groups", GroupController, only: [:show, :update, :delete]) do
       get("/invites", GroupInviteController, :index)
+
       post("/invite", GroupInviteController, :create)
     end
   end

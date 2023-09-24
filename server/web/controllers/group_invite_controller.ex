@@ -13,8 +13,15 @@ defmodule Nimble.GroupInviteController do
   def create(conn, params) do
     %{group_id: group_id, current_user: current_user} = conn.assigns
 
-    with {:ok, _invite} <- GroupInvites.invite_member(group_id, current_user.id, params) do
-      json(conn, %{ok: true, message: "An invite has been sent!"})
+    case GroupInvites.invite_member(group_id, current_user.id, params) do
+      {:ok, {:user, _invite}} ->
+        json(conn, %{ok: true, message: "An invite has been sent to the existing user!"})
+
+      {:ok, {:nonuser, _invite}} ->
+        json(conn, %{ok: true, message: "An invite has been sent to the nonexisting user!"})
+
+      {:found, {:nonuser, _invite}} ->
+        json(conn, %{ok: true, message: "An invite has been resent to the nonexisting user!"})
     end
   end
 end

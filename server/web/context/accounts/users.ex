@@ -154,16 +154,16 @@ defmodule Nimble.Accounts.Users do
   @doc """
   Gets a user by their email OR phone number only.
 
-  ## Examples`
+  ## Examples
 
-    iex> get_user_by_email("foo@example.com")
-    %User{}
+      iex> get_user_by_email("foo@example.com")
+      %User{}
 
-    iex> get_user_by_email("+11234560000")
-    %User{}
+      iex> get_user_by_email("+11234560000")
+      %User{}
 
-    iex> get_user_by_email("unknown@example.com")
-    nil
+      iex> get_user_by_email("unknown@example.com")
+      nil
 
   """
   def get_by_identifier(identifier) when is_binary(identifier),
