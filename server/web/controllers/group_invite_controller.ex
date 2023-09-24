@@ -13,7 +13,7 @@ defmodule Nimble.GroupInviteController do
   def create(conn, params) do
     %{group_id: group_id, current_user: current_user} = conn.assigns
 
-    with {:ok, message} <- GroupInvites.invite(group_id, current_user.id, params) do
+    with {:ok, message} <- GroupInvites.invite(group_id, current_user, params) do
       conn
       |> put_status(:created)
       |> json(%{ message: message })

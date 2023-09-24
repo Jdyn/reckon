@@ -29,8 +29,8 @@ defmodule Nimble.GroupInvite do
     timestamps(updated_at: false)
   end
 
-  def base_changeset(%GroupInvite{} = invite, attrs) do
-    invite
+  def create_changeset(attrs) do
+    %GroupInvite{}
     |> cast(attrs, [:token, :context, :sender_id, :group_id, :recipient_id])
     |> put_change(:expiry, generate_expiry(1))
     |> validate_required([:context, :group_id, :sender_id, :expiry])
@@ -38,21 +38,10 @@ defmodule Nimble.GroupInvite do
     |> cast_embed(:meta, required: true, with: &meta_changeset/2)
     |> validate_self_refferential()
     |> unique_constraint(:token)
-  end
-
-  # create unique constraint on [user_id, group_id] to prevent duplicate invites
-  def user_changeset(attrs) do
-    %GroupInvite{}
-    |> base_changeset(attrs)
-    |> validate_required(:recipient_id)
     |> unique_constraint(:recipient,
       name: :no_duplicate_invites,
       message: "User is already invited to the group."
     )
-  end
-
-  def nonuser_changeset(attrs) do
-    base_changeset(%GroupInvite{}, attrs)
   end
 
   def meta_changeset(recipient, attrs \\ %{}) do
@@ -66,7 +55,7 @@ defmodule Nimble.GroupInvite do
     sender_id = get_change(changeset, :sender_id)
     recipient_id = get_change(changeset, :recipient_id)
     group_id = get_change(changeset, :group_id)
-    %{identifier: identifier} = get_embed(changeset, :recipient_meta, :struct)
+    %{identifier: identifier} = get_embed(changeset, :meta, :struct)
 
     cond do
       recipient_id == sender_id ->

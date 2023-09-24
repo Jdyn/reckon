@@ -39,7 +39,7 @@ defmodule Nimble.Groups.Query do
 
   def group_invite_from_identifier(group_id, identifier) do
     from(i in GroupInvite,
-      where: i.group_id == ^group_id and i.recipient_meta["identifier"] == ^identifier
+      where: i.group_id == ^group_id and i.meta["identifier"] == ^identifier
     )
   end
 

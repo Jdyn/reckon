@@ -7,7 +7,6 @@ defmodule Nimble.Groups.GroupInvites do
   alias Nimble.Groups
   alias Nimble.Groups.Query
   alias Nimble.Repo
-  alias Nimble.User
 
   @rand_size 16
   @hash_algorithm :sha256
@@ -35,31 +34,11 @@ defmodule Nimble.Groups.GroupInvites do
       {:ok, %GroupInvite{}}
 
   """
-  def invite(group_id, sender_id, %{"recipient" => recipient}) do
-    with :ok <- verify_invite(group_id, recipient["identifier"]) do
-      case Users.get_by_identifier(recipient["identifier"]) do
-        %User{} = user ->
-          attrs = %{
-            group_id: group_id,
-            sender_id: sender_id,
-            recipient_id: user.id,
-            meta: recipient,
-            context: "user"
-          }
-
-          Repo.insert(GroupInvite.user_changeset(attrs))
-          {:ok, "An invite has been sent!"}
-
-        nil ->
-          {_token, attrs} =
-            build_invite(group_id, sender_id, %{
-              meta: recipient,
-              context: "nonuser"
-            })
-
-          Repo.insert(GroupInvite.nonuser_changeset(attrs))
-          {:ok, "An invite has been sent!"}
-      end
+  def invite(group_id, sender, %{"recipient" => recipient}) do
+    with :ok <- verify_invite(group_id, recipient["identifier"]),
+         {_token, changeset} <- build_invite(group_id, sender, recipient),
+         {:ok, _invite} <- Repo.insert(changeset) do
+      {:ok, "Invite sent!"}
     end
   end
 
@@ -68,9 +47,9 @@ defmodule Nimble.Groups.GroupInvites do
       %GroupInvite{} = invite ->
         if expired?(invite) do
           delete_invite(invite)
-          {:expired, "The invite has expired! Please request a new one."}
+          {:error, "The invite has expired! Please request a new one."}
         else
-          {:exists, "An invite has already been sent!"}
+          {:error, "An invite has already been sent to that user!"}
         end
 
       _ ->
@@ -121,42 +100,26 @@ defmodule Nimble.Groups.GroupInvites do
     Repo.delete(invite)
   end
 
-  def delete_invite(group_id, user_id) when is_binary(group_id) and is_binary(user_id) do
-    Repo.delete(Query.group_invite(group_id, user_id))
-  end
+  # def delete_invite(group_id, user_id) when is_binary(group_id) and is_binary(user_id) do
+  #   Repo.delete(Query.group_invite(group_id, user_id))
+  # end
 
-  def find_invite(group_id, identifier) do
-    Repo.one(Query.group_invite_from_identifier(group_id, identifier))
-  end
-
-  @doc """
-  Deletes a GroupInvite.
-
-  ## Examples
-
-      iex> delete_invite(invite)
-      {:ok, %GroupInvite{}}
-
-      iex> delete_invite(invite)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_invite(%GroupInvite{} = invite) do
-    Repo.delete(invite)
-  end
-
-  def delete_invite(group_id, user_id) when is_binary(group_id) and is_binary(user_id) do
-    Repo.delete(Query.group_invite(group_id, user_id))
-  end
-
-  defp build_invite(attrs, expiry_in_days \\ 7) do
+  defp build_invite(group_id, sender, recipient) do
     {token, hashed_token} = build_invite_token(@rand_size, @hash_algorithm)
 
-    {token,
-     Map.merge(attrs, %{
-       token: hashed_token,
-       expiry: generate_expiry(expiry_in_days)
-     })}
+    user = Users.get_by_identifier(recipient["identifier"]) || %{}
+    dbg user
+    attrs = %{
+      group_id: group_id,
+      sender_id: sender.id,
+      recipient_id: Map.get(user, :id, nil),
+      meta: recipient,
+      context: "user",
+      token: hashed_token,
+      expiry: generate_expiry(1)
+    }
+
+    {token, GroupInvite.create_changeset(attrs)}
   end
 
   defp build_invite_token(size, algorithm) do

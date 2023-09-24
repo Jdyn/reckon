@@ -9,14 +9,14 @@ defmodule Nimble.GroupInviteJSON do
     %{
       id: invite.id,
       group_id: invite.group_id,
-      recipient_meta: recipient_meta(invite.recipient_meta)
+      meta: meta(invite.meta)
     }
   end
 
-  defp recipient_meta(recipient_meta) do
+  defp meta(meta) do
     %{
-      identifier: recipient_meta.identifier,
-      full_name: recipient_meta.full_name
+      identifier: meta.identifier,
+      full_name: meta.full_name
     }
   end
 end
