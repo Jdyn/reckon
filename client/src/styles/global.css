@@ -1,12 +1,46 @@
+@font-face {
+	font-display: swap;
+	font-family: 'dinn';
+	src: url('../fonts/DINNextRoundedLTPro-Bold.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'dinn';
+	src: url('../fonts/DINNextRoundedLTPro-medium.OTF') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'dinn';
+	src: url('../fonts/DINNextRoundedLTPro-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'dinn';
+	src: url('../fonts/DINNextRoundedLTPro-light.OTF') format('opentype');
+	font-weight: 300;
+	font-style: normal;
+}
+
 /*
   1. Use a more-intuitive box-sizing model.
 */
-*, *::before, *::after {
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 /*
   2. Remove default margin
 */
 * {
-  margin: 0;
+	margin: 0;
 }

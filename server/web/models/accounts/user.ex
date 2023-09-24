@@ -8,7 +8,7 @@ defmodule Nimble.User do
   alias Nimble.Repo
   alias Nimble.User
   alias Nimble.UserToken
-  alias Nimble.Util.PhoneNumber
+  alias Nimble.Util.Phone
 
   @derive {Inspect, except: [:password]}
 
@@ -25,12 +25,18 @@ defmodule Nimble.User do
     field(:username, :string)
     field(:full_name, :string)
     field(:avatar, :string)
+
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
+
     field(:confirmed_at, :naive_datetime)
     field(:is_admin, :boolean, default: false)
-    has_many(:tokens, UserToken)
 
+    has_many(:owned_bills, Nimble.Bill, foreign_key: :creator_id)
+    has_many(:bill_charges, Nimble.BillCharge)
+    has_many(:associated_bills, through: [:bill_charges, :bill])
+
+    has_many(:tokens, UserToken)
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
     timestamps()
@@ -43,11 +49,11 @@ defmodule Nimble.User do
     user
     |> cast(attrs, [:identifier, :username, :full_name, :password])
     |> validate_required([:identifier, :username, :full_name, :password])
-    |> validate_identifier()
-    |> maybe_validate_email_constraints()
-    |> maybe_validate_phone_constraints()
     |> validate_password()
     |> validate_username()
+    |> validate_identifier()
+    |> maybe_validate_email()
+    |> maybe_validate_phone()
     |> check_constraint(:identifier, name: :valid_email_or_phone, message: "Could not ensure a valid email or phone")
   end
 
@@ -93,7 +99,7 @@ defmodule Nimble.User do
     |> validate_length(:email, max: 80)
   end
 
-  defp maybe_validate_email_constraints(changeset) do
+  defp maybe_validate_email(changeset) do
     if get_change(changeset, :email) do
       changeset
       |> unsafe_validate_unique(:email, Repo)
@@ -106,10 +112,10 @@ defmodule Nimble.User do
   defp validate_phone(changeset) do
     phone = get_change(changeset, :identifier)
 
-    with {:ok, phone_number} <- PhoneNumber.parse_phone_number(phone),
-         true <- PhoneNumber.possible_phone?(phone_number),
-         true <- PhoneNumber.valid_phone?(phone_number) do
-      phone_number = PhoneNumber.format_phone_number(phone_number, :e164)
+    with {:ok, phone_number} <- Phone.parse(phone),
+         true <- Phone.possible?(phone_number),
+         true <- Phone.valid?(phone_number) do
+      phone_number = Phone.format(phone_number, :e164)
 
       changeset
       |> put_change(:phone, phone_number)
@@ -122,7 +128,7 @@ defmodule Nimble.User do
     end
   end
 
-  defp maybe_validate_phone_constraints(changeset) do
+  defp maybe_validate_phone(changeset) do
     if get_change(changeset, :phone) do
       changeset
       |> unsafe_validate_unique(:phone, Repo)

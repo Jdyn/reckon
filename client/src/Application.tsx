@@ -1,5 +1,4 @@
 import '@radix-ui/themes/styles.css';
-// import '@reckon/ui/theme-config.css'
 import { store } from '@reckon/core';
 import { Theme } from '@reckon/ui';
 import { useEffect } from 'react';
@@ -10,6 +9,7 @@ import { ErrorFallback } from '~/app/ErrorFallback';
 import router from '~/app/Router';
 
 import './styles/global.css';
+import '@reckon/ui/theme-config.css';
 
 function ReckonInterface() {
 	// TODO: TEMPORARY FIX, https://github.com/radix-ui/themes/issues/6
@@ -26,7 +26,7 @@ function ReckonInterface() {
 	return (
 		<ErrorBoundary FallbackComponent={ErrorFallback}>
 			<Provider store={store}>
-				<Theme appearance="light" radius="large" accentColor="indigo" panelBackground='translucent'>
+				<Theme appearance="light" radius="large" accentColor="jade" panelBackground='solid'>
 					<RouterProvider router={router} />
 				</Theme>
 			</Provider>

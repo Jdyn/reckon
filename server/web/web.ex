@@ -21,6 +21,8 @@ defmodule Nimble.Web do
       import Ecto.Query
       import Plug.Conn
 
+      def current_user(conn), do: conn.assigns[:current_user]
+
       unquote(verified_routes())
     end
   end

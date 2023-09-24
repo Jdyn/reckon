@@ -8,19 +8,10 @@
 	--nav-width-collapsed: 75px;
   --nav-width-expanded: 225px;
   --nav-width: var(--nav-width-collapsed);
-	--nav-height: calc(100vh - 70px);
+	--nav-height: calc(100vh - 64px);
 	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
 }
-/* .root:hover:not([data-expanded="true"]) {
-  --nav-width: var(--nav-width-expanded);
-  --nav-shadow: var(--shadow-6);
-}
-.root[data-expand="left"]:hover:not([data-expanded="true"]) > div {
-	border-top-left-radius: 25px;
-}
-.root[data-expand="right"]:hover:not([data-expanded="true"]) > div {
-	border-top-right-radius: 25px;
-} */
+
 .root:not(:hover):not([data-expanded="true"]) > div > div > ul > li > .listItem > span {
 	color: transparent;
 }
@@ -34,7 +25,7 @@
 	position: absolute;
   width: var(--nav-width);
   height: var(--nav-height);
-  background-color: var(--color-panel);
+  background: var(--accent-panel);
   flex-direction: column;
   box-shadow: var(--nav-shadow);
   transition: all 0.4s var(--nav-bezier);
@@ -46,22 +37,13 @@
   left: 0;
 }
 
-.list {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  list-style: none;
-  padding: 20px 10px 20px 0px;
-	overflow: hidden;
-}
-
 .collapse {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	border: none;
 	flex-direction: row;
-  padding: 0px 20px;
+  padding: 10px 20px;
   background: transparent;
   cursor: pointer;
   transition-duration: 0.2s;
@@ -86,27 +68,42 @@
 	overflow: hidden;
 }
 
+.list {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+	width: 72px;
+  list-style: none;
+	gap: 10px;
+  padding: 0px 10px 20px 10px;
+	overflow: hidden;
+
+}
+
 .listItem {
   display: flex;
 	gap: 20px;
   border-radius: 0px 16px 16px 0px;
-	padding: 10px 20px 10px 20px;
 	align-items: center;
+	justify-content: center;
 	transition: all 0.1s linear;
-	background:transparent;
+	background: transparent;
 	border-left: none;
+	height: 48px;
 	color: var(--color);
   text-decoration: none;
 	cursor: pointer;
 	overflow: hidden;
 	text-transform: uppercase;
 	font-weight: 700;
-	z-index: 2;
 	white-space: nowrap;
+	background-color: var(--accent-a5);
+	border-radius: 12px;
 }
 
 .listItem > span {
 	transition: color 0.1s linear;
+	z-index: 2;
 	overflow: hidden;
 }
 .listItem:hover {
@@ -114,31 +111,26 @@
 }
 
 .listItem > svg {
+	transition: color 0.1s linear;
+	z-index: 2;
+	overflow: hidden;
 	transition: transform 0.1s linear;
 	overflow: visible;
 }
 
-.listItem:hover > svg {
-	transform: scale(1.2);
-}
-
-.listItem:active > svg {
-	transform: scale(0.9);
-}
-
 .listItem[data-state="open"] {
-	color: var(--accent-a11);
+	color: white;
+	opacity: 1;
 }
 
 .indicator {
   display: flex;
-	position: relative;
   justify-content: center;
   overflow: hidden;
-	pointer-events: none;
 	z-index: 1;
-	background-color: var(--accent-a5);
-	border-radius: 0px 12px 12px 0px;
+	margin-left: 10px;
+	background-color: var(--accent-11);
+	border-radius: 12px;
   transition: width, transform 150ms ease;
 	border-left: none;
 	pointer-events: none;

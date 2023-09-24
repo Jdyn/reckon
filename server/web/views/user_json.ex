@@ -43,7 +43,8 @@ defmodule Nimble.UserJSON do
     %{
       trackingId: token.tracking_id,
       context: token.context,
-      insertedAt: token.inserted_at
+      insertedAt: token.inserted_at,
+      token: Base.url_encode64(token.token, padding: false)
     }
   end
 end

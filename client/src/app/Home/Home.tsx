@@ -1,21 +1,21 @@
 import { Card, Text, Heading} from '@radix-ui/themes';
 import {
-	useAccountSignInMutation,
-	useAccountSignOutMutation,
+	useSignInMutation,
+	useSignOutMutation,
 	useClearSessionsMutation,
-	useGetAccountQuery,
-	useGetSessionsQuery
+	useAccountQuery,
+	useSessionsQuery
 } from '@reckon/core';
 import { Button } from '@reckon/ui';
 
 import styles from './Home.module.css';
 
 const Home = () => {
-	const [signIn] = useAccountSignInMutation();
+	const [signIn] = useSignInMutation();
 	const [clearSessions] = useClearSessionsMutation();
-	const [signOut] = useAccountSignOutMutation();
-	const { data } = useGetAccountQuery();
-	const { data: sessions } = useGetSessionsQuery();
+	const [signOut] = useSignOutMutation();
+	const { data } = useAccountQuery();
+	const { data: sessions } = useSessionsQuery();
 
 	return (
 		<div className={styles.root}>
