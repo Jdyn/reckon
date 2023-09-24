@@ -1,7 +1,7 @@
 /**
  * @format
  */
-import Application from './App';
+import { Application } from './src/main';
 import {name} from './app.json';
 import {AppRegistry} from 'react-native';
 
