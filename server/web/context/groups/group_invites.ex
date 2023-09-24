@@ -36,41 +36,50 @@ defmodule Nimble.Groups.GroupInvites do
 
   """
   def invite(group_id, sender_id, %{"recipient" => recipient}) do
-    with invite = %GroupInvite{} <- find_invite(group_id, recipient["identifier"]) do
-      # TODO: Resend the email or text message
+    with :ok <- verify_invite(group_id, recipient["identifier"]) do
+      case Users.get_by_identifier(recipient["identifier"]) do
+        %User{} = user ->
+          attrs = %{
+            group_id: group_id,
+            sender_id: sender_id,
+            recipient_id: user.id,
+            meta: recipient,
+            context: "user"
+          }
 
-      if expired?(invite) do
-        delete_invite!(invite)
-        {:error, "The invite has expired! Please request a new one."}
-      else
-        {:ok, "An invite has been resent!"}
+          Repo.insert(GroupInvite.user_changeset(attrs))
+          {:ok, "An invite has been sent!"}
+
+        nil ->
+          {_token, attrs} =
+            build_invite(group_id, sender_id, %{
+              meta: recipient,
+              context: "nonuser"
+            })
+
+          Repo.insert(GroupInvite.nonuser_changeset(attrs))
+          {:ok, "An invite has been sent!"}
       end
-    else
-      nil ->
-        # An invite does not already exist
-        case Users.get_by_identifier(recipient["identifier"]) do
-          %User{} = user ->
-            {_token, attrs} =
-              build_invite(group_id, sender_id, %{
-                recipient_id: user.id,
-                meta: recipient,
-                context: "user"
-              })
-
-            Repo.insert(GroupInvite.user_changeset(attrs))
-            {:ok, "An invite has been sent!"}
-
-          nil ->
-            {_token, attrs} =
-              build_invite(group_id, sender_id, %{
-                meta: recipient,
-                context: "nonuser"
-              })
-
-            Repo.insert(GroupInvite.nonuser_changeset(attrs))
-            {:ok, "An invite has been sent!"}
-        end
     end
+  end
+
+  def verify_invite(group_id, identifier) do
+    case find_invite(group_id, identifier) do
+      %GroupInvite{} = invite ->
+        if expired?(invite) do
+          delete_invite(invite)
+          {:expired, "The invite has expired! Please request a new one."}
+        else
+          {:exists, "An invite has already been sent!"}
+        end
+
+      _ ->
+        :ok
+    end
+  end
+
+  def find_invite(group_id, identifier) do
+    Repo.one(Query.group_invite_from_identifier(group_id, identifier))
   end
 
   def accept_invite(group_id, user_id) do
@@ -82,10 +91,6 @@ defmodule Nimble.Groups.GroupInvites do
       _ ->
         :error
     end
-  end
-
-  def delete_invite!(invite) do
-    Repo.delete!(invite)
   end
 
   @doc """
@@ -100,18 +105,56 @@ defmodule Nimble.Groups.GroupInvites do
     Repo.all(Query.invites_for_user(user.id))
   end
 
+  @doc """
+  Deletes a GroupInvite.
+
+  ## Examples
+
+      iex> delete_invite(invite)
+      {:ok, %GroupInvite{}}
+
+      iex> delete_invite(invite)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_invite(%GroupInvite{} = invite) do
+    Repo.delete(invite)
+  end
+
+  def delete_invite(group_id, user_id) when is_binary(group_id) and is_binary(user_id) do
+    Repo.delete(Query.group_invite(group_id, user_id))
+  end
+
   def find_invite(group_id, identifier) do
     Repo.one(Query.group_invite_from_identifier(group_id, identifier))
   end
 
-  defp build_invite(group_id, sender_id, attrs, expiry_in_days \\ 7) do
+  @doc """
+  Deletes a GroupInvite.
+
+  ## Examples
+
+      iex> delete_invite(invite)
+      {:ok, %GroupInvite{}}
+
+      iex> delete_invite(invite)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_invite(%GroupInvite{} = invite) do
+    Repo.delete(invite)
+  end
+
+  def delete_invite(group_id, user_id) when is_binary(group_id) and is_binary(user_id) do
+    Repo.delete(Query.group_invite(group_id, user_id))
+  end
+
+  defp build_invite(attrs, expiry_in_days \\ 7) do
     {token, hashed_token} = build_invite_token(@rand_size, @hash_algorithm)
 
     {token,
      Map.merge(attrs, %{
        token: hashed_token,
-       group_id: group_id,
-       sender_id: sender_id,
        expiry: generate_expiry(expiry_in_days)
      })}
   end
