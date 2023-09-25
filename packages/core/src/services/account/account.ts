@@ -1,14 +1,9 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-
-import baseQuery from '../baseQuery';
+import { baseApi } from '../baseQuery'
 import { Session, SignInPayload, SignUpPayload, User } from './types';
 
 type Empty = Record<string, never>;
 
-const accountApi = createApi({
-	reducerPath: 'account',
-	baseQuery,
-	tagTypes: ['user', 'sessions', 'session'],
+const accountApi = baseApi.injectEndpoints({
 	endpoints: ({ query, mutation }) => ({
 		account: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
 		session: query<{ session: Session }, void>({
@@ -52,18 +47,22 @@ const accountApi = createApi({
 				method: 'POST',
 				body
 			}),
-			invalidatesTags: ['sessions']
+			invalidatesTags: ['user', 'sessions']
 		}),
 		SignOut: mutation<Empty, void>({
 			query: () => ({
 				url: '/account/signout',
 				method: 'DELETE'
 			}),
-			invalidatesTags: ['sessions'],
+			onQueryStarted(arg, api) {
+				const { queryFulfilled } = api;
+				queryFulfilled.then(() => {
+					api.dispatch(accountApi.util.resetApiState());
+				});
+			}
 		})
 	})
 });
-
 
 export const {
 	useAccountQuery,
@@ -77,5 +76,3 @@ export const {
 	useSignInMutation,
 	useSignOutMutation
 } = accountApi;
-
-export default accountApi;

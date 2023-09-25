@@ -9,6 +9,7 @@ import GroupMemberList from '~/app/Group/MemberList';
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../SideMenu';
 import Header from './Header';
 import styles from './Layout.module.css';
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 function getInitials(input: string): string {
 	return input
@@ -29,6 +30,9 @@ export function RootLayout() {
 					<SideMenu expand="right">
 						<div className={styles.container}>
 							<SideNavigationList>
+							<SideNavigationLink key={'new'} to={`/groups/new`}>
+									<PlusIcon width="24px" height="24px" />
+								</SideNavigationLink>
 								<SideNavigationLink key={'me'} to={`/feed`}>
 									<HomeIcon width="24px" height="24px" />
 								</SideNavigationLink>
