@@ -35,14 +35,19 @@ defmodule Nimble.Groups.GroupInvites do
 
   """
   def invite(group_id, sender, %{"recipient" => recipient}) do
-    with :ok <- verify_invite(group_id, recipient["identifier"]),
+    with :ok <- validate_recipient(group_id, recipient["identifier"]),
          {_token, changeset} <- build_invite(group_id, sender, recipient),
          {:ok, _invite} <- Repo.insert(changeset) do
       {:ok, "Invite sent!"}
     end
   end
 
-  def verify_invite(group_id, identifier) do
+  @doc """
+  Validates that a user has not already been invited to a group
+  and that the invite has not expired. If the invite has expired,
+  it is deleted.
+  """
+  def validate_recipient(group_id, identifier) do
     case find_invite(group_id, identifier) do
       %GroupInvite{} = invite ->
         if expired?(invite) do
@@ -108,7 +113,7 @@ defmodule Nimble.Groups.GroupInvites do
     {token, hashed_token} = build_invite_token(@rand_size, @hash_algorithm)
 
     user = Users.get_by_identifier(recipient["identifier"]) || %{}
-    dbg user
+
     attrs = %{
       group_id: group_id,
       sender_id: sender.id,
