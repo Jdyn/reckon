@@ -63,11 +63,11 @@ defmodule Nimble.Groups.GroupInvites do
   end
 
   def find_invite(group_id, identifier) do
-    Repo.one(Query.group_invite_from_identifier(group_id, identifier))
+    Repo.one(Query.invite_for_user(group_id, identifier: identifier))
   end
 
-  def accept_invite(group_id, user_id) do
-    with %GroupInvite{} = invite <- Repo.one(Query.group_invite(group_id, user_id)),
+  def accept_invite(group_id, user_id: user_id) do
+    with %GroupInvite{} = invite <- Repo.one(Query.invite_for_user(group_id, user_id: user_id)),
          {:ok, _member} <- Groups.add_member(group_id, user_id) do
       Repo.delete!(invite)
       :ok
@@ -76,6 +76,17 @@ defmodule Nimble.Groups.GroupInvites do
         :error
     end
   end
+
+  # def accept_invite(group_id, token: token) do
+    # with %GroupInvite{} = invite <- Repo.one(Query.invite_for_user(group_id, user_id: user_id)),
+    #      {:ok, _member} <- Groups.add_member(group_id, user_id) do
+    #   Repo.delete!(invite)
+    #   :ok
+    # else
+    #   _ ->
+    #     :error
+    # end
+  # end
 
   @doc """
   Returns a list of all invites sent to a user.

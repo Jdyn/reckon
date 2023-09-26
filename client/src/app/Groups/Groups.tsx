@@ -1,6 +1,6 @@
 import { useGroupBillsQuery } from '@reckon/core';
 import { useParams } from 'react-router';
-import BillCard from '~/components/BillCard';
+import BillCard from '~/app/Bills/BillCard';
 
 import styles from './Group.module.css';
 

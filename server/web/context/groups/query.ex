@@ -37,10 +37,12 @@ defmodule Nimble.Groups.Query do
     )
   end
 
-  def group_invite_from_identifier(group_id, identifier) do
-    from(i in GroupInvite,
-      where: i.group_id == ^group_id and i.meta["identifier"] == ^identifier
-    )
+  def invite_for_user(group_id, identifier: identifier) do
+    from(i in GroupInvite, where: i.group_id == ^group_id and i.meta["identifier"] == ^identifier)
+  end
+
+  def invite_for_user(group_id, user_id: user_id) do
+    from(i in GroupInvite, where: i.group_id == ^group_id and i.user_id == ^user_id)
   end
 
   def invites_for_group(group_id), do: from(i in GroupInvite, where: i.group_id == ^group_id)

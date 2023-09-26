@@ -1,4 +1,3 @@
-import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import {
@@ -13,9 +12,8 @@ import {
 import type { DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
-
-import styles from './SideMenu.module.css';
 import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+import styles from './SideMenu.module.css';
 
 interface SideMenuProps {
 	expand: 'left' | 'right';

@@ -1,15 +1,15 @@
+import { PlusIcon } from '@heroicons/react/24/outline';
 import { HomeIcon } from '@radix-ui/react-icons';
 import { Separator } from '@radix-ui/themes';
 import { useGetGroupsQuery } from '@reckon/core';
 import { Background } from '@reckon/ui';
 import { Outlet } from 'react-router-dom';
 import { PhoenixProvider } from 'use-phoenix';
-import GroupMemberList from '~/app/Group/MemberList';
+import GroupMemberList from '~/app/Groups/MemberList';
 
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../SideMenu';
 import Header from './Header';
 import styles from './Layout.module.css';
-import { PlusIcon } from '@heroicons/react/24/outline';
 
 function getInitials(input: string): string {
 	return input
@@ -30,7 +30,7 @@ export function RootLayout() {
 					<SideMenu expand="right">
 						<div className={styles.container}>
 							<SideNavigationList>
-							<SideNavigationLink key={'new'} to={`/groups/new`}>
+								<SideNavigationLink key={'new'} to={`/groups/new`}>
 									<PlusIcon width="24px" height="24px" />
 								</SideNavigationLink>
 								<SideNavigationLink key={'me'} to={`/feed`}>
