@@ -20,7 +20,7 @@ function getInitials(input: string): string {
 }
 
 export function RootLayout() {
-	const { data } = useGetGroupsQuery();
+	const { data: groups } = useGetGroupsQuery();
 
 	return (
 		<PhoenixProvider>
@@ -37,7 +37,7 @@ export function RootLayout() {
 									<HomeIcon width="24px" height="24px" />
 								</SideNavigationLink>
 								<Separator size="4" />
-								{(data?.groups || []).map((group) => (
+								{(groups || []).map((group) => (
 									<SideNavigationLink key={group.id} to={`/groups/${group.id}`}>
 										<span>{getInitials(group.name)}</span>
 									</SideNavigationLink>

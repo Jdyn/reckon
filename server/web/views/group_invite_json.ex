@@ -1,7 +1,7 @@
 defmodule Nimble.GroupInviteJSON do
   def index(%{invites: invites}) do
     %{
-      invites: for(invite <- invites, do: group_invite(invite))
+      data: for(invite <- invites, do: group_invite(invite))
     }
   end
 

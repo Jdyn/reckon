@@ -10,7 +10,7 @@ const accountApi = baseApi.injectEndpoints({
 			query: () => `/account/session`,
 			providesTags: ['session']
 		}),
-		sessions: query<{ sessions: Session[] }, void>({
+		sessions: query<Session[], void>({
 			query: () => `/account/sessions`,
 			providesTags: ['sessions']
 		}),

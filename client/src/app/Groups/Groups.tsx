@@ -6,10 +6,10 @@ import styles from './Group.module.css';
 
 const Group = () => {
 	const { id } = useParams<{ id: string }>();
-	const { data } = useGroupBillsQuery(id!, { skip: !id });
+	const { data: bills } = useGroupBillsQuery(id!, { skip: !id });
 	return (
 		<div className={styles.root}>
-			{data && data.bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
+			{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
 		</div>
 	);
 };

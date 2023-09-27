@@ -5,14 +5,14 @@ defmodule Nimble.GroupJSON do
   Renders a list of groups.
   """
   def index(%{groups: groups}) do
-    %{groups: for(group <- groups, do: external_group(group))}
+    for(group <- groups, do: external_group(group))
   end
 
   @doc """
   Renders a single group.
   """
   def show(%{group: group}) do
-    %{group: interal_group(group)}
+    interal_group(group)
   end
 
   def external_group(group) do

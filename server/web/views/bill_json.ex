@@ -1,14 +1,10 @@
 defmodule Nimble.BillJSON do
   def render("show.json", %{bill: bill}) do
-    %{
-      bill: bill(bill)
-    }
+    bill(bill)
   end
 
   def render("index.json", %{bills: bills}) do
-    %{
-      bills: for(bill <- bills, do: bill(bill))
-    }
+    for(bill <- bills, do: bill(bill))
   end
 
   def bill(bill) do

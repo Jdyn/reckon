@@ -5,14 +5,12 @@ defmodule Nimble.UserJSON do
 
   def index(%{users: users}) do
     %{
-      users: for(user <- users, do: user(user))
+      data: for(user <- users, do: user(user))
     }
   end
 
   def show(%{user: user}) do
-    %{
-      user: user(user)
-    }
+    user(user)
   end
 
   def get_provider(%{url: url}) do
@@ -35,7 +33,7 @@ defmodule Nimble.UserJSON do
 
   def user_with_groups(%User{} = user) do
     Map.merge(user(user), %{
-      groups: for(group <- user.groups, do: GroupJSON.show(group).group)
+      groups: for(group <- user.groups, do: GroupJSON.show(group))
     })
   end
 

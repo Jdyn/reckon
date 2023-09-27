@@ -28,7 +28,7 @@ const Home = () => {
 			<Text>{data?.user?.fullName}</Text>
 			<div>
 				{sessions &&
-					sessions.sessions.map((token) => (
+					sessions.map((token) => (
 						<Card key={token.token}>
 							<h3>{token.context}</h3>
 							<div>{token.token}</div>
