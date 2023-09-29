@@ -1,4 +1,4 @@
-import { RootLayout } from '../components/Layout/Layout';
+import { RootLayout } from './Layout';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import Home from '~/app/Home';
 import Group from '~/app/Groups';
@@ -17,11 +17,16 @@ const router = createBrowserRouter([
 				element: <Home />
 			},
 			{
-				path: 'pay',
-				element: <Home />
+				path: 'group',
+				children: [
+					{
+						path: 'new',
+						element: <></>
+					}
+				]
 			},
 			{
-				path: 'groups',
+				path: 'g',
 				element: <Group />,
 				children: [
 					{

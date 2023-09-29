@@ -1,5 +1,6 @@
 import { ListBulletIcon } from '@radix-ui/react-icons';
 import { useSessionQuery } from '@reckon/core';
+import { User } from '@reckon/core';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { usePhoenix, usePresence } from 'use-phoenix';
@@ -7,20 +8,18 @@ import { usePhoenix, usePresence } from 'use-phoenix';
 import MemberCard from './MemberCard/MemberCard';
 import styles from './MemberList.module.css';
 
-import { User } from '@reckon/core';
-
 const GroupMemberList = () => {
 	const { id } = useParams<{ id: string }>();
-	const { data } = useSessionQuery();
+	const { data: session } = useSessionQuery();
 	const { connect } = usePhoenix();
 
 	useEffect(() => {
-		if (data?.session) {
+		if (session) {
 			connect('ws://localhost:4000/socket', {
-				params: { token: data.session.token }
+				params: { token: session.token }
 			});
 		}
-	}, [connect, data?.session]);
+	}, [connect, session]);
 
 	const presences = usePresence<{ user: User }, { onlineAt: string }>(id && 'group:' + id);
 

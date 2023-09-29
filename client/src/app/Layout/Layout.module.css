@@ -1,22 +1,18 @@
 .root {
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	position: relative;
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	--header-height: 64px;
-	--layout-background: var(--accent-panel);
-}
-
-.main {
-	display: grid;
 	grid-template-columns: min-content 1fr min-content;
 	grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
 	grid-template-areas:
 		'header header header'
 		'left main right';
 	overflow: hidden;
+
+	--header-height: 64px;
+	--layout-background: var(--accent-panel);
 }
 
 .container {
@@ -53,12 +49,12 @@
 .header {
 	display: flex;
 	height: 64px;
-  background-color: var(--layout-background);
+	background-color: var(--layout-background);
 	grid-area: header;
 }
 
 .content {
 	display: flex;
 	flex-direction: column;
-	gap: "10px";
+	gap: '10px';
 }

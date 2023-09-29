@@ -1,40 +1,36 @@
 .root {
-  display: flex;
-  height: 100%;
+	display: flex;
+	height: 100%;
 	z-index: 1;
-  width: var(--nav-width-collapsed);
-  transition: all 0.4s var(--nav-bezier);
+	width: var(--nav-width-collapsed);
+	transition: all 0.4s var(--nav-bezier);
 
 	--nav-width-collapsed: 75px;
-  --nav-width-expanded: 225px;
-  --nav-width: var(--nav-width-collapsed);
+	--nav-width-expanded: 225px;
+	--nav-width: var(--nav-width-collapsed);
 	--nav-height: calc(100vh - 64px);
 	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
 }
-
-.root:not(:hover):not([data-expanded="true"]) > div > div > ul > li > .listItem > span {
-	color: transparent;
-}
-.root[data-expanded="true"] {
-  --nav-width: var(--nav-width-expanded);
-  width: var(--nav-width);
+.root[data-expanded='true'] {
+	--nav-width: var(--nav-width-expanded);
+	width: var(--nav-width);
 }
 
 .wrapper {
 	display: flex;
 	position: absolute;
-  width: var(--nav-width);
-  height: var(--nav-height);
-  background: var(--accent-panel);
-  flex-direction: column;
-  box-shadow: var(--nav-shadow);
-  transition: all 0.4s var(--nav-bezier);
+	width: var(--nav-width);
+	height: var(--nav-height);
+	background: var(--accent-panel);
+	flex-direction: column;
+	box-shadow: var(--nav-shadow);
+	transition: all 0.4s var(--nav-bezier);
 }
-.wrapper[data-expand="left"] {
-  right: 0;
+.wrapper[data-expand='left'] {
+	right: 0;
 }
-.wrapper[data-expand="right"] {
-  left: 0;
+.wrapper[data-expand='right'] {
+	left: 0;
 }
 
 .collapse {
@@ -43,16 +39,16 @@
 	gap: 10px;
 	border: none;
 	flex-direction: row;
-  padding: 10px 20px;
-  background: transparent;
-  cursor: pointer;
-  transition-duration: 0.2s;
+	padding: 10px 20px;
+	background: transparent;
+	cursor: pointer;
+	transition-duration: 0.2s;
 	font-size: 1rem;
 }
-.collapse[data-expand="left"] {
+.collapse[data-expand='left'] {
 	justify-content: flex-start;
 }
-.collapse[data-expand="right"] {
+.collapse[data-expand='right'] {
 	justify-content: flex-end;
 }
 .collapse > svg {
@@ -61,29 +57,26 @@
 	color: var(--text);
 	transition-duration: 0.3s;
 }
-.collapse > svg:hover {
-	box-shadow: var(--card-small)
-}
+
 .collapse > span {
 	overflow: hidden;
 }
 
 .list {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 	width: 72px;
-  list-style: none;
+	list-style: none;
 	gap: 10px;
-  padding: 0px 10px 20px 10px;
+	padding: 0px 10px 20px 10px;
 	overflow: hidden;
-
 }
 
 .listItem {
-  display: flex;
+	display: flex;
 	gap: 20px;
-  border-radius: 0px 16px 16px 0px;
+	border-radius: 0px 16px 16px 0px;
 	align-items: center;
 	justify-content: center;
 	transition: all 0.1s linear;
@@ -91,25 +84,20 @@
 	border-left: none;
 	height: 48px;
 	color: var(--color);
-  text-decoration: none;
+	text-decoration: none;
 	cursor: pointer;
 	overflow: hidden;
 	text-transform: uppercase;
 	font-weight: 700;
 	white-space: nowrap;
-	background-color: var(--accent-a5);
+	background: var(--accent-a5);
 	border-radius: 12px;
 }
-
 .listItem > span {
 	transition: color 0.1s linear;
 	z-index: 2;
 	overflow: hidden;
 }
-.listItem:hover {
-	color: var(--accent-a11);
-}
-
 .listItem > svg {
 	transition: color 0.1s linear;
 	z-index: 2;
@@ -117,21 +105,19 @@
 	transition: transform 0.1s linear;
 	overflow: visible;
 }
-
-.listItem[data-state="open"] {
+.listItem[data-state='open'] {
 	color: white;
-	opacity: 1;
 }
 
 .indicator {
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
 	z-index: 1;
 	margin-left: 10px;
 	background-color: var(--accent-11);
 	border-radius: 12px;
-  transition: width, transform 150ms ease;
+	transition: width, transform 150ms ease;
 	border-left: none;
 	pointer-events: none;
 }

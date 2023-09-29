@@ -6,7 +6,7 @@ type Empty = Record<string, never>;
 const accountApi = baseApi.injectEndpoints({
 	endpoints: ({ query, mutation }) => ({
 		account: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
-		session: query<{ session: Session }, void>({
+		session: query<Session, void>({
 			query: () => `/account/session`,
 			providesTags: ['session']
 		}),
