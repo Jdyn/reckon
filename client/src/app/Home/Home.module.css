@@ -1,4 +1,21 @@
 .root {
-	max-width: 50vw;
-	margin: 0 auto;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	margin: 20px auto;
+}
+
+.buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+}
+
+.container {
+	display: flex;
+	margin: 20px 0px;
+	flex-direction: column;
+	gap: 10px;
 }

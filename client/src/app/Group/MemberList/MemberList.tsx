@@ -1,4 +1,5 @@
 import { ListBulletIcon } from '@radix-ui/react-icons';
+import { Heading, Text } from '@radix-ui/themes';
 import { useSessionQuery } from '@reckon/core';
 import { User } from '@reckon/core';
 import { useEffect } from 'react';
@@ -25,9 +26,12 @@ const GroupMemberList = () => {
 
 	return (
 		<div className={styles.userList} style={{ flexGrow: 1 }}>
-			<h3>
-				<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} /> Members
-			</h3>
+			<Heading size="4" className={styles.header}>
+				<div>
+					<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
+				</div>
+				<Text>Members</Text>
+			</Heading>
 			{presences.map((presence) => (
 				<MemberCard key={presence.id} user={presence.user} online={presence.metas.onlineAt} />
 			))}

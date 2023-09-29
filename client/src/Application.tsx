@@ -10,6 +10,7 @@ import router from '~/app/Router';
 
 import './assets/styles/global.css';
 import '@reckon/ui/theme-config.css';
+// import { ThemePanel } from '@radix-ui/themes';
 
 function ReckonInterface() {
 	// TODO: TEMPORARY FIX, https://github.com/radix-ui/themes/issues/6
@@ -28,6 +29,7 @@ function ReckonInterface() {
 			<Provider store={store}>
 				<Theme appearance="light" grayColor="slate" radius="large" accentColor="gold" panelBackground='solid'>
 					<RouterProvider router={router} />
+					{/* <ThemePanel /> */}
 				</Theme>
 			</Provider>
 		</ErrorBoundary>

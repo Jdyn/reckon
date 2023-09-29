@@ -12,8 +12,8 @@ import {
 import type { DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
-import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import styles from './SideMenu.module.css';
+import { PinLeftIcon, PinRightIcon } from '@radix-ui/react-icons';
 
 interface SideMenuProps {
 	expand: 'left' | 'right';
@@ -39,13 +39,13 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 	const ArrowIcon = useMemo(
 		() =>
 			expanded && expand === 'left' ? (
-				<ArrowRightOnRectangleIcon width="24px" height="24px" />
+				<PinRightIcon width="24px" height="24px" />
 			) : expanded && expand === 'right' ? (
-				<ArrowLeftOnRectangleIcon width="24px" height="24px" />
+				<PinLeftIcon width="24px" height="24px" />
 			) : expand === 'left' ? (
-				<ArrowLeftOnRectangleIcon width="24px" height="24px" />
+				<PinLeftIcon width="24px" height="24px" />
 			) : (
-				<ArrowRightOnRectangleIcon width="24px" height="24px" />
+				<PinRightIcon width="24px" height="24px" />
 			),
 		[expanded, expand]
 	);
@@ -65,6 +65,7 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 						<button
 							className={styles.collapse}
 							onClick={() => setExpanded((p) => !p)}
+							data-expanded={expanded}
 							data-expand={expand}
 							type="button"
 						>

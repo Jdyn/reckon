@@ -1,10 +1,10 @@
-import { Card, Text, Heading} from '@radix-ui/themes';
+import { Card, Heading, Text } from '@radix-ui/themes';
 import {
-	useSignInMutation,
-	useSignOutMutation,
-	useClearSessionsMutation,
 	useAccountQuery,
-	useSessionsQuery
+	useClearSessionsMutation,
+	useSessionsQuery,
+	useSignInMutation,
+	useSignOutMutation
 } from '@reckon/core';
 import { Button } from '@reckon/ui';
 
@@ -19,19 +19,20 @@ const Home = () => {
 
 	return (
 		<div className={styles.root}>
-			<Heading>DEBUG ACTIONS</Heading>
-			<Button onClick={() => signIn({ identifier: 'test@test.com', password: 'Password1234' })}>
-				sign in
-			</Button>
-			<Button onClick={() => signOut()}>sign out</Button>
-			<Button onClick={() => clearSessions()}>clear sessions</Button>
+			<div className={styles.button}>
+				<Button onClick={() => signIn({ identifier: 'test@test.com', password: 'Password1234' })}>
+					sign in
+				</Button>
+				<Button onClick={() => signOut()}>sign out</Button>
+				<Button onClick={() => clearSessions()}>clear sessions</Button>
+			</div>
 			<Text>{data?.user?.fullName}</Text>
-			<div>
+			<div className={styles.container}>
 				{sessions &&
 					sessions.map((token) => (
 						<Card key={token.token}>
-							<h3>{token.context}</h3>
-							<div>{token.token}</div>
+							<Heading size="4">{token.context}</Heading>
+							<Text>{token.token}</Text>
 						</Card>
 					))}
 			</div>
