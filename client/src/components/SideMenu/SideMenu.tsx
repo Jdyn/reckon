@@ -33,7 +33,7 @@ const useSideMenu = () => {
 };
 
 export function SideMenu({ style, expand, children }: SideMenuProps) {
-	const [expanded, setExpanded] = useState(true);
+	const [expanded, setExpanded] = useState(false);
 	const [value, setValue] = useState<string | undefined>(undefined);
 
 	const ArrowIcon = useMemo(
