@@ -5,18 +5,11 @@
   width: var(--nav-width-collapsed);
   transition: all 0.4s var(--nav-bezier);
 
-	--nav-width-collapsed: 0px;
-  --nav-width-expanded: 75px;
+	--nav-width-collapsed: 75px;
+  --nav-width-expanded: 225px;
   --nav-width: var(--nav-width-collapsed);
-	--header-height: 55px;
+	--nav-height: calc(100vh - 64px);
 	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
-}
-
-@media((min-width: 1024px)) {
-	.root {
-		--nav-width-collapsed: 75px;
-		--nav-width-expanded: 225px;
-	}
 }
 
 .root:not(:hover):not([data-expanded="true"]) > div > div > ul > li > .listItem > span {
@@ -31,7 +24,7 @@
 	display: flex;
 	position: absolute;
   width: var(--nav-width);
-  height: calc(100vh - var(--header-height));
+  height: var(--nav-height);
   background: var(--accent-panel);
   flex-direction: column;
   box-shadow: var(--nav-shadow);

@@ -5,7 +5,7 @@
 	width: 100vw;
 	height: 100vh;
 	overflow: hidden;
-	--header-height: 55px;
+	--header-height: 64px;
 	--layout-background: var(--accent-panel);
 }
 
@@ -52,7 +52,7 @@
 
 .header {
 	display: flex;
-	height: 55px;
+	height: 64px;
   background-color: var(--layout-background);
 	grid-area: header;
 }
