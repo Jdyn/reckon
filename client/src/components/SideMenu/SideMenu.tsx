@@ -1,3 +1,4 @@
+import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import clsx from 'clsx';
 import {
@@ -12,7 +13,7 @@ import {
 import type { DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
-import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+
 import styles from './SideMenu.module.css';
 
 interface SideMenuProps {
@@ -21,34 +22,22 @@ interface SideMenuProps {
 	style?: React.CSSProperties;
 }
 
-const SideMenuContext = createContext<{
-	value: string | undefined;
-	setValue: Dispatch<React.SetStateAction<string | undefined>>;
+export const SideMenuContext = createContext<{
+	expanded?: boolean;
+	setExpanded?: Dispatch<React.SetStateAction<boolean>>;
+	value?: string | undefined;
+	setValue?: Dispatch<React.SetStateAction<string | undefined>>;
 } | null>(null);
 
-const useSideMenu = () => {
+export const useSideMenu = () => {
 	const context = useContext(SideMenuContext);
 	if (!context) throw new Error('useSideMenu must be used within a SideMenuProvider');
 	return context;
 };
 
 export function SideMenu({ style, expand, children }: SideMenuProps) {
-	const [expanded, setExpanded] = useState(true);
+	const { expanded, setExpanded } = useSideMenu();
 	const [value, setValue] = useState<string | undefined>(undefined);
-
-	const ArrowIcon = useMemo(
-		() =>
-			expanded && expand === 'left' ? (
-				<ArrowRightOnRectangleIcon width="24px" height="24px" />
-			) : expanded && expand === 'right' ? (
-				<ArrowLeftOnRectangleIcon width="24px" height="24px" />
-			) : expand === 'left' ? (
-				<ArrowLeftOnRectangleIcon width="24px" height="24px" />
-			) : (
-				<ArrowRightOnRectangleIcon width="24px" height="24px" />
-			),
-		[expanded, expand]
-	);
 
 	return (
 		<NavigationMenu.Root
@@ -61,16 +50,6 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 		>
 			<SideMenuContext.Provider value={{ value, setValue }}>
 				<div className={styles.wrapper} data-expand={expand}>
-					<NavigationMenu.Item asChild>
-						<button
-							className={styles.collapse}
-							onClick={() => setExpanded((p) => !p)}
-							data-expand={expand}
-							type="button"
-						>
-							{ArrowIcon}
-						</button>
-					</NavigationMenu.Item>
 					{children}
 				</div>
 			</SideMenuContext.Provider>
@@ -108,16 +87,16 @@ export const SideNavigationLink = forwardRef<
 	useEffect(() => {
 		const match = matchPath({ path: to.toString(), end: false }, location.pathname);
 		if (match) {
-			setValue(to.toString());
+			setValue!(to.toString());
 		}
-	}, [pathname, setValue, to])
+	}, [pathname, setValue, to]);
 
 	return (
 		<NavigationMenu.Item value={to.toString()}>
 			<NavigationMenu.Trigger ref={ref} asChild>
 				<Link
 					onClick={(e) => {
-						setValue(to.toString());
+						setValue!(to.toString());
 						onClick && onClick(e);
 					}}
 					className={clsx(styles.listItem)}
