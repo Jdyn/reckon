@@ -13,6 +13,8 @@ const GroupMemberList = () => {
 	const { data: session } = useSessionQuery();
 	const { connect } = usePhoenix();
 
+	const presences = usePresence<{ user: User }, { onlineAt: string }>(id && 'group:' + id);
+
 	useEffect(() => {
 		if (session) {
 			connect('ws://localhost:4000/socket', {
@@ -20,8 +22,6 @@ const GroupMemberList = () => {
 			});
 		}
 	}, [connect, session]);
-
-	const presences = usePresence<{ user: User }, { onlineAt: string }>(id && 'group:' + id);
 
 	return (
 		<div className={styles.userList} style={{ flexGrow: 1 }}>

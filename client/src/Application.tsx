@@ -8,7 +8,7 @@ import { RouterProvider } from 'react-router-dom';
 import { ErrorFallback } from '~/app/ErrorFallback';
 import router from '~/app/Router';
 
-import './styles/global.css';
+import './assets/styles/global.css';
 import '@reckon/ui/theme-config.css';
 
 function ReckonInterface() {

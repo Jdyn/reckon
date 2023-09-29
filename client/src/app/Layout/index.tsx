@@ -4,7 +4,7 @@ import { Separator } from '@radix-ui/themes';
 // import { Background } from '@reckon/ui';
 import { Outlet } from 'react-router-dom';
 import { PhoenixProvider } from 'use-phoenix';
-import GroupMemberList from '~/app/Groups/MemberList';
+import GroupMemberList from '~/app/Group/MemberList';
 
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../../components/SideMenu';
 import GroupList from './GroupList';
