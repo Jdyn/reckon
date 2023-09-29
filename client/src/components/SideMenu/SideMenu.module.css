@@ -18,11 +18,14 @@
 
 .wrapper {
 	display: flex;
+	flex-direction: column;
+	/* display: grid;
+	grid-template: 1fr;
+  grid-template-rows: min-content; */
 	position: absolute;
 	width: var(--nav-width);
 	height: var(--nav-height);
 	background: var(--accent-panel);
-	flex-direction: column;
 	box-shadow: var(--nav-shadow);
 	transition: all 0.4s var(--nav-bezier);
 }

@@ -10,6 +10,7 @@ import { SideMenu, SideNavigationLink, SideNavigationList } from '../../componen
 import GroupList from './GroupList';
 import Header from './Header';
 import styles from './Layout.module.css';
+import ProfileLink from './ProfileLink';
 
 export function RootLayout() {
 	return (
@@ -27,6 +28,7 @@ export function RootLayout() {
 						<Separator size="4" />
 						<GroupList />
 					</SideNavigationList>
+					<ProfileLink />
 				</SideMenu>
 				<div className={styles.container}>
 					<div className={styles.wrapper}>

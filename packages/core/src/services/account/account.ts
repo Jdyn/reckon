@@ -3,9 +3,9 @@ import { Session, SignInPayload, SignUpPayload, User } from './types';
 
 type Empty = Record<string, never>;
 
-const accountApi = baseApi.injectEndpoints({
+export const accountApi = baseApi.injectEndpoints({
 	endpoints: ({ query, mutation }) => ({
-		account: query<{ user: User }, void>({ query: () => `/account`, providesTags: ['user'] }),
+		account: query<User, void>({ query: () => `/account`, providesTags: ['user'] }),
 		session: query<Session, void>({
 			query: () => `/account/session`,
 			providesTags: ['session']
@@ -41,7 +41,7 @@ const accountApi = baseApi.injectEndpoints({
 				body
 			})
 		}),
-		SignIn: mutation<{ user: User }, SignInPayload>({
+		SignIn: mutation<void, SignInPayload>({
 			query: (body) => ({
 				url: '/account/signin',
 				method: 'POST',
@@ -76,3 +76,5 @@ export const {
 	useSignInMutation,
 	useSignOutMutation
 } = accountApi;
+
+export const { account } = accountApi.endpoints;

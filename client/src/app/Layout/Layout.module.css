@@ -14,7 +14,7 @@
 	--layout-background: var(--accent-panel);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
 	.root {
 		display: grid;
 		position: relative;
@@ -73,4 +73,21 @@
 	display: flex;
 	flex-direction: column;
 	gap: '10px';
+}
+
+.profileRoot {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 20px;
+	padding: 5px;
+	margin: auto 10px 20px 10px;
+	background: var(--accent-6);
+	border-radius: var(--radius-6);
+	overflow: hidden;
+}
+
+.profileMenuContent {
+	min-width: 205px;
+	border-radius: var(--radius-5);
 }

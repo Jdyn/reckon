@@ -1,14 +1,29 @@
-import { RootLayout } from './Layout';
-import { Navigate, createBrowserRouter } from 'react-router-dom';
-import Home from '~/app/Home';
+import { account, store } from '@reckon/core';
+import { Navigate, createBrowserRouter, redirect } from 'react-router-dom';
 import Group from '~/app/Group';
+import Home from '~/app/Home';
+
+import { RootLayout } from './Layout';
+import Login from './Auth/Login';
+import AuthLayout from './Auth/AuthLayout';
+
 // import { ErrorFallback } from './ErrorFallback';
+
+const authenticateUser = async () => {
+	const { error } = await store.dispatch(account.initiate())
+	console.log("called")
+	if (error) {
+		return redirect('/login');
+	}
+
+	return null;
+};
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <RootLayout />,
-		// errorElement: <ErrorFallback />,
+		loader: authenticateUser,
 		children: [
 			{
 				index: true,
@@ -34,8 +49,18 @@ const router = createBrowserRouter([
 					{
 						path: ':id',
 						element: <Group />
-					},
+					}
 				]
+			}
+		]
+	},
+	{
+		path: '/',
+		element: <AuthLayout />,
+		children: [
+			{
+				path: 'login',
+				element: <Login />
 			}
 		]
 	}

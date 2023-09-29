@@ -10,7 +10,7 @@ import router from '~/app/Router';
 
 import './assets/styles/global.css';
 import '@reckon/ui/theme-config.css';
-// import { ThemePanel } from '@radix-ui/themes';
+import { ThemePanel } from '@radix-ui/themes';
 
 function ReckonInterface() {
 	// TODO: TEMPORARY FIX, https://github.com/radix-ui/themes/issues/6

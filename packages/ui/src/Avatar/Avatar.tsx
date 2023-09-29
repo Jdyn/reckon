@@ -1,13 +1,14 @@
 import * as AvatarPrimative from '@radix-ui/react-avatar';
-import { Text } from '@radix-ui/themes'
+import { Text } from '@radix-ui/themes';
+
 import styles from './Avatar.module.css';
 
 function getInitials(input: string): string {
-  return input
-    .split(' ')
-    .map(word => (word[0] as string).toUpperCase())
-    .slice(0, 2)
-    .join('');
+	return input
+				.split(' ')
+				.map((word) => (word[0] ?? '' as string).toUpperCase())
+				.slice(0, 2)
+				.join('');
 }
 
 interface Props {

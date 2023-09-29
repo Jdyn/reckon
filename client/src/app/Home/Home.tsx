@@ -26,7 +26,7 @@ const Home = () => {
 				<Button onClick={() => signOut()}>sign out</Button>
 				<Button onClick={() => clearSessions()}>clear sessions</Button>
 			</div>
-			<Text>{data?.user?.fullName}</Text>
+			<Text>{data?.fullName}</Text>
 			<div className={styles.container}>
 				{sessions &&
 					sessions.map((token) => (
