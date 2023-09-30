@@ -30,6 +30,13 @@
 	}
 }
 
+.menu {
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+	flex: 1;
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -64,7 +71,7 @@
 
 .header {
 	display: flex;
-	height: --header-height;
+	height: var(--header-height);
 	background-color: var(--layout-background);
 	grid-area: header;
 }
@@ -89,5 +96,13 @@
 
 .profileMenuContent {
 	min-width: 205px;
-	border-radius: var(--radius-5);
+	border-radius: var(--radius-4);
+}
+
+.groupMenuRoot {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
 }

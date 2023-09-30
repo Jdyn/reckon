@@ -4,7 +4,7 @@ import { Group } from './types';
 const groupApi = baseApi.injectEndpoints({
 	endpoints: ({ query, mutation }) => ({
 		getGroups: query<Group[], void>({ query: () => `/groups`, providesTags: ['groups'] }),
-		getGroup: query<{ group: Group}, string | undefined>({ query: (id) => `/groups/${id}`, providesTags: ['group'] }),
+		getGroup: query<Group, string | undefined>({ query: (id) => `/groups/${id}`, providesTags: ['group'] }),
 	})
 });
 

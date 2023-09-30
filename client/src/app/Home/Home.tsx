@@ -19,14 +19,13 @@ const Home = () => {
 
 	return (
 		<div className={styles.root}>
-			<div className={styles.button}>
+			<div className={styles.buttons}>
 				<Button onClick={() => signIn({ identifier: 'test@test.com', password: 'Password1234' })}>
 					sign in
 				</Button>
 				<Button onClick={() => signOut()}>sign out</Button>
 				<Button onClick={() => clearSessions()}>clear sessions</Button>
 			</div>
-			<Text>{data?.fullName}</Text>
 			<div className={styles.container}>
 				{sessions &&
 					sessions.map((token) => (

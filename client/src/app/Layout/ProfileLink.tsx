@@ -15,7 +15,7 @@ const ProfileLink = () => {
 			<DropdownMenu.Trigger>
 				<div className={styles.profileRoot}>
 					<Avatar text={user?.fullName || ''} />
-					<Text size="4">{user?.fullName}</Text>
+					<Text size="3">{user?.username}</Text>
 				</div>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content size="2" className={styles.profileMenuContent}>

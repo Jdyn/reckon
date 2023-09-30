@@ -26,7 +26,7 @@ const GroupMemberList = () => {
 
 	return (
 		<div className={styles.userList} style={{ flexGrow: 1 }}>
-			<Heading size="4" className={styles.header}>
+			<Heading size="3" className={styles.header}>
 				<div>
 					<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
 				</div>

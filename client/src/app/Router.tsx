@@ -6,6 +6,7 @@ import Home from '~/app/Home';
 import { RootLayout } from './Layout';
 import Login from './Auth/Login';
 import AuthLayout from './Auth/AuthLayout';
+import NewGroup from './Group/new';
 
 // import { ErrorFallback } from './ErrorFallback';
 
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: 'new',
-						element: <></>
+						element: <NewGroup />
 					}
 				]
 			},
