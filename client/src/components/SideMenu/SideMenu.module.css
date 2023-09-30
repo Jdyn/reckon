@@ -93,7 +93,7 @@
 	text-transform: uppercase;
 	font-weight: 700;
 	white-space: nowrap;
-	background: var(--accent-a5);
+	background: var(--accent-a4);
 	border-radius: 12px;
 }
 .listItem > span {
@@ -118,7 +118,7 @@
 	overflow: hidden;
 	z-index: 1;
 	margin-left: 10px;
-	background-color: var(--accent-11);
+	background-color: var(--accent-9);
 	border-radius: 12px;
 	transition: width, transform 150ms ease;
 	border-left: none;

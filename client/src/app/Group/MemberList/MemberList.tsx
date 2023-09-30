@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { usePhoenix, usePresence } from 'use-phoenix';
 
-import MemberCard from './MemberCard/MemberCard';
+import MemberCard from './MemberCard';
 import styles from './MemberList.module.css';
 
 const GroupMemberList = () => {

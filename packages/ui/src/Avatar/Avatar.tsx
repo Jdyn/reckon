@@ -3,7 +3,7 @@ import { Text } from '@radix-ui/themes';
 
 import styles from './Avatar.module.css';
 
-function getInitials(input: string): string {
+export function getInitials(input: string): string {
 	return input
 				.split(' ')
 				.map((word) => (word[0] ?? '' as string).toUpperCase())

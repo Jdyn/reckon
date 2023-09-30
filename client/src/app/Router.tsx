@@ -3,16 +3,17 @@ import { Navigate, createBrowserRouter, redirect } from 'react-router-dom';
 import Group from '~/app/Group';
 import Home from '~/app/Home';
 
-import { RootLayout } from './Layout';
-import Login from './Auth/Login';
 import AuthLayout from './Auth/AuthLayout';
+import Login from './Auth/Login';
+import NewBill from './Bills/new';
 import NewGroup from './Group/new';
+import { RootLayout } from './Layout';
 
 // import { ErrorFallback } from './ErrorFallback';
 
 const authenticateUser = async () => {
-	const { error } = await store.dispatch(account.initiate())
-	console.log("called")
+	const { error } = await store.dispatch(account.initiate());
+	console.log('called');
 	if (error) {
 		return redirect('/login');
 	}
@@ -45,8 +46,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'g',
-				element: <Group />,
 				children: [
+					{
+						path: ':id/new',
+						element: <>Hello</>
+					},
 					{
 						path: ':id',
 						element: <Group />

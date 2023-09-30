@@ -29,10 +29,10 @@ const Home = () => {
 			<div className={styles.container}>
 				{sessions &&
 					sessions.map((token) => (
-						<Card key={token.token}>
+						<Button key={token.token} variant="surface">
 							<Heading size="4">{token.context}</Heading>
 							<Text>{token.token}</Text>
-						</Card>
+						</Button>
 					))}
 			</div>
 		</div>
