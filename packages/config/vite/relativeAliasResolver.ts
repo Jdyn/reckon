@@ -59,7 +59,7 @@ const resolver: Alias = {
 		// sourcePath is derived from the path imported on typescript, which always use / as path separator
 		const item = folderItems.find((i) => i.startsWith(sourcePath.split('/').at(-1)!))!;
 
-		const fullPath = absolutePath + path.extname(item);
+		const fullPath = absolutePath.replace(/\.[^.]+$/, '') + path.extname(item);
 
 		const stats = await fs.stat(fullPath);
 

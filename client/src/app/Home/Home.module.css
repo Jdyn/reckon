@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
-	margin: 20px auto;
+	padding: 10px 0px;
 }
 
 .buttons {

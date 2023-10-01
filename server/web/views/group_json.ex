@@ -1,4 +1,5 @@
 defmodule Nimble.GroupJSON do
+  alias Nimble.Group
   alias Nimble.UserJSON
 
   @doc """
@@ -15,7 +16,9 @@ defmodule Nimble.GroupJSON do
     interal_group(group)
   end
 
-  def external_group(group) do
+  def external_group(nil), do: nil
+
+  def external_group(%Group{} = group) do
     %{
       id: group.id,
       name: group.name

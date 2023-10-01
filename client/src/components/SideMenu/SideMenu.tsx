@@ -128,6 +128,7 @@ export const SideNavigationLink = forwardRef<
 			setValue(to.toString());
 		}
 	}, [pathname, setValue, to]);
+
 	const onNodeUpdate = (trigger: HTMLButtonElement | null, itemValue: string) => {
 		const list = listRef.current;
 		if (trigger && list && value === itemValue) {
@@ -140,7 +141,7 @@ export const SideNavigationLink = forwardRef<
 			//   trigger.offsetLeft -
 			//   trigger.offsetWidth +
 			//   trigger.offsetWidth / 2;
-			console.log(list.scrollTop)
+			// console.log(list.scrollTop)
 			// console.log(Math.round(listHeight - list.scrollTop));
 
 			// setOffset(Math.round(listCenter - triggerOffsetRight));

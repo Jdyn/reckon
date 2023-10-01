@@ -16,7 +16,12 @@ import {
 	TextField,
 	Tooltip
 } from '@radix-ui/themes';
-import { useAccountQuery, useGetGroupQuery } from '@reckon/core';
+import {
+	useAccountQuery,
+	useDeleteGroupMutation,
+	useGetGroupQuery,
+	useLeaveGroupMutation
+} from '@reckon/core';
 import { useMemo, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import Error from '~/components/Error';
@@ -25,6 +30,8 @@ import SideMenuList from '~/components/SideMenu/SideMenuList';
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
 	const { data: group } = useGetGroupQuery(match?.params.id, { skip: !match });
+	const [deleteGroup] = useDeleteGroupMutation();
+	const [leaveGroup] = useLeaveGroupMutation();
 	const { data: user } = useAccountQuery();
 	const [open, setOpen] = useState({
 		invite: false,
@@ -123,7 +130,15 @@ const GroupMenu = () => {
 										<Button variant="outline">Cancel</Button>
 									</AlertDialog.Cancel>
 									<AlertDialog.Action onClick={handleDelete}>
-										<Button variant="solid" color="red">
+										<Button
+											variant="solid"
+											color="red"
+											onClick={() => {
+												if (group) {
+													isCreator ? deleteGroup(group.id) : leaveGroup(group.id);
+												}
+											}}
+										>
 											{isCreator ? 'Delete' : 'Leave'}
 										</Button>
 									</AlertDialog.Action>

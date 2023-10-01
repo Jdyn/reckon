@@ -9,7 +9,7 @@ const Group = () => {
 	const { data: bills } = useGroupBillsQuery(id!, { skip: !id });
 	return (
 		<div className={styles.root}>
-			{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
+			{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
 		</div>
 	);
 };

@@ -10,7 +10,7 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       add(:status, :string)
       add(:options, :map)
 
-      add(:group_id, references(:groups, on_delete: :nothing))
+      add(:group_id, references(:groups, on_delete: :nilify_all))
       add(:creator_id, references(:users, on_delete: :nothing))
 
       timestamps()
@@ -22,8 +22,8 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       add(:approved, :boolean, default: false)
       add(:payment_status, :string, default: "uncharged")
 
-      add(:bill_id, references(:bills, on_delete: :nothing))
-      add(:user_id, references(:users, on_delete: :nothing))
+      add(:bill_id, references(:bills, on_delete: :delete_all))
+      add(:user_id, references(:users, on_delete: :nilify_all))
 
       timestamps()
     end

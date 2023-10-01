@@ -49,7 +49,7 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def leave(conn, params) do
+  def leave(conn, _params) do
     user = current_user(conn)
     group_id = current_group_id(conn)
 
@@ -58,10 +58,13 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def delete(conn, %{"group_id" => id}) do
-    group = Groups.get_group!(id)
+  def delete(conn, _params) do
+    group_id = current_group_id(conn)
+    group = Groups.get_group!(group_id)
+    user = current_user(conn)
 
-    with {:ok, %Group{}} <- Groups.delete_group(group) do
+    with true <- user.id == group.creator_id,
+         {:ok, %Group{}} <- Groups.delete_group(group) do
       send_resp(conn, :no_content, "")
     end
   end

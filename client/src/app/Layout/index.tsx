@@ -15,6 +15,7 @@ import Header from './Header';
 import HomeMenu from './HomeMenu';
 import styles from './Layout.module.css';
 import ProfileLink from './ProfileLink';
+import sideMenuStyles from '~/components/SideMenu/SideMenu.module.css';
 
 export function RootLayout() {
 	const [createGroup] = useCreateGroupMutation();
@@ -28,9 +29,9 @@ export function RootLayout() {
 						<SideNavigationList>
 							<Dialog.Root>
 								<Dialog.Trigger>
-									<SideNavigationLink to=".">
+									<div className={sideMenuStyles.listItem}>
 										<PlusIcon width="24px" />
-									</SideNavigationLink>
+									</div>
 								</Dialog.Trigger>
 								<Dialog.Content style={{ maxWidth: 450 }}>
 									<Flex direction="column" gap="4">

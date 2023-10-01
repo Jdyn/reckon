@@ -4,22 +4,33 @@ import {
 	useClearSessionsMutation,
 	useSessionsQuery,
 	useSignInMutation,
-	useSignOutMutation
+	useSignOutMutation,
+	useUserBillsQuery
 } from '@reckon/core';
 import { Button } from '@reckon/ui';
 
+import BillCard from '../Bills/BillCard';
 import styles from './Home.module.css';
 
 const Home = () => {
-	const [signIn] = useSignInMutation();
-	const [clearSessions] = useClearSessionsMutation();
-	const [signOut] = useSignOutMutation();
-	const { data } = useAccountQuery();
-	const { data: sessions } = useSessionsQuery();
+	// const [signIn] = useSignInMutation();
+	// const [clearSessions] = useClearSessionsMutation();
+	// const [signOut] = useSignOutMutation();
+	// const { data } = useAccountQuery();
+	// const { data: sessions } = useSessionsQuery();
+	const { data: bills } = useUserBillsQuery();
 
 	return (
 		<div className={styles.root}>
-			<div className={styles.buttons}>
+			{bills &&
+				bills.map((bill) => (
+					<BillCard key={bill.id} bill={bill} showGroup />
+					// <Card key={bill.id} className={styles.card}>
+					// 	<Heading size="4">{bill.group?.name}</Heading>
+					// 	<Text>{bill.description}</Text>
+					// </Card>
+				))}
+			{/* <div className={styles.buttons}>
 				<Button onClick={() => signIn({ identifier: 'test@test.com', password: 'Password1234' })}>
 					sign in
 				</Button>
@@ -34,7 +45,7 @@ const Home = () => {
 							<Text>{token.token}</Text>
 						</Button>
 					))}
-			</div>
+			</div> */}
 		</div>
 	);
 };

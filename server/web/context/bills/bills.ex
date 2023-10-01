@@ -23,8 +23,7 @@ defmodule Nimble.Bills do
       |> assoc(:associated_bills)
       # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
       |> Repo.all()
-      |> Repo.preload([:items, :creator, charges: [:user]])
-
+      |> Repo.preload([:items, :group, :creator, charges: [:user]])
     {:ok, bills}
   end
 

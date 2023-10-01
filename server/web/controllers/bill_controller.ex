@@ -17,7 +17,7 @@ defmodule Nimble.BillController do
     user = current_user(conn)
 
     with {:ok, bills} <- Bills.for_user(user) do
-      render(conn, "index.json", bills: bills)
+      render(conn, "user_index.json", bills: bills)
     end
   end
 

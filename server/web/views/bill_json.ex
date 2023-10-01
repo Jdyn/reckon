@@ -1,10 +1,17 @@
 defmodule Nimble.BillJSON do
+
+  alias Nimble.GroupJSON
+
   def render("show.json", %{bill: bill}) do
     bill(bill)
   end
 
   def render("index.json", %{bills: bills}) do
     for(bill <- bills, do: bill(bill))
+  end
+
+  def render("user_index.json", %{bills: bills}) do
+    for(bill <- bills, do: Map.merge(bill(bill), %{group: GroupJSON.external_group(bill.group)}))
   end
 
   def bill(bill) do

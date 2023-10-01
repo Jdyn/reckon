@@ -1,14 +1,16 @@
 import { baseApi } from '../baseQuery';
 import { Bill } from './types';
 
-const groupApi = baseApi.injectEndpoints({
+const billsApi = baseApi.injectEndpoints({
 	endpoints: ({ query, mutation }) => ({
-		groupBills: query<{ bills: Bill[]}, string>({ query: (id) => `/groups/${id}/bills`, providesTags: ['groupBills'] }),
+		groupBills: query<Bill[], string>({ query: (id) => `/groups/${id}/bills`, providesTags: ['groupBills'] }),
+		userBills: query<Bill[], void>({ query: () => `/account/bills`, providesTags: ['userBills'] }),
 	})
 });
 
 export const {
-	useGroupBillsQuery
-} = groupApi;
+	useGroupBillsQuery,
+	useUserBillsQuery
+} = billsApi;
 
-export default groupApi;
+export default billsApi;
