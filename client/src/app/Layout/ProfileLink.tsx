@@ -15,7 +15,7 @@ const ProfileLink = () => {
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				<div className={styles.profileRoot}>
-					<Avatar fallback={getInitials(user?.fullName || '')} radius="full" size="3" variant="solid" />
+					<Avatar fallback={getInitials(user?.fullName || '')} radius="full" size="2" variant="solid" />
 					<Heading size="2">{user?.username}</Heading>
 				</div>
 			</DropdownMenu.Trigger>

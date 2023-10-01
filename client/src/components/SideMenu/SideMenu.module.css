@@ -124,3 +124,13 @@
 	border-left: none;
 	pointer-events: none;
 }
+
+.listRoot {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 5px;
+	padding: 10px;
+	padding-top: 0px;
+	padding-left: 5px;
+}
