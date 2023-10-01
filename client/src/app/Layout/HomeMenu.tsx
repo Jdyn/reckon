@@ -1,7 +1,9 @@
 import {
+	EnvelopeIcon,
 	MagnifyingGlassIcon,
 	NewspaperIcon,
 	PlusCircleIcon,
+	UserCircleIcon,
 	UserPlusIcon
 } from '@heroicons/react/24/outline';
 import {
@@ -20,15 +22,15 @@ import { Link, NavLink, useMatch } from 'react-router-dom';
 
 import styles from './Layout.module.css';
 
-const GroupMenu = () => {
-	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
+const HomeMenu = () => {
+	const match = useMatch({ path: '/feed', caseSensitive: false, end: false });
 	const { data: group } = useGetGroupQuery(match?.params.id, { skip: !match });
 
 	return match ? (
 		<div className={styles.groupMenuRoot}>
 			<Flex asChild align="center" justify="between">
 				<Heading size="4">
-					{group?.name}
+					Home
 					<Dialog.Root>
 						<Dialog.Trigger>
 							<IconButton variant="soft" highContrast>
@@ -73,19 +75,30 @@ const GroupMenu = () => {
 
 			<Separator size="4" />
 			<Button variant="soft" highContrast asChild>
-				<NavLink to={`${match.pathname}/feed`}>
+				<NavLink
+					to={`${match.pathname}`}
+					// className={({ isActive, isPending }) =>
+					// 	isActive ? styles.navLink : ''
+					// }
+				>
 					<NewspaperIcon width="18px" />
 					Feed
 				</NavLink>
 			</Button>
 			<Button variant="soft" highContrast asChild>
-				<NavLink to={`${match.pathname}/new`}>
-					<PlusCircleIcon width="18px" />
-					New
-				</NavLink>
+				<Link to={`${match.pathname}`}>
+					<EnvelopeIcon width="18px" />
+					Invites
+				</Link>
+			</Button>
+			<Button variant="soft" highContrast asChild>
+				<Link to={`${match.pathname}/new`}>
+					<UserCircleIcon width="18px" />
+					Friends
+				</Link>
 			</Button>
 		</div>
 	) : null;
 };
 
-export default GroupMenu;
+export default HomeMenu;

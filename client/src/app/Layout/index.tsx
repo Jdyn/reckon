@@ -12,6 +12,7 @@ import GroupMenu from './GroupMenu';
 import Header from './Header';
 import styles from './Layout.module.css';
 import ProfileLink from './ProfileLink';
+import HomeMenu from './HomeMenu';
 
 export function RootLayout() {
 	return (
@@ -31,6 +32,7 @@ export function RootLayout() {
 							<GroupList />
 						</SideNavigationList>
 						<GroupMenu />
+						<HomeMenu />
 					</div>
 					<ProfileLink />
 				</SideMenu>

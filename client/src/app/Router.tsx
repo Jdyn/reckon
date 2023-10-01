@@ -45,15 +45,19 @@ const router = createBrowserRouter([
 				]
 			},
 			{
-				path: 'g',
+				path: 'g/:id',
 				children: [
 					{
-						path: ':id/new',
-						element: <>Hello</>
+						index: true,
+						element: <Navigate to="feed" />
 					},
 					{
-						path: ':id',
+						path: 'feed',
 						element: <Group />
+					},
+					{
+						path: 'new',
+						element: <>Hello</>
 					}
 				]
 			}

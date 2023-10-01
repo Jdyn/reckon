@@ -49,3 +49,8 @@ html {
 	background: var(--gold-5);
 	--header-height: 50px;
 }
+
+a.active {
+	background: var(--accent-9) !important;
+	color: white !important;
+}
