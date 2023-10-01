@@ -43,13 +43,13 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 	const ArrowIcon = useMemo(
 		() =>
 			expanded && expand === 'left' ? (
-				<PinRightIcon width="24px" height="24px" />
+				<PinRightIcon width="18px" height="18px" />
 			) : expanded && expand === 'right' ? (
-				<PinLeftIcon width="24px" height="24px" />
+				<PinLeftIcon width="18px" height="18px" />
 			) : expand === 'left' ? (
-				<PinLeftIcon width="24px" height="24px" />
+				<PinLeftIcon width="18px" height="18px" />
 			) : (
-				<PinRightIcon width="24px" height="24px" />
+				<PinRightIcon width="18px" height="18px" />
 			),
 		[expanded, expand]
 	);

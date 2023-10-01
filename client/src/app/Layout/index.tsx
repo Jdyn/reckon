@@ -23,7 +23,6 @@ export function RootLayout() {
 	return (
 		<div className={styles.root}>
 			<PhoenixProvider>
-				<Header />
 				<SideMenu expand="right">
 					<div className={styles.menu}>
 						<SideNavigationList>
@@ -67,6 +66,7 @@ export function RootLayout() {
 					<ProfileLink />
 				</SideMenu>
 				<div className={styles.container}>
+					<Header />
 					<div className={styles.wrapper}>
 						<Outlet />
 					</div>

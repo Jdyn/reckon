@@ -16,10 +16,6 @@ const HomeMenu = () => {
 				<NewspaperIcon width="18px" />
 				Feed
 			</SideMenuList.Link>
-			<SideMenuList.Link to="/invites">
-				<EnvelopeIcon width="18px" />
-				Invites
-			</SideMenuList.Link>
 			<SideMenuList.Link to="/friends">
 				<UserCircleIcon width="18px" />
 				Friends
