@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LeftDrawer = (props: DrawerContentComponentProps) => {
 	const { data } = useGetGroupsQuery();
-	// console.log(data)
+
 	return (
 		<SafeAreaView style={styles.root}>
 			<View style={styles.group}>

@@ -1,16 +1,14 @@
-import { Heading, TextField, Text } from '@radix-ui/themes';
+import { Flex, Heading, Text, TextField } from '@radix-ui/themes';
 
 const NewGroup = () => {
 	return (
-		<div>
+		<Flex py="2" direction="column">
 			<Heading>New Group</Heading>
 			<label>
-				<Text>Total</Text>
-				<TextField.Root>
-					<TextField.Input />
-				</TextField.Root>
+				<Text>Group Name</Text>
+				<TextField.Input />
 			</label>
-		</div>
+		</Flex>
 	);
 };
 

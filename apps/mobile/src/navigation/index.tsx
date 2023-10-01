@@ -11,7 +11,6 @@ import { RootDrawerParamList } from './types';
 export default function Navigation() {
 	const [login] = useAccountSignInMutation();
 	const { data, error } = useGetAccountQuery();
-	console.log(data, error);
 
 	return (
 		<RootNavigator>

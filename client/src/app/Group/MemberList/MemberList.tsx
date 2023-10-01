@@ -19,7 +19,10 @@ const GroupMemberList = () => {
 	useEffect(() => {
 		if (session) {
 			connect('ws://localhost:4000/socket', {
-				params: { token: session.token }
+				params: { token: session.token },
+				reconnectAfterMs(tries) {
+					return tries * 10000;
+				},
 			});
 		}
 	}, [connect, session]);

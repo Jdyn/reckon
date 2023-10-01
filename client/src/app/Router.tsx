@@ -13,7 +13,6 @@ import { RootLayout } from './Layout';
 
 const authenticateUser = async () => {
 	const { error } = await store.dispatch(account.initiate());
-	console.log('called');
 	if (error) {
 		return redirect('/login');
 	}
