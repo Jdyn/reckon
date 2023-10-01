@@ -31,6 +31,13 @@ defmodule Nimble.UserJSON do
     }
   end
 
+  def external_user(%User{} = user) do
+    %{
+      id: user.id,
+      fullName: user.full_name
+    }
+  end
+
   def user_with_groups(%User{} = user) do
     Map.merge(user(user), %{
       groups: for(group <- user.groups, do: GroupJSON.show(group))

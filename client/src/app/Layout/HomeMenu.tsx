@@ -2,6 +2,7 @@ import {
 	EnvelopeIcon,
 	NewspaperIcon,
 	UserCircleIcon,
+	UserGroupIcon
 } from '@heroicons/react/24/outline';
 import { useMatch } from 'react-router-dom';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
@@ -16,8 +17,12 @@ const HomeMenu = () => {
 				<NewspaperIcon width="18px" />
 				Feed
 			</SideMenuList.Link>
-			<SideMenuList.Link to="/friends">
+			<SideMenuList.Link to="/me">
 				<UserCircleIcon width="18px" />
+				Me
+			</SideMenuList.Link>
+			<SideMenuList.Link to="/friends">
+				<UserGroupIcon width="18px" />
 				Friends
 			</SideMenuList.Link>
 		</SideMenuList>

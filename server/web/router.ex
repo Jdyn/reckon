@@ -54,10 +54,10 @@ defmodule Nimble.Router do
 
       post("/password/update", UserController, :update_password)
 
-      get("/invites", UserController, :show_invites)
 
       delete("/signout", UserController, :sign_out)
-
+      
+      get("/invites", UserController, :show_invites)
       get("/bills", BillController, :user_bills)
     end
 

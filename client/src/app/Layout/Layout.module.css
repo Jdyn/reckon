@@ -5,9 +5,8 @@
 	height: 100vh;
 	overflow: hidden;
 	grid-template-columns: 1fr;
-	grid-template-rows: var(--header-height) calc(100vh - var(--header-height));
+	grid-template-rows: 100vh;
 	grid-template-areas:
-		'header'
 		'main';
 	overflow: hidden;
 
@@ -73,7 +72,7 @@
 .header {
 	display: flex;
 	height: var(--header-height);
-	width: 100%;	
+	width: 100%;
 	background: var(--layout-background);
 	z-index: 1;
 }

@@ -1,15 +1,19 @@
 defmodule Nimble.GroupInviteJSON do
+
+  alias Nimble.GroupJSON
+  alias Nimble.GroupInvite
+  alias Nimble.UserJSON
+
   def index(%{invites: invites}) do
-    %{
-      data: for(invite <- invites, do: group_invite(invite))
-    }
+    for(invite <- invites, do: group_invite(invite))
   end
 
-  def group_invite(invite) do
+  def group_invite(invite = %GroupInvite{}) do
     %{
       id: invite.id,
-      group_id: invite.group_id,
-      meta: meta(invite.meta)
+      meta: meta(invite.meta),
+      sender: UserJSON.external_user(invite.sender),
+      group: GroupJSON.external_group(invite.group)
     }
   end
 

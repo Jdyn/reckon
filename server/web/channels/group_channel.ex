@@ -25,9 +25,9 @@ defmodule Nimble.GroupChannel do
     group_id = socket.assigns.group_id
 
     Groups.update_member_last_seen(group_id, user.id)
-    online_at = inspect(System.system_time(:millisecond))
+    last_seen = inspect(System.system_time(:millisecond))
 
-    with {:ok, _} <- Presence.track(socket, user.id, %{onlineAt: online_at}) do
+    with {:ok, _} <- Presence.track(socket, user.id, %{lastSeen: last_seen}) do
       push(socket, "presence_state", Presence.list("group:" <> group_id))
     end
 

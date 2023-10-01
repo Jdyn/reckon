@@ -24,9 +24,10 @@ defmodule Nimble.UserController do
   end
 
   def show_invites(conn, _params) do
-    current_user = conn.assigns[:current_user]
+    user = current_user(conn)
 
-    invites = GroupInvites.find_invites(current_user)
+    invites = GroupInvites.find_invites(user)
+    dbg(invites)
 
     conn
     |> put_view(Nimble.GroupInviteJSON)

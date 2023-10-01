@@ -1,4 +1,4 @@
-import { Card, Heading, Text } from '@radix-ui/themes';
+import { Card, Flex, Heading, Text } from '@radix-ui/themes';
 import {
 	useAccountQuery,
 	useClearSessionsMutation,
@@ -21,7 +21,7 @@ const Home = () => {
 	const { data: bills } = useUserBillsQuery();
 
 	return (
-		<div className={styles.root}>
+		<Flex direction="column" gap="2" py="2">
 			{bills &&
 				bills.map((bill) => (
 					<BillCard key={bill.id} bill={bill} showGroup />
@@ -46,7 +46,7 @@ const Home = () => {
 						</Button>
 					))}
 			</div> */}
-		</div>
+		</Flex>
 	);
 };
 

@@ -32,7 +32,9 @@ interface SideMenuListLink {
 const SideMenuListLink = ({ to, children }: SideMenuListLink) => {
 	return (
 		<Button variant="soft" highContrast asChild>
-			<NavLink to={to}>{children}</NavLink>
+			<Flex justify="start" asChild>
+				<NavLink to={to}>{children}</NavLink>
+			</Flex>
 		</Button>
 	);
 };

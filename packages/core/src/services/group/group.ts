@@ -6,7 +6,7 @@ const groupApi = baseApi.injectEndpoints({
 		getGroups: query<Group[], void>({ query: () => `/groups`, providesTags: ['groups'] }),
 		getGroup: query<Group, string | undefined>({
 			query: (id) => `/groups/${id}`,
-			providesTags: ['group']
+			providesTags: (result, error, arg) => [{type: 'group', id: arg }]
 		}),
 		createGroup: mutation<Group, Partial<Group>>({
 			query: (body) => ({ url: `/groups`, method: 'POST', body }),
@@ -18,13 +18,7 @@ const groupApi = baseApi.injectEndpoints({
 		}),
 		deleteGroup: mutation<void, string>({
 			query: (id) => ({ url: `/groups/${id}`, method: 'DELETE' }),
-			invalidatesTags: ['groups'],
-			onQueryStarted(arg, api) {
-				const { queryFulfilled } = api;
-				queryFulfilled.then(() => {
-					api.dispatch(groupApi.util.resetApiState());
-				});
-			}
+			invalidatesTags: (_result, _error, arg) => ['groups', {type: 'group', id: arg}],
 		})
 	})
 });

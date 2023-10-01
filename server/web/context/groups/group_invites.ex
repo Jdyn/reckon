@@ -63,7 +63,7 @@ defmodule Nimble.Groups.GroupInvites do
   end
 
   def find_invite(group_id, identifier) do
-    Repo.one(Query.invite_for_user(group_id, identifier: identifier))
+    Repo.all(Query.invite_for_user(group_id, identifier: identifier)) |> List.first()
   end
 
   def accept_invite(group_id, user_id: user_id) do
@@ -124,7 +124,7 @@ defmodule Nimble.Groups.GroupInvites do
     {token, hashed_token} = build_invite_token(@rand_size, @hash_algorithm)
 
     user = Users.get_by_identifier(recipient["identifier"]) || %{}
-
+    dbg user
     attrs = %{
       group_id: group_id,
       sender_id: sender.id,
@@ -134,6 +134,8 @@ defmodule Nimble.Groups.GroupInvites do
       token: hashed_token,
       expiry: generate_expiry(1)
     }
+
+    dbg attrs
 
     {token, GroupInvite.create_changeset(attrs)}
   end

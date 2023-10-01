@@ -1,17 +1,17 @@
 import { Button, Card, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useSignInMutation } from '@reckon/core';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { redirect, useNavigate } from 'react-router-dom';
 
 const Login = () => {
 	const [signIn, { isSuccess }] = useSignInMutation();
+	const [form, set] = useState({ identifier: 'test@test.com', password: 'Password1234' });
+
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (isSuccess) {
-			navigate('/feed');
-		}
-	}, [isSuccess, navigate]);
+	const updateForm = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+		set({ ...form, [key]: e.target.value });
+	};
 
 	return (
 		<Flex justify="center" align="center" height="100%">
@@ -21,16 +21,34 @@ const Login = () => {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
-							signIn({ identifier: 'test@test.com', password: 'Password1234' });
+							signIn(form)
+								.unwrap()
+								.then(() => {
+									navigate('/feed');
+								});
 						}}
 					>
 						<label>
-							<Text weight="bold" size="2">Identifier</Text>
-							<TextField.Input placeholder="Email, username, or phone" />
+							<Text weight="bold" size="2">
+								Identifier
+							</Text>
+							<TextField.Input
+								value={form['identifier']}
+								onChange={(e) => updateForm(e, 'identifier')}
+								placeholder="Email, username, or phone"
+							/>
 						</label>
 						<label>
-							<Text weight="bold" size="2">Password</Text>
-							<TextField.Input size="2" type="password" placeholder="Enter password" />
+							<Text weight="bold" size="2">
+								Password
+							</Text>
+							<TextField.Input
+								value={form['password']}
+								onChange={(e) => updateForm(e, 'password')}
+								size="2"
+								type="password"
+								placeholder="Enter password"
+							/>
 						</label>
 						<Flex direction="row" justify="end" gap="3">
 							<Button type="button" variant="outline">
