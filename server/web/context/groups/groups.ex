@@ -157,6 +157,10 @@ defmodule Nimble.Groups do
     Repo.delete(group)
   end
 
+  def leave(group_id, user_id) do
+    Repo.delete(Repo.one(Query.group_member(group_id, user_id)))
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking group changes.
 

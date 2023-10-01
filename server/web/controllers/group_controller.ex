@@ -49,6 +49,15 @@ defmodule Nimble.GroupController do
     end
   end
 
+  def leave(conn, params) do
+    user = current_user(conn)
+    group_id = current_group_id(conn)
+
+    with :ok <- Groups.leave(group_id, user.id) do
+      json(conn, %{ok: true})
+    end
+  end
+
   def delete(conn, %{"group_id" => id}) do
     group = Groups.get_group!(id)
 

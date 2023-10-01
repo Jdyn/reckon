@@ -6,6 +6,7 @@ const groupApi = baseApi.injectEndpoints({
 		getGroups: query<Group[], void>({ query: () => `/groups`, providesTags: ['groups'] }),
 		getGroup: query<Group, string | undefined>({ query: (id) => `/groups/${id}`, providesTags: ['group'] }),
 		createGroup: mutation<Group, Partial<Group>>({ query: (body) => ({ url: `/groups`, method: 'POST', body }), invalidatesTags: ['groups'] }),
+		leaveGroup: mutation<void, string>({ query: (id) => ({ url: `/groups/${id}/leave`, method: 'POST' }), invalidatesTags: ['groups'] }),
 	})
 });
 

@@ -72,7 +72,7 @@ defmodule Nimble.Router do
 
     resources("/groups", GroupController, only: [:show, :update, :delete]) do
       post("/invite", GroupInviteController, :create)
-
+      delete("/leave", GroupController, :leave)
       get("/bills", BillController, :group_bills)
       post("/bills", BillController, :create)
     end
