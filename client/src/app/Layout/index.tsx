@@ -4,9 +4,9 @@ import { Button, Dialog, Flex, Heading, Separator, Text, TextField } from '@radi
 import { useCreateGroupMutation } from '@reckon/core';
 import { useState } from 'react';
 // import { Background } from '@reckon/ui';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useMatch, useParams } from 'react-router-dom';
 import { PhoenixProvider } from 'use-phoenix';
-import GroupMemberList from '~/app/Group/MemberList';
+import UserList from '~/app/Group/UserList';
 
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../../components/SideMenu';
 import GroupList from './GroupList';
@@ -20,6 +20,8 @@ import sideMenuStyles from '~/components/SideMenu/SideMenu.module.css';
 export function RootLayout() {
 	const [createGroup] = useCreateGroupMutation();
 	const [form, setForm] = useState({ name: '' });
+	const { id } = useParams<{ id: string }>();
+	const gMatch = useMatch({ path: '/g/:id', end: false });
 
 	return (
 		<div className={styles.root}>
@@ -73,7 +75,7 @@ export function RootLayout() {
 					</div>
 				</div>
 				<SideMenu expand="left">
-					<GroupMemberList />
+					<UserList title={gMatch ? 'members' : 'friends'} presence={gMatch ? `group:${id}` : ''} />
 				</SideMenu>
 				{/* <Background /> */}
 			</PhoenixProvider>

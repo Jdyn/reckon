@@ -173,8 +173,8 @@ importers:
         specifier: 6.16.0
         version: 6.16.0(react-dom@18.2.0)(react@18.2.0)
       use-phoenix:
-        specifier: 0.0.1-alpha.2
-        version: 0.0.1-alpha.2(react@18.2.0)
+        specifier: 0.0.1-alpha.3
+        version: 0.0.1-alpha.3(react@18.2.0)
     devDependencies:
       '@reckon/config':
         specifier: workspace:*
@@ -9325,8 +9325,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /use-phoenix@0.0.1-alpha.2(react@18.2.0):
-    resolution: {integrity: sha512-IsxXN/Vnv0vr2PUhcMadaVilg1J5x/FBIXtNbnz+/vJ0TON/7M72UkrkA78kwanxO+ABL2M0uQYOk51lgotMWg==}
+  /use-phoenix@0.0.1-alpha.3(react@18.2.0):
+    resolution: {integrity: sha512-KzV/8iqqWnRfMojf6VI6pJJEOQLHnB1MZgN7fcC8+oFQlg23qnbovefHev5mjt5t/QN0gY0f37HNKfjshuMUjg==}
     peerDependencies:
       react: ^18.0.0
     dependencies:

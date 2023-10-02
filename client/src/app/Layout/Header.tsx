@@ -9,16 +9,18 @@ import {
 	Separator,
 	Text
 } from '@radix-ui/themes';
-import { useState } from 'react';
+import { GroupInvite } from '@reckon/core';
 import { useEvent } from 'use-phoenix';
 
 import styles from './Layout.module.css';
 
+interface InviteEvent {
+	event: 'invites';
+	data: { invites: GroupInvite[] };
+}
+
 function Headers() {
-	const [invites, setInvites] = useState<any[]>([]);
-	useEvent('user:notifications', 'invites', (response) => {
-		setInvites(response.invites);
-	});
+	const { data } = useEvent<InviteEvent>('user:notifications', 'invites');
 
 	return (
 		<Flex className={styles.header} grow="1" justify="end" align="center" px="4" gap="3">
@@ -28,7 +30,7 @@ function Headers() {
 			<Popover.Root>
 				<Popover.Trigger>
 					<Button type="button" variant="soft">
-						{invites.length > 0 && <Badge color="red">{invites.length}</Badge>}
+						{data && data.invites.length > 0 && <Badge color="red">{data.invites.length}</Badge>}
 						<EnvelopeIcon width="18px" />
 						<Text>Invites</Text>
 					</Button>
@@ -36,8 +38,8 @@ function Headers() {
 				<Popover.Content sideOffset={5}>
 					<Flex direction="column">
 						<Heading size="3">Invites</Heading>
-						{invites.length > 0 ? (
-							invites.map((invite) => (
+						{data && data.invites.length > 0 ? (
+							data.invites.map((invite) => (
 								<Flex direction="column" align="center" key={invite.id} gap="2">
 									<Separator size="4" />
 									<Text>

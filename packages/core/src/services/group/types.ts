@@ -8,3 +8,11 @@ export interface Group {
 	updatedAt: string;
 	members?: User[];
 }
+
+export interface GroupInvite {
+	group: Group;
+	sender: User;
+	recipient: User;
+	createdAt: string;
+	id: string;
+}

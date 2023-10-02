@@ -6,15 +6,19 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { usePhoenix, usePresence } from 'use-phoenix';
 
-import MemberCard from './MemberCard';
-import styles from './MemberList.module.css';
+import MemberCard from './UserCard';
+import styles from './UserCard.module.css';
 
-const GroupMemberList = () => {
-	const { id } = useParams<{ id: string }>();
+interface UserListProps {
+	title: string;
+	presence: string;
+}
+
+const UserList = ({ title, presence }: UserListProps) => {
 	const { data: session } = useSessionQuery();
 	const { connect } = usePhoenix();
 
-	const presences = usePresence<{ user: User }, { onlineAt: string }>(id && 'group:' + id);
+	const presences = usePresence<{ user: User }, { onlineAt: string }>(presence);
 
 	useEffect(() => {
 		if (session) {
@@ -33,7 +37,7 @@ const GroupMemberList = () => {
 				<div>
 					<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
 				</div>
-				<Text>Members</Text>
+				<Text>{title}</Text>
 			</Heading>
 			{presences.map((presence) => (
 				<MemberCard key={presence.id} user={presence.user} online={presence.metas.onlineAt} />
@@ -42,4 +46,4 @@ const GroupMemberList = () => {
 	);
 };
 
-export default GroupMemberList;
+export default UserList;

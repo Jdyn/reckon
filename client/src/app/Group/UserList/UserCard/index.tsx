@@ -1,13 +1,10 @@
 import {
 	Avatar,
 	Box,
-	Button,
-	Checkbox,
 	Flex,
 	Heading,
 	Popover,
 	Text,
-	TextArea
 } from '@radix-ui/themes';
 import { User } from '@reckon/core';
 
