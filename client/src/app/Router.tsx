@@ -56,7 +56,7 @@ const router = createBrowserRouter([
 					},
 					{
 						path: 'new',
-						element: <>Hello</>
+						element: <NewBill />
 					}
 				]
 			}

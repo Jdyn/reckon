@@ -21,10 +21,6 @@ const HomeMenu = () => {
 				<UserCircleIcon width="18px" />
 				Me
 			</SideMenuList.Link>
-			<SideMenuList.Link to="/friends">
-				<UserGroupIcon width="18px" />
-				Friends
-			</SideMenuList.Link>
 		</SideMenuList>
 	) : null;
 };

@@ -14,10 +14,10 @@ const ProfileLink = () => {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
-				<div className={styles.profileRoot}>
+				<button className={styles.profileRoot}>
 					<Avatar fallback={getInitials(user?.fullName || '')} radius="full" size="2" variant="solid" />
 					<Heading size="2">{user?.username}</Heading>
-				</div>
+				</button>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content size="2" className={styles.profileMenuContent}>
 				<DropdownMenu.Item>Profile</DropdownMenu.Item>

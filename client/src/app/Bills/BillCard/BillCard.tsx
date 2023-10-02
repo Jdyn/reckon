@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Flex, Heading, Text } from '@radix-ui/themes';
+import { Container, Flex, Heading, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
 import { formatTimeAgo } from '~/utils/dates';

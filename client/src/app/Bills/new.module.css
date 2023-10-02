@@ -1,0 +1,19 @@
+.billType {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: var(--space-2);
+	background: var(--accent-4);
+	border: 1.5px solid var(--accent-6);
+	color: var(--accent-11);
+	border-radius: var(--radius-4);
+	padding: var(--space-4) var(--space-6);
+	cursor: pointer;
+}
+
+.active {
+	background: var(--accent-9);
+	color: white;
+	border: 1.5px solid var(--accent-10);
+}

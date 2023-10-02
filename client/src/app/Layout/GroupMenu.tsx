@@ -149,15 +149,16 @@ const GroupMenu = () => {
 				</DropdownMenu.Root>
 			</>
 
+			<SideMenuList.Link to={`${match.pathname}/new`}>
+				<PlusCircleIcon width="18px" />
+				New Bill
+			</SideMenuList.Link>
+
 			<SideMenuList.Link to={`${match.pathname}/feed`}>
 				<NewspaperIcon width="18px" />
 				Feed
 			</SideMenuList.Link>
 
-			<SideMenuList.Link to={`${match.pathname}/new`}>
-				<PlusCircleIcon width="18px" />
-				New
-			</SideMenuList.Link>
 		</SideMenuList>
 	) : null;
 };
