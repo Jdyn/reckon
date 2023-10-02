@@ -11,6 +11,7 @@ import { Button } from '@reckon/ui';
 
 import BillCard from '../Bills/BillCard';
 import styles from './Home.module.css';
+import { useTheme } from '~/hooks/ThemeProvider';
 
 const Home = () => {
 	// const [signIn] = useSignInMutation();

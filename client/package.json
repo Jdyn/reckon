@@ -17,9 +17,8 @@
 	},
 	"dependencies": {
 		"@heroicons/react": "^2.0.18",
-		"@radix-ui/colors": "^0.1.8",
 		"@radix-ui/react-icons": "^1.3.0",
-		"@radix-ui/themes": "^1.1.0",
+		"@radix-ui/themes": "^2.0.0",
 		"@reckon/core": "workspace:*",
 		"@reckon/ui": "workspace:*",
 		"@reduxjs/toolkit": "1.9.x",
