@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-columns: 45px 2fr 1fr;
 	width: 100%;
-	max-width: 600px;
+	max-width: var(--container-2);
 	justify-content: flex-start;
 	border-radius: var(--radius-5);
 	background: var(--accent-4);
@@ -60,7 +60,7 @@
 
 .charges {
 	display: flex;
-	flex-direction: row;	
+	flex-direction: row;
 	justify-content: flex-start;
 	gap: var(--space-4);
 }

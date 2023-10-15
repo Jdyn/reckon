@@ -60,7 +60,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 
 	return (
 		<ThemeProviderContext.Provider value={{ theme, setTheme }}>
-			<Theme radius="large" accentColor="bronze" panelBackground="solid">
+			<Theme scaling="110%" radius="large" accentColor="bronze" panelBackground="solid">
 				{children}
 				{/* <ThemePanel /> */}
 			</Theme>

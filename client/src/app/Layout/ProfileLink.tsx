@@ -1,10 +1,10 @@
 import { DropdownMenu, Heading, Text } from '@radix-ui/themes';
-import { useAccountQuery, useSignOutMutation } from '@reckon/core';
 import { Avatar } from '@radix-ui/themes';
-import { useNavigate } from 'react-router-dom';
+import { useAccountQuery, useSignOutMutation } from '@reckon/core';
+import { getInitials } from '@reckon/ui';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './Layout.module.css';
-import { getInitials } from '@reckon/ui';
 
 const ProfileLink = () => {
 	const { data: user } = useAccountQuery();
@@ -15,13 +15,22 @@ const ProfileLink = () => {
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				<button className={styles.profileRoot}>
-					<Avatar fallback={getInitials(user?.fullName || '')} radius="full" size="2" variant="solid" />
+					<Avatar
+						fallback={getInitials(user?.fullName || '')}
+						radius="full"
+						size="2"
+						variant="solid"
+					/>
 					<Heading size="2">{user?.username}</Heading>
 				</button>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content size="2" className={styles.profileMenuContent}>
 				<DropdownMenu.Item>Profile</DropdownMenu.Item>
-				<DropdownMenu.Item>Settings</DropdownMenu.Item>
+				<DropdownMenu.Item asChild>
+					<NavLink to="settings">
+						<Text>Settings</Text>
+					</NavLink>
+				</DropdownMenu.Item>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item
 					color="red"

@@ -17,10 +17,10 @@ const HomeMenu = () => {
 				<NewspaperIcon width="18px" />
 				Feed
 			</SideMenuList.Link>
-			<SideMenuList.Link to="/me">
+			{/* <SideMenuList.Link to="/me">
 				<UserCircleIcon width="18px" />
 				Me
-			</SideMenuList.Link>
+			</SideMenuList.Link> */}
 		</SideMenuList>
 	) : null;
 };
