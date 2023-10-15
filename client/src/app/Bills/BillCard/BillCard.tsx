@@ -1,10 +1,11 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Container, Flex, Heading, Text } from '@radix-ui/themes';
+import { Container, Flex, Heading, Separator, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
 import { formatTimeAgo } from '~/utils/dates';
 
 import styles from './BillCard.module.css';
+import BillCharge from './BillCharge';
 
 type BillCardProps = {
 	bill: Bill;
@@ -19,51 +20,44 @@ const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
 			<div className={styles.container}>
 				{showGroup && <Heading size="2">{bill.group?.name}</Heading>}
 				<Text className={styles.heading} size="2">
-					{bill.creator.fullName} started a bill
-					<div className={styles.status}>
+					{bill.creator.fullName} opened a ${bill.total.amount} bill
+					{/* <div className={styles.status}>
 						<ExclamationCircleIcon height="18px" />
 						<Text size="2">{bill.status}</Text>
-					</div>
+					</div> */}
 				</Text>
 				<Text className={styles.text} size="1">
 					{formatTimeAgo(bill.inserted_at)}
 				</Text>
 
-				<Text size="3" my="3">
+				<Text size="3" my="3" mx="3">
 					{bill.description}
 				</Text>
-				{/* <div className={styles.items}>
-					<Heading size="3">ITEMS</Heading>
-					{bill.items.map((item) => (
-						<div key={item.id} className={styles.item}>
-							<Text size="2">{item.description}</Text>
-							<Text className={styles.cost} size="2" weight="medium">
-								+ ${item.cost.amount}
-							</Text>
-						</div>
-					))}
-				</div> */}
-				<div className={styles.items}>
-					{/* <Heading size="3">People</Heading> */}
+				{/* <Heading size="2" mb="2">MEMBERS</Heading> */}
+				<div className={styles.charges}>
 					{showCharges &&
-						bill.charges.map((charge) => (
-							<div key={charge.id} className={styles.item}>
-								<Flex gap="3" align="center">
-									<Avatar height="32px" width="32px" text={charge.user.fullName} />
-									<Text size="2">{charge.user.fullName}</Text>
-								</Flex>
-								<Text className={styles.cost} size="2" weight="medium">
-									+ ${charge.amount.amount}
-								</Text>
-							</div>
-						))}
+						bill.charges.map((charge) => <BillCharge charge={charge} key={charge.id} />)}
 				</div>
-				{/* <div className={styles.item}>
-					<Text size="3">Total</Text>
+			</div>
+			<div className={styles.items}>
+				{/* <Heading size="2">ITEMS</Heading> */}
+				{bill.items.map((item) => (
+					<div key={item.id} className={styles.item}>
+						<Text size="2">{item.description}</Text>
+						<Text color="ruby" size="2" weight="medium">
+							+ ${item.cost.amount}
+						</Text>
+					</div>
+				))}
+				<Separator size="4" />
+				<div className={styles.item}>
+					<Text size="2" weight="bold">
+						TOTAL
+					</Text>
 					<Text size="2" weight="medium">
 						${bill.total.amount}
 					</Text>
-				</div> */}
+				</div>
 			</div>
 		</div>
 	);

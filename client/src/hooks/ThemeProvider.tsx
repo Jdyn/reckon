@@ -1,5 +1,6 @@
 import { Theme } from '@radix-ui/themes';
 import { ThemePanel } from '@radix-ui/themes';
+import { ThemeProps } from '@radix-ui/themes/dist/cjs/theme';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 type ThemeKey = 'light' | 'dark' | 'system';
@@ -42,6 +43,13 @@ export function ThemeProvider(props: ThemeProviderProps) {
 		root.classList.add(theme);
 	}, [theme]);
 
+	// const setTheme = useCallback(
+	// 	(theme: ThemeKey, color: ThemeProps["accentColor"]) => {
+	// 		localStorage.setItem(storageKey, theme);
+	// 		_setTheme(theme);
+	// 	},
+	// 	[storageKey]
+	// );
 	const setTheme = useCallback(
 		(theme: ThemeKey) => {
 			localStorage.setItem(storageKey, theme);
@@ -52,7 +60,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 
 	return (
 		<ThemeProviderContext.Provider value={{ theme, setTheme }}>
-			<Theme grayColor="sand" radius="large" accentColor="gold" panelBackground="solid">
+			<Theme radius="large" accentColor="bronze" panelBackground="solid">
 				{children}
 				{/* <ThemePanel /> */}
 			</Theme>

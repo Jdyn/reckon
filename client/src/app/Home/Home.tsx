@@ -22,7 +22,7 @@ const Home = () => {
 	const { data: bills } = useUserBillsQuery();
 
 	return (
-		<Flex direction="column" gap="2" py="2" align="center">
+		<Flex direction="column" gap="2" py="3" align="center">
 			{bills &&
 				bills.map((bill) => (
 					<BillCard key={bill.id} bill={bill} showGroup />

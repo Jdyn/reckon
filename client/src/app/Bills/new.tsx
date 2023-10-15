@@ -28,7 +28,9 @@ const NewBill = () => {
 
 	return (
 		<>
-			<Heading my="4" mx="4">Create a bill</Heading>
+			<Heading my="4" mx="4">
+				Create a bill
+			</Heading>
 			<Separator size="4" />
 			<Flex direction="column" py="2" align="center">
 				<Flex direction="column" style={{ maxWidth: '450px' }}>
@@ -56,8 +58,8 @@ const NewBill = () => {
 							<Callout.Text align="center" size="2">
 								{/* <Heading size="2">{type === 'split' ? 'Split' : 'Pot'}</Heading> */}
 								{type === 'split'
-									? 'A split takes a pre-set total and splits the total among people.'
-									: 'A pot takes no total and allows anyone to pay a pre-set amount.'}
+									? 'A split has a pre-set total and splits it among everyone.'
+									: 'A pot has no pre-set total and everyone pays a set amount.'}
 							</Callout.Text>
 						</Callout.Root>
 					</Flex>
@@ -72,12 +74,7 @@ const NewBill = () => {
 											The total amount to be split
 										</Text>
 									</Flex>
-									<TextField.Root>
-										<TextField.Slot>
-											<CurrencyDollarIcon width="18px" />
-										</TextField.Slot>
-										<TextField.Input variant="soft" type="number" placeholder="0.00" />
-									</TextField.Root>
+									<TextField.Input variant="soft" type="number" placeholder="0.00" />
 								</label>
 							</Flex>
 							<Flex direction="column" grow="1" gap="1" py="3" asChild>
