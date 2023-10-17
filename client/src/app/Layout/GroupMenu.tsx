@@ -1,5 +1,6 @@
 import {
 	EllipsisHorizontalIcon,
+	InformationCircleIcon,
 	MagnifyingGlassIcon,
 	NewspaperIcon,
 	PlusCircleIcon,
@@ -8,10 +9,12 @@ import {
 import {
 	AlertDialog,
 	Button,
+	Callout,
 	Dialog,
 	DropdownMenu,
 	Flex,
 	IconButton,
+	Tabs,
 	Text,
 	TextField,
 	Tooltip
@@ -26,6 +29,8 @@ import { useMemo, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import Error from '~/components/Error';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
+
+import styles from './Layout.module.css';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
@@ -75,28 +80,85 @@ const GroupMenu = () => {
 									Invite friends
 								</DropdownMenu.Item>
 							</Dialog.Trigger>
-							<Dialog.Content style={{ maxWidth: 450 }}>
+							<Dialog.Content style={{ maxWidth: 550 }}>
 								<Dialog.Title>Invite friends to {group?.name}</Dialog.Title>
-								<Flex direction="column" asChild>
-									<label>
-										<Text as="div" size="2" mb="1" weight="bold">
-											Identifier
-										</Text>
-										<TextField.Root>
-											<TextField.Slot>
-												<MagnifyingGlassIcon width="18px" />
-											</TextField.Slot>
-											<TextField.Input defaultValue="" placeholder="Phone, Email, Username" />
-											<TextField.Slot>
-												<Tooltip content="Send invite!">
-													<IconButton size="1" variant="soft">
-														<UserPlusIcon width="18px" />
-													</IconButton>
-												</Tooltip>
-											</TextField.Slot>
-										</TextField.Root>
-									</label>
-								</Flex>
+								<Tabs.Root defaultValue="nonexisting">
+									<Tabs.List>
+									<Tabs.Trigger value="nonexisting">non-existing user</Tabs.Trigger>
+										<Tabs.Trigger value="existing">existing user</Tabs.Trigger>
+									</Tabs.List>
+									<Tabs.Content className={styles.inviteDialog} value="existing">
+										<Flex direction="column" my="3">
+											<Callout.Root>
+												<Callout.Icon>
+													<InformationCircleIcon width="18px" />
+												</Callout.Icon>
+												<Callout.Text>
+													Invite an existing user of the platform to your group.
+												</Callout.Text>
+											</Callout.Root>
+											<Flex direction="column" gap="3" my="3">
+												<label>
+													<Text as="div" size="3" mb="1" weight="bold">
+														Identifier
+													</Text>
+													<TextField.Root>
+														<TextField.Slot>
+															<MagnifyingGlassIcon width="14px" />
+														</TextField.Slot>
+														<TextField.Input defaultValue="" placeholder="Phone, Email, Username" />
+														<TextField.Slot>
+															<Tooltip content="Send invite!">
+																<IconButton size="1" variant="soft">
+																	<UserPlusIcon width="18px" />
+																</IconButton>
+															</Tooltip>
+														</TextField.Slot>
+													</TextField.Root>
+												</label>
+											</Flex>
+										</Flex>
+									</Tabs.Content>
+									<Tabs.Content className={styles.inviteDialog} value="nonexisting">
+										<Flex direction="column" my="3">
+											<Callout.Root>
+												<Callout.Icon>
+													<InformationCircleIcon width="14px" />
+												</Callout.Icon>
+												<Callout.Text>
+													Invite a new user to the platform and to your group.
+												</Callout.Text>
+											</Callout.Root>
+											<Flex direction="column" gap="3" my="3">
+												<label>
+													<Text as="div" size="3" mb="1" weight="bold">
+														Name
+													</Text>
+													<TextField.Input defaultValue="" placeholder="John" />
+												</label>
+												<label>
+													<Text as="div" size="3" mb="1" weight="bold">
+														Identifier
+													</Text>
+													<TextField.Root>
+														<TextField.Slot>
+															<MagnifyingGlassIcon width="18px" />
+														</TextField.Slot>
+														<TextField.Input defaultValue="" placeholder="Phone, Email" />
+														<TextField.Slot>
+															<Tooltip content="Send invite!">
+																<IconButton size="1" variant="soft">
+																	<UserPlusIcon width="18px" />
+																</IconButton>
+															</Tooltip>
+														</TextField.Slot>
+													</TextField.Root>
+												</label>
+											</Flex>
+										</Flex>
+									</Tabs.Content>
+								</Tabs.Root>
+
 								<Flex gap="3" mt="4" justify="end">
 									<Dialog.Close>
 										<Button variant="soft">Done</Button>

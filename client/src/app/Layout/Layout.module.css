@@ -100,3 +100,7 @@
 	min-width: 205px;
 	border-radius: var(--radius-4);
 }
+
+.inviteDialog {
+	transition: height 3s ease-in-out;
+}
