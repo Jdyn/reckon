@@ -2,6 +2,7 @@ import { BellAlertIcon, CheckIcon, EnvelopeIcon, XMarkIcon } from '@heroicons/re
 import {
 	Badge,
 	Button,
+	Container,
 	Flex,
 	Heading,
 	IconButton,
@@ -22,6 +23,7 @@ interface InviteEvent {
 function Headers() {
 	const { data } = useEvent<InviteEvent>('user:notifications', 'invites');
 	const [joinGroup] = useJoinGroupMutation();
+
 	return (
 		<Flex className={styles.header} grow="1" justify="end" align="center" px="4" gap="3">
 			<IconButton variant="soft">
@@ -30,26 +32,29 @@ function Headers() {
 			<Popover.Root>
 				<Popover.Trigger>
 					<Button type="button" variant="soft">
-						{data && data.invites.length > 0 && <Badge color="red">{data.invites.length}</Badge>}
-						<EnvelopeIcon width="18px" />
+						{data && data.invites.length > 0 ? (
+							<Badge color="red">{data.invites.length}</Badge>
+						) : (
+							<EnvelopeIcon width="18px" />
+						)}
 						<Text>Invites</Text>
 					</Button>
 				</Popover.Trigger>
-				<Popover.Content sideOffset={5}>
+				<Popover.Content size="2">
 					<Flex direction="column">
-						<Heading size="3">Invites</Heading>
+						<Heading size="4">Invites</Heading>
+						<Separator size="4" />
 						{data && data.invites.length > 0 ? (
 							data.invites.map((invite) => (
-								<Flex direction="column" align="center" key={invite.id} gap="2">
-									<Separator size="4" />
+								<Flex direction="row" align="center" key={invite.id} gap="4" py="3">
 									<Text>
-										{invite.sender.fullName} invited you to join {invite.group.name}
+										{invite.sender.fullName} invited you to {invite.group.name}
 									</Text>
-									<Flex width="100%" justify="end" align="center" gap="3">
+									<Flex justify="end" align="center" gap="1">
 										<IconButton variant="soft" color="red">
 											<XMarkIcon width="18px" />
 										</IconButton>
-										<Button
+										<IconButton
 											variant="soft"
 											color="green"
 											onClick={() => {
@@ -57,13 +62,12 @@ function Headers() {
 											}}
 										>
 											<CheckIcon width="18px" />
-											Accept
-										</Button>
+										</IconButton>
 									</Flex>
 								</Flex>
 							))
 						) : (
-							<Text>There are no pending invites.</Text>
+							<Flex py="3">You have no pending invites.</Flex>
 						)}
 					</Flex>
 				</Popover.Content>

@@ -1,61 +1,85 @@
-.root {
-	display: grid;
-	grid-template-columns: 45px 2fr 1fr;
-	width: 100%;
-	max-width: var(--container-3);
-	justify-content: flex-start;
-	border-radius: var(--radius-5);
+.timeRange {
+	--card-inset: 45px;
+
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin-left: var(--card-inset);
+	padding-bottom: var(--card-inset);
+	/* border-radius: var(--radius-4);
 	background: var(--accent-4);
-	border: 1.5px solid var(--accent-5);
-	color: var(--color);
-	padding: var(--space-4);
-	gap: var(--space-4);
-	flex-basis: 100px;
+	border: 1.5px solid var(--accent-5); */
+
+	box-sizing: border-box;
+
+	&::before {
+		content: '';
+		position: absolute;
+		border-left: 1.5px solid var(--gray-5);
+		height: calc(100% + var(--space-3) + 10px);
+		top: calc((10px + var(--space-3)) * -1);
+
+		left: calc(((var(--card-inset) / 2)) * -1);
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		height: var(--card-inset);
+		width: calc(var(--card-inset));
+
+		top: calc(-1 * (var(--card-inset) / 2));
+		left: calc(((var(--card-inset) / 2)) * -1);
+
+		border-left: 1.5px solid var(--gray-5);
+		border-bottom: 1.5px solid var(--gray-5);
+		border-bottom-left-radius: var(--radius-5);
+	}
 }
 
-.container {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
+.body {
+	--card-inset: 45px;
+
+	position: relative;
+	margin-left: var(--card-inset);
+
+	/* border-radius: var(--radius-4);
+	background: var(--accent-4);
+	border: 1.5px solid var(--accent-5); */
+
+	/* box-sizing: border-box; */
+
+	&::before {
+		content: '';
+		/* box-sizing: border-box; */
+		position: absolute;
+		border-left: 1.5px solid var(--gray-5);
+		height: calc(100% + var(--space-3) + 10px);
+		top: calc((10px + var(--space-3)) * -1);
+
+		left: calc(((var(--card-inset) / 2)) * -1);
+	}
 }
 
-.status {
-	display: flex;
-	flex-direction: row;
-	gap: var(--space-1);
-	color: var(--indigo-11);
-	border-radius: var(--radius-4);
-}
+.event {
+	--card-inset: 45px;
 
-.heading {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
+	position: relative;
+	margin-left: var(--card-inset);
 
-.items {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	gap: var(--space-2);
-	/* margin-bottom: var(--space-4); */
-	padding-left: var(--space-4);
-	background-image: linear-gradient(to top, transparent 50%, var(--gray-a6) 50%);
-	background-position: left 0;
-	background-repeat: repeat-y;
-	background-size: 1.5px 12px;
-}
+	&::after {
+		content: '';
+		position: absolute;
+		height: calc(100% + (var(--card-inset) / 2) + 5px);
+		width: calc(var(--card-inset) + var(--space-3));
 
-.item {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	/* background-image: linear-gradient(to top, transparent 50%, var(--gray-8) 50%);
-	background-position: left 0;
-	background-repeat: repeat-y;
-	background-size: 2px 12px; */
-	padding-left: var(--space-2);
+		bottom: calc((var(--card-inset) / 2));
+		left: calc(((var(--card-inset) / 2)) * -1);
+
+		border-left: 1.5px solid var(--gray-5);
+		border-bottom: 1.5px solid var(--gray-5);
+		border-bottom-left-radius: var(--radius-5);
+	}
 }
 
 .charges {
@@ -74,20 +98,4 @@
 	border-radius: var(--radius-4);
 	padding: var(--space-3);
 	gap: var(--space-2);
-}
-
-.cost {
-	color: var(--grass-11);
-}
-
-.amount {
-	color: var(--crimson-10);
-}
-
-.text {
-	color: var(--subcolor);
-}
-
-.prices {
-	background: linear-gradient(180deg,var(--guideDashedColor),var(--guideDashedColor) 50%,transparent 0,transparent)
 }

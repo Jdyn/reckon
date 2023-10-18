@@ -29,9 +29,7 @@ defmodule Nimble.GroupInviteController do
     end
   end
 
-  def join(conn, %{"token" => token}) do
-    user = current_user(conn)
-
+  def join(_conn, %{"token" => _token}) do
     # TODO: Join through a token which would be recieved through an email or phone link...
   end
 end

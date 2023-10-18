@@ -54,6 +54,14 @@ const GroupMenu = () => {
 		setOpen((prev) => ({ ...prev, [key]: state }));
 	};
 
+	const sendInvite = () => {
+		const input = document.getElementById('existing-user-id');
+		console.log("hello")
+		if (input) {
+			console.log(input.innerText)
+		}
+	}
+
 	return match ? (
 		<SideMenuList>
 			<>
@@ -84,9 +92,10 @@ const GroupMenu = () => {
 								<Dialog.Title>Invite friends to {group?.name}</Dialog.Title>
 								<Tabs.Root defaultValue="nonexisting">
 									<Tabs.List>
-									<Tabs.Trigger value="nonexisting">non-existing user</Tabs.Trigger>
+										<Tabs.Trigger value="nonexisting">non-existing user</Tabs.Trigger>
 										<Tabs.Trigger value="existing">existing user</Tabs.Trigger>
 									</Tabs.List>
+
 									<Tabs.Content className={styles.inviteDialog} value="existing">
 										<Flex direction="column" my="3">
 											<Callout.Root>
@@ -106,10 +115,10 @@ const GroupMenu = () => {
 														<TextField.Slot>
 															<MagnifyingGlassIcon width="14px" />
 														</TextField.Slot>
-														<TextField.Input defaultValue="" placeholder="Phone, Email, Username" />
+														<TextField.Input id="existing-user-id" defaultValue="" placeholder="Phone, Email, Username" />
 														<TextField.Slot>
 															<Tooltip content="Send invite!">
-																<IconButton size="1" variant="soft">
+																<IconButton size="1" variant="soft" onClick={sendInvite}>
 																	<UserPlusIcon width="18px" />
 																</IconButton>
 															</Tooltip>
@@ -119,6 +128,7 @@ const GroupMenu = () => {
 											</Flex>
 										</Flex>
 									</Tabs.Content>
+
 									<Tabs.Content className={styles.inviteDialog} value="nonexisting">
 										<Flex direction="column" my="3">
 											<Callout.Root>

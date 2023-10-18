@@ -1,8 +1,16 @@
-.root {
+.bills {
+	--card-inset: 25px;
+
+	height: 100%;
+	position: relative;
+	margin: var(--card-inset);
+}
+
+.circle {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	overflow: auto;
-	gap: var(--space-2);
-	padding: var(--space-3) 0px;
+	padding: var(--space-3);
+	border-radius: var(--radius-6);
+	background: var(--gray-5);
+	color: var(--color);
+	z-index: 1;
 }

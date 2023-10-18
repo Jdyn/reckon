@@ -3,7 +3,6 @@ defmodule Nimble.GroupController do
 
   alias Nimble.Group
   alias Nimble.Groups
-  alias Nimble.Groups.GroupInvites
 
   action_fallback(Nimble.ErrorController)
 

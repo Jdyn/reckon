@@ -14,7 +14,7 @@ const GroupList = () => {
 	const { data: groups } = useGetGroupsQuery();
 
 	return (
-		<Flex shrink="1" direction="column" gap="3">
+		<Flex direction="column" gap="3">
 				{(groups || []).map((group) => (
 					<SideNavigationLink key={group.id} to={`/g/${group.id}`}>
 						<span>{getInitials(group.name)}</span>
