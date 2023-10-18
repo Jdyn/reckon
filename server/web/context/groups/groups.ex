@@ -78,7 +78,7 @@ defmodule Nimble.Groups do
   end
 
   @doc """
-  Gets a group for a user.
+  Get a group for a user.
 
   ## Examples
 

@@ -5,7 +5,6 @@ import { useCreateGroupMutation } from '@reckon/core';
 import { useState } from 'react';
 // import { Background } from '@reckon/ui';
 import { Outlet, useMatch, useParams } from 'react-router-dom';
-import { PhoenixProvider } from 'use-phoenix';
 import UserList from '~/app/Group/UserList';
 
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../../components/SideMenu';
@@ -25,7 +24,6 @@ export function RootLayout() {
 
 	return (
 		<div className={styles.root}>
-			<PhoenixProvider>
 				<SideMenu expand="right">
 					<div className={styles.menu}>
 						<SideNavigationList>
@@ -78,7 +76,6 @@ export function RootLayout() {
 					<UserList title={gMatch ? 'members' : 'friends'} presence={gMatch ? `group:${id}` : ''} />
 				</SideMenu>
 				{/* <Background /> */}
-			</PhoenixProvider>
 		</div>
 	);
 }
