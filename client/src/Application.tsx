@@ -20,7 +20,7 @@ function ReckonInterface() {
 				<PhoenixProvider>
 					<ThemeProvider defaultTheme="light" storageKey="theme">
 						<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-							<div style={{ maxWidth: '1540px', width: '100%'}}>
+							<div style={{ maxWidth: '1380px', width: '100%'}}>
 							<RouterProvider router={router} />
 							</div>
 						</div>

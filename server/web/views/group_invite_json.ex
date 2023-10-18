@@ -11,6 +11,7 @@ defmodule Nimble.GroupInviteJSON do
   def group_invite(invite = %GroupInvite{}) do
     %{
       id: invite.id,
+      token: Base.url_encode64(invite.token, padding: false),
       meta: meta(invite.meta),
       sender: UserJSON.external_user(invite.sender),
       group: GroupJSON.external_group(invite.group)

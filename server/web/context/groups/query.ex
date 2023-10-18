@@ -42,7 +42,11 @@ defmodule Nimble.Groups.Query do
   end
 
   def invite_for_user(group_id, user_id: user_id) do
-    from(i in GroupInvite, where: i.group_id == ^group_id and i.user_id == ^user_id)
+    from(i in GroupInvite, where: i.group_id == ^group_id and i.recipient_id == ^user_id)
+  end
+
+  def invite_from_token(token) when is_binary(token) do
+    from(i in GroupInvite, where: i.token == ^token)
   end
 
   def invites_for_group(group_id), do: from(i in GroupInvite, where: i.group_id == ^group_id)

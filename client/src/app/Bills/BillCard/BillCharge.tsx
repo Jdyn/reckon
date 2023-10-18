@@ -23,7 +23,7 @@ const BillChargeCard = ({ charge }: BillChargeProps) => {
 			</HoverCard.Trigger>
 
 			<HoverCard.Content>
-				{`${charge.user.fullName} is paying $${charge.amount.amount}`}
+				{`${charge.user.username} will pay $${charge.amount.amount}`}
 			</HoverCard.Content>
 		</HoverCard.Root>
 	);

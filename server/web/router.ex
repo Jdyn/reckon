@@ -5,6 +5,7 @@ defmodule Nimble.Router do
     plug(:accepts, ["json"])
     plug(:fetch_session)
     plug(:put_secure_browser_headers)
+    plug(Nimble.Auth.FetchUser)
   end
 
   pipeline :ensure_auth do
@@ -23,7 +24,7 @@ defmodule Nimble.Router do
 
     # TODO
     # post("/groups/invite/:token", GroupInviteController, :create)
-    # post("/groups/join/:token", GroupController, :join)
+    # post("/groups/join/:token", GroupInviteController, :join)
 
     resources("/account", UserController, singleton: true, only: []) do
       post("/signup", UserController, :sign_up)
@@ -56,7 +57,7 @@ defmodule Nimble.Router do
 
 
       delete("/signout", UserController, :sign_out)
-      
+
       get("/invites", UserController, :show_invites)
       get("/bills", BillController, :user_bills)
     end
@@ -64,7 +65,7 @@ defmodule Nimble.Router do
     post("/bills/:id/accept", BillController, :approve_charge)
 
     resources("/groups", GroupController, only: [:index, :create]) do
-      get("/join", GroupController, :join)
+      post("/join", GroupInviteController, :join)
     end
   end
 

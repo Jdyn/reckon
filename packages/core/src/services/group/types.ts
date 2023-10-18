@@ -16,3 +16,12 @@ export interface GroupInvite {
 	createdAt: string;
 	id: string;
 }
+
+export type GroupInvitePayload = {
+	groupId: string;
+	body: {
+		recipient: {
+			identifier: string;
+		}
+	}
+}

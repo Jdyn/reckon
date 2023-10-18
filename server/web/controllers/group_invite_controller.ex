@@ -20,4 +20,18 @@ defmodule Nimble.GroupInviteController do
       |> json(%{ message: message })
     end
   end
+
+  def join(conn, %{"group_id" => group_id}) do
+    user = current_user(conn)
+
+    with :ok <- GroupInvites.accept_invite(group_id, user_id: user.id) do
+      json(conn, %{ok: true})
+    end
+  end
+
+  def join(conn, %{"token" => token}) do
+    user = current_user(conn)
+
+    # TODO: Join through a token which would be recieved through an email or phone link...
+  end
 end

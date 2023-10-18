@@ -41,14 +41,6 @@ defmodule Nimble.GroupController do
     end
   end
 
-  def join(conn, %{"group_id" => group_id}) do
-    user = current_user(conn)
-
-    with :ok <- GroupInvites.accept_invite(group_id, user.id) do
-      json(conn, %{ok: true})
-    end
-  end
-
   def leave(conn, _params) do
     user = current_user(conn)
     group_id = current_group_id(conn)

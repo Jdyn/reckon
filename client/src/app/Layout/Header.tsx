@@ -9,7 +9,7 @@ import {
 	Separator,
 	Text
 } from '@radix-ui/themes';
-import { GroupInvite } from '@reckon/core';
+import { GroupInvite, useJoinGroupMutation } from '@reckon/core';
 import { useEvent } from 'use-phoenix';
 
 import styles from './Layout.module.css';
@@ -21,7 +21,7 @@ interface InviteEvent {
 
 function Headers() {
 	const { data } = useEvent<InviteEvent>('user:notifications', 'invites');
-
+	const [joinGroup] = useJoinGroupMutation();
 	return (
 		<Flex className={styles.header} grow="1" justify="end" align="center" px="4" gap="3">
 			<IconButton variant="soft">
@@ -49,7 +49,13 @@ function Headers() {
 										<IconButton variant="soft" color="red">
 											<XMarkIcon width="18px" />
 										</IconButton>
-										<Button variant="soft" color="green">
+										<Button
+											variant="soft"
+											color="green"
+											onClick={() => {
+												joinGroup({ groupId: invite.group.id });
+											}}
+										>
 											<CheckIcon width="18px" />
 											Accept
 										</Button>
