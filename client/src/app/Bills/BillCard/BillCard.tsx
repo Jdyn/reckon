@@ -21,7 +21,7 @@ const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
 					<Avatar text={bill.creator.fullName} />
 					<Flex direction="column">
 						{showGroup && <Heading size="2">{bill.group?.name}</Heading>}
-						<Text size="3">
+						<Text size="4">
 							{bill.creator.fullName} opened a ${bill.total.amount} bill
 						</Text>
 						<Text color="gray" size="2">
@@ -30,8 +30,8 @@ const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
 					</Flex>
 				</Flex>
 
-				<Flex className={styles.body} direction="column">
-					<Text my="4">{bill.description}</Text>
+				<Flex className={styles.body} gap="4" direction="column">
+					<Text>{bill.description}</Text>
 					<div className={styles.charges}>
 						{showCharges &&
 							bill.charges.map((charge) => <BillCharge charge={charge} key={charge.id} />)}
@@ -40,32 +40,37 @@ const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
 
 				<Flex className={styles.event} gap="3" align="center">
 					<Avatar text={bill.creator.fullName} />
-					<Flex direction="column">
+					<Flex direction="row" align="center" gap="1" wrap="wrap">
 						<Text>
 							{bill.creator.fullName} opened a ${bill.total.amount} bill
 						</Text>
+						<Text>•</Text>
 						<Text color="gray" size="2">
 							{formatTimeAgo(bill.inserted_at)}
 						</Text>
 					</Flex>
 				</Flex>
+
 				<Flex className={styles.event} gap="3" align="center">
 					<Avatar text={bill.creator.fullName} />
-					<Flex direction="column">
+					<Flex direction="row" align="center" gap="1" wrap="wrap">
 						<Text>
 							{bill.creator.fullName} opened a ${bill.total.amount} bill
 						</Text>
+						<Text>•</Text>
 						<Text color="gray" size="2">
 							{formatTimeAgo(bill.inserted_at)}
 						</Text>
 					</Flex>
 				</Flex>
+
 				<Flex className={styles.event} gap="3" align="center">
 					<Avatar text={bill.creator.fullName} />
-					<Flex direction="column">
+					<Flex direction="row" align="center" gap="1" wrap="wrap">
 						<Text>
 							{bill.creator.fullName} opened a ${bill.total.amount} bill
 						</Text>
+						<Text>•</Text>
 						<Text color="gray" size="2">
 							{formatTimeAgo(bill.inserted_at)}
 						</Text>

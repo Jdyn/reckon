@@ -9,34 +9,45 @@ import {
 	Text
 } from '@radix-ui/themes';
 import { useGroupBillsQuery } from '@reckon/core';
+import useDimensions from 'react-cool-dimensions';
 import { useParams } from 'react-router';
 import BillCard from '~/app/Bills/BillCard';
 
 import styles from './Group.module.css';
 
 const Group = () => {
-
 	const { id } = useParams<{ id: string }>();
 	const { data: bills } = useGroupBillsQuery(id!, { skip: !id });
+	const { observe, height } = useDimensions();
+
 	return (
-		<Container size="2" className={styles.bills}>
-			{/* <ScrollArea type="hover"> */}
+		<div className={styles.bills} ref={observe}>
+			<ScrollArea  style={{ height }}>
 				<Flex gap="2" align="center" pb="4">
 					<div className={styles.circle}>
 						<CalendarDaysIcon width="21px" />
 					</div>
-					<Text color="gray">This week</Text>
+					<Flex direction="column">
+						<Heading>This week</Heading>
+						<Text color="gray">View bills opened this week.</Text>
+					</Flex>
 				</Flex>
+
 				{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
+
 				<Flex gap="2" align="center" pb="4">
 					<div className={styles.circle}>
 						<CalendarDaysIcon width="21px" />
 					</div>
-					<Text color="gray">Last week</Text>
+					<Flex direction="column">
+						<Heading>Last week</Heading>
+						<Text color="gray">View bills opened last week.</Text>
+					</Flex>
 				</Flex>
+
 				{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
-			{/* </ScrollArea> */}
-		</Container>
+			</ScrollArea>
+		</div>
 	);
 };
 

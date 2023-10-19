@@ -1,11 +1,4 @@
-import {
-	Avatar,
-	Box,
-	Flex,
-	Heading,
-	Popover,
-	Text,
-} from '@radix-ui/themes';
+import { Avatar, Box, Flex, Heading, Popover, Text } from '@radix-ui/themes';
 import { User } from '@reckon/core';
 
 import styles from './MemberCard.module.css';
@@ -25,19 +18,8 @@ const MemberCard = ({ user, online }: MemberCardProps) => {
 						<span className={styles.indicator} />
 					</div>
 					<div className={styles.header}>
-						<Heading className={styles.name} size="2">
-							{user.username}
-						</Heading>
-						<div className={styles.status}>
-							{
-								online ? (
-									<>
-										<Text size="1">Online</Text>
-									</>
-								) : null
-								// `Seen ${lastUpdated(user.updatedAt)}`
-							}
-						</div>
+						<Text weight="bold">{user.username}</Text>
+						<Text size="2">Online</Text>
 					</div>
 				</div>
 			</Popover.Trigger>

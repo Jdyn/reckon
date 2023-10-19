@@ -33,11 +33,11 @@ const UserList = ({ title, presence }: UserListProps) => {
 
 	return (
 		<div className={styles.userList} style={{ flexGrow: 1 }}>
-			<Heading size="3" className={styles.header}>
+			<Heading size="4" className={styles.header}>
 				<div>
 					<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
 				</div>
-				<Text>{title}</Text>
+				{title}
 			</Heading>
 			{presences.map((presence) => (
 				<MemberCard key={presence.id} user={presence.user} online={presence.metas.onlineAt} />
