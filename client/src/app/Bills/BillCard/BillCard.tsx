@@ -38,44 +38,20 @@ const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
 					</div>
 				</Flex>
 
-				<Flex className={styles.event} gap="3" align="center">
-					<Avatar text={bill.creator.fullName} />
-					<Flex direction="row" align="center" gap="1" wrap="wrap">
-						<Text>
-							{bill.creator.fullName} opened a ${bill.total.amount} bill
-						</Text>
-						<Text>•</Text>
-						<Text color="gray" size="2">
-							{formatTimeAgo(bill.inserted_at)}
-						</Text>
+				{[1, 2, 3].map((i) => (
+					<Flex key={i} className={styles.event} gap="3" align="center">
+						<Avatar text={bill.creator.fullName} />
+						<Flex direction="column" wrap="wrap">
+							<Text>
+								{bill.creator.fullName} opened a ${bill.total.amount} bill
+							</Text>
+							{/* <Text>•</Text> */}
+							<Text color="gray" size="2">
+								{formatTimeAgo(bill.inserted_at)}
+							</Text>
+						</Flex>
 					</Flex>
-				</Flex>
-
-				<Flex className={styles.event} gap="3" align="center">
-					<Avatar text={bill.creator.fullName} />
-					<Flex direction="row" align="center" gap="1" wrap="wrap">
-						<Text>
-							{bill.creator.fullName} opened a ${bill.total.amount} bill
-						</Text>
-						<Text>•</Text>
-						<Text color="gray" size="2">
-							{formatTimeAgo(bill.inserted_at)}
-						</Text>
-					</Flex>
-				</Flex>
-
-				<Flex className={styles.event} gap="3" align="center">
-					<Avatar text={bill.creator.fullName} />
-					<Flex direction="row" align="center" gap="1" wrap="wrap">
-						<Text>
-							{bill.creator.fullName} opened a ${bill.total.amount} bill
-						</Text>
-						<Text>•</Text>
-						<Text color="gray" size="2">
-							{formatTimeAgo(bill.inserted_at)}
-						</Text>
-					</Flex>
-				</Flex>
+				))}
 			</Flex>
 		</div>
 	);

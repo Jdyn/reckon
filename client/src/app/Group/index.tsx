@@ -23,6 +23,7 @@ const Group = () => {
 	return (
 		<div className={styles.bills} ref={observe}>
 			<ScrollArea  style={{ height }}>
+				<Flex style={{ height: '45px'}} />
 				<Flex gap="2" align="center" pb="4">
 					<div className={styles.circle}>
 						<CalendarDaysIcon width="21px" />

@@ -47,7 +47,7 @@
 
 html {
 	background: var(--indigo-5);
-	--header-height: 75px;
+	--header-height: 55px;
 }
 
 a.active {

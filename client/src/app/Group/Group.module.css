@@ -4,8 +4,7 @@
 	height: 100%;
 	position: relative;
 	/* margin: 0px var(--card-inset); */
-	margin-left: var(--card-inset);
-	margin-right: 10px;
+	margin: 0 10px 0 var(--card-inset);
 	box-sizing: border-box !important;
 
 	/* & > div {
