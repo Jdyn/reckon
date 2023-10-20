@@ -1,5 +1,6 @@
 import { PinLeftIcon, PinRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
 import {
 	AnchorHTMLAttributes,
@@ -37,7 +38,7 @@ const useSideMenu = () => {
 };
 
 export function SideMenu({ style, expand, children }: SideMenuProps) {
-	const [expanded, setExpanded] = useState(true);
+	const [expanded, setExpanded] = useState(false);
 	const [value, setValue] = useState<string | undefined>(undefined);
 
 	const ArrowIcon = useMemo(
@@ -115,11 +116,19 @@ export const SideNavigationList = ({ children }: SideNavigationListProps) => {
 	);
 };
 
+interface SideNavigationLinkProps {
+	children: [ReactNode, ReactNode];
+}
+
 export const SideNavigationLink = forwardRef<
 	HTMLButtonElement,
-	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps, HTMLAnchorElement>
+	DetailedHTMLProps<
+		AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps & SideNavigationLinkProps,
+		HTMLAnchorElement
+	>
 >(({ children, to, onClick }, ref) => {
-	const { setValue, value, listRef } = useSideMenu();
+	const [icon, child] = children;
+	const { setValue } = useSideMenu();
 	const { pathname } = useLocation();
 
 	useEffect(() => {
@@ -129,47 +138,22 @@ export const SideNavigationLink = forwardRef<
 		}
 	}, [pathname, setValue, to]);
 
-	const onNodeUpdate = (trigger: HTMLButtonElement | null, itemValue: string) => {
-		const list = listRef.current;
-		if (trigger && list && value === itemValue) {
-			const listHeight = list.offsetHeight;
-			// console.log(list.scrollTop);
-			// const listCenter = listWidth / 2;
-
-			// const triggerOffsetRight =
-			//   listWidth -
-			//   trigger.offsetLeft -
-			//   trigger.offsetWidth +
-			//   trigger.offsetWidth / 2;
-			// console.log(list.scrollTop)
-			// console.log(Math.round(listHeight - list.scrollTop));
-
-			// setOffset(Math.round(listCenter - triggerOffsetRight));
-		} else if (value === '') {
-			// setOffset(null);
-		}
-		return trigger;
-	};
-
 	return (
 		<NavigationMenu.Item value={to.toString()} asChild>
-			<NavigationMenu.Trigger
-				ref={(node) => {
-					onNodeUpdate(node, to.toString());
-					return ref;
-				}}
-				asChild
-			>
-				<Link
-					onClick={(e) => {
-						setValue(to.toString());
-						onClick && onClick(e);
-					}}
-					className={clsx(styles.listItem)}
-					to={to}
-				>
-					{children}
-				</Link>
+			<NavigationMenu.Trigger ref={ref} asChild>
+				<Flex gap="3" pr="4" align="center" asChild>
+					<Link
+						onClick={(e) => {
+							setValue(to.toString());
+							onClick && onClick(e);
+						}}
+						className={clsx(styles.listItem)}
+						to={to}
+					>
+						<Flex p="3" className={styles.listItemIcon} asChild>{icon}</Flex>
+						{child}
+					</Link>
+				</Flex>
 			</NavigationMenu.Trigger>
 		</NavigationMenu.Item>
 	);

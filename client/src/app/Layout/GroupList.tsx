@@ -18,15 +18,13 @@ const GroupList = () => {
 	return (
 		<Flex direction="column" gap="3">
 			{(groups || []).map((group) => (
-				<Flex key={group.id} gap="3" align="center">
-					<SideNavigationLink to={`/g/${group.id}`}>
-						<span>{getInitials(group.name)}</span>
-					</SideNavigationLink>
-					<Flex grow="1" justify="between" align="center">
-						<Text> {group.name}</Text>
+				<SideNavigationLink key={group.id} to={`/g/${group.id}`}>
+					<Text>{getInitials(group.name)}</Text>
+					<Flex grow="1" gap="3" justify="between" align="center">
+						<Text weight="bold"> {group.name}</Text>
 						<GroupMenu />
 					</Flex>
-				</Flex>
+				</SideNavigationLink>
 			))}
 		</Flex>
 	);

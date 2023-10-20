@@ -42,7 +42,8 @@
 	gap: 10px;
 	border: none;
 	flex-direction: row;
-	padding: 10px 25.5px;
+	padding: 0 25.5px;
+	height: 50px;
 	background: transparent;
 	cursor: pointer;
 	transition-duration: 0.2s;
@@ -77,39 +78,45 @@
 
 .listItem {
 	display: flex;
-	gap: 20px;
-	border-radius: 0px 16px 16px 0px;
-	align-items: center;
-	justify-content: center;
+	gap: var(--space-3);
 	transition: all 0.1s linear;
 	background: transparent;
-	border-left: none;
-	height: 48px;
-	width: 48px;
+
+	overflow: hidden;
 	color: var(--color);
 	text-decoration: none;
 	cursor: pointer;
-	overflow: hidden;
 	text-transform: uppercase;
 	font-weight: 700;
 	white-space: nowrap;
-	background: var(--accent-a4);
 	border-radius: 12px;
-}
-.listItem > span {
-	transition: color 0.1s linear;
-	z-index: 2;
-	overflow: hidden;
-}
-.listItem > svg {
-	transition: color 0.1s linear;
-	z-index: 2;
-	overflow: hidden;
-	transition: transform 0.1s linear;
-	overflow: visible;
+/*
+	& > span {
+		transition: color 0.1s linear;
+		z-index: 2;
+		overflow: hidden;
+	} */
+
+	& > svg {
+		transition: color 0.1s linear;
+		z-index: 2;
+		overflow: hidden;
+		transition: transform 0.1s linear;
+		overflow: visible;
+	}
 }
 .listItem[data-state='open'] {
 	color: white;
+}
+
+.listItemIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-4);
+	background: var(--accent-a4);
+	z-index: 2;
+	width: 48px !important;
 }
 
 .indicator {

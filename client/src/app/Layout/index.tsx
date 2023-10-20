@@ -25,7 +25,7 @@ export function RootLayout() {
 	return (
 		<div className={styles.root}>
 			<SideMenu expand="right">
-				<Flex style={{ height: '30px' }} />
+				{/* <Flex style={{ height: '30px' }} /> */}
 				{/* <div className={styles.menu}> */}
 				<SideNavigationList>
 					<Dialog.Root>
@@ -57,14 +57,10 @@ export function RootLayout() {
 							</Flex>
 						</Dialog.Content>
 					</Dialog.Root>
-					<Flex gap="3" align="center">
-						<SideNavigationLink to="/feed">
-							<HomeIcon width="24px" height="24px" />
-						</SideNavigationLink>
-						<Flex>
-							<Text>Home</Text>
-						</Flex>
-					</Flex>
+					<SideNavigationLink to="/feed">
+						<HomeIcon width="24px" height="24px" />
+						<Text>Home</Text>
+					</SideNavigationLink>
 					<Separator size="4" />
 					<GroupList />
 				</SideNavigationList>
@@ -80,7 +76,7 @@ export function RootLayout() {
 				</div>
 			</div>
 			<SideMenu expand="left">
-				<Flex style={{ height: '30px' }} />
+				{/* <Flex style={{ height: '30px' }} /> */}
 
 				<UserList title={gMatch ? 'members' : 'friends'} presence={gMatch ? `group:${id}` : ''} />
 			</SideMenu>

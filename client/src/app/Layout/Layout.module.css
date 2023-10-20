@@ -41,7 +41,6 @@
 	flex-direction: column;
 	width: 100%;
 	grid-area: main;
-	padding-bottom: 10px;
 	overflow: hidden;
 }
 
