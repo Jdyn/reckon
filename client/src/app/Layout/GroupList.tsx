@@ -1,6 +1,8 @@
-import { Flex, ScrollArea } from '@radix-ui/themes';
+import { Flex, ScrollArea, Text } from '@radix-ui/themes';
 import { useGetGroupsQuery } from '@reckon/core';
 import { SideNavigationLink } from '~/components/SideMenu';
+
+import GroupMenu from './GroupMenu';
 
 function getInitials(input: string): string {
 	return input
@@ -15,11 +17,17 @@ const GroupList = () => {
 
 	return (
 		<Flex direction="column" gap="3">
-				{(groups || []).map((group) => (
-					<SideNavigationLink key={group.id} to={`/g/${group.id}`}>
+			{(groups || []).map((group) => (
+				<Flex key={group.id} gap="3" align="center">
+					<SideNavigationLink to={`/g/${group.id}`}>
 						<span>{getInitials(group.name)}</span>
 					</SideNavigationLink>
-				))}
+					<Flex grow="1" justify="between" align="center">
+						<Text> {group.name}</Text>
+						<GroupMenu />
+					</Flex>
+				</Flex>
+			))}
 		</Flex>
 	);
 };
