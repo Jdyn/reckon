@@ -106,7 +106,7 @@ export const SideNavigationList = ({ children }: SideNavigationListProps) => {
 					<NavigationMenu.Indicator
 						id="test"
 						className={styles.indicator}
-						style={{ width: '48px' }}
+						style={{ width: width }}
 						// style={{ width: width, transform: `translateY(${10}px)` }}
 					/>
 				</div>
