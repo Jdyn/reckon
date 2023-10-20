@@ -1,4 +1,4 @@
-import { Flex, ScrollArea } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { useGetGroupsQuery } from '@reckon/core';
 import { SideNavigationLink } from '~/components/SideMenu';
 
@@ -18,13 +18,13 @@ const GroupList = () => {
 	return (
 		<Flex direction="column" gap="3">
 			{(groups || []).map((group) => (
-				<GroupContextMenu groupId={group.id} key={group.id}>
-					<div>
-						<SideNavigationLink key={group.id} to={`/g/${group.id}`}>
-							<span>{getInitials(group.name)}</span>
-						</SideNavigationLink>
-					</div>
-				</GroupContextMenu>
+				<SideNavigationLink key={group.id} to={`/g/${group.id}`}>
+					<GroupContextMenu groupId={group.id} key={group.id}>
+						<Flex width="100%" height="100%" align="center" justify="center" style={{ zIndex: 2 }}>
+						{getInitials(group.name)}
+						</Flex>
+					</GroupContextMenu>
+				</SideNavigationLink>
 			))}
 		</Flex>
 	);

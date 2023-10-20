@@ -1,9 +1,4 @@
-import {
-	GlobeAltIcon,
-	GlobeAmericasIcon,
-	GlobeEuropeAfricaIcon,
-	PlusIcon
-} from '@heroicons/react/24/outline';
+import { GlobeEuropeAfricaIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { HomeIcon } from '@radix-ui/react-icons';
 import { Button, Dialog, Flex, Heading, Separator, Text, TextField } from '@radix-ui/themes';
 import { useCreateGroupMutation } from '@reckon/core';
@@ -30,7 +25,6 @@ export function RootLayout() {
 	return (
 		<div className={styles.root}>
 			<SideMenu expand="right">
-				<Flex style={{ height: '30px' }} />
 				<div className={styles.menu}>
 					<SideNavigationList>
 						<Dialog.Root>
@@ -82,8 +76,6 @@ export function RootLayout() {
 				</div>
 			</div>
 			<SideMenu expand="left">
-				<Flex style={{ height: '30px' }} />
-
 				<UserList title={gMatch ? 'members' : 'friends'} presence={gMatch ? `group:${id}` : ''} />
 			</SideMenu>
 			{/* <Background /> */}

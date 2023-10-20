@@ -1,9 +1,4 @@
-import {
-	EnvelopeIcon,
-	NewspaperIcon,
-	UserCircleIcon,
-	UserGroupIcon
-} from '@heroicons/react/24/outline';
+import { NewspaperIcon } from '@heroicons/react/24/outline';
 import { useMatch } from 'react-router-dom';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
 
@@ -17,10 +12,6 @@ const HomeMenu = () => {
 				<NewspaperIcon width="18px" />
 				Feed
 			</SideMenuList.Link>
-			{/* <SideMenuList.Link to="/me">
-				<UserCircleIcon width="18px" />
-				Me
-			</SideMenuList.Link> */}
 		</SideMenuList>
 	) : null;
 };

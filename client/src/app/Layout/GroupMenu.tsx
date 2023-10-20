@@ -1,38 +1,8 @@
-import {
-	EllipsisHorizontalIcon,
-	InformationCircleIcon,
-	MagnifyingGlassIcon,
-	NewspaperIcon,
-	PlusCircleIcon,
-	PlusSmallIcon,
-	UserPlusIcon
-} from '@heroicons/react/24/outline';
-import {
-	AlertDialog,
-	Button,
-	Callout,
-	Dialog,
-	DropdownMenu,
-	Flex,
-	Heading,
-	IconButton,
-	Tabs,
-	Text,
-	TextField,
-	Tooltip
-} from '@radix-ui/themes';
-import {
-	useAccountQuery,
-	useDeleteGroupMutation,
-	useGetGroupQuery,
-	useLeaveGroupMutation
-} from '@reckon/core';
-import { useMemo, useState } from 'react';
+import { NewspaperIcon, PlusSmallIcon } from '@heroicons/react/24/outline';
+import { Flex, Heading, IconButton, Tooltip } from '@radix-ui/themes';
+import { useGetGroupQuery } from '@reckon/core';
 import { useMatch } from 'react-router-dom';
-import Error from '~/components/Error';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
-
-import styles from './Layout.module.css';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });

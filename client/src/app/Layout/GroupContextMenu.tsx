@@ -1,7 +1,6 @@
 import {
 	InformationCircleIcon,
 	MagnifyingGlassIcon,
-	PlusSmallIcon,
 	UserPlusIcon
 } from '@heroicons/react/24/outline';
 import {
@@ -11,7 +10,6 @@ import {
 	ContextMenu,
 	Dialog,
 	Flex,
-	Heading,
 	IconButton,
 	Tabs,
 	Text,

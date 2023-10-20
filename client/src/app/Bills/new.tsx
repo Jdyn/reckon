@@ -1,21 +1,14 @@
-import {
-	ArchiveBoxIcon,
-	CurrencyDollarIcon,
-	ExclamationCircleIcon,
-	UserGroupIcon
-} from '@heroicons/react/24/outline';
+import { ArchiveBoxIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import {
 	Callout,
 	Flex,
 	Heading,
-	IconButton,
 	Separator,
 	Switch,
 	Text,
 	TextArea,
-	TextField,
-	Tooltip
+	TextField
 } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useState } from 'react';
