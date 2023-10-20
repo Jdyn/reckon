@@ -1,9 +1,11 @@
 .userList {
 	display: flex;
+	/* background: var(--accent-6); */
 	flex-direction: column;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding-left: 10px;
+	padding: 10px;
+	border-radius: 25px;
 }
 
 .header {

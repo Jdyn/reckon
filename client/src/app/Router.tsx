@@ -5,10 +5,10 @@ import Home from '~/app/Home';
 
 import AuthLayout from './Auth/AuthLayout';
 import Login from './Auth/Login';
+import Settings from './Auth/Settings';
 import NewBill from './Bills/new';
 import NewGroup from './Group/new';
 import { RootLayout } from './Layout';
-import Settings from './Auth/Settings';
 
 // import { ErrorFallback } from './ErrorFallback';
 
@@ -30,6 +30,10 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				element: <Navigate to="/feed" />
+			},
+			{
+				path: 'home',
+				element: <Home />
 			},
 			{
 				path: 'feed',

@@ -1,4 +1,9 @@
-import { PlusIcon } from '@heroicons/react/24/outline';
+import {
+	GlobeAltIcon,
+	GlobeAmericasIcon,
+	GlobeEuropeAfricaIcon,
+	PlusIcon
+} from '@heroicons/react/24/outline';
 import { HomeIcon } from '@radix-ui/react-icons';
 import { Button, Dialog, Flex, Heading, Separator, Text, TextField } from '@radix-ui/themes';
 import { useCreateGroupMutation } from '@reckon/core';
@@ -56,8 +61,11 @@ export function RootLayout() {
 								</Flex>
 							</Dialog.Content>
 						</Dialog.Root>
-						<SideNavigationLink to="/feed">
+						<SideNavigationLink to="/home">
 							<HomeIcon width="24px" height="24px" />
+						</SideNavigationLink>
+						<SideNavigationLink to="/feed">
+							<GlobeEuropeAfricaIcon width="24px" height="24px" />
 						</SideNavigationLink>
 						<Separator size="4" />
 						<GroupList />

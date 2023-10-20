@@ -8,7 +8,7 @@ import { useMatch } from 'react-router-dom';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
 
 const HomeMenu = () => {
-	const match = useMatch({ path: '/feed', caseSensitive: false, end: false });
+	const match = useMatch({ path: '/home', caseSensitive: false, end: false });
 
 	return match ? (
 		<SideMenuList>

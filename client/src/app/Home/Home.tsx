@@ -12,10 +12,6 @@ const Home = () => {
 			{bills &&
 				bills.map((bill) => (
 					<BillCard key={bill.id} bill={bill} showGroup />
-					// <Card key={bill.id} className={styles.card}>
-					// 	<Heading size="4">{bill.group?.name}</Heading>
-					// 	<Text>{bill.description}</Text>
-					// </Card>
 				))}
 		</Flex>
 	);

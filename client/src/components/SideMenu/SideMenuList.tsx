@@ -13,9 +13,7 @@ const SideMenulist = ({ children }: SideMenuList) => {
 
 	return (
 		<div className={styles.listRoot}>
-			<Flex asChild align="center" justify="between" height="6">
-				<Heading size="4">{header}</Heading>
-			</Flex>
+			{header}
 			<Separator size="4" />
 			<Flex gap="2" direction="column">
 				{rest}
