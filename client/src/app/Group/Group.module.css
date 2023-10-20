@@ -1,16 +1,8 @@
 .bills {
 	--card-inset: 45px;
-
 	height: 100%;
 	position: relative;
-	/* margin: 0px var(--card-inset); */
-	margin: 0 10px 0 var(--card-inset);
 	box-sizing: border-box !important;
-
-	/* & > div {
-		align-items: center;
-		overflow-y: scroll;
-	} */
 }
 
 .inner {

@@ -1,11 +1,8 @@
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import {
-	Container,
 	Flex,
 	Heading,
-	IconButton,
 	ScrollArea,
-	Separator,
 	Text
 } from '@radix-ui/themes';
 import { useGroupBillsQuery } from '@reckon/core';
@@ -22,31 +19,32 @@ const Group = () => {
 
 	return (
 		<div className={styles.bills} ref={observe}>
-			<ScrollArea  style={{ height }}>
-				<Flex style={{ height: '45px'}} />
-				<Flex gap="2" align="center" pb="4">
-					<div className={styles.circle}>
-						<CalendarDaysIcon width="21px" />
-					</div>
-					<Flex direction="column">
-						<Heading>This week</Heading>
-						<Text color="gray">View bills opened this week.</Text>
+			<ScrollArea style={{ height }}>
+				<Flex direction="column" m="7" mb="0">
+					<Flex gap="2" align="center" pb="4">
+						<div className={styles.circle}>
+							<CalendarDaysIcon width="21px" />
+						</div>
+						<Flex direction="column">
+							<Heading>This week</Heading>
+							<Text color="gray">View bills opened this week.</Text>
+						</Flex>
 					</Flex>
-				</Flex>
 
-				{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
+					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
 
-				<Flex gap="2" align="center" pb="4">
-					<div className={styles.circle}>
-						<CalendarDaysIcon width="21px" />
-					</div>
-					<Flex direction="column">
-						<Heading>Last week</Heading>
-						<Text color="gray">View bills opened last week.</Text>
+					<Flex gap="2" align="center" pb="4">
+						<div className={styles.circle}>
+							<CalendarDaysIcon width="21px" />
+						</div>
+						<Flex direction="column">
+							<Heading>Last week</Heading>
+							<Text color="gray">View bills opened last week.</Text>
+						</Flex>
 					</Flex>
-				</Flex>
 
-				{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
+					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
+				</Flex>
 			</ScrollArea>
 		</div>
 	);
