@@ -18,7 +18,7 @@ const GroupList = () => {
 	return (
 		<Flex direction="column" gap="3">
 			{(groups || []).map((group) => (
-				<SideNavigationLink key={group.id} to={`/g/${group.id}`}>
+				<SideNavigationLink key={group.id} to={`/g/${group.id}/feed`}>
 					<GroupContextMenu groupId={group.id} key={group.id}>
 						<Flex width="100%" height="100%" align="center" justify="center" style={{ zIndex: 2 }}>
 						{getInitials(group.name)}

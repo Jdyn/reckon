@@ -17,7 +17,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 				<Flex direction="row" gap="3">
 					<Avatar text={bill.creator.fullName} />
 					<Flex direction="column">
-						<Heading size="2">{bill.group?.name}</Heading>
+						{/* <Heading size="2">{bill.group?.name}</Heading> */}
 
 						<Text size="4">
 							{bill.creator.fullName} opened a {bill.total && `$${bill.total.amount}`} bill

@@ -5,10 +5,7 @@ import AuthLayout from './Auth/AuthLayout';
 import Login from './Auth/Login';
 import Settings from './Auth/Settings';
 import BillFeed from './Bills/BillFeed';
-import NewGroup from './Group/new';
 import { RootLayout } from './Layout';
-
-// import { ErrorFallback } from './ErrorFallback';
 
 const protectRoute = async () => {
 	const { error } = await store.dispatch(account.initiate());
@@ -29,26 +26,8 @@ const router = createBrowserRouter([
 			{ path: 'home', element: <BillFeed type="user" /> },
 			{ path: 'feed', element: <BillFeed type="global" /> },
 			{
-				path: 'group',
-				children: [
-					{
-						path: 'new',
-						element: <NewGroup />
-					}
-				]
-			},
-			{
-				path: 'g/:id',
-				children: [
-					{
-						index: true,
-						element: <Navigate to="feed" />
-					},
-					{
-						path: 'feed',
-						element: <BillFeed type="group" />
-					}
-				]
+				path: 'g/:id/feed',
+				element: <BillFeed type="group" />
 			},
 			{ path: 'settings', element: <Settings /> }
 		]

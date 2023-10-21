@@ -10,7 +10,7 @@ const GroupMenu = () => {
 
 	return match ? (
 		<SideMenuList>
-			<Flex direction="row" align="center" justify="between" height="6">
+			<Flex align="center" justify="between" height="6">
 				<Heading size="3">{group?.name}</Heading>
 				<Tooltip content="start a new bill">
 					<IconButton variant="ghost">
