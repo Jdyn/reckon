@@ -1,20 +1,17 @@
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
-import {
-	Flex,
-	Heading,
-	ScrollArea,
-	Text
-} from '@radix-ui/themes';
-import { useGroupBillsQuery } from '@reckon/core';
+import { Flex, Heading, ScrollArea, Text } from '@radix-ui/themes';
+import { Bill, useGroupBillsQuery } from '@reckon/core';
 import useDimensions from 'react-cool-dimensions';
 import { useParams } from 'react-router';
 import BillCard from '~/app/Bills/BillCard';
 
-import styles from './Group.module.css';
+import styles from './Bills.module.css';
 
-const Group = () => {
-	const { id } = useParams<{ id: string }>();
-	const { data: bills } = useGroupBillsQuery(id!, { skip: !id });
+interface BillListProps {
+	bills?: Bill[];
+}
+
+const BillList = ({ bills }: BillListProps) => {
 	const { observe, height } = useDimensions();
 
 	return (
@@ -31,7 +28,7 @@ const Group = () => {
 						</Flex>
 					</Flex>
 
-					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
+					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
 
 					<Flex gap="2" align="center" pb="4">
 						<div className={styles.circle}>
@@ -43,11 +40,11 @@ const Group = () => {
 						</Flex>
 					</Flex>
 
-					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} showCharges />)}
+					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
 				</Flex>
 			</ScrollArea>
 		</div>
 	);
 };
 
-export default Group;
+export default BillList;

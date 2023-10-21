@@ -41,6 +41,8 @@ defmodule Nimble.Router do
   scope "/api", Nimble do
     pipe_through([:api, :ensure_auth])
 
+    get("/bills", BillController, :global_bills)
+
     resources("/account", UserController, singleton: true, only: [:show]) do
       get("/session", SessionController, :show)
       get("/sessions", SessionController, :index)

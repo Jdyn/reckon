@@ -5,6 +5,12 @@ defmodule Nimble.BillController do
 
   action_fallback(Nimble.ErrorController)
 
+  def global_bills(conn, _params) do
+    with {:ok, bills} <- Bills.for_global() do
+      render(conn, "external_index.json", bills: bills)
+    end
+  end
+
   def group_bills(conn, _params) do
     group_id = conn.assigns[:group_id]
 

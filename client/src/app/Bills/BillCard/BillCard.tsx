@@ -1,5 +1,4 @@
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Container, Flex, Heading, Separator, Text } from '@radix-ui/themes';
+import { Flex, Heading, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
 import { formatTimeAgo } from '~/utils/dates';
@@ -9,20 +8,19 @@ import BillCharge from './BillCharge';
 
 type BillCardProps = {
 	bill: Bill;
-	showCharges?: boolean;
-	showGroup?: boolean;
 };
 
-const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
+const BillCard = ({ bill }: BillCardProps) => {
 	return (
 		<div className={styles.timeRange}>
 			<Flex direction="column" gap="3">
 				<Flex direction="row" gap="3">
 					<Avatar text={bill.creator.fullName} />
 					<Flex direction="column">
-						{showGroup && <Heading size="2">{bill.group?.name}</Heading>}
+						<Heading size="2">{bill.group?.name}</Heading>
+
 						<Text size="4">
-							{bill.creator.fullName} opened a ${bill.total.amount} bill
+							{bill.creator.fullName} opened a {bill.total && `$${bill.total.amount}`} bill
 						</Text>
 						<Text color="gray" size="2">
 							{formatTimeAgo(bill.inserted_at)}
@@ -32,26 +30,30 @@ const BillCard = ({ bill, showCharges, showGroup }: BillCardProps) => {
 
 				<Flex className={styles.body} gap="4" direction="column">
 					<Text>{bill.description}</Text>
-					<div className={styles.charges}>
-						{showCharges &&
-							bill.charges.map((charge) => <BillCharge charge={charge} key={charge.id} />)}
-					</div>
+					{bill.charges && (
+						<div className={styles.charges}>
+							{bill.charges.map((charge) => (
+								<BillCharge charge={charge} key={charge.id} />
+							))}
+						</div>
+					)}
 				</Flex>
 
-				{[1, 2, 3].map((i) => (
-					<Flex key={i} className={styles.event} gap="3" align="center">
-						<Avatar text={bill.creator.fullName} />
-						<Flex direction="column" wrap="wrap">
-							<Text>
-								{bill.creator.fullName} opened a ${bill.total.amount} bill
-							</Text>
-							{/* <Text>•</Text> */}
-							<Text color="gray" size="2">
-								{formatTimeAgo(bill.inserted_at)}
-							</Text>
+				{
+					[1, 2, 3].map((i) => (
+						<Flex key={i} className={styles.event} gap="3" align="center">
+							<Avatar text={bill.creator.fullName} />
+							<Flex direction="column" wrap="wrap">
+								<Text>
+									{bill.creator.fullName} opened a {bill.total && `$${bill.total.amount}`} bill
+								</Text>
+								{/* <Text>•</Text> */}
+								<Text color="gray" size="2">
+									{formatTimeAgo(bill.inserted_at)}
+								</Text>
+							</Flex>
 						</Flex>
-					</Flex>
-				))}
+					))}
 			</Flex>
 		</div>
 	);

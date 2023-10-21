@@ -40,7 +40,6 @@
 	flex-direction: column;
 	width: 100%;
 	grid-area: main;
-	padding-bottom: 10px;
 	overflow: hidden;
 }
 
@@ -53,13 +52,7 @@
 	border-radius: 25px;
 	border: 1.5px solid var(--accent-6);
 	box-shadow: 0 0 0 300vh var(--layout-background);
-	background: var(--accent-3);
-}
-
-.container {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
+	background: var(--accent-2);
 }
 
 .optionMenu {

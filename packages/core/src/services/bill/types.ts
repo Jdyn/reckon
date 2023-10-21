@@ -9,13 +9,13 @@ export type Money = {
 export type Bill = {
 	id: number;
 	description: string;
-	total: Money;
+	total?: Money;
 	group_id?: string;
 	inserted_at: string;
-	items: BillItem[];
-	charges: BillCharge[];
+	items?: BillItem[];
+	charges?: BillCharge[];
 	creator: User;
-	status: string;
+	status?: string;
 	group?: Group;
 };
 

@@ -5,12 +5,12 @@ import { useCreateGroupMutation } from '@reckon/core';
 import { useState } from 'react';
 // import { Background } from '@reckon/ui';
 import { Outlet, useMatch, useParams } from 'react-router-dom';
-import UserList from '~/app/Group/UserList';
+import UserList from '~/app/Auth/UserList';
 import sideMenuStyles from '~/components/SideMenu/SideMenu.module.css';
 
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../../components/SideMenu';
-import GroupList from './GroupList';
-import GroupMenu from './GroupMenu';
+import GroupList from '../Group/GroupList';
+import GroupMenu from '../Group/GroupMenu';
 import Header from './Header';
 import HomeMenu from './HomeMenu';
 import styles from './Layout.module.css';
@@ -55,16 +55,22 @@ export function RootLayout() {
 								</Flex>
 							</Dialog.Content>
 						</Dialog.Root>
-						<SideNavigationLink to="/home">
-							<HomeIcon width="24px" height="24px" />
-						</SideNavigationLink>
+
 						<SideNavigationLink to="/feed">
 							<GlobeEuropeAfricaIcon width="24px" height="24px" />
 						</SideNavigationLink>
+
+						<SideNavigationLink to="/home">
+							<HomeIcon width="24px" height="24px" />
+						</SideNavigationLink>
+
 						<Separator size="4" />
+
 						<GroupList />
 					</SideNavigationList>
+
 					<GroupMenu />
+
 					<HomeMenu />
 				</div>
 				<ProfileLink />

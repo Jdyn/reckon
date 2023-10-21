@@ -14,6 +14,22 @@ defmodule Nimble.BillJSON do
     for(bill <- bills, do: Map.merge(bill(bill), %{group: GroupJSON.external_group(bill.group)}))
   end
 
+  def render("external_index.json", %{bills: bills}) do
+    for(bill <- bills, do: external_bill(bill))
+  end
+
+  def external_bill(bill) do
+    %{
+      id: bill.id,
+      description: bill.description,
+      group_id: bill.group_id,
+      creator_id: bill.creator_id,
+      inserted_at: bill.inserted_at,
+      updated_at: bill.updated_at,
+      creator: Nimble.UserJSON.user(bill.creator)
+    }
+  end
+
   def bill(bill) do
     %{
       id: bill.id,

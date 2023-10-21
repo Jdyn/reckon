@@ -7,6 +7,16 @@ defmodule Nimble.Bills do
   alias Nimble.Bills.Query
   alias Nimble.Repo
 
+  def for_global do
+    bills =
+      from(b in Bill, order_by: [desc: b.inserted_at], limit: 10)
+      # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
+      |> Repo.all()
+      |> Repo.preload([:creator])
+
+    {:ok, bills}
+  end
+
   def for_group(group_id) do
     bills =
       from(b in Bill, where: b.group_id == ^group_id)
@@ -24,6 +34,7 @@ defmodule Nimble.Bills do
       # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
       |> Repo.all()
       |> Repo.preload([:items, :group, :creator, charges: [:user]])
+
     {:ok, bills}
   end
 
