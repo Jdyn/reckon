@@ -1,10 +1,9 @@
-import { Flex, Heading, Text } from '@radix-ui/themes';
+import { Badge, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
 import { formatTimeAgo } from '~/utils/dates';
 
 import styles from './BillCard.module.css';
-import BillCharge from './BillCharge';
 
 type BillCardProps = {
 	bill: Bill;
@@ -20,7 +19,8 @@ const BillCard = ({ bill }: BillCardProps) => {
 						{/* <Heading size="2">{bill.group?.name}</Heading> */}
 
 						<Text size="4">
-							{bill.creator.fullName} opened a {bill.total && `$${bill.total.amount}`} bill
+							<Text weight="bold">{bill.creator.username}</Text> opened a{' '}
+							{bill.total && `$${bill.total.amount}`} bill
 						</Text>
 						<Text color="gray" size="2">
 							{formatTimeAgo(bill.inserted_at)}
@@ -29,28 +29,37 @@ const BillCard = ({ bill }: BillCardProps) => {
 				</Flex>
 
 				<Flex className={styles.body} gap="4" direction="column">
-					<Text>{bill.description}</Text>
-					{bill.charges && (
-						<div className={styles.charges}>
-							{bill.charges.map((charge) => (
-								<BillCharge charge={charge} key={charge.id} />
+					{bill.items && (
+						<Flex gap="2">
+							{bill.items.map((item) => (
+								<HoverCard.Root key={item.id} openDelay={1} closeDelay={0}>
+									<HoverCard.Trigger>
+										<Badge radius="full" size="1">
+											{item.description} ${item.cost.amount}
+										</Badge>
+									</HoverCard.Trigger>
+									{item.note && (
+										<HoverCard.Content>
+											<Text>{item.note}</Text>
+										</HoverCard.Content>
+									)}
+								</HoverCard.Root>
 							))}
-						</div>
+						</Flex>
 					)}
+					<Text>{bill.description}</Text>
 				</Flex>
 
-				{
-					[1, 2, 3].map((i) => (
-						<Flex key={i} className={styles.event} gap="3" align="center">
-							<Avatar text={bill.creator.fullName} />
+				{bill.charges &&
+					bill.charges.map((charge) => (
+						<Flex key={charge.id} className={styles.event} gap="3" align="center">
+							<Avatar size="3" text={charge.user.fullName} />
 							<Flex direction="column" wrap="wrap">
 								<Text>
-									{bill.creator.fullName} opened a {bill.total && `$${bill.total.amount}`} bill
+									<Text weight="bold">{charge.user.username}</Text> pays{' '}
+									<Text color="green">{`$${charge.amount.amount}`}</Text>
 								</Text>
 								{/* <Text>•</Text> */}
-								<Text color="gray" size="2">
-									{formatTimeAgo(bill.inserted_at)}
-								</Text>
 							</Flex>
 						</Flex>
 					))}

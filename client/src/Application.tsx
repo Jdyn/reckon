@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { store } from '@reckon/core';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -10,8 +10,6 @@ import { ErrorFallback } from '~/components/ErrorFallback';
 
 import './assets/styles/global.css';
 import { ThemeProvider } from './hooks/ThemeProvider';
-
-import styles from './app/Layout/Layout.module.css'
 
 import '@reckon/ui/theme-config.css';
 

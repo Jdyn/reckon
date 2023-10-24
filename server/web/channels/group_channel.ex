@@ -36,7 +36,7 @@ defmodule Nimble.GroupChannel do
 
   defp authenticate(group_id, user_id) do
     with {group_id, _remainder} <- Integer.parse(group_id),
-         true <- Groups.is_member?(group_id, user_id) do
+         true <- Groups.is_member?(group_id, user_id: user_id) do
       :ok
     else
       _ ->

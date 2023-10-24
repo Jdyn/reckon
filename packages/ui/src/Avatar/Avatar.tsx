@@ -1,7 +1,7 @@
-import * as AvatarPrimative from '@radix-ui/react-avatar';
-import { Text } from '@radix-ui/themes';
+import { Avatar as AvatarPrimative } from '@radix-ui/themes';
 
 import styles from './Avatar.module.css';
+import { AvatarProps } from '@radix-ui/themes/dist/cjs/components/avatar';
 
 export function getInitials(input: string): string {
 	return input
@@ -13,26 +13,16 @@ export function getInitials(input: string): string {
 
 interface Props {
 	text: string;
-	width?: string;
-	height?: string;
 }
 
-export function Avatar({ text, width, height }: Props) {
+export function Avatar({ text, size }: Omit<AvatarProps, 'fallback'> & Props) {
 	return (
-		<AvatarPrimative.Root className={styles.root}>
-			{/* <AvatarPrimative.Image
-        className={styles.image}
-        src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-        alt="Colm Tuite"
-      /> */}
-			<AvatarPrimative.Fallback style={{ width, height }} className={styles.fallback} delayMs={0}>
-				<Text>{getInitials(text)}</Text>
-			</AvatarPrimative.Fallback>
-		</AvatarPrimative.Root>
+		<AvatarPrimative className={styles.root} size={size} variant="solid" fallback={getInitials(text)} />
 	);
 }
 
 Avatar.defaultProps = {
 	width: '45px',
-	height: '45px'
+	height: '45px',
+	size: '3'
 };

@@ -1,0 +1,11 @@
+## TODO
+- [ ] Implement "status bar" for bills
+  - [ ] `$` rating based on the total of the bill 1-5 $ signs
+  - [ ] This is where delete button can be for bill
+    - Only deletable if the bill is not already complete.
+  - [ ] should we add "liking" a bill?
+  - [ ] should we add commenting on a bill?
+- [ ] rework `SideMenu` to allow to be controlled from outside of the component.
+  - Basically exposed an `open`  and `setOpen` prop
+- [ ] Implement inviting users from the UI
+  - Ignore rich user search for now

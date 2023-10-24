@@ -116,15 +116,11 @@ defmodule Nimble.Groups.GroupInvites do
     Repo.delete(invite)
   end
 
-  # def delete_invite(group_id, user_id) when is_binary(group_id) and is_binary(user_id) do
-  #   Repo.delete(Query.group_invite(group_id, user_id))
-  # end
-
   defp build_invite(group_id, sender, recipient) do
     {token, hashed_token} = build_invite_token(@rand_size, @hash_algorithm)
 
     user = Users.get_by_identifier(recipient["identifier"]) || %{}
-    dbg user
+
     attrs = %{
       group_id: group_id,
       sender_id: sender.id,
@@ -134,8 +130,6 @@ defmodule Nimble.Groups.GroupInvites do
       token: hashed_token,
       expiry: generate_expiry(1)
     }
-
-    dbg attrs
 
     {token, GroupInvite.create_changeset(attrs)}
   end

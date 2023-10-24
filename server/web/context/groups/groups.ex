@@ -58,10 +58,19 @@ defmodule Nimble.Groups do
     Repo.exists?(Query.group_member(group_id, identifier: identifier))
   end
 
-  def is_member?(group_id, user_id) do
-    Repo.exists?(Query.group_member(group_id, user_id))
+  def is_member?(group_id, user_id: user_id) do
+    Repo.exists?(Query.group_member(group_id, user_id: user_id))
   end
 
+  @doc """
+  Lists all members of a group.
+
+  ## Examples
+
+      iex> list_members(group_id)
+      [%User{}, ...]
+
+  """
   def list_members(group_id) do
     Repo.all(Query.group_members(group_id))
   end
@@ -179,7 +188,9 @@ defmodule Nimble.Groups do
   end
 
   def add_member(group_id, user_id) do
-    Repo.insert(GroupMember.changeset(%GroupMember{}, %{group_id: group_id, user_id: user_id}))
+    %GroupMember{}
+    |> GroupMember.changeset(%{group_id: group_id, user_id: user_id})
+    |> Repo.insert()
   end
 
   def remove_member!(%Group{} = group, %User{} = user) do

@@ -11,12 +11,12 @@ defmodule Nimble.Auth.EnsureGroup do
   def init(opts), do: opts
 
   def call(conn, _opts \\ %{}) do
-    current_user = conn.assigns[:current_user]
+    user = conn.assigns[:current_user]
 
     # Get the group_id from the path_params by either `id` or `group_id`
     group_id = Map.get(conn.path_params, "id") || Map.get(conn.path_params, "group_id")
 
-    if not is_nil(group_id) and is_member?(group_id, current_user.id) do
+    if not is_nil(group_id) and is_member?(group_id, user_id: user.id) do
       assign(conn, :group_id, String.to_integer(group_id))
     else
       conn
