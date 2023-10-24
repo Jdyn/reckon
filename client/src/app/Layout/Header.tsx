@@ -16,6 +16,7 @@ import {
 	Text
 } from '@radix-ui/themes';
 import { GroupInvite, useJoinGroupMutation } from '@reckon/core';
+import { Link } from 'react-router-dom';
 import { useEvent } from 'use-phoenix';
 
 import styles from './Layout.module.css';
@@ -30,11 +31,21 @@ function Headers() {
 	const [joinGroup] = useJoinGroupMutation();
 
 	return (
-		<Flex className={styles.header} grow="1" justify="between" align="center" px="4">
+		<Flex
+			className={styles.header}
+			height="9"
+			width="100%"
+			grow="1"
+			justify="between"
+			align="center"
+			px="4"
+		>
 			<Flex>
-				<Button type="button" variant="soft">
-					<PlusSmallIcon width="18px" />
-					<Text>Create</Text>
+				<Button type="button" variant="soft" asChild>
+					<Link to="/bill/new">
+						<PlusSmallIcon width="18px" />
+						<Text>Create</Text>
+					</Link>
 				</Button>
 			</Flex>
 			<Flex gap="3">

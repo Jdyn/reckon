@@ -1,8 +1,7 @@
 import { ListBulletIcon } from '@radix-ui/react-icons';
-import { Heading, Text } from '@radix-ui/themes';
-import { useSessionQuery } from '@reckon/core';
-import { User } from '@reckon/core';
-import { useEffect } from 'react';
+import { Flex, Heading, Text } from '@radix-ui/themes';
+import { useMemberListQuery, useSessionQuery } from '@reckon/core';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { usePhoenix, usePresence } from 'use-phoenix';
 
@@ -15,10 +14,24 @@ interface UserListProps {
 }
 
 const UserList = ({ title, presence }: UserListProps) => {
+	const { id } = useParams<{ id: string }>();
+
 	const { data: session } = useSessionQuery();
+	const { data: members } = useMemberListQuery(id, { skip: !id });
+
 	const { connect } = usePhoenix();
 
-	const presences = usePresence<{ user: User }, { onlineAt: string }>(presence);
+	const presences = usePresence<void, { lastSeen: string }>(presence);
+
+	const userList = useMemo(() => {
+		if (members) {
+			return members.map((member) => {
+				const presence = presences.find((p) => parseInt(p.id, 10) === member.id);
+				return { user: member, ...presence };
+			});
+		}
+		return [];
+	}, [members, presences]);
 
 	useEffect(() => {
 		if (session) {
@@ -26,23 +39,23 @@ const UserList = ({ title, presence }: UserListProps) => {
 				params: { token: session.token },
 				reconnectAfterMs(tries) {
 					return tries * 10000;
-				},
+				}
 			});
 		}
 	}, [connect, session]);
 
 	return (
-		<div className={styles.userList} style={{ flexGrow: 1 }}>
-			<Heading size="4" className={styles.header}>
+		<Flex className={styles.userList} grow="1">
+			<Heading size="4" mb="3" className={styles.header}>
 				<div>
 					<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
 				</div>
 				{title}
 			</Heading>
-			{presences.map((presence) => (
-				<MemberCard key={presence.id} user={presence.user} online={presence.metas.onlineAt} />
+			{userList.map((presence) => (
+				<MemberCard key={presence.user.id} user={presence.user} online={presence.metas && presence.metas.lastSeen} />
 			))}
-		</div>
+		</Flex>
 	);
 };
 

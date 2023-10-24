@@ -62,6 +62,10 @@ defmodule Nimble.Groups do
     Repo.exists?(Query.group_member(group_id, user_id))
   end
 
+  def list_members(group_id) do
+    Repo.all(Query.group_members(group_id))
+  end
+
   @doc """
   Updates the `updated_at` field on the `GroupMember` join table
   to indicate that the user has just viewed the group.

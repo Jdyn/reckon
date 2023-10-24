@@ -45,12 +45,12 @@
 	margin: 0;
 }
 
-html {
-	background: var(--indigo-5);
+/* html {
+	background: var(--accent-5);
 	--header-height: 55px;
-}
+} */
 
-a.active {
+/* a.active {
 	background: var(--accent-9) !important;
 	color: white !important;
-}
+} */

@@ -4,9 +4,7 @@ defmodule Nimble.UserJSON do
   alias Nimble.UserToken
 
   def index(%{users: users}) do
-    %{
-      data: for(user <- users, do: user(user))
-    }
+    for(user <- users, do: user(user))
   end
 
   def show(%{user: user}) do

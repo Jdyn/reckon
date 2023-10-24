@@ -25,52 +25,54 @@ const NewBill = () => {
 				Create a bill
 			</Heading>
 			<Separator size="4" />
-			<Flex direction="column" py="2" align="center">
-				<Flex direction="column" style={{ maxWidth: '450px' }}>
-					<Flex direction="column" gap="4" my="3">
-						<Flex gap="4" justify="center">
-							<button
-								className={clsx(styles.billType, type === 'split' && styles.active)}
-								onClick={() => setType('split')}
-							>
-								<UserGroupIcon width="32px" />
-								Split
-							</button>
-							<button
-								className={clsx(styles.billType, type === 'pot' && styles.active)}
-								onClick={() => setType('pot')}
-							>
-								<ArchiveBoxIcon width="32px" />
-								Pot
-							</button>
-						</Flex>
-						<Callout.Root className={styles.callout}>
-							<Callout.Icon>
-								<InfoCircledIcon height="18px" />
-							</Callout.Icon>
-							<Callout.Text align="center" size="2">
-								{/* <Heading size="2">{type === 'split' ? 'Split' : 'Pot'}</Heading> */}
-								{type === 'split'
-									? 'A split has a pre-set total and splits it among everyone.'
-									: 'A pot has no pre-set total and everyone pays a set amount.'}
-							</Callout.Text>
-						</Callout.Root>
+			<Flex direction="column" p="6">
+				<Flex direction="column" gap="4" my="3">
+					<Flex gap="4" justify="center">
+						<button
+							className={clsx(styles.billType, type === 'split' && styles.active)}
+							onClick={() => setType('split')}
+						>
+							<UserGroupIcon width="32px" />
+							Split
+						</button>
+						<button
+							className={clsx(styles.billType, type === 'pot' && styles.active)}
+							onClick={() => setType('pot')}
+						>
+							<ArchiveBoxIcon width="32px" />
+							Pot
+						</button>
 					</Flex>
-					<Separator size="4" />
-					{type === 'split' && (
-						<>
-							<Flex direction="column" grow="1" gap="1" py="3" asChild>
-								<label>
-									<Flex justify="between" align="center">
-										<Heading size="3">Total</Heading>
-										<Text size="2" color="gray">
-											The total amount to be split
-										</Text>
-									</Flex>
-									<TextField.Input variant="soft" type="number" placeholder="0.00" />
-								</label>
-							</Flex>
-							<Flex direction="column" grow="1" gap="1" py="3" asChild>
+					<Callout.Root className={styles.callout}>
+						<Callout.Icon>
+							<InfoCircledIcon height="18px" />
+						</Callout.Icon>
+						<Callout.Text align="center" size="2">
+							{/* <Heading size="2">{type === 'split' ? 'Split' : 'Pot'}</Heading> */}
+							{type === 'split'
+								? 'Split some amount equally among people.'
+								: 'Pay a fixed amount into a single pot.'}
+						</Callout.Text>
+					</Callout.Root>
+				</Flex>
+				<Separator size="4" />
+				{type === 'split' && (
+					<>
+						<Flex direction="column" grow="1" gap="5" py="5" asChild>
+							<label>
+								<Flex justify="between" align="center">
+									<Text weight="bold" size="5" trim="both">
+										Total
+									</Text>
+									<Text size="2" color="gray">
+										The amount to be split
+									</Text>
+								</Flex>
+								<input className={styles.totalInput} type="number" placeholder="$0.00" />
+							</label>
+						</Flex>
+
+						{/* <Flex direction="column" grow="1" gap="1" py="3" asChild>
 								<label>
 									<Flex justify="between" align="center">
 										<Heading size="3">Description</Heading>
@@ -80,8 +82,8 @@ const NewBill = () => {
 									</Flex>
 									<TextArea variant="soft" placeholder="Boba with the boys" />
 								</label>
-							</Flex>
-							<Flex align="center" gap="3" direction="column">
+							</Flex> */}
+						{/* <Flex align="center" gap="3" direction="column">
 								<Flex width="100%" direction="row" align="center" justify="between">
 									<Heading size="3">Breakdown</Heading>
 									<Switch
@@ -104,9 +106,9 @@ const NewBill = () => {
 										</Callout.Text>
 									</Callout.Root>
 								)}
-							</Flex>
+							</Flex> */}
 
-							{/* <Flex direction="column" grow="1" gap="1" py="3" asChild>
+						{/* <Flex direction="column" grow="1" gap="1" py="3" asChild>
 						<label>
 							<Flex justify="between" align="center">
 								<Heading size="5">Items</Heading>
@@ -117,9 +119,8 @@ const NewBill = () => {
 							<TextArea variant="soft" placeholder="Boba with the boys" />
 						</label>
 					</Flex> */}
-						</>
-					)}
-				</Flex>
+					</>
+				)}
 			</Flex>
 		</>
 	);

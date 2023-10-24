@@ -12,6 +12,12 @@ defmodule Nimble.GroupController do
     render(conn, :index, groups: groups)
   end
 
+  def list_members(conn, _params) do
+    group_id = current_group_id(conn)
+    members = Groups.list_members(group_id)
+    render(conn, :members, members: members)
+  end
+
   def create(conn, params) do
     user = current_user(conn)
     params = Map.put(params, "creator_id", user.id)

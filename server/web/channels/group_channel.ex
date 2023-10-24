@@ -24,7 +24,7 @@ defmodule Nimble.GroupChannel do
     user = socket.assigns.user
     group_id = socket.assigns.group_id
 
-    Groups.update_member_last_seen(group_id, user.id)
+    # Groups.update_member_last_seen(group_id, user.id)
     last_seen = inspect(System.system_time(:millisecond))
 
     with {:ok, _} <- Presence.track(socket, user.id, %{lastSeen: last_seen}) do

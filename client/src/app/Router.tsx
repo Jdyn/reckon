@@ -5,6 +5,7 @@ import AuthLayout from './Auth/AuthLayout';
 import Login from './Auth/Login';
 import Settings from './Auth/Settings';
 import BillFeed from './Bills/BillFeed';
+import NewBill from './Bills/new';
 import { RootLayout } from './Layout';
 
 const protectRoute = async () => {
@@ -25,11 +26,9 @@ const router = createBrowserRouter([
 			{ index: true, element: <Navigate to="/feed" /> },
 			{ path: 'home', element: <BillFeed type="user" /> },
 			{ path: 'feed', element: <BillFeed type="global" /> },
-			{
-				path: 'g/:id/feed',
-				element: <BillFeed type="group" />
-			},
-			{ path: 'settings', element: <Settings /> }
+			{ path: 'g/:id/feed', element: <BillFeed type="group" /> },
+			{ path: 'settings', element: <Settings /> },
+			{ path: '/bill/new', element: <NewBill /> }
 		]
 	},
 	{

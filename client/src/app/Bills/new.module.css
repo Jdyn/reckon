@@ -5,9 +5,9 @@
 	align-items: center;
 	gap: var(--space-2);
 	background: var(--accent-4);
-	border: 1.5px solid var(--accent-6);
+	border: none;
 	color: var(--accent-11);
-	border-radius: var(--radius-4);
+	border-radius: var(--radius-5);
 	padding: var(--space-4) var(--space-6);
 	cursor: pointer;
 }
@@ -15,5 +15,23 @@
 .active {
 	background: var(--accent-9);
 	color: white;
-	border: 1.5px solid var(--accent-10);
+	/* border: 1.5px solid var(--accent-10); */
+}
+
+.totalInput {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: var(--space-2);
+	background: transparent;
+	border: none;
+	font-family: dinn;
+	color: var(--color);
+	padding: 0;
+	font-size: var(--font-size-6);
+	text-align: center;
+	border-bottom: 1.5px solid var(--gray-6);
+	cursor: pointer;
+	outline: none;
 }

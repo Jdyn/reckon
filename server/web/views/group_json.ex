@@ -16,6 +16,10 @@ defmodule Nimble.GroupJSON do
     interal_group(group)
   end
 
+  def members(%{members: members}) do
+    UserJSON.index(%{users: members})
+  end
+
   def external_group(nil), do: nil
 
   def external_group(%Group{} = group) do

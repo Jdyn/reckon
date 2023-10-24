@@ -1,3 +1,4 @@
+import { User } from '../account';
 import { baseApi } from '../baseQuery';
 import { Group, GroupInvitePayload } from './types';
 
@@ -26,6 +27,10 @@ const groupApi = baseApi.injectEndpoints({
 		}),
 		InviteUser: mutation<void, GroupInvitePayload>({
 			query: ({ groupId, body }) => ({ url: `/groups/${groupId}/join`, method: 'POST', body })
+		}),
+		memberList: query<User[], string | undefined>({
+			query: (groupId) => `/groups/${groupId}/members`,
+			providesTags: ['groupMembers']
 		})
 	})
 });
@@ -38,7 +43,8 @@ export const {
 	useDeleteGroupMutation,
 	useLeaveGroupMutation,
 	useInviteUserMutation,
-	useJoinGroupMutation
+	useJoinGroupMutation,
+	useMemberListQuery
 } = groupApi;
 
 export default groupApi;

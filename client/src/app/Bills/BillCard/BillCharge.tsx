@@ -16,7 +16,7 @@ const BillChargeCard = ({ charge }: BillChargeProps) => {
 			<HoverCard.Trigger>
 				<div key={charge.id} className={styles.charge}>
 					<Avatar height="32px" width="32px" text={charge.user.fullName} />
-					<Text color="grass" size="2" weight="medium">
+					<Text color="green" size="2" weight="medium">
 						${charge.amount.amount}
 					</Text>
 				</div>

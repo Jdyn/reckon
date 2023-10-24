@@ -8,7 +8,7 @@
 	--nav-width-collapsed: 75px;
 	--nav-width-expanded: 225px;
 	--nav-width: var(--nav-width-collapsed);
-	--nav-height: calc(100vh);
+	--nav-height: 100%;
 	--nav-bezier: cubic-bezier(0.3, 1, 0.3, 1);
 }
 .root[data-expanded='true'] {

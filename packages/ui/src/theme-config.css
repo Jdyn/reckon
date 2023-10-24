@@ -9,7 +9,7 @@
   --color-panel-translucent: rgba(255, 255, 255, 0.8);
   --color-surface: rgba(255, 255, 255, 0.9);
 	--accent-panel: var(--accent-5);
-	/* --color-page-background: var(--accent-5) !important; */
+	--color-page-background: var(--accent-5) !important;
 }
 
 :is(.dark, .dark-theme),
@@ -25,7 +25,7 @@
 	--accent-panel: var(--gray-2);
 
 	/* page-background would be the background of the html */
-	/* --color-page-background: var(--accent-5); */
+	--color-page-background: var(--accent-5);
 }
 
 .radix-themes:where([data-panel-background='translucent']) {
@@ -34,4 +34,5 @@
 
 body {
 	--color-page-background: var(--accent-5);
+	background: var(--accent-5);
 }

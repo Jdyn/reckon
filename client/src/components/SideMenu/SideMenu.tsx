@@ -65,6 +65,7 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 		>
 			<SideMenuContext.Provider value={{ value, setValue }}>
 				<div className={styles.wrapper} data-expand={expand}>
+					{children}
 					<NavigationMenu.Item asChild>
 						<button
 							className={styles.collapse}
@@ -76,7 +77,6 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 							{ArrowIcon}
 						</button>
 					</NavigationMenu.Item>
-					{children}
 				</div>
 			</SideMenuContext.Provider>
 		</NavigationMenu.Root>
@@ -129,37 +129,9 @@ export const SideNavigationLink = forwardRef<
 		}
 	}, [pathname, setValue, to]);
 
-	const onNodeUpdate = (trigger: HTMLButtonElement | null, itemValue: string) => {
-		const list = listRef.current;
-		if (trigger && list && value === itemValue) {
-			const listHeight = list.offsetHeight;
-			// console.log(list.scrollTop);
-			// const listCenter = listWidth / 2;
-
-			// const triggerOffsetRight =
-			//   listWidth -
-			//   trigger.offsetLeft -
-			//   trigger.offsetWidth +
-			//   trigger.offsetWidth / 2;
-			// console.log(list.scrollTop)
-			// console.log(Math.round(listHeight - list.scrollTop));
-
-			// setOffset(Math.round(listCenter - triggerOffsetRight));
-		} else if (value === '') {
-			// setOffset(null);
-		}
-		return trigger;
-	};
-
 	return (
 		<NavigationMenu.Item value={to.toString()} asChild>
-			<NavigationMenu.Trigger
-				ref={(node) => {
-					onNodeUpdate(node, to.toString());
-					return ref;
-				}}
-				asChild
-			>
+			<NavigationMenu.Trigger ref={ref} asChild>
 				<Link
 					onClick={(e) => {
 						setValue(to.toString());

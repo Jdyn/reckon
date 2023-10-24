@@ -15,6 +15,7 @@ import Header from './Header';
 import HomeMenu from './HomeMenu';
 import styles from './Layout.module.css';
 import ProfileLink from './ProfileLink';
+import clsx from 'clsx';
 
 export function RootLayout() {
 	const [createGroup] = useCreateGroupMutation();
@@ -25,11 +26,22 @@ export function RootLayout() {
 	return (
 		<div className={styles.root}>
 			<SideMenu expand="right">
+				<Flex
+					height="9"
+					justify="start"
+					align="center"
+					width="100%"
+					px="3"
+				>
+					<Heading size="5" trim="both">
+						Tehee
+					</Heading>
+				</Flex>
 				<div className={styles.menu}>
 					<SideNavigationList>
 						<Dialog.Root>
 							<Dialog.Trigger>
-								<div className={sideMenuStyles.listItem}>
+								<div className={clsx(sideMenuStyles.listItem, styles.newGroupHover)}>
 									<PlusIcon width="24px" />
 								</div>
 							</Dialog.Trigger>
@@ -82,6 +94,13 @@ export function RootLayout() {
 				</div>
 			</div>
 			<SideMenu expand="left">
+			<Flex
+					height="9"
+					justify="start"
+					align="center"
+					width="100%"
+					px="3"
+				/>
 				<UserList title={gMatch ? 'members' : 'friends'} presence={gMatch ? `group:${id}` : ''} />
 			</SideMenu>
 			{/* <Background /> */}

@@ -1,8 +1,10 @@
 import {
 	InformationCircleIcon,
 	MagnifyingGlassIcon,
-	UserPlusIcon
+	UserPlusIcon,
+	UsersIcon
 } from '@heroicons/react/24/outline';
+import { ExitIcon } from '@radix-ui/react-icons';
 import {
 	AlertDialog,
 	Button,
@@ -66,7 +68,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 		<ContextMenu.Root>
 			<ContextMenu.Trigger>{children}</ContextMenu.Trigger>
 
-			<ContextMenu.Content>
+			<ContextMenu.Content style={{ width: '175px'}}>
 				<Dialog.Root open={open['invite']} onOpenChange={(open) => handleDialog('invite', open)}>
 					<Dialog.Trigger>
 						<>
@@ -78,6 +80,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 								}}
 							>
 								Invite friends
+								<UsersIcon width="18px" />
 							</ContextMenu.Item>
 							<ContextMenu.Separator />
 						</>
@@ -188,6 +191,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 							}}
 						>
 							{isCreator ? 'Delete group' : 'Leave group'}
+							<ExitIcon width="18px" />
 						</ContextMenu.Item>
 					</AlertDialog.Trigger>
 					<AlertDialog.Content style={{ maxWidth: 450 }}>

@@ -15,11 +15,11 @@ const MemberCard = ({ user, online }: MemberCardProps) => {
 				<div className={styles.root}>
 					<div className={styles.avatarContainer}>
 						<Avatar fallback />
-						<span className={styles.indicator} />
+						{online && <span className={styles.indicator} />}
 					</div>
 					<div className={styles.header}>
 						<Text weight="bold">{user.username}</Text>
-						<Text size="2">Online</Text>
+						<Text size="2">{online ? 'Online' : 'Offline'}</Text>
 					</div>
 				</div>
 			</Popover.Trigger>
