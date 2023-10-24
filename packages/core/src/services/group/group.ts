@@ -5,7 +5,7 @@ import { Group, GroupInvitePayload } from './types';
 const groupApi = baseApi.injectEndpoints({
 	endpoints: ({ query, mutation }) => ({
 		getGroups: query<Group[], void>({ query: () => `/groups`, providesTags: ['groups'] }),
-		getGroup: query<Group, string | undefined>({
+		getGroup: query<Group, number | undefined>({
 			query: (id) => `/groups/${id}`,
 			providesTags: (result, error, arg) => [{ type: 'group', id: arg }]
 		}),
@@ -13,11 +13,11 @@ const groupApi = baseApi.injectEndpoints({
 			query: (body) => ({ url: `/groups`, method: 'POST', body }),
 			invalidatesTags: ['groups']
 		}),
-		leaveGroup: mutation<void, string>({
+		leaveGroup: mutation<void, number>({
 			query: (id) => ({ url: `/groups/${id}/leave`, method: 'DELETE' }),
 			invalidatesTags: ['groups']
 		}),
-		deleteGroup: mutation<void, string>({
+		deleteGroup: mutation<void, number>({
 			query: (id) => ({ url: `/groups/${id}`, method: 'DELETE' }),
 			invalidatesTags: (_result, _error, arg) => ['groups', { type: 'group', id: arg }]
 		}),
@@ -38,7 +38,6 @@ const groupApi = baseApi.injectEndpoints({
 export const {
 	useGetGroupsQuery,
 	useGetGroupQuery,
-	useLazyGetGroupQuery,
 	useCreateGroupMutation,
 	useDeleteGroupMutation,
 	useLeaveGroupMutation,

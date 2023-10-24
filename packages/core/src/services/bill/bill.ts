@@ -1,18 +1,27 @@
 import { baseApi } from '../baseQuery';
 import { Bill } from './types';
 
+export type BillListType = 'group' | 'user' | 'global';
+
+type BillListEndpoints = {
+	[key in BillListType]: (id: string | undefined) => string;
+};
+
+const billListEndpoints: BillListEndpoints = {
+	group: (id) => `/groups/${id}/bills`,
+	user: (_) => `/account/bills`,
+	global: (_) => `/bills`
+};
+
 const billsApi = baseApi.injectEndpoints({
-	endpoints: ({ query, mutation }) => ({
-		groupBills: query<Bill[], string>({ query: (id) => `/groups/${id}/bills`, providesTags: ['groupBills'] }),
-		userBills: query<Bill[], void>({ query: () => `/account/bills`, providesTags: ['userBills'] }),
-		globalBills: query<Bill[], void>({ query: () => `/bills`, providesTags: ['userBills'] }),
+	endpoints: ({ query }) => ({
+		billList: query<Bill[], { groupId: string | undefined; type: BillListType }>({
+			query: ({ groupId, type }) => billListEndpoints[type](groupId),
+			providesTags: ['groupBills']
+		})
 	})
 });
 
-export const {
-	useGroupBillsQuery,
-	useUserBillsQuery,
-	useGlobalBillsQuery
-} = billsApi;
+export const { useBillListQuery } = billsApi;
 
 export default billsApi;

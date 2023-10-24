@@ -1,8 +1,7 @@
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { Flex, Heading, ScrollArea, Text } from '@radix-ui/themes';
-import { Bill, useGroupBillsQuery } from '@reckon/core';
+import { Bill } from '@reckon/core';
 import useDimensions from 'react-cool-dimensions';
-import { useParams } from 'react-router';
 import BillCard from '~/app/Bills/BillCard';
 
 import styles from './Bills.module.css';

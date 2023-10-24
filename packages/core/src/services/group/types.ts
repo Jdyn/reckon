@@ -1,7 +1,7 @@
 import { User } from "../account/types";
 
 export interface Group {
-	id: string;
+	id: number;
 	name: string;
 	creator: User;
 	createdAt: string;

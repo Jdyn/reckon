@@ -19,26 +19,25 @@ import {
 	Tooltip
 } from '@radix-ui/themes';
 import {
-	Group,
 	useAccountQuery,
 	useDeleteGroupMutation,
 	useGetGroupQuery,
 	useLeaveGroupMutation
 } from '@reckon/core';
 import { ReactNode, useMemo, useState } from 'react';
-import { useMatch } from 'react-router-dom';
 import Error from '~/components/Error';
 
 interface GroupContextMenuProps {
 	children: ReactNode;
-	groupId: string;
+	groupId: number;
 }
 
 const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 	const { data: group } = useGetGroupQuery(groupId, { skip: !groupId });
+	const { data: user } = useAccountQuery();
+
 	const [deleteGroup] = useDeleteGroupMutation();
 	const [leaveGroup] = useLeaveGroupMutation();
-	const { data: user } = useAccountQuery();
 
 	const isCreator = useMemo(
 		() => group?.creator.id === user?.id || false,
@@ -68,7 +67,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 		<ContextMenu.Root>
 			<ContextMenu.Trigger>{children}</ContextMenu.Trigger>
 
-			<ContextMenu.Content style={{ width: '175px'}}>
+			<ContextMenu.Content style={{ width: '175px' }}>
 				<Dialog.Root open={open['invite']} onOpenChange={(open) => handleDialog('invite', open)}>
 					<Dialog.Trigger>
 						<>
