@@ -1,6 +1,9 @@
-import { Badge, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
+import { BookmarkIcon, EllipsisHorizontalIcon, HeartIcon, MapPinIcon, ShareIcon } from '@heroicons/react/24/outline';
+import { UploadIcon } from '@radix-ui/react-icons';
+import { Badge, Button, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
+import clsx from 'clsx';
 import { formatTimeAgo } from '~/utils/dates';
 
 import styles from './BillCard.module.css';
@@ -50,6 +53,36 @@ const BillCard = ({ bill }: BillCardProps) => {
 					<Text>{bill.description}</Text>
 				</Flex>
 
+				<Flex
+					className={clsx(styles.event, styles.footer)}
+					gap="4"
+					align="center"
+					px="2"
+					height="7"
+				>
+					<Button variant="ghost" color="gray">
+						<HeartIcon width="18px" />
+						<Text align="center" trim="both"  weight="medium">
+							2
+						</Text>
+					</Button>
+					<Button variant="ghost" color="gray">
+						<UploadIcon width="18px" />
+						<Text align="center" trim="both" weight="medium">
+							Share
+						</Text>
+					</Button>
+					<Button variant="ghost" color="gray">
+						<BookmarkIcon height="15px" />
+						<Text align="center" trim="both" weight="medium">
+							Pin
+						</Text>
+					</Button>
+					<Button variant="ghost" color="gray">
+						<EllipsisHorizontalIcon width="15px" />
+					</Button>
+				</Flex>
+
 				{bill.charges &&
 					bill.charges.map((charge) => (
 						<Flex key={charge.id} className={styles.event} gap="3" align="center">
@@ -63,6 +96,8 @@ const BillCard = ({ bill }: BillCardProps) => {
 							</Flex>
 						</Flex>
 					))}
+
+
 			</Flex>
 		</div>
 	);

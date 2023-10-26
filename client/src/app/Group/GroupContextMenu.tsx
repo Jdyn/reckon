@@ -193,6 +193,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 							<ExitIcon width="18px" />
 						</ContextMenu.Item>
 					</AlertDialog.Trigger>
+
 					<AlertDialog.Content style={{ maxWidth: 450 }}>
 						<AlertDialog.Title>
 							{isCreator ? 'Delete' : 'Leave'} {group?.name}?

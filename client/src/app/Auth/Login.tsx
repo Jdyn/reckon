@@ -1,10 +1,10 @@
-import { Button, Card, Flex, Heading, Text, TextField } from '@radix-ui/themes';
+import { Button, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useSignInMutation } from '@reckon/core';
-import { useEffect, useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-	const [signIn, { isSuccess }] = useSignInMutation();
+	const [signIn] = useSignInMutation();
 	const [form, set] = useState({ identifier: 'test@test.com', password: 'Password1234' });
 
 	const navigate = useNavigate();
@@ -15,9 +15,9 @@ const Login = () => {
 
 	return (
 		<Flex justify="center" align="center" height="100%">
-			<Card size="4" style={{ width: '300px' }} variant="surface">
-				<Heading mb="4">Sign in</Heading>
-				<Flex justify="center" gap="5" asChild direction="column">
+			<Flex justify="center" gap="4" direction="column">
+				<Heading>Sign in</Heading>
+				<Flex gap="3" direction="column" asChild>
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
@@ -29,20 +29,18 @@ const Login = () => {
 						}}
 					>
 						<label>
-							<Text weight="bold" size="2">
-								Identifier
-							</Text>
+							<Text weight="bold">Identifier</Text>
 							<TextField.Input
+								variant="soft"
 								value={form['identifier']}
 								onChange={(e) => updateForm(e, 'identifier')}
 								placeholder="Email, username, or phone"
 							/>
 						</label>
 						<label>
-							<Text weight="bold" size="2">
-								Password
-							</Text>
+							<Text weight="bold">Password</Text>
 							<TextField.Input
+								variant="soft"
 								value={form['password']}
 								onChange={(e) => updateForm(e, 'password')}
 								size="2"
@@ -58,7 +56,7 @@ const Login = () => {
 						</Flex>
 					</form>
 				</Flex>
-			</Card>
+			</Flex>
 		</Flex>
 	);
 };

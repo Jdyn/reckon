@@ -50,7 +50,7 @@
 	--header-height: 55px;
 } */
 
-/* a.active {
+a.active {
 	background: var(--accent-9) !important;
 	color: white !important;
-} */
+}

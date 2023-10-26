@@ -5,10 +5,7 @@ import {
 	Flex,
 	Heading,
 	Separator,
-	Switch,
 	Text,
-	TextArea,
-	TextField
 } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useState } from 'react';

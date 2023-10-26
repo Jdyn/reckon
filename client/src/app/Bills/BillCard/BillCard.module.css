@@ -4,13 +4,16 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
+
 	margin-left: var(--card-inset);
-	padding-bottom: var(--card-inset);
-	border-radius: var(--radius-4);
 	padding: var(--space-4);
+	padding-bottom: var(--card-inset);
+
 	transition: 0.1s ease-in-out;
 	cursor: pointer;
-	
+
+	border-radius: var(--radius-5);
+
 	&::before {
 		content: '';
 		position: absolute;
@@ -36,7 +39,7 @@
 	}
 
 	&:hover {
-		background: var(--accent-a3);
+		background: var(--accent-a2);
 	}
 }
 
@@ -70,7 +73,7 @@
 		position: absolute;
 
 		height: calc(100% + (var(--card-inset) / 2) + 5px);
-		width: var(--card-inset);
+		width: calc(var(--card-inset));
 
 		bottom: calc((var(--card-inset) / 2));
 		left: calc(-1 * (var(--card-inset) / 2));
@@ -91,4 +94,15 @@
 .charge {
 	background: var(--accent-a5);
 	z-index: 5;
+}
+
+.footer {
+	--card-inset: 40px;
+
+	padding-left: calc((var(--card-inset) / 2) + var(--space-3));
+	/* border-left: 1.5px solid var(--gray-5);
+	border-top: 1.5px solid transparent;
+	border-bottom: 1.5px solid var(--gray-5);
+	border-radius: var(--radius-6);
+	border-bottom-left-radius: var(--radius-5); */
 }
