@@ -3,7 +3,7 @@ import {
 	EllipsisHorizontalIcon,
 	HeartIcon
 } from '@heroicons/react/24/outline';
-import { UploadIcon } from '@radix-ui/react-icons';
+import { CheckIcon, UploadIcon } from '@radix-ui/react-icons';
 import { Badge, Button, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
@@ -29,23 +29,29 @@ const BillCard = ({ bill }: BillCardProps) => {
 
 	return (
 		<div className={styles.timeRange} onClick={updateQueryParam}>
-			<Flex direction="column" gap="3">
-				<Flex direction="row" gap="3">
-					<Avatar text={bill.creator.fullName} />
-					<Flex direction="column">
-						{/* <Heading size="2">{bill.group?.name}</Heading> */}
-						<Text size="4">
-							<Text weight="bold">{bill.creator.username}</Text> opened a{' '}
-							{bill.total && `$${bill.total.amount}`} bill
-						</Text>
-						<Text color="gray" size="2">
-							{formatTimeAgo(bill.inserted_at)}
-						</Text>
-					</Flex>
-				</Flex>
-
-				<Flex className={styles.body} gap="4" direction="column">
-					{/* {bill.items && (
+			<Flex direction="row" gap="3">
+				<Avatar text={bill.creator.fullName} />
+				<Flex direction="column" gap="3">
+					<Flex className={styles.body} gap="4" direction="column">
+						<Flex direction="column">
+							<Text
+								size="1"
+								weight="medium"
+								color="orange"
+								trim="both"
+								style={{ textTransform: 'uppercase' }}
+							>
+								{bill.status}
+							</Text>
+							<Text size="4">
+								<Text weight="bold">{bill.creator.fullName}</Text> opened a{' '}
+								{bill.total && `$${bill.total.amount}`} bill
+							</Text>
+							<Text color="gray" size="2">
+								{formatTimeAgo(bill.inserted_at)}
+							</Text>
+						</Flex>
+						{/* {bill.items && (
 						<Flex gap="2">
 							{bill.items.map((item) => (
 								<HoverCard.Root key={item.id} openDelay={1} closeDelay={0}>
@@ -63,52 +69,57 @@ const BillCard = ({ bill }: BillCardProps) => {
 							))}
 						</Flex>
 					)} */}
-					<Text>{bill.description}</Text>
-				</Flex>
+						<Text>{bill.description}</Text>
+					</Flex>
 
-				<Flex
-					className={clsx(styles.event, styles.footer)}
-					gap="4"
-					align="center"
-					px="2"
-					height="7"
-				>
-					<Button variant="ghost" color="gray">
-						<HeartIcon width="18px" />
-						<Text align="center" trim="both" weight="medium">
-							2
-						</Text>
-					</Button>
-					<Button variant="ghost" color="gray">
-						<ChatBubbleOvalLeftIcon height="18px" />
-						<Text align="center" trim="both" weight="medium">
-							Discuss
-						</Text>
-					</Button>
-					<Button variant="ghost" color="gray">
-						<UploadIcon width="20px" />
-						<Text align="center" trim="both" weight="medium">
-							Share
-						</Text>
-					</Button>
-					<Button variant="ghost" color="gray">
-						<EllipsisHorizontalIcon width="15px" />
-					</Button>
-				</Flex>
+					<Flex
+						className={clsx(styles.event, styles.footer)}
+						gap="4"
+						align="center"
+						px="2"
+						pl="4"
+						height="7"
+					>
+						<Button variant="ghost" color="gray">
+							<HeartIcon width="18px" />
+							<Text align="center" trim="both" weight="medium">
+								2
+							</Text>
+						</Button>
+						<Button variant="ghost" color="gray">
+							<ChatBubbleOvalLeftIcon height="18px" />
+							<Text align="center" trim="both" weight="medium">
+								Discuss
+							</Text>
+						</Button>
+						<Button variant="ghost" color="gray">
+							<UploadIcon width="20px" />
+							<Text align="center" trim="both" weight="medium">
+								Share
+							</Text>
+						</Button>
+						<Button variant="ghost" color="gray">
+							<EllipsisHorizontalIcon width="15px" />
+						</Button>
+					</Flex>
 
-				{bill.charges &&
-					bill.charges.map((charge) => (
-						<Flex key={charge.id} className={styles.event} gap="3" align="center">
-							<Avatar size="3" text={charge.user.fullName} />
-							<Flex direction="column" wrap="wrap">
-								<Text>
-									<Text weight="bold">{charge.user.username}</Text> pays{' '}
-									<Text color="green">{`$${charge.amount.amount}`}</Text>
-								</Text>
-								{/* <Text>•</Text> */}
+					{bill.charges &&
+						bill.charges.map((charge) => (
+							<Flex key={charge.id} className={styles.event} gap="3" align="center">
+								{/* <Avatar size="3" text={charge.user.fullName} /> */}
+								<div className={styles.circle}>
+									<CheckIcon width="20px" height="20px" />
+								</div>
+								<Flex direction="column" wrap="wrap">
+									<Text>
+										Waiting for
+										<Text weight="bold"> {charge.user.fullName}</Text>
+										<Text color="green"> to accept</Text>
+									</Text>
+								</Flex>
 							</Flex>
-						</Flex>
-					))}
+						))}
+				</Flex>
 			</Flex>
 		</div>
 	);

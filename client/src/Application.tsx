@@ -8,9 +8,9 @@ import { PhoenixProvider } from 'use-phoenix';
 import router from '~/app/Router';
 import { ErrorFallback } from '~/components/ErrorFallback';
 
-import './assets/styles/global.css';
 import { ThemeProvider } from './hooks/ThemeProvider';
 
+import './assets/styles/global.css';
 import '@reckon/ui/theme-config.css';
 
 function ReckonInterface() {

@@ -34,7 +34,6 @@
 	overflow-x: hidden;
 
 	background: var(--accent-panel);
-	box-shadow: var(--nav-shadow);
 }
 .wrapper[data-expand='left'] {
 	right: 0;

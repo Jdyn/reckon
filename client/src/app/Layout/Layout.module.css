@@ -85,7 +85,8 @@
 	margin: 0 21.5px;
 	max-width: 180px;
 	width: 100%;
-	background: var(--accent-6);
+	/* background: var(--accent-6); */
+	background: transparent;
 	border-radius: var(--radius-6);
 	overflow: hidden;
 }

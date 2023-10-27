@@ -31,7 +31,7 @@ const BillView = () => {
 			</Flex>
 			{bill && (
 				<ScrollArea>
-					<Flex  direction="column" gap="4" px="5">
+					<Flex  direction="column" gap="4" px="3">
 						<Flex direction="row" gap="3" justify="between">
 							<Flex direction="column">
 								<Heading size="2">{bill.group?.name}</Heading>
@@ -57,8 +57,8 @@ const BillView = () => {
 							<Flex direction="column" gap="3">
 								{bill.items?.map((item) => (
 									<Flex gap="2" key={item.id} px="3" justify="between">
-										<Text>{item.description}</Text>
-										<Text color="green">${item.cost.amount}</Text>
+										<Text weight="medium" size="2">{item.description}</Text>
+										<Text color="green"  size="2">${item.cost.amount}</Text>
 									</Flex>
 								))}
 							</Flex>
@@ -79,11 +79,11 @@ const BillView = () => {
 							<Flex direction="column" gap="3">
 								{bill.charges?.map((charge) => (
 									<Flex key={charge.id} gap="3" align="center" justify="between">
-										<Flex direction="row" wrap="wrap" gap="3" align="center">
-											<Avatar size="3" text={charge.user.fullName} />
-											<Text weight="bold">{charge.user.username}</Text>
+										<Flex direction="row" gap="3" align="center">
+											<Avatar size="2" text={charge.user.fullName} />
+											<Text weight="bold" size="2">{charge.user.fullName}</Text>
 										</Flex>
-										<Text color="red">{`$${charge.amount.amount}`}</Text>
+										<Text color="red" size="2">{`$${charge.amount.amount}`}</Text>
 									</Flex>
 								))}
 							</Flex>
