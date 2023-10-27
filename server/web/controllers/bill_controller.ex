@@ -42,10 +42,10 @@ defmodule Nimble.BillController do
     end
   end
 
-  def approve_charge(conn, %{"id" => id}) do
+  def update_charge(conn, %{"id" => charge_id} = params) do
     user = current_user(conn)
 
-    with {:ok, _charge} <- Bills.approve_charge(id, user.id) do
+    with {:ok, _charge} <- Bills.update_charge(charge_id, user.id, params) do
       json(conn, %{ok: true})
     end
   end

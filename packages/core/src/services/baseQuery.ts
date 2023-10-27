@@ -6,5 +6,5 @@ export const baseApi = createApi({
 	reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl, credentials: 'include' }),
   endpoints: () => ({}),
-	tagTypes: ['user', 'sessions', 'session', 'groups', 'group', 'groupBills', 'userBills', 'bill', 'groupMembers']
+	tagTypes: ['user', 'sessions', 'session', 'groups', 'group', 'bills', 'bill', 'groupMembers']
 })

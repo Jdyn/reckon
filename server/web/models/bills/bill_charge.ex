@@ -15,7 +15,7 @@ defmodule Nimble.BillCharge do
     # The percentage of the Bill the chargee owes.
     field(:split_percent, :decimal)
     # Whether the chargee has accepted the charge.
-    field(:approved, :boolean, default: false)
+    field(:approval_status, :string, default: "pending")
 
     # the status of the charge payment
     # uncharged -> processing -> ( succeeded | requires_payment_method )
@@ -39,21 +39,19 @@ defmodule Nimble.BillCharge do
   Flips the approved field of a BillCharge.
 
     ## Example
-      iex> bill_charge = %BillCharge{approved: false}
+      iex> bill_charge = %BillCharge{approval_status: "approved"}
       iex> BillCharge.approval_changeset(bill_charge)
       Ecto.Changeset<
         action: nil,
-        changes: %{approved: true},
+        changes: %{approval_status: "approved"},
         errors: [],
         data: #Nimble.BillCharge<>,
         valid?: true
       >
   """
-  def approval_changeset(bill_charge) do
-    approved = bill_charge.approved
-
+  def update_charge_changeset(bill_charge, attrs) do
     bill_charge
-    |> cast(%{approved: not approved}, [:approved])
-    |> validate_required([:approved])
+    |> cast(attrs, [:approval_status])
+    |> validate_inclusion(:approval_status, ["approved", "declined", "pending"])
   end
 end

@@ -16,13 +16,13 @@ const ProfileLink = () => {
 			<DropdownMenu.Trigger>
 				<Flex height="9" align="center" justify="end">
 					<button className={styles.profileRoot}>
+						<Text weight="medium">{user?.username}</Text>
 						<Avatar
 							fallback={getInitials(user?.fullName || '')}
 							radius="full"
 							size="2"
 							variant="solid"
 						/>
-						<Text weight="medium">{user?.username}</Text>
 					</button>
 				</Flex>
 			</DropdownMenu.Trigger>

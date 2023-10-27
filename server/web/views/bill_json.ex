@@ -31,7 +31,6 @@ defmodule Nimble.BillJSON do
   end
 
   def bill(bill) do
-    dbg bill
     %{
       id: bill.id,
       description: bill.description,
@@ -62,7 +61,7 @@ defmodule Nimble.BillJSON do
       id: bill_charge.id,
       amount: bill_charge.amount,
       split_percent: bill_charge.split_percent,
-      approved: bill_charge.approved,
+      approval_status: bill_charge.approval_status,
       payment_status: bill_charge.payment_status,
       user: Nimble.UserJSON.user(bill_charge.user)
     }

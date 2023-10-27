@@ -46,6 +46,10 @@ defmodule Nimble.Bills.Query do
     from(c in BillCharge, where: c.bill_id == ^bill_id and c.user_id == ^user_id)
   end
 
+  def charge_from_user(charge_id, user_id) do
+    from(c in BillCharge, where: c.id == ^charge_id and c.user_id == ^user_id)
+  end
+
   @spec apply(Ecto.Query.t(), [opts]) :: Ecto.Query.t()
   def apply(query, opts) do
     query

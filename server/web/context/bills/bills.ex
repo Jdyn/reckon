@@ -19,7 +19,7 @@ defmodule Nimble.Bills do
 
   def for_group(group_id) do
     bills =
-      from(b in Bill, where: b.group_id == ^group_id)
+      from(b in Bill, where: b.group_id == ^group_id, order_by: [desc: b.inserted_at])
       # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
       |> Repo.all()
       |> Repo.preload([:items, :creator, charges: [:user]])
@@ -31,6 +31,7 @@ defmodule Nimble.Bills do
     bills =
       user
       |> assoc(:associated_bills)
+      |> order_by([b], desc: b.inserted_at)
       # |> Query.apply(filter: %{"description" => %{"$ilike" => "%good%"}})
       |> Repo.all()
       |> Repo.preload([:items, :group, :creator, charges: [:user]])
@@ -59,10 +60,11 @@ defmodule Nimble.Bills do
     |> Repo.preload([:items, :group, :creator, charges: [:user]])
   end
 
-  def approve_charge(bill_id, user_id) do
-    with charge = %BillCharge{} <- Repo.one(Query.charge_from_bill(bill_id, user_id)) do
+  def update_charge(charge_id, user_id, params) do
+    dbg params
+    with charge = %BillCharge{} <- Repo.one(Query.charge_from_user(charge_id, user_id)) do
       charge
-      |> BillCharge.approval_changeset()
+      |> BillCharge.update_charge_changeset(params)
       |> Repo.update()
     else
       _ -> {:error, "Charge not found"}

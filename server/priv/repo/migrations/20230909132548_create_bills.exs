@@ -19,7 +19,7 @@ defmodule Nimble.Repo.Migrations.CreateBills do
     create table(:bills_charges) do
       add(:amount, :money_with_currency)
       add(:split_percent, :decimal)
-      add(:approved, :boolean, default: false)
+      add(:approval_status, :string, default: "pending")
       add(:payment_status, :string, default: "uncharged")
 
       add(:bill_id, references(:bills, on_delete: :delete_all))

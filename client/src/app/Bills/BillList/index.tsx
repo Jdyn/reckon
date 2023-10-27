@@ -5,6 +5,7 @@ import useDimensions from 'react-cool-dimensions';
 import BillCard from '~/app/Bills/BillCard';
 
 import styles from './Bills.module.css';
+import { useMemo } from 'react';
 
 interface BillListProps {
 	bills?: Bill[];
@@ -12,6 +13,28 @@ interface BillListProps {
 
 const BillList = ({ bills }: BillListProps) => {
 	const { observe, height } = useDimensions();
+
+	const [thisWeek, upcoming] = useMemo(() => {
+		const newEvents: any[] = [];
+		const newUpcoming: any[] = [];
+		const now = new Date();
+
+		if (bills) {
+			bills.forEach((obj) => {
+				const startDate = new Date(obj.inserted_at);
+				const timeDiff = startDate.getTime() - now.getTime();
+				const daysDiff = timeDiff / (1000 * 60 * 60 * 24);
+
+				if (daysDiff <= 7) {
+					newEvents.push(obj);
+				} else {
+					newUpcoming.push(obj);
+				}
+			});
+		}
+
+		return [newEvents, newUpcoming];
+	}, [bills]);
 
 	return (
 		<div className={styles.bills} ref={observe}>
@@ -27,7 +50,7 @@ const BillList = ({ bills }: BillListProps) => {
 						</Flex>
 					</Flex>
 
-					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
+					{thisWeek && thisWeek.map((bill) => <BillCard key={bill.id} bill={bill} />)}
 
 					<Flex gap="2" align="center" pb="4">
 						<div className={styles.circle}>
@@ -39,7 +62,7 @@ const BillList = ({ bills }: BillListProps) => {
 						</Flex>
 					</Flex>
 
-					{bills && bills.map((bill) => <BillCard key={bill.id} bill={bill} />)}
+					{upcoming && upcoming.map((bill) => <BillCard key={bill.id} bill={bill} />)}
 				</Flex>
 			</ScrollArea>
 		</div>

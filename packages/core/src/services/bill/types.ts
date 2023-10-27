@@ -26,11 +26,13 @@ export type BillItem = {
 	note?: string;
 };
 
+export type ApprovalStatus = "approved" | "declined" | "pending";
+
 export type BillCharge = {
 	id: number;
 	user_id: number;
 	amount: Money;
 	payment_status: string;
-	approved: boolean;
+	approval_status: ApprovalStatus;
 	user: User;
 };
