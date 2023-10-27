@@ -53,6 +53,12 @@ defmodule Nimble.Bills do
     end
   end
 
+  def get_bill(bill_id) do
+    Bill
+    |> Repo.get(bill_id)
+    |> Repo.preload([:items, :group, :creator, charges: [:user]])
+  end
+
   def approve_charge(bill_id, user_id) do
     with charge = %BillCharge{} <- Repo.one(Query.charge_from_bill(bill_id, user_id)) do
       charge

@@ -31,12 +31,14 @@ defmodule Nimble.BillJSON do
   end
 
   def bill(bill) do
+    dbg bill
     %{
       id: bill.id,
       description: bill.description,
       total: bill.total,
       status: bill.status,
       group_id: bill.group_id,
+      group: GroupJSON.external_group(bill.group),
       creator_id: bill.creator_id,
       inserted_at: bill.inserted_at,
       updated_at: bill.updated_at,

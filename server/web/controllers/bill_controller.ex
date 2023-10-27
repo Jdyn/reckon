@@ -2,6 +2,7 @@ defmodule Nimble.BillController do
   use Nimble.Web, :controller
 
   alias Nimble.Bills
+  alias Nimble.Bill
 
   action_fallback(Nimble.ErrorController)
 
@@ -24,6 +25,12 @@ defmodule Nimble.BillController do
 
     with {:ok, bills} <- Bills.for_user(user) do
       render(conn, "user_index.json", bills: bills)
+    end
+  end
+
+  def show(conn, %{ "id" => bill_id}) do
+    with bill = %Bill{} <- Bills.get_bill(bill_id) do
+      render(conn, "show.json", bill: bill)
     end
   end
 

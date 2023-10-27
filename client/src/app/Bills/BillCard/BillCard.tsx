@@ -1,9 +1,16 @@
-import { BookmarkIcon, EllipsisHorizontalIcon, HeartIcon, MapPinIcon, ShareIcon } from '@heroicons/react/24/outline';
+import {
+	BookmarkIcon,
+	EllipsisHorizontalIcon,
+	HeartIcon,
+	MapPinIcon,
+	ShareIcon
+} from '@heroicons/react/24/outline';
 import { UploadIcon } from '@radix-ui/react-icons';
 import { Badge, Button, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
 import clsx from 'clsx';
+import { useSearchParams } from 'react-router-dom';
 import { formatTimeAgo } from '~/utils/dates';
 
 import styles from './BillCard.module.css';
@@ -13,14 +20,22 @@ type BillCardProps = {
 };
 
 const BillCard = ({ bill }: BillCardProps) => {
+	const [_, setSearchParams] = useSearchParams();
+
+	const updateQueryParam = () => {
+		setSearchParams((prev) => {
+			prev.set('bill', bill.id.toString());
+			return prev;
+		});
+	};
+
 	return (
-		<div className={styles.timeRange}>
+		<div className={styles.timeRange} onClick={updateQueryParam}>
 			<Flex direction="column" gap="3">
 				<Flex direction="row" gap="3">
 					<Avatar text={bill.creator.fullName} />
 					<Flex direction="column">
 						{/* <Heading size="2">{bill.group?.name}</Heading> */}
-
 						<Text size="4">
 							<Text weight="bold">{bill.creator.username}</Text> opened a{' '}
 							{bill.total && `$${bill.total.amount}`} bill
@@ -32,7 +47,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 				</Flex>
 
 				<Flex className={styles.body} gap="4" direction="column">
-					{bill.items && (
+					{/* {bill.items && (
 						<Flex gap="2">
 							{bill.items.map((item) => (
 								<HoverCard.Root key={item.id} openDelay={1} closeDelay={0}>
@@ -49,7 +64,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 								</HoverCard.Root>
 							))}
 						</Flex>
-					)}
+					)} */}
 					<Text>{bill.description}</Text>
 				</Flex>
 
@@ -62,7 +77,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 				>
 					<Button variant="ghost" color="gray">
 						<HeartIcon width="18px" />
-						<Text align="center" trim="both"  weight="medium">
+						<Text align="center" trim="both" weight="medium">
 							2
 						</Text>
 					</Button>
@@ -96,8 +111,6 @@ const BillCard = ({ bill }: BillCardProps) => {
 							</Flex>
 						</Flex>
 					))}
-
-
 			</Flex>
 		</div>
 	);

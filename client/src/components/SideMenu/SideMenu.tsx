@@ -1,5 +1,6 @@
 import { PinLeftIcon, PinRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
 import {
 	AnchorHTMLAttributes,
@@ -8,26 +9,17 @@ import {
 	useContext,
 	useEffect,
 	useMemo,
-	useRef,
 	useState
 } from 'react';
 import type { DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
-import { mergeRefs } from '~/utils/mergeRefs';
 
 import styles from './SideMenu.module.css';
-
-interface SideMenuProps {
-	expand: 'left' | 'right';
-	children: ReactElement<LinkProps>[] | ReactNode;
-	style?: React.CSSProperties;
-}
 
 const SideMenuContext = createContext<{
 	value: string | undefined;
 	setValue: Dispatch<React.SetStateAction<string | undefined>>;
-	listRef?: any;
 } | null>(null);
 
 const useSideMenu = () => {
@@ -36,47 +28,71 @@ const useSideMenu = () => {
 	return context;
 };
 
-export function SideMenu({ style, expand, children }: SideMenuProps) {
-	const [expanded, setExpanded] = useState(true);
+interface SideMenuProps {
+	expand: 'left' | 'right';
+	children: ReactElement<LinkProps>[] | ReactNode;
+	style?: React.CSSProperties;
+	maxWidth?: string;
+	expanded?: boolean | undefined;
+	onExpandedChange?: (expanded: boolean) => void;
+	controlled?: boolean;
+}
+
+export function SideMenu(props: SideMenuProps) {
+	const { style, expand, children, maxWidth, expanded, onExpandedChange, controlled } = props;
 	const [value, setValue] = useState<string | undefined>(undefined);
+
+	const [_expanded, setExpanded] = useState<boolean | undefined>(expanded || true);
+
+	useEffect(() => {
+		if (expanded !== null) {
+			setExpanded(expanded);
+		}
+	}, [expanded]);
 
 	const ArrowIcon = useMemo(
 		() =>
-			expanded && expand === 'left' ? (
+			_expanded && expand === 'left' ? (
 				<PinRightIcon width="18px" height="18px" />
-			) : expanded && expand === 'right' ? (
+			) : _expanded && expand === 'right' ? (
 				<PinLeftIcon width="18px" height="18px" />
 			) : expand === 'left' ? (
 				<PinLeftIcon width="18px" height="18px" />
 			) : (
 				<PinRightIcon width="18px" height="18px" />
 			),
-		[expanded, expand]
+		[_expanded, expand]
 	);
 
 	return (
 		<NavigationMenu.Root
 			className={styles.root}
-			style={style}
+			style={{ ...style, width: _expanded ? maxWidth : '75px' }}
 			orientation="vertical"
-			data-expanded={expanded}
+			data-expanded={_expanded}
 			data-expand={expand}
 			value={value}
 		>
 			<SideMenuContext.Provider value={{ value, setValue }}>
 				<div className={styles.wrapper} data-expand={expand}>
+					<Flex height="9" justify="start" align="center" width="100%" px="3" />
+					{!controlled && (
+						<NavigationMenu.Item asChild>
+							<button
+								className={styles.collapse}
+								onClick={() => {
+									setExpanded(!_expanded);
+									onExpandedChange && onExpandedChange(!_expanded);
+								}}
+								data-expanded={_expanded}
+								data-expand={expand}
+								type="button"
+							>
+								{ArrowIcon}
+							</button>
+						</NavigationMenu.Item>
+					)}
 					{children}
-					<NavigationMenu.Item asChild>
-						<button
-							className={styles.collapse}
-							onClick={() => setExpanded((p) => !p)}
-							data-expanded={expanded}
-							data-expand={expand}
-							type="button"
-						>
-							{ArrowIcon}
-						</button>
-					</NavigationMenu.Item>
 				</div>
 			</SideMenuContext.Provider>
 		</NavigationMenu.Root>
@@ -85,7 +101,12 @@ export function SideMenu({ style, expand, children }: SideMenuProps) {
 
 SideMenu.defaultProps = {
 	style: {},
-	children: null
+	children: null,
+	maxWidth: '225px',
+	value: undefined,
+	expanded: true,
+	controlled: false,
+	onExpandedChange: null
 };
 
 interface SideNavigationListProps {
@@ -94,24 +115,14 @@ interface SideNavigationListProps {
 
 export const SideNavigationList = ({ children }: SideNavigationListProps) => {
 	const { observe, width } = useDimensions();
-	const items = useSideMenu();
-	const listRef = useRef<HTMLDivElement>(null);
-	const [offset, setOffset] = useState();
 
 	return (
-		<SideMenuContext.Provider value={{ ...items, listRef }}>
-			<NavigationMenu.List ref={mergeRefs(observe, listRef)} asChild>
-				<div className={styles.list}>
-					{children}
-					<NavigationMenu.Indicator
-						id="test"
-						className={styles.indicator}
-						style={{ width: width }}
-						// style={{ width: width, transform: `translateY(${10}px)` }}
-					/>
-				</div>
-			</NavigationMenu.List>
-		</SideMenuContext.Provider>
+		<NavigationMenu.List ref={observe} asChild>
+			<div className={styles.list}>
+				{children}
+				<NavigationMenu.Indicator className={styles.indicator} style={{ width: width }} />
+			</div>
+		</NavigationMenu.List>
 	);
 };
 
@@ -119,14 +130,12 @@ export const SideNavigationLink = forwardRef<
 	HTMLButtonElement,
 	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps, HTMLAnchorElement>
 >(({ children, to, onClick }, ref) => {
-	const { setValue, value, listRef } = useSideMenu();
+	const { setValue } = useSideMenu();
 	const { pathname } = useLocation();
 
 	useEffect(() => {
 		const match = matchPath({ path: to.toString(), end: false }, location.pathname);
-		if (match) {
-			setValue(to.toString());
-		}
+		if (match) setValue(to.toString());
 	}, [pathname, setValue, to]);
 
 	return (

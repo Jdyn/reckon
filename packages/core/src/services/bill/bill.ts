@@ -18,10 +18,14 @@ const billsApi = baseApi.injectEndpoints({
 		billList: query<Bill[], { groupId: string | undefined; type: BillListType }>({
 			query: ({ groupId, type }) => billListEndpoints[type](groupId),
 			providesTags: ['groupBills']
+		}),
+		getBill: query<Bill, string | undefined>({
+			query: (id) => `/bills/${id}`,
+			providesTags: (result, error, id) => [{ type: 'bill', id }]
 		})
 	})
 });
 
-export const { useBillListQuery } = billsApi;
+export const { useBillListQuery, useGetBillQuery } = billsApi;
 
 export default billsApi;

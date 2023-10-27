@@ -73,7 +73,7 @@
 		position: absolute;
 
 		height: calc(100% + (var(--card-inset) / 2) + 5px);
-		width: calc(var(--card-inset));
+		width: calc(var(--card-inset) / 2);
 
 		bottom: calc((var(--card-inset) / 2));
 		left: calc(-1 * (var(--card-inset) / 2));
@@ -99,10 +99,6 @@
 .footer {
 	--card-inset: 40px;
 
-	padding-left: calc((var(--card-inset) / 2) + var(--space-3));
-	/* border-left: 1.5px solid var(--gray-5);
-	border-top: 1.5px solid transparent;
-	border-bottom: 1.5px solid var(--gray-5);
-	border-radius: var(--radius-6);
-	border-bottom-left-radius: var(--radius-5); */
+	/* padding-left: calc((var(--card-inset) / 2) + var(--space-3)); */
+	padding-left: var(--space-3);
 }
