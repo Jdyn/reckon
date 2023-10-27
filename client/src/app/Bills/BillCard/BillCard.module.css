@@ -1,5 +1,5 @@
 .timeRange {
-	--card-inset: 45px;
+	--card-inset: 40px;
 
 	display: flex;
 	flex-direction: column;

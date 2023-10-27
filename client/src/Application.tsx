@@ -20,9 +20,6 @@ function ReckonInterface() {
 				<PhoenixProvider>
 					<ThemeProvider defaultTheme="light" storageKey="theme">
 						<Flex direction="column" align="center">
-							{/* <Flex height="7" justify="start" align="center" width="100%" px="5" className={styles.appHeader}>
-								<Heading size="5" trim="both">Tehee</Heading>
-							</Flex> */}
 							<div style={{ maxWidth: '1380px', width: '100%' }}>
 								<RouterProvider router={router} />
 							</div>

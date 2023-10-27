@@ -1,4 +1,4 @@
-import { DropdownMenu, Heading, Text } from '@radix-ui/themes';
+import { DropdownMenu, Flex, Heading, Text } from '@radix-ui/themes';
 import { Avatar } from '@radix-ui/themes';
 import { useAccountQuery, useSignOutMutation } from '@reckon/core';
 import { getInitials } from '@reckon/ui';
@@ -14,15 +14,17 @@ const ProfileLink = () => {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
-				<button className={styles.profileRoot}>
-					<Avatar
-						fallback={getInitials(user?.fullName || '')}
-						radius="full"
-						size="2"
-						variant="solid"
-					/>
-					<Heading size="2">{user?.username}</Heading>
-				</button>
+				<Flex height="9" align="center" justify="end">
+					<button className={styles.profileRoot}>
+						<Avatar
+							fallback={getInitials(user?.fullName || '')}
+							radius="full"
+							size="2"
+							variant="solid"
+						/>
+						<Text weight="medium">{user?.username}</Text>
+					</button>
+				</Flex>
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content size="2" className={styles.profileMenuContent}>
 				<DropdownMenu.Item>Profile</DropdownMenu.Item>

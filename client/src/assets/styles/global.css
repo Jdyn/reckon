@@ -45,10 +45,9 @@
 	margin: 0;
 }
 
-/* html {
-	background: var(--accent-5);
-	--header-height: 55px;
-} */
+html {
+	background: var(--indigo-5);
+}
 
 a.active {
 	background: var(--accent-9) !important;

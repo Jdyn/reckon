@@ -1,9 +1,7 @@
 import {
-	BookmarkIcon,
+	ChatBubbleOvalLeftIcon,
 	EllipsisHorizontalIcon,
-	HeartIcon,
-	MapPinIcon,
-	ShareIcon
+	HeartIcon
 } from '@heroicons/react/24/outline';
 import { UploadIcon } from '@radix-ui/react-icons';
 import { Badge, Button, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
@@ -82,15 +80,15 @@ const BillCard = ({ bill }: BillCardProps) => {
 						</Text>
 					</Button>
 					<Button variant="ghost" color="gray">
-						<UploadIcon width="18px" />
+						<ChatBubbleOvalLeftIcon height="18px" />
 						<Text align="center" trim="both" weight="medium">
-							Share
+							Discuss
 						</Text>
 					</Button>
 					<Button variant="ghost" color="gray">
-						<BookmarkIcon height="15px" />
+						<UploadIcon width="20px" />
 						<Text align="center" trim="both" weight="medium">
-							Pin
+							Share
 						</Text>
 					</Button>
 					<Button variant="ghost" color="gray">

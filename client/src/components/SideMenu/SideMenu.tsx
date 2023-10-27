@@ -14,6 +14,7 @@ import {
 import type { DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
+import ProfileLink from '~/app/Layout/ProfileLink';
 
 import styles from './SideMenu.module.css';
 
@@ -30,7 +31,7 @@ const useSideMenu = () => {
 
 interface SideMenuProps {
 	expand: 'left' | 'right';
-	children: ReactElement<LinkProps>[] | ReactNode;
+	children: [ReactNode, ReactElement<LinkProps>[] | ReactNode];
 	style?: React.CSSProperties;
 	maxWidth?: string;
 	expanded?: boolean | undefined;
@@ -53,13 +54,13 @@ export function SideMenu(props: SideMenuProps) {
 	const ArrowIcon = useMemo(
 		() =>
 			_expanded && expand === 'left' ? (
-				<PinRightIcon width="18px" height="18px" />
+				<PinRightIcon width="20px" height="20px" />
 			) : _expanded && expand === 'right' ? (
-				<PinLeftIcon width="18px" height="18px" />
+				<PinLeftIcon width="20px" height="20px" />
 			) : expand === 'left' ? (
-				<PinLeftIcon width="18px" height="18px" />
+				<PinLeftIcon width="20px" height="20px" />
 			) : (
-				<PinRightIcon width="18px" height="18px" />
+				<PinRightIcon width="20px" height="20px" />
 			),
 		[_expanded, expand]
 	);
@@ -75,7 +76,9 @@ export function SideMenu(props: SideMenuProps) {
 		>
 			<SideMenuContext.Provider value={{ value, setValue }}>
 				<div className={styles.wrapper} data-expand={expand}>
-					<Flex height="9" justify="start" align="center" width="100%" px="3" />
+					{children[0]}
+
+					{children[1]}
 					{!controlled && (
 						<NavigationMenu.Item asChild>
 							<button
@@ -92,7 +95,6 @@ export function SideMenu(props: SideMenuProps) {
 							</button>
 						</NavigationMenu.Item>
 					)}
-					{children}
 				</div>
 			</SideMenuContext.Provider>
 		</NavigationMenu.Root>

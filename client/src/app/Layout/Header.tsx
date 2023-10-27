@@ -2,18 +2,21 @@ import {
 	BellAlertIcon,
 	CheckIcon,
 	EnvelopeIcon,
+	MagnifyingGlassIcon,
 	PlusSmallIcon,
 	XMarkIcon
 } from '@heroicons/react/24/outline';
 import {
 	Badge,
 	Button,
+	Container,
 	Flex,
 	Heading,
 	IconButton,
 	Popover,
 	Separator,
-	Text
+	Text,
+	TextField
 } from '@radix-ui/themes';
 import { GroupInvite, useJoinGroupMutation } from '@reckon/core';
 import { Link } from 'react-router-dom';
@@ -48,6 +51,14 @@ function Headers() {
 					</Link>
 				</Button>
 			</Flex>
+			<Container size="1" px="3">
+				<TextField.Root>
+					<TextField.Slot>
+						<MagnifyingGlassIcon width="18px" />
+					</TextField.Slot>
+					<TextField.Input variant="soft" placeholder="search for bills, groups, users" />
+				</TextField.Root>
+			</Container>
 			<Flex gap="3">
 				<IconButton variant="soft">
 					<BellAlertIcon width="18px" />

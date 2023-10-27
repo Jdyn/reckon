@@ -27,16 +27,16 @@ export function RootLayout() {
 
 	const isBillView = useMemo(() => queryParams.get('bill') !== null, [queryParams]);
 
-	const [userListExpanded, setUserListExpanded] = useState(false);
+	const [userListExpanded, setUserListExpanded] = useState(true);
 
 	return (
 		<div className={styles.root}>
 			<SideMenu expand="right">
-				{/* <Flex height="9" justify="start" align="center" width="100%" px="3">
+				<Flex height="9" justify="start" align="center" width="100%" px="3">
 					<Heading size="5" trim="both">
 						Tehee
 					</Heading>
-				</Flex> */}
+				</Flex>
 				<div className={styles.menu}>
 					<SideNavigationList>
 						<Dialog.Root>
@@ -85,7 +85,6 @@ export function RootLayout() {
 
 					<HomeMenu />
 				</div>
-				<ProfileLink />
 			</SideMenu>
 			<div className={styles.container}>
 				<Header />
@@ -100,10 +99,11 @@ export function RootLayout() {
 				expanded={isBillView ? true : userListExpanded}
 				onExpandedChange={(e) => setUserListExpanded(e)}
 			>
+				<ProfileLink />
 				{isBillView ? (
 					<BillView />
 				) : (
-					<UserList title={gMatch ? 'members' : 'friends'} presence={gMatch ? `group:${id}` : ''} />
+					<UserList title={gMatch ? 'Members' : 'Friends'} presence={gMatch ? `group:${id}` : ''} />
 				)}
 			</SideMenu>
 			{/* <Background /> */}

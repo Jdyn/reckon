@@ -21,7 +21,7 @@ const groupApi = baseApi.injectEndpoints({
 			query: (id) => ({ url: `/groups/${id}`, method: 'DELETE' }),
 			invalidatesTags: (_result, _error, arg) => ['groups', { type: 'group', id: arg }]
 		}),
-		joinGroup: mutation<void, { groupId: string }>({
+		joinGroup: mutation<void, { groupId: number }>({
 			query: ({ groupId }) => ({ url: `/groups/${groupId}/join`, method: 'POST' }),
 			invalidatesTags: ['groups']
 		}),

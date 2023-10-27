@@ -1,12 +1,11 @@
-import { ListBulletIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, Text } from '@radix-ui/themes';
+import { UserGroupIcon } from '@heroicons/react/24/outline';
+import { Flex, Text } from '@radix-ui/themes';
 import { useMemberListQuery, useSessionQuery } from '@reckon/core';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { usePhoenix, usePresence } from 'use-phoenix';
 
 import MemberCard from './UserCard';
-import styles from './UserCard.module.css';
 
 interface UserListProps {
 	title: string;
@@ -45,15 +44,19 @@ const UserList = ({ title, presence }: UserListProps) => {
 	}, [connect, session]);
 
 	return (
-		<Flex className={styles.userList} grow="1">
-			<Heading size="4" mb="3" className={styles.header}>
-				<div>
-					<ListBulletIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
-				</div>
-				{title}
-			</Heading>
+		<Flex grow="1" direction="column" px="3">
+			<Flex gap="3" px="3" asChild>
+				<Text size="4" mb="3" weight="bold">
+					<UserGroupIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
+					{title}
+				</Text>
+			</Flex>
 			{userList.map((presence) => (
-				<MemberCard key={presence.user.id} user={presence.user} online={presence.metas && presence.metas.lastSeen} />
+				<MemberCard
+					key={presence.user.id}
+					user={presence.user}
+					online={presence.metas && presence.metas.lastSeen}
+				/>
 			))}
 		</Flex>
 	);
