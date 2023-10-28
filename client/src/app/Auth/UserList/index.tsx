@@ -51,13 +51,15 @@ const UserList = ({ title, presence }: UserListProps) => {
 					{title}
 				</Text>
 			</Flex>
-			{userList.map((presence) => (
-				<MemberCard
-					key={presence.user.id}
-					user={presence.user}
-					online={presence.metas && presence.metas.lastSeen}
-				/>
-			))}
+			<Flex direction="column" gap="3">
+				{userList.map((presence) => (
+					<MemberCard
+						key={presence.user.id}
+						user={presence.user}
+						online={presence.metas && presence.metas.lastSeen}
+					/>
+				))}
+			</Flex>
 		</Flex>
 	);
 };

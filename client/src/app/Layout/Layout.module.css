@@ -42,6 +42,7 @@
 	width: 100%;
 	grid-area: main;
 	overflow: hidden;
+	padding-bottom: var(--space-1);
 }
 
 .wrapper {
@@ -50,10 +51,10 @@
 	overflow: hidden;
 	width: 100%;
 	flex-grow: 1;
-	border-radius: 25px;
+	border-radius: var(--radius-4);
 	border: 1.5px solid var(--accent-6);
 	box-shadow: 0 0 0 300vh var(--layout-background);
-	background: var(--accent-2);
+	background: var(--accent-4);
 }
 
 .optionMenu {

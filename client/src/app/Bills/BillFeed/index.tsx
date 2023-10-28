@@ -1,17 +1,21 @@
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 import { Flex, Heading, ScrollArea, Text } from '@radix-ui/themes';
-import { Bill } from '@reckon/core';
+import { BillListType, useBillListQuery } from '@reckon/core';
+import { useMemo } from 'react';
 import useDimensions from 'react-cool-dimensions';
+import { useParams } from 'react-router-dom';
 import BillCard from '~/app/Bills/BillCard';
 
 import styles from './Bills.module.css';
-import { useMemo } from 'react';
+import BillView from '../BillView';
 
 interface BillListProps {
-	bills?: Bill[];
+	type: BillListType;
 }
 
-const BillList = ({ bills }: BillListProps) => {
+const BillFeed = ({ type }: BillListProps) => {
+	const { id } = useParams<{ id: string }>();
+	const { data: bills } = useBillListQuery({ groupId: id, type });
 	const { observe, height } = useDimensions();
 
 	const [thisWeek, upcoming] = useMemo(() => {
@@ -69,4 +73,4 @@ const BillList = ({ bills }: BillListProps) => {
 	);
 };
 
-export default BillList;
+export default BillFeed;

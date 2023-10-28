@@ -18,7 +18,7 @@ export interface GroupInvite {
 }
 
 export type GroupInvitePayload = {
-	groupId: string;
+	groupId: number;
 	body: {
 		recipient: {
 			identifier: string;

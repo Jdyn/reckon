@@ -1,6 +1,16 @@
 import { GlobeEuropeAfricaIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { HomeIcon } from '@radix-ui/react-icons';
-import { Button, Dialog, Flex, Heading, Separator, Text, TextField } from '@radix-ui/themes';
+import {
+	Button,
+	Dialog,
+	Flex,
+	Heading,
+	HoverCard,
+	Separator,
+	Text,
+	TextField,
+	Tooltip
+} from '@radix-ui/themes';
 import { useCreateGroupMutation } from '@reckon/core';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
@@ -68,13 +78,34 @@ export function RootLayout() {
 							</Dialog.Content>
 						</Dialog.Root>
 
-						<SideNavigationLink to="/feed">
-							<GlobeEuropeAfricaIcon width="24px" height="24px" />
-						</SideNavigationLink>
+						{/* <HoverCard.Root>
+							<HoverCard.Trigger>
+								<div>
+									<SideNavigationLink to="/feed">
+										<GlobeEuropeAfricaIcon width="24px" height="24px" />
+									</SideNavigationLink>
+								</div>
+							</HoverCard.Trigger>
+							<HoverCard.Content size="1" side="right">
+								For you
+							</HoverCard.Content>
+						</HoverCard.Root> */}
 
-						<SideNavigationLink to="/home">
-							<HomeIcon width="24px" height="24px" />
-						</SideNavigationLink>
+						<Tooltip content="For You" side="right" delayDuration={300}>
+							<div>
+								<SideNavigationLink to="/feed">
+									<GlobeEuropeAfricaIcon width="24px" height="24px" />
+								</SideNavigationLink>
+							</div>
+						</Tooltip>
+
+						<Tooltip content="Home" side="right" delayDuration={300}>
+							<div>
+								<SideNavigationLink to="/home">
+									<HomeIcon width="24px" height="24px" />
+								</SideNavigationLink>
+							</div>
+						</Tooltip>
 
 						<Separator size="4" />
 
@@ -95,7 +126,7 @@ export function RootLayout() {
 			<SideMenu
 				expand="left"
 				controlled={isBillView ? true : false}
-				maxWidth={isBillView ? '225px' : '225px'}
+				maxWidth={isBillView ? '275px' : '225px'}
 				expanded={isBillView ? true : userListExpanded}
 				onExpandedChange={(e) => setUserListExpanded(e)}
 			>

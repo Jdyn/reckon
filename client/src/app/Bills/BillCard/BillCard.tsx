@@ -108,7 +108,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 						>
 							<CheckIcon height="18px" />
 							<Text align="center" trim="both" weight="medium">
-								{currentCharge?.approval_status === 'approved' ? 'Unapprove' : 'Undecline'}
+								{currentCharge?.approval_status === 'approved' ? 'unaccept' : 'Undecline'}
 							</Text>
 						</Button>
 					)}

@@ -26,7 +26,7 @@ const groupApi = baseApi.injectEndpoints({
 			invalidatesTags: ['groups']
 		}),
 		InviteUser: mutation<void, GroupInvitePayload>({
-			query: ({ groupId, body }) => ({ url: `/groups/${groupId}/join`, method: 'POST', body })
+			query: ({ groupId, body }) => ({ url: `/groups/${groupId}/invite`, method: 'POST', body })
 		}),
 		memberList: query<User[], string | undefined>({
 			query: (groupId) => `/groups/${groupId}/members`,

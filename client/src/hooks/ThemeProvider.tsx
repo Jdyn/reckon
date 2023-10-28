@@ -57,7 +57,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 				scaling="100%"
 				radius="large"
 				grayColor="auto"
-				accentColor="indigo"
+				accentColor="gray"
 				panelBackground="solid"
 			>
 				{children}

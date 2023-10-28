@@ -22,6 +22,7 @@ import {
 	useAccountQuery,
 	useDeleteGroupMutation,
 	useGetGroupQuery,
+	useInviteUserMutation,
 	useLeaveGroupMutation
 } from '@reckon/core';
 import { ReactNode, useMemo, useState } from 'react';
@@ -38,7 +39,8 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 
 	const [deleteGroup] = useDeleteGroupMutation();
 	const [leaveGroup] = useLeaveGroupMutation();
-
+	const [inviteUser, { isSuccess, error }] = useInviteUserMutation();
+	const [identifier, setIdentifer] = useState('');
 	const isCreator = useMemo(
 		() => group?.creator.id === user?.id || false,
 		[group?.creator.id, user?.id]
@@ -55,11 +57,16 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 
 	const handleDelete = () => {};
 
-	const sendInvite = () => {
-		const input = document.getElementById('existing-user-id');
-		console.log('hello');
-		if (input) {
-			console.log(input.innerText);
+	const handleInvite = () => {
+		if (identifier && group?.id) {
+			inviteUser({
+				groupId: group.id,
+				body: {
+					recipient: {
+						identifier
+					}
+				}
+			});
 		}
 	};
 
@@ -86,7 +93,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 					</Dialog.Trigger>
 					<Dialog.Content style={{ maxWidth: 550 }}>
 						<Dialog.Title>Invite friends to {group?.name}</Dialog.Title>
-						<Tabs.Root defaultValue="nonexisting">
+						<Tabs.Root defaultValue="existing">
 							<Tabs.List>
 								<Tabs.Trigger value="nonexisting">non-existing user</Tabs.Trigger>
 								<Tabs.Trigger value="existing">existing user</Tabs.Trigger>
@@ -113,16 +120,10 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 												</TextField.Slot>
 												<TextField.Input
 													id="existing-user-id"
-													defaultValue=""
 													placeholder="Phone, Email, Username"
+													value={identifier}
+													onChange={(e) => setIdentifer(e.target.value)}
 												/>
-												<TextField.Slot>
-													<Tooltip content="Send invite!">
-														<IconButton size="1" variant="soft" onClick={sendInvite}>
-															<UserPlusIcon width="18px" />
-														</IconButton>
-													</Tooltip>
-												</TextField.Slot>
 											</TextField.Root>
 										</label>
 									</Flex>
@@ -144,7 +145,15 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 											<Text as="div" size="3" mb="1" weight="bold">
 												Name
 											</Text>
-											<TextField.Input defaultValue="" placeholder="John" />
+											<TextField.Input
+												value={identifier}
+												onChange={(e) => {
+													e.preventDefault();
+													e.stopPropagation();
+													console.log(e)
+												}}
+												placeholder="John"
+											/>
 										</label>
 										<label>
 											<Text as="div" size="3" mb="1" weight="bold">
@@ -154,14 +163,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 												<TextField.Slot>
 													<MagnifyingGlassIcon width="18px" />
 												</TextField.Slot>
-												<TextField.Input defaultValue="" placeholder="Phone, Email" />
-												<TextField.Slot>
-													<Tooltip content="Send invite!">
-														<IconButton size="1" variant="soft">
-															<UserPlusIcon width="18px" />
-														</IconButton>
-													</Tooltip>
-												</TextField.Slot>
+												<TextField.Input placeholder="Phone, Email" />
 											</TextField.Root>
 										</label>
 									</Flex>
@@ -169,10 +171,27 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 							</Tabs.Content>
 						</Tabs.Root>
 
+						{isSuccess && (
+							<Callout.Root>
+								<Callout.Text>Invitation sent!</Callout.Text>
+							</Callout.Root>
+						)}
+
+						{/* {error && (
+							<Callout.Root>
+								<Callout.Text>{error.data.errors}</Callout.Text>
+							</Callout.Root>
+						)} */}
+
 						<Flex gap="3" mt="4" justify="end">
 							<Dialog.Close>
-								<Button variant="soft">Done</Button>
+								<Button variant="soft" color="gray">
+									cancel
+								</Button>
 							</Dialog.Close>
+							<Button variant="soft" color="green" onClick={handleInvite}>
+								Invite
+							</Button>
 						</Flex>
 					</Dialog.Content>
 				</Dialog.Root>

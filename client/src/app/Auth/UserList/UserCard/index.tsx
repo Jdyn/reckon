@@ -1,5 +1,6 @@
 import { Avatar, Box, Flex, Heading, Popover, Text } from '@radix-ui/themes';
 import { User } from '@reckon/core';
+import { getInitials } from '@reckon/ui';
 
 import styles from './MemberCard.module.css';
 
@@ -12,21 +13,23 @@ const MemberCard = ({ user, online }: MemberCardProps) => {
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
-				<div className={styles.root}>
-					<div className={styles.avatarContainer}>
-						<Avatar fallback />
-						{online && <span className={styles.indicator} />}
-					</div>
+				<Flex className={styles.root} gap="3" px="3" align="center">
+					<Avatar variant="solid" radius="full" fallback={getInitials(user.fullName)} />
 					<div className={styles.header}>
-						<Text weight="bold">{user.username}</Text>
-						<Text size="2">{online ? 'Online' : 'Offline'}</Text>
+						<Text weight="medium" size="2" trim="end">
+							{user.fullName}
+						</Text>
+						<Text color="gray" size="1">
+							{user.username}
+						</Text>
+						<Text size="1">{online ? 'Online' : 'Offline'}</Text>
 					</div>
-				</div>
+				</Flex>
 			</Popover.Trigger>
-			<Popover.Content style={{ width: 200 }}>
-				<Flex gap="3" direction="column" align="center">
+			<Popover.Content style={{ minWidth: 200 }} side="left" sideOffset={-5}>
+				<Flex gap="3" direction="row" align="center">
 					<Avatar
-						size="6"
+						size="3"
 						src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
 						fallback="A"
 						radius="full"

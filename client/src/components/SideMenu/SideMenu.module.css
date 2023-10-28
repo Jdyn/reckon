@@ -49,7 +49,7 @@
 	border: none;
 	flex-direction: row;
 	color: var(--gray-a11);
-	background: var(--accent-6);
+	background: transparent;
 	padding: var(--space-2);
 	margin: var(--space-3) 19.5px;
 	border-radius: var(--radius-6);
@@ -93,7 +93,6 @@
 	align-items: center;
 	justify-content: center;
 	transition: all 0.1s linear;
-	background: transparent;
 	border-left: none;
 	height: 48px;
 	color: var(--color);
