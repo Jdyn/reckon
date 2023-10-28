@@ -10,6 +10,8 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       add(:status, :string)
       add(:options, :map)
 
+      add(:like_count, :integer, default: 0)
+
       add(:group_id, references(:groups, on_delete: :nilify_all))
       add(:creator_id, references(:users, on_delete: :nothing))
 

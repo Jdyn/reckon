@@ -37,10 +37,15 @@ defmodule Nimble.Bills.Query do
   use Nimble.Repo
 
   alias Nimble.BillCharge
+  alias Nimble.Bill
 
   @type opts :: {:filter, map()} | {:sort, map()}
 
   @fields ["description"]
+
+  def base_bill(bill_id) do
+    from(b in Bill, where: b.id == ^bill_id)
+  end
 
   def charge_from_bill(bill_id, user_id) do
     from(c in BillCharge, where: c.bill_id == ^bill_id and c.user_id == ^user_id)

@@ -44,7 +44,7 @@ function Headers() {
 			px="4"
 		>
 			<Flex>
-				<Button type="button" variant="soft" asChild>
+				<Button type="button" variant="soft" color="jade" asChild>
 					<Link to="/bill/new">
 						<PlusSmallIcon width="18px" />
 						<Text>Create</Text>

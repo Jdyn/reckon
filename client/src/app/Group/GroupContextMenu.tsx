@@ -147,11 +147,6 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 											</Text>
 											<TextField.Input
 												value={identifier}
-												onChange={(e) => {
-													e.preventDefault();
-													e.stopPropagation();
-													console.log(e)
-												}}
 												placeholder="John"
 											/>
 										</label>

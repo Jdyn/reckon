@@ -4,6 +4,7 @@ defmodule Nimble.Bill do
 
   alias Nimble.BillCharge
   alias Nimble.BillItem
+  alias Nimble.UserLike
 
   # @statuses ~w(pending ready processing requires_action paid)a
 
@@ -32,6 +33,11 @@ defmodule Nimble.Bill do
     has_many(:items, BillItem)
     has_many(:charges, BillCharge)
     has_many(:members, through: [:charges, :user])
+
+    # We sychronize the likes count with the likes table to avoid having to query the table
+    has_many(:likes, UserLike)
+    field(:like_count, :integer, default: 0)
+    field(:liked, :boolean, virtual: true)
 
     embeds_one(:options, BillOptions, primary_key: false) do
       # whether the bill requires confirmation BY the creator before the bill is submited

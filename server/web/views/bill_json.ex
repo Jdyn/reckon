@@ -26,7 +26,9 @@ defmodule Nimble.BillJSON do
       creator_id: bill.creator_id,
       inserted_at: bill.inserted_at,
       updated_at: bill.updated_at,
-      creator: Nimble.UserJSON.user(bill.creator)
+      creator: Nimble.UserJSON.user(bill.creator),
+      like_count: bill.like_count,
+      liked: bill.liked,
     }
   end
 
@@ -38,6 +40,8 @@ defmodule Nimble.BillJSON do
       status: bill.status,
       group_id: bill.group_id,
       group: GroupJSON.external_group(bill.group),
+      like_count: bill.like_count,
+      liked: bill.liked,
       creator_id: bill.creator_id,
       inserted_at: bill.inserted_at,
       updated_at: bill.updated_at,

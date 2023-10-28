@@ -10,13 +10,15 @@ export type Bill = {
 	id: number;
 	description: string;
 	total?: Money;
-	group_id?: string;
+	group_id?: number;
 	inserted_at: string;
 	items?: BillItem[];
 	charges?: BillCharge[];
 	creator: User;
 	status?: string;
 	group?: Group;
+	like_count: number;
+	liked?: boolean;
 };
 
 export type BillItem = {

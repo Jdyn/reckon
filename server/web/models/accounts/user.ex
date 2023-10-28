@@ -39,6 +39,8 @@ defmodule Nimble.User do
     has_many(:tokens, UserToken)
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
+    has_many(:likes, Nimble.UserLike)
+
     timestamps()
   end
 

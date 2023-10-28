@@ -7,15 +7,16 @@ defmodule Nimble.BillController do
   action_fallback(Nimble.ErrorController)
 
   def global_bills(conn, _params) do
-    with {:ok, bills} <- Bills.for_global() do
+    user = current_user(conn)
+    with {:ok, bills} <- Bills.for_global(user.id) do
       render(conn, "external_index.json", bills: bills)
     end
   end
 
   def group_bills(conn, _params) do
     group_id = conn.assigns[:group_id]
-
-    with {:ok, bills} <- Bills.for_group(group_id) do
+    user = current_user(conn)
+    with {:ok, bills} <- Bills.for_group(group_id, user.id) do
       render(conn, "index.json", bills: bills)
     end
   end
@@ -48,5 +49,13 @@ defmodule Nimble.BillController do
     with {:ok, _charge} <- Bills.update_charge(charge_id, user.id, params) do
       json(conn, %{ok: true})
     end
+  end
+
+  def like(conn, %{ "bill_id" => bill_id}) do
+    user = current_user(conn)
+
+    Bills.like(bill_id, user.id)
+    json(conn, %{ ok: true })
+
   end
 end

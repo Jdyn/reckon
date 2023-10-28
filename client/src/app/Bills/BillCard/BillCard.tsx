@@ -5,7 +5,13 @@ import {
 } from '@heroicons/react/24/outline';
 import { CheckIcon, UploadIcon } from '@radix-ui/react-icons';
 import { Badge, Button, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
-import { Bill, BillCharge, useAccountQuery, useUpdateChargeMutation } from '@reckon/core';
+import {
+	Bill,
+	BillCharge,
+	useAccountQuery,
+	useLikeBillMutation,
+	useUpdateChargeMutation
+} from '@reckon/core';
 import { Avatar } from '@reckon/ui';
 import clsx from 'clsx';
 import { useMemo } from 'react';
@@ -22,7 +28,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 	const [_, setSearchParams] = useSearchParams();
 	const [updateCharge] = useUpdateChargeMutation();
 	const { data: user } = useAccountQuery();
-
+	const [likeBill] = useLikeBillMutation();
 	const currentCharge = useMemo(() => {
 		return bill.charges?.find((charge) => charge.user.id === user?.id);
 	}, [bill, user]);
@@ -34,7 +40,10 @@ const BillCard = ({ bill }: BillCardProps) => {
 		});
 	};
 
-	const handleChargeUpdate = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, body: Partial<BillCharge>) => {
+	const handleChargeUpdate = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+		body: Partial<BillCharge>
+	) => {
 		e.stopPropagation();
 		currentCharge &&
 			updateCharge({
@@ -139,10 +148,17 @@ const BillCard = ({ bill }: BillCardProps) => {
 						</>
 					)}
 
-					<Button variant="ghost" color="gray">
+					<Button
+						variant="ghost"
+						color={bill.liked ? 'crimson' : 'gray'}
+						onClick={(e) => {
+							e.stopPropagation();
+							likeBill({ billId: bill.id, meta: { groupId: bill.group_id } })
+						}}
+					>
 						<HeartIcon width="18px" />
 						<Text align="center" trim="both" weight="medium">
-							2
+							{bill.like_count}
 						</Text>
 					</Button>
 					<Button variant="ghost" color="gray">

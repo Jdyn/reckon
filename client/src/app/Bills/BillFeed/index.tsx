@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import BillCard from '~/app/Bills/BillCard';
 
 import styles from './Bills.module.css';
-import BillView from '../BillView';
 
 interface BillListProps {
 	type: BillListType;
@@ -15,7 +14,7 @@ interface BillListProps {
 
 const BillFeed = ({ type }: BillListProps) => {
 	const { id } = useParams<{ id: string }>();
-	const { data: bills } = useBillListQuery({ groupId: id, type });
+	const { data: bills } = useBillListQuery({ groupId: id ? parseInt(id, 10) : undefined, type });
 	const { observe, height } = useDimensions();
 
 	const [thisWeek, upcoming] = useMemo(() => {
