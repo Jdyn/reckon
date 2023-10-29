@@ -1,0 +1,190 @@
+import {
+	ArrowsRightLeftIcon,
+	BanknotesIcon,
+	ChevronLeftIcon,
+	ChevronRightIcon,
+	MinusSmallIcon,
+	PencilSquareIcon,
+	XMarkIcon
+} from '@heroicons/react/24/outline';
+import {
+	Button,
+	Flex,
+	Heading,
+	IconButton,
+	Popover,
+	Separator,
+	Tabs,
+	Text,
+	TextArea,
+	TextField
+} from '@radix-ui/themes';
+import { Bill } from '@reckon/core';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+import styles from './Compose.module.css';
+import { useCompose } from './ComposeProvider';
+
+export type BillForm = Pick<Bill, 'description' | 'type'>;
+
+type ComposeItemProps = {
+	itemKey: string;
+	defaultValues: Partial<BillForm>;
+};
+
+const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
+	const [phase, setPhase] = useState(Object.keys(defaultValues).length > 0 ? 1 : 0);
+	const { register, unregister, handleSubmit, watch, setValue } = useForm<BillForm>({
+		defaultValues: defaultValues
+	});
+
+	const { updateCompose, deleteCompose } = useCompose();
+
+	const onSubmit = (data: BillForm) => {
+		console.log(data);
+	};
+
+	const [description, type] = watch(['description', 'type']);
+
+	useEffect(() => {
+		const subscription = watch((data) => {
+			updateCompose(itemKey, data);
+		});
+		return () => subscription.unsubscribe();
+	}, [itemKey, updateCompose, watch]);
+
+	return (
+		<Popover.Root>
+			<Popover.Trigger>
+				<Flex className={styles.trigger} py="2" px="3" align="center" gap="2">
+					<Text color="red" size="1" weight="bold" style={{ textTransform: 'uppercase' }}>
+						Draft
+					</Text>
+					<Text className={styles.tabTitle} size="2" weight="medium">
+						{description || 'New'}
+					</Text>
+					<Flex gap="3">
+						<IconButton
+							size="1"
+							variant="ghost"
+							onClick={(e) => {
+								e.preventDefault();
+								deleteCompose(itemKey);
+							}}>
+							<XMarkIcon width="14px" />
+						</IconButton>
+					</Flex>
+				</Flex>
+			</Popover.Trigger>
+			<Popover.Content className={styles.draft} sideOffset={20}>
+				<Flex justify="between" pb="3">
+					{phase > 0 ? (
+						<>
+							<IconButton variant="ghost" onClick={() => setPhase((prev) => prev - 1)}>
+								<ChevronLeftIcon width="18px" />
+							</IconButton>
+							<Text>{type} money</Text>
+						</>
+					) : (
+						<Flex />
+					)}
+
+					<Popover.Close>
+						<IconButton variant="ghost">
+							<MinusSmallIcon width="18px" />
+						</IconButton>
+					</Popover.Close>
+				</Flex>
+				{phase === 0 && (
+					<Flex direction="column" gap="4">
+						<Flex direction="column" align="center">
+							<Heading>Create a bill</Heading>
+							<Text color="gray" align="center">
+								Your bill is where you and your friends define the story for a shared expense.
+							</Text>
+						</Flex>
+						<Text className={styles.label} size="2" weight="medium">
+							start with a type
+						</Text>
+						<div
+							className={clsx(styles.type, type === 'split' && styles.active)}
+							onClick={() => {
+								setPhase(1);
+								setValue('type', 'split');
+							}}>
+							<BanknotesIcon width="32px" />
+							<Flex justify="between" grow="1">
+								<Flex direction="column">
+									<Text weight="bold">Split money</Text>
+									<Text color="gray" size="2">Evenly split a specific amount between specific people.</Text>
+								</Flex>
+								<ChevronRightIcon width="24px" />
+							</Flex>
+						</div>
+
+						<div
+							className={clsx(styles.type, type === 'pool' && styles.active)}
+							onClick={() => {
+								setPhase(1);
+								setValue('type', 'pool');
+							}}>
+							<BanknotesIcon width="32px" />
+							<Flex justify="between" grow="1">
+								<Flex direction="column">
+									<Text weight="bold">Pool money</Text>
+									<Text color="gray" size="2">
+										Create a buy-in where anyone can pay a pre-set amount.
+									</Text>
+								</Flex>
+								<ChevronRightIcon width="24px" />
+							</Flex>
+						</div>
+					</Flex>
+				)}
+				{phase === 1 && (
+					<Flex direction="column" gap="3">
+						<Flex direction="column" asChild>
+							<form onSubmit={handleSubmit(onSubmit)}>
+								<Flex justify="between" grow="1" gap="3">
+									<TextField.Root className={styles.description} size="3">
+										<TextField.Slot>
+											<PencilSquareIcon width="18px" />
+										</TextField.Slot>
+										<TextField.Input
+											placeholder="What's this bill for?"
+											variant="soft"
+											autoFocus
+											{...register('description')}
+										/>
+									</TextField.Root>
+								</Flex>
+								<Flex>
+									<Button>for person</Button>
+									<ArrowsRightLeftIcon width="24px" />
+									<Button>for total</Button>
+								</Flex>
+							</form>
+						</Flex>
+					</Flex>
+				)}
+			</Popover.Content>
+		</Popover.Root>
+	);
+};
+
+export default ComposeItem;
+{
+	/* <Flex direction="column">
+						<Separator size="4" />
+						<Flex grow="1" gap="2" align="center" py="2">
+							<div className={styles.tab}>Details</div>
+							<Separator size="2" orientation="vertical" />
+							<div className={styles.tab}>People</div>
+							<Separator size="2" orientation="vertical" />
+							<div className={styles.tab}>Review</div>
+						</Flex>
+						<Separator size="4" />
+					</Flex> */
+}

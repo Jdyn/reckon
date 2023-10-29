@@ -21,6 +21,8 @@ import sideMenuStyles from '~/components/SideMenu/SideMenu.module.css';
 
 import { SideMenu, SideNavigationLink, SideNavigationList } from '../../components/SideMenu';
 import BillView from '../Bills/BillView';
+import Compose from '../Bills/Compose';
+import { ComposeProvider } from '../Bills/Compose/ComposeProvider';
 import GroupList from '../Group/GroupList';
 import GroupMenu from '../Group/GroupMenu';
 import Header from './Header';
@@ -117,16 +119,19 @@ export function RootLayout() {
 					<HomeMenu />
 				</div>
 			</SideMenu>
-			<div className={styles.container}>
-				<Header />
-				<div className={styles.wrapper}>
-					<Outlet />
+			<ComposeProvider>
+				<div className={styles.container}>
+					<Header />
+					<div className={styles.wrapper}>
+						<Outlet />
+						<Compose />
+					</div>
 				</div>
-			</div>
+			</ComposeProvider>
 			<SideMenu
 				expand="left"
 				controlled={isBillView ? true : false}
-				maxWidth={isBillView ? '275px' : '225px'}
+				maxWidth={isBillView ? '275px' : '275px'}
 				expanded={isBillView ? true : userListExpanded}
 				onExpandedChange={(e) => setUserListExpanded(e)}
 			>

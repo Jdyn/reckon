@@ -199,7 +199,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 											<Text weight="medium">
 												{charge.user.id === user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
 											</Text>
-											not accepted.
+											not responded.
 										</Text>
 									</Flex>
 								)}

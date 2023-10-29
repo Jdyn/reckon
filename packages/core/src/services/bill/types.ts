@@ -6,9 +6,12 @@ export type Money = {
 	currency: string;
 };
 
+export type BillType = "split" | "pool";
+
 export type Bill = {
 	id: number;
 	description: string;
+	type: BillType;
 	total?: Money;
 	group_id?: number;
 	inserted_at: string;

@@ -42,7 +42,7 @@ const BillFeed = ({ type }: BillListProps) => {
 	return (
 		<div className={styles.bills} ref={observe}>
 			<ScrollArea style={{ height }}>
-				<Flex direction="column" m="5" mb="0">
+				<Flex direction="column" m="5" mb="0" pb="8">
 					<Flex gap="2" align="center" pb="4">
 						<div className={styles.circle}>
 							<CalendarDaysIcon width="21px" />

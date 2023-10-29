@@ -13,7 +13,7 @@ defmodule Nimble.Bill do
 
     # The type of split
     # split: Evenly split the bill between all members
-    # fixed: every member pays a fixed amount
+    # pool: every member pays a fixed amount
     # custom: each member pays a custom amount based on the charge split_percent
     field(:type, :string, default: "split")
 

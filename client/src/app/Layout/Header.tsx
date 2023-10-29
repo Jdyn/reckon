@@ -19,9 +19,10 @@ import {
 	TextField
 } from '@radix-ui/themes';
 import { GroupInvite, useJoinGroupMutation } from '@reckon/core';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useEvent } from 'use-phoenix';
 
+import { useCompose } from '../Bills/Compose/ComposeProvider';
 import styles from './Layout.module.css';
 
 interface InviteEvent {
@@ -32,7 +33,8 @@ interface InviteEvent {
 function Headers() {
 	const { data } = useEvent<InviteEvent>('user:notifications', 'invites');
 	const [joinGroup] = useJoinGroupMutation();
-
+	const [searchParams, setSearchParams] = useSearchParams();
+	const { newCompose } = useCompose();
 	return (
 		<Flex
 			className={styles.header}
@@ -44,11 +46,19 @@ function Headers() {
 			px="4"
 		>
 			<Flex>
-				<Button type="button" variant="soft" color="jade" asChild>
-					<Link to="/bill/new">
-						<PlusSmallIcon width="18px" />
-						<Text>Create</Text>
-					</Link>
+				<Button
+					type="button"
+					variant="soft"
+					color="jade"
+					onClick={(e) => {
+						e.preventDefault();
+						// searchParams.set('compose', 'new');
+						// setSearchParams(searchParams);
+						newCompose(`${Date.now()}`);
+					}}
+				>
+					<PlusSmallIcon width="18px" />
+					<Text>Create</Text>
 				</Button>
 			</Flex>
 			<Container size="1" px="3">
