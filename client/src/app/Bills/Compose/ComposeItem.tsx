@@ -63,7 +63,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 						Draft
 					</Text>
 					<Text className={styles.tabTitle} size="2" weight="medium">
-						{description || 'New'}
+						{description || 'New Bill'}
 					</Text>
 					<Flex gap="3">
 						<IconButton
@@ -82,17 +82,18 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 				<Flex justify="between" pb="3">
 					{phase > 0 ? (
 						<>
-							<IconButton variant="ghost" onClick={() => setPhase((prev) => prev - 1)}>
+							<IconButton size="2" variant="ghost" onClick={() => setPhase((prev) => prev - 1)}>
 								<ChevronLeftIcon width="18px" />
 							</IconButton>
-							<Text>{type} money</Text>
+							<Text className={styles.label} size="2" weight="medium" color="orange">
+								{type}
+							</Text>
 						</>
 					) : (
 						<Flex />
 					)}
-
 					<Popover.Close>
-						<IconButton variant="ghost">
+						<IconButton size="1" variant="ghost">
 							<MinusSmallIcon width="18px" />
 						</IconButton>
 					</Popover.Close>
@@ -118,7 +119,9 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 							<Flex justify="between" grow="1">
 								<Flex direction="column">
 									<Text weight="bold">Split money</Text>
-									<Text color="gray" size="2">Evenly split a specific amount between specific people.</Text>
+									<Text color="gray" size="2">
+										Evenly split a specific amount between specific people.
+									</Text>
 								</Flex>
 								<ChevronRightIcon width="24px" />
 							</Flex>
@@ -145,27 +148,18 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 				)}
 				{phase === 1 && (
 					<Flex direction="column" gap="3">
-						<Flex direction="column" asChild>
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<Flex justify="between" grow="1" gap="3">
-									<TextField.Root className={styles.description} size="3">
-										<TextField.Slot>
-											<PencilSquareIcon width="18px" />
-										</TextField.Slot>
-										<TextField.Input
-											placeholder="What's this bill for?"
-											variant="soft"
-											autoFocus
-											{...register('description')}
-										/>
-									</TextField.Root>
-								</Flex>
-								<Flex>
-									<Button>for person</Button>
-									<ArrowsRightLeftIcon width="24px" />
-									<Button>for total</Button>
-								</Flex>
-							</form>
+						<Flex justify="between" grow="1" gap="3">
+							<TextField.Root className={styles.description} size="3">
+								<TextField.Slot>
+									<PencilSquareIcon width="18px" />
+								</TextField.Slot>
+								<TextField.Input
+									placeholder="What's this bill for?"
+									variant="soft"
+									autoFocus
+									{...register('description')}
+								/>
+							</TextField.Root>
 						</Flex>
 					</Flex>
 				)}

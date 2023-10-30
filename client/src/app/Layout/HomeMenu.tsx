@@ -8,7 +8,7 @@ const HomeMenu = () => {
 
 	return match ? (
 		<SideMenuList>
-			<Flex align="center" justify="between" height="6">
+			<Flex align="center" justify="between" pt="2">
 				<Heading size="3">Home</Heading>
 			</Flex>
 			<SideMenuList.Link to={match.pathname}>

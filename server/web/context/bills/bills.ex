@@ -20,9 +20,12 @@ defmodule Nimble.Bills do
   end
 
   def index(%{group_id: group_id, user_id: user_id}, :group) do
+    query = Query.bill(group_id: group_id)
+
     {:ok,
-     from(b in Bill, where: b.group_id == ^group_id, order_by: [desc: b.inserted_at])
+     query
      |> join_liked(user_id)
+     |> order_by([b], desc: b.inserted_at)
      |> Repo.all()
      |> Repo.preload([:items, :creator, charges: [:user]])}
   end
@@ -32,7 +35,7 @@ defmodule Nimble.Bills do
      user
      |> assoc(:associated_bills)
      |> join_liked(user.id)
-     #  |> order_by([b], desc: b.inserted_at)
+     |> order_by([b], desc: b.inserted_at)
      |> Repo.all()
      |> Repo.preload([:items, :group, :creator, charges: [:user]])}
   end
@@ -84,8 +87,8 @@ defmodule Nimble.Bills do
 
   def join_liked(query, user_id) do
     query
-    |> join(:left, [b], ul in UserLike, on: ul.id == b.id and ul.user_id == ^user_id)
-    |> select([b, ul], %{b | liked: not is_nil(ul.id)})
+    |> join(:left, [b], ul in UserLike, as: :liked, on: ul.bill_id == b.id and ul.user_id == ^user_id)
+    |> select([b, liked: ul], %{b | liked: not is_nil(ul.id)})
   end
 
   def inc_likes(id, value) do

@@ -1,5 +1,5 @@
 import { NewspaperIcon, UserPlusIcon } from '@heroicons/react/24/outline';
-import { Flex, Heading, IconButton, Tooltip } from '@radix-ui/themes';
+import { Flex, Heading, IconButton, Separator, Text, Tooltip } from '@radix-ui/themes';
 import { useGetGroupQuery } from '@reckon/core';
 import { useMemo } from 'react';
 import { useMatch } from 'react-router-dom';
@@ -17,7 +17,7 @@ const GroupMenu = () => {
 
 	return match ? (
 		<SideMenuList>
-			<Flex align="center" justify="between" height="6">
+			<Flex align="center" justify="between" pt="2">
 				<Heading size="3">{group?.name}</Heading>
 				<Tooltip content="start a new bill">
 					<IconButton variant="ghost">
@@ -30,6 +30,13 @@ const GroupMenu = () => {
 				<NewspaperIcon width="18px" />
 				Feed
 			</SideMenuList.Link>
+			<Flex align="center" gap="1">
+				<Separator size="4" />
+				<Text size="1" weight="medium" style={{ textTransform: 'uppercase' }}>
+					stories
+				</Text>
+				<Separator size="4" />
+			</Flex>
 		</SideMenuList>
 	) : null;
 };
