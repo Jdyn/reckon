@@ -21,12 +21,10 @@ defmodule Nimble.Bills do
 
   def index(%{group_id: group_id, user_id: user_id}, :group) do
     {:ok,
-     [group_id: group_id]
-     |> Query.bill()
+     from(b in Bill, where: b.group_id == ^group_id, order_by: [desc: b.inserted_at])
      |> join_liked(user_id)
-     |> order_by([b], desc: b.inserted_at)
      |> Repo.all()
-     |> Repo.preload([:items, :group, :creator, charges: [:user]])}
+     |> Repo.preload([:items, :creator, charges: [:user]])}
   end
 
   def index(%{user: %User{} = user}, :user) do
@@ -34,7 +32,7 @@ defmodule Nimble.Bills do
      user
      |> assoc(:associated_bills)
      |> join_liked(user.id)
-     |> order_by([b], desc: b.inserted_at)
+     #  |> order_by([b], desc: b.inserted_at)
      |> Repo.all()
      |> Repo.preload([:items, :group, :creator, charges: [:user]])}
   end
@@ -54,7 +52,9 @@ defmodule Nimble.Bills do
   end
 
   def update_charge(charge_id, user_id, params) do
-    with charge = %BillCharge{} <- Repo.one(Query.charge_from_user(charge_id, user_id)) do
+    charge_query = Query.charge(id: charge_id, user_id: user_id)
+
+    with charge = %BillCharge{} <- Repo.one(charge_query) do
       charge
       |> BillCharge.update_charge_changeset(params)
       |> Repo.update()
@@ -63,18 +63,18 @@ defmodule Nimble.Bills do
     end
   end
 
-  def like(id, user_id) do
-    case Repo.one(Query.bill_like(id, user_id)) do
+  def like(bill_id, user_id) do
+    case Repo.one(Query.bill_like(bill_id, user_id)) do
       nil ->
         %UserLike{}
-        |> UserLike.changeset(%{"id" => id, "user_id" => user_id})
+        |> UserLike.changeset(%{"bill_id" => bill_id, "user_id" => user_id})
         |> Repo.insert!()
 
-        inc_likes(id, 1)
+        inc_likes(bill_id, 1)
 
       like ->
         Repo.delete!(like)
-        inc_likes(id, -1)
+        inc_likes(bill_id, -1)
     end
   end
 

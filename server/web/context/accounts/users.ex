@@ -167,7 +167,7 @@ defmodule Nimble.Accounts.Users do
 
   """
   def get_by_identifier(identifier) when is_binary(identifier),
-    do: Repo.one(from(u in User, where: u.email == ^identifier or u.phone == ^identifier))
+    do: Repo.one(from(u in User, where: u.email == ^identifier or u.phone == ^identifier or u.username == ^identifier))
 
   @doc """
   Updates the user password.

@@ -4,7 +4,7 @@ defmodule Nimble.Presence do
     otp_app: :nimble,
     pubsub_server: Nimble.PubSub
 
-  use Nimble.Web, :context
+  # use Nimble.Web, :context
 
   # alias Nimble.GroupMember
   # alias Nimble.Repo
