@@ -130,6 +130,9 @@ importers:
       '@radix-ui/themes':
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.2.14)(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)
+      '@react-spring/web':
+        specifier: 9.6.0
+        version: 9.6.0(react-dom@18.2.0)(react@18.2.0)
       '@reckon/core':
         specifier: workspace:*
         version: link:../packages/core
@@ -163,6 +166,9 @@ importers:
       react-router-dom:
         specifier: 6.16.0
         version: 6.16.0(react-dom@18.2.0)(react@18.2.0)
+      react-use-measure:
+        specifier: ^2.1.1
+        version: 2.1.1(react-dom@18.2.0)(react@18.2.0)
       use-phoenix:
         specifier: 0.0.1-alpha.3
         version: 0.0.1-alpha.3(react@18.2.0)
@@ -5597,6 +5603,10 @@ packages:
   /dayjs@1.11.10:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
 
+  /debounce@1.2.1:
+    resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
+    dev: false
+
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -8705,6 +8715,17 @@ packages:
       invariant: 2.2.4
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /react-use-measure@2.1.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
+    peerDependencies:
+      react: '>=16.13'
+      react-dom: '>=16.13'
+    dependencies:
+      debounce: 1.2.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react@18.2.0:

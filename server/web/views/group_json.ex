@@ -41,7 +41,8 @@ defmodule Nimble.GroupJSON do
           member <- group.members,
           do: %{
             id: member.id,
-            full_name: member.full_name,
+            username: member.username,
+            fullName: member.full_name,
             email: member.email
           }
         )

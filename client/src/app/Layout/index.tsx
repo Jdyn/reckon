@@ -46,7 +46,7 @@ export function RootLayout() {
 			<SideMenu expand="right">
 				<Flex height="9" justify="start" align="center" width="100%" px="3">
 					<Heading size="5" trim="both">
-						Tehee
+						Teewho
 					</Heading>
 				</Flex>
 				<div className={styles.menu}>

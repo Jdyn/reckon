@@ -11,8 +11,8 @@ defmodule Nimble.Bills do
 
   def index(%{user_id: user_id}, :global) do
     {:ok,
-     Bill
-     |> join_liked(user_id)
+     user_id
+     |> join_liked()
      |> order_by([b], desc: b.inserted_at)
      |> limit(10)
      |> Repo.all()
@@ -85,7 +85,7 @@ defmodule Nimble.Bills do
     Repo.exists?(Query.bill_like(id, user_id))
   end
 
-  def join_liked(query, user_id) do
+  def join_liked(query \\ Bill, user_id) do
     query
     |> join(:left, [b], ul in UserLike, as: :liked, on: ul.bill_id == b.id and ul.user_id == ^user_id)
     |> select([b, liked: ul], %{b | liked: not is_nil(ul.id)})

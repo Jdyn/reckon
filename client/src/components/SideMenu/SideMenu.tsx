@@ -104,7 +104,7 @@ export function SideMenu(props: SideMenuProps) {
 SideMenu.defaultProps = {
 	style: {},
 	children: null,
-	maxWidth: '225px',
+	maxWidth: '275px',
 	value: undefined,
 	expanded: true,
 	controlled: false,

@@ -1,6 +1,6 @@
 import { UserGroupIcon } from '@heroicons/react/24/outline';
 import { Flex, Text } from '@radix-ui/themes';
-import { useMemberListQuery, useSessionQuery } from '@reckon/core';
+import { useGetGroupQuery, useMemberListQuery, useSessionQuery } from '@reckon/core';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import { usePhoenix, usePresence } from 'use-phoenix';
@@ -16,22 +16,22 @@ const UserList = ({ title, presence }: UserListProps) => {
 	const { id } = useParams<{ id: string }>();
 
 	const { data: session } = useSessionQuery();
-	const { data: members } = useMemberListQuery(id, { skip: !id });
+	const { data: group } = useGetGroupQuery(parseInt(id!, 10), { skip: !id });
 
 	const { connect } = usePhoenix();
 
 	const presences = usePresence<void, { lastSeen: string }>(presence);
 
 	const userList = useMemo(() => {
-		if (members) {
-			return members.map((member) => {
+		if (group?.members) {
+			return group.members.map((member) => {
 				const presence = presences.find((p) => parseInt(p.id, 10) === member.id);
 				return { user: member, ...presence };
 			});
 		}
 		return [];
-	}, [members, presences]);
-
+	}, [group, presences]);
+	console.log(userList)
 	useEffect(() => {
 		if (session) {
 			connect('ws://localhost:4000/socket', {
