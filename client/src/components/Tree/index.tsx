@@ -33,16 +33,17 @@ const Tree = React.memo<
 
 	return (
 		<Flex direction="column" className={styles.root}>
-			<Flex gap="2" align="center">
-				<animated.div style={{ opacity: children ? 1 : 0.3 }}>
-					<IconButton size="1" variant="ghost" style={{ margin: 0}} onClick={() => setOpen(!isOpen)}>
-						{isOpen ? <MinusIcon width="14px" /> : <PlusIcon width="14px" />}
-					</IconButton>
-				</animated.div>
+			<animated.div
+				className={styles.header}
+				style={{ opacity: children ? 1 : 0.3 }}
+				onClick={() => setOpen(!isOpen)}>
+				<IconButton size="1" variant="ghost" style={{ margin: 0 }}>
+					{isOpen ? <MinusIcon width="14px" /> : <PlusIcon width="14px" />}
+				</IconButton>
 				<Text className={styles.label} color="gray" weight="medium" size="2" trim="both">
 					{name}
 				</Text>
-			</Flex>
+			</animated.div>
 			<Flex direction="column" asChild>
 				<animated.div
 					style={{

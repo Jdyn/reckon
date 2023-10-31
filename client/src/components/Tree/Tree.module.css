@@ -5,3 +5,15 @@
 .label {
 	text-transform: uppercase;
 }
+
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	cursor: pointer;
+	border-radius: var(--radius-2);
+
+	&:hover {
+		background: var(--accent-7);
+	}
+}

@@ -61,8 +61,9 @@ defmodule Nimble.Router do
       get("/invites", UserController, :show_invites)
       get("/bills", BillController, :user_bills)
     end
-    
+
     get("/bills", BillController, :global_bills)
+
     resources("/bills", BillController, only: [:show]) do
       post("/like", BillController, :like)
     end

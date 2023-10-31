@@ -64,8 +64,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 							weight="medium"
 							color="orange"
 							trim="both"
-							style={{ textTransform: 'uppercase' }}
-						>
+							style={{ textTransform: 'uppercase' }}>
 							{bill.status}
 						</Text>
 						<Text size="4">
@@ -103,8 +102,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 					align="center"
 					px="2"
 					pl="4"
-					height="7"
-				>
+					height="7">
 					{(currentCharge?.approval_status === 'declined' ||
 						currentCharge?.approval_status === 'approved') && (
 						<Button
@@ -113,8 +111,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 							color="gray"
 							onClick={(e) => {
 								handleChargeUpdate(e, { approval_status: 'pending' });
-							}}
-						>
+							}}>
 							<CheckIcon height="18px" />
 							<Text align="center" trim="both" weight="medium">
 								{currentCharge?.approval_status === 'approved' ? 'unaccept' : 'Undecline'}
@@ -127,8 +124,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 								size="1"
 								variant="soft"
 								color="jade"
-								onClick={(e) => handleChargeUpdate(e, { approval_status: 'approved' })}
-							>
+								onClick={(e) => handleChargeUpdate(e, { approval_status: 'approved' })}>
 								<CheckIcon height="18px" />
 								<Text align="center" trim="both" weight="medium">
 									Accept
@@ -138,8 +134,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 								size="1"
 								variant="soft"
 								color="crimson"
-								onClick={(e) => handleChargeUpdate(e, { approval_status: 'declined' })}
-							>
+								onClick={(e) => handleChargeUpdate(e, { approval_status: 'declined' })}>
 								<CheckIcon height="18px" />
 								<Text align="center" trim="both" weight="medium">
 									Decline
@@ -153,9 +148,8 @@ const BillCard = ({ bill }: BillCardProps) => {
 						color={bill.liked ? 'crimson' : 'gray'}
 						onClick={(e) => {
 							e.stopPropagation();
-							likeBill({ billId: bill.id, meta: { groupId: bill.group_id } })
-						}}
-					>
+							likeBill({ billId: bill.id, meta: { groupId: bill.group_id } });
+						}}>
 						<HeartIcon width="18px" />
 						<Text align="center" trim="both" weight="medium">
 							{bill.like_count}
@@ -188,11 +182,27 @@ const BillCard = ({ bill }: BillCardProps) => {
 									charge.approval_status === 'approved' && styles.approved,
 									charge.approval_status === 'declined' && styles.declined,
 									charge.approval_status === 'pending' && styles.pending
-								)}
-							>
+								)}>
 								<CheckIcon width="20px" height="20px" />
 							</div>
 							<Flex direction="column" wrap="wrap">
+								<Flex justify="center" direction="row" gap="2" align="center">
+									{/* <Badge
+										color={
+											clsx(
+												charge.approval_status === 'approved' && 'green',
+												charge.approval_status === 'declined' && 'red',
+												charge.approval_status === 'pending' && 'gray'
+											) as any
+										}>
+										{charge.approval_status}
+									</Badge> */}
+									{/* <Text size="3">
+										<Text weight="medium">
+											{charge.user.id === user?.id ? 'You' : `${charge.user.fullName}`}{' '}
+										</Text>
+										will pay <Text>${charge.amount.amount}</Text>
+									</Text> */}
 								{charge.approval_status === 'pending' && (
 									<Flex direction="column" gap="2">
 										<Text size="3">
@@ -219,6 +229,8 @@ const BillCard = ({ bill }: BillCardProps) => {
 										declined.
 									</Text>
 								)}
+																</Flex>
+
 							</Flex>
 						</Flex>
 					))}

@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { useMatch } from 'react-router-dom';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
 import Tree from '~/components/Tree';
+import { formatTimeAgo } from '~/utils/dates';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
@@ -44,12 +45,15 @@ const GroupMenu = () => {
 				<Tree name="bills">
 					{bills &&
 						bills.map((bill) => (
-							<Flex key={bill.id} justify="start" gap="1" style={{ margin: 0 }} asChild>
+							<Flex key={bill.id} justify="between" style={{ margin: 0 }} asChild>
 								<Button variant="ghost">
-									<HashtagIcon height="14px" />
-									<Text size="2" weight="medium">
-										{bill.description}
-									</Text>
+									<Flex gap="1" align="center" >
+										<HashtagIcon height="14px" />
+										<Text size="2" weight="medium">
+											{bill.description}
+										</Text>
+									</Flex>
+									<Text>{formatTimeAgo(bill.inserted_at, false)}</Text>
 								</Button>
 							</Flex>
 						))}
@@ -57,12 +61,15 @@ const GroupMenu = () => {
 				<Tree name="bills">
 					{bills &&
 						bills.map((bill) => (
-							<Flex key={bill.id} justify="start" gap="1" style={{ margin: 0 }} asChild>
+							<Flex key={bill.id} justify="between" style={{ margin: 0 }} asChild>
 								<Button variant="ghost">
-									<HashtagIcon height="14px" />
-									<Text size="2" weight="medium">
-										{bill.description}
-									</Text>
+									<Flex gap="1" align="center" >
+										<HashtagIcon height="14px" />
+										<Text size="2" weight="medium">
+											{bill.description}
+										</Text>
+									</Flex>
+									<Text>{formatTimeAgo(bill.inserted_at, false)}</Text>
 								</Button>
 							</Flex>
 						))}
