@@ -5,7 +5,7 @@ defmodule Nimble.SessionJSON do
     for(token <- tokens, do: UserJSON.token(token))
   end
 
-  def show(%{token: token}) do
-    UserJSON.token(token)
+  def show(%{token: token, user: user}) do
+    Map.merge(UserJSON.token(token), %{ user: UserJSON.user(user) })
   end
 end

@@ -31,7 +31,7 @@ const UserList = ({ title, presence }: UserListProps) => {
 		}
 		return [];
 	}, [group, presences]);
-	console.log(userList)
+
 	useEffect(() => {
 		if (session) {
 			connect('ws://localhost:4000/socket', {

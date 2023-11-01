@@ -1,13 +1,13 @@
-import { DropdownMenu, Flex, Heading, Text } from '@radix-ui/themes';
+import { DropdownMenu, Flex, Text } from '@radix-ui/themes';
 import { Avatar } from '@radix-ui/themes';
-import { useAccountQuery, useSignOutMutation } from '@reckon/core';
+import { useSessionQuery, useSignOutMutation } from '@reckon/core';
 import { getInitials } from '@reckon/ui';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './Layout.module.css';
 
 const ProfileLink = () => {
-	const { data: user } = useAccountQuery();
+	const { data: session } = useSessionQuery();
 	const [signOut] = useSignOutMutation();
 	const navigate = useNavigate();
 
@@ -16,9 +16,9 @@ const ProfileLink = () => {
 			<DropdownMenu.Trigger>
 				<Flex height="9" align="center" justify="end">
 					<button className={styles.profileRoot}>
-						<Text weight="medium">{user?.username}</Text>
+						<Text weight="medium">{session?.user.username}</Text>
 						<Avatar
-							fallback={getInitials(user?.fullName || '')}
+							fallback={getInitials(session?.user.fullName || '')}
 							radius="full"
 							size="2"
 							variant="solid"

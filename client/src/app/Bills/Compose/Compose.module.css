@@ -99,3 +99,8 @@
 .active {
 	background: var(--accent-5);
 }
+
+.list {
+	background: var(--accent-a3);
+	border-radius: var(--radius-3);
+}

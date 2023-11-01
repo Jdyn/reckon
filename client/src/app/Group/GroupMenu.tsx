@@ -49,10 +49,10 @@ const GroupMenu = () => {
 		}
 	};
 
-	const { data: bills } = useBillListQuery({ groupId, type: 'group' });
+	const { data: bills } = useBillListQuery({ groupId, type: 'group' }, { skip: !groupId });
 
 	const { data: group } = useGetGroupQuery(groupId, { skip: !groupId });
-	console.log(open);
+
 	return match ? (
 		<SideMenuList>
 			<Flex align="center" justify="between" pt="2">

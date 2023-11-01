@@ -22,6 +22,7 @@ defmodule Nimble.Web do
       import Plug.Conn
 
       def current_user(conn), do: conn.assigns[:current_user]
+      def current_group(conn), do: conn.assigns[:group_id]
 
       unquote(verified_routes())
     end

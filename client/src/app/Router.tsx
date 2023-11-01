@@ -1,4 +1,4 @@
-import { account, store } from '@reckon/core';
+import { session, store } from '@reckon/core';
 import { Navigate, createBrowserRouter, redirect } from 'react-router-dom';
 
 import AuthLayout from './Auth/AuthLayout';
@@ -9,7 +9,7 @@ import Compose from './Bills/Compose';
 import { RootLayout } from './Layout';
 
 const protectRoute = async () => {
-	const { error } = await store.dispatch(account.initiate());
+	const { error } = await store.dispatch(session.initiate());
 	if (error) {
 		return redirect('/login');
 	}

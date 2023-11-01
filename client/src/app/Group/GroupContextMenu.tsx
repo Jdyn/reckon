@@ -1,9 +1,4 @@
-import {
-	InformationCircleIcon,
-	MagnifyingGlassIcon,
-	UserPlusIcon,
-	UsersIcon
-} from '@heroicons/react/24/outline';
+import { InformationCircleIcon, MagnifyingGlassIcon, UsersIcon } from '@heroicons/react/24/outline';
 import { ExitIcon } from '@radix-ui/react-icons';
 import {
 	AlertDialog,
@@ -12,18 +7,16 @@ import {
 	ContextMenu,
 	Dialog,
 	Flex,
-	IconButton,
 	Tabs,
 	Text,
-	TextField,
-	Tooltip
+	TextField
 } from '@radix-ui/themes';
 import {
-	useAccountQuery,
 	useDeleteGroupMutation,
 	useGetGroupQuery,
 	useInviteUserMutation,
-	useLeaveGroupMutation
+	useLeaveGroupMutation,
+	useSessionQuery
 } from '@reckon/core';
 import { ReactNode, useMemo, useState } from 'react';
 import Error from '~/components/Error';
@@ -35,15 +28,16 @@ interface GroupContextMenuProps {
 
 const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 	const { data: group } = useGetGroupQuery(groupId, { skip: !groupId });
-	const { data: user } = useAccountQuery();
+	const { data: session } = useSessionQuery();
 
 	const [deleteGroup] = useDeleteGroupMutation();
 	const [leaveGroup] = useLeaveGroupMutation();
 	const [inviteUser, { isSuccess, error }] = useInviteUserMutation();
 	const [identifier, setIdentifer] = useState('');
+
 	const isCreator = useMemo(
-		() => group?.creator.id === user?.id || false,
-		[group?.creator.id, user?.id]
+		() => group?.creator.id === session?.user?.id || false,
+		[group?.creator.id, session?.user?.id]
 	);
 
 	const [open, setOpen] = useState({
@@ -83,8 +77,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 								onClick={(e) => {
 									e.preventDefault();
 									handleDialog('invite', true);
-								}}
-							>
+								}}>
 								Invite friends
 								<UsersIcon width="18px" />
 							</ContextMenu.Item>
@@ -145,10 +138,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 											<Text as="div" size="3" mb="1" weight="bold">
 												Name
 											</Text>
-											<TextField.Input
-												value={identifier}
-												placeholder="John"
-											/>
+											<TextField.Input value={identifier} placeholder="John" />
 										</label>
 										<label>
 											<Text as="div" size="3" mb="1" weight="bold">
@@ -193,16 +183,14 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 
 				<AlertDialog.Root
 					open={open['delete']}
-					onOpenChange={(open) => handleDialog('delete', open)}
-				>
+					onOpenChange={(open) => handleDialog('delete', open)}>
 					<AlertDialog.Trigger>
 						<ContextMenu.Item
 							color="red"
 							onClick={(e) => {
 								e.preventDefault();
 								handleDialog('delete', true);
-							}}
-						>
+							}}>
 							{isCreator ? 'Delete group' : 'Leave group'}
 							<ExitIcon width="18px" />
 						</ContextMenu.Item>
@@ -225,8 +213,7 @@ const GroupContextMenu = ({ children, groupId }: GroupContextMenuProps) => {
 										if (group) {
 											isCreator ? deleteGroup(group.id) : leaveGroup(group.id);
 										}
-									}}
-								>
+									}}>
 									{isCreator ? 'Delete' : 'Leave'}
 								</Button>
 							</AlertDialog.Action>

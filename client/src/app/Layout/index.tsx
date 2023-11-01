@@ -46,7 +46,7 @@ export function RootLayout() {
 			<SideMenu expand="right">
 				<Flex height="9" justify="start" align="center" width="100%" px="3">
 					<Heading size="5" trim="both">
-						Teewho
+						Teehee
 					</Heading>
 				</Flex>
 				<div className={styles.menu}>
@@ -131,7 +131,7 @@ export function RootLayout() {
 			<SideMenu
 				expand="left"
 				controlled={isBillView ? true : false}
-				maxWidth={isBillView ? '275px' : '275px'}
+				maxWidth={isBillView ? '225px' : '225px'}
 				expanded={isBillView ? true : userListExpanded}
 				onExpandedChange={(e) => setUserListExpanded(e)}
 			>

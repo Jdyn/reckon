@@ -23,7 +23,7 @@ defmodule Nimble.SessionController do
     token = get_session(conn, :user_token)
 
     token = Sessions.find_session(current_user, token: token)
-    render(conn, :show, token: token)
+    render(conn, :show, token: token, user: current_user)
   end
 
   @doc """

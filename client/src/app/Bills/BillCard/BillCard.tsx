@@ -4,12 +4,12 @@ import {
 	HeartIcon
 } from '@heroicons/react/24/outline';
 import { CheckIcon, UploadIcon } from '@radix-ui/react-icons';
-import { Badge, Button, Flex, Heading, HoverCard, Text } from '@radix-ui/themes';
+import { Button, Flex, Text } from '@radix-ui/themes';
 import {
 	Bill,
 	BillCharge,
-	useAccountQuery,
 	useLikeBillMutation,
+	useSessionQuery,
 	useUpdateChargeMutation
 } from '@reckon/core';
 import { Avatar } from '@reckon/ui';
@@ -27,11 +27,12 @@ type BillCardProps = {
 const BillCard = ({ bill }: BillCardProps) => {
 	const [_, setSearchParams] = useSearchParams();
 	const [updateCharge] = useUpdateChargeMutation();
-	const { data: user } = useAccountQuery();
+	const { data: session } = useSessionQuery();
 	const [likeBill] = useLikeBillMutation();
+
 	const currentCharge = useMemo(() => {
-		return bill.charges?.find((charge) => charge.user.id === user?.id);
-	}, [bill, user]);
+		return bill.charges?.find((charge) => charge.user.id === session?.user?.id);
+	}, [bill, session]);
 
 	const updateQueryParam = () => {
 		setSearchParams((prev) => {
@@ -203,34 +204,33 @@ const BillCard = ({ bill }: BillCardProps) => {
 										</Text>
 										will pay <Text>${charge.amount.amount}</Text>
 									</Text> */}
-								{charge.approval_status === 'pending' && (
-									<Flex direction="column" gap="2">
+									{charge.approval_status === 'pending' && (
+										<Flex direction="column" gap="2">
+											<Text size="3">
+												<Text weight="medium">
+													{charge.user.id === session?.user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
+												</Text>
+												not responded.
+											</Text>
+										</Flex>
+									)}
+									{charge.approval_status === 'approved' && (
 										<Text size="3">
 											<Text weight="medium">
-												{charge.user.id === user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
+												{charge.user.id === session?.user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
 											</Text>
-											not responded.
+											accepted.
 										</Text>
-									</Flex>
-								)}
-								{charge.approval_status === 'approved' && (
-									<Text size="3">
-										<Text weight="medium">
-											{charge.user.id === user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
+									)}
+									{charge.approval_status === 'declined' && (
+										<Text size="3">
+											<Text weight="medium">
+												{charge.user.id === session?.user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
+											</Text>{' '}
+											declined.
 										</Text>
-										accepted.
-									</Text>
-								)}
-								{charge.approval_status === 'declined' && (
-									<Text size="3">
-										<Text weight="medium">
-											{charge.user.id === user?.id ? 'You have' : `${charge.user.fullName} has`}{' '}
-										</Text>{' '}
-										declined.
-									</Text>
-								)}
-																</Flex>
-
+									)}
+								</Flex>
 							</Flex>
 						</Flex>
 					))}

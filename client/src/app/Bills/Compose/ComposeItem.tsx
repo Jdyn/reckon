@@ -8,18 +8,22 @@ import {
 	XMarkIcon
 } from '@heroicons/react/24/outline';
 import {
+	Avatar,
 	Button,
 	Flex,
 	Heading,
 	IconButton,
 	Popover,
+	ScrollArea,
+	Select,
 	Separator,
 	Tabs,
 	Text,
 	TextArea,
 	TextField
 } from '@radix-ui/themes';
-import { Bill } from '@reckon/core';
+import { Bill, useGetGroupsQuery, useMemberListQuery } from '@reckon/core';
+import { getInitials } from '@reckon/ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,7 +31,7 @@ import { useForm } from 'react-hook-form';
 import styles from './Compose.module.css';
 import { useCompose } from './ComposeProvider';
 
-export type BillForm = Pick<Bill, 'description' | 'type'>;
+export type BillForm = Pick<Bill, 'description' | 'type' | 'group_id'>;
 
 type ComposeItemProps = {
 	itemKey: string;
@@ -40,16 +44,19 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 		defaultValues: defaultValues
 	});
 
+	const [description, type, group_id] = watch(['description', 'type', 'group_id']);
+
 	const { updateCompose, deleteCompose } = useCompose();
+	const { data: groups } = useGetGroupsQuery();
+	const { data: members } = useMemberListQuery(group_id!, { skip: !group_id });
 
 	const onSubmit = (data: BillForm) => {
 		console.log(data);
 	};
 
-	const [description, type] = watch(['description', 'type']);
-
 	useEffect(() => {
 		const subscription = watch((data) => {
+			console.log(data);
 			updateCompose(itemKey, data);
 		});
 		return () => subscription.unsubscribe();
@@ -147,8 +154,8 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 					</Flex>
 				)}
 				{phase === 1 && (
-					<Flex direction="column" gap="3">
-						<Flex justify="between" grow="1" gap="3">
+					<Flex direction="column" gap="2">
+						<Flex justify="between" gap="3">
 							<TextField.Root className={styles.description} size="3">
 								<TextField.Slot>
 									<PencilSquareIcon width="18px" />
@@ -160,6 +167,42 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 									{...register('description')}
 								/>
 							</TextField.Root>
+						</Flex>
+						<Flex direction="column">
+							<Text size="2">Which group?</Text>
+							<Select.Root
+								value={group_id?.toString()}
+								onValueChange={(val) => {
+									setValue('group_id', parseInt(val, 10));
+								}}>
+								<Select.Trigger variant="soft">Select group</Select.Trigger>
+								<Select.Content side="bottom">
+									{groups?.map((group) => (
+										<Select.Item key={group.id} value={group.id.toString()}>
+											{group.name}
+										</Select.Item>
+									))}
+								</Select.Content>
+							</Select.Root>
+						</Flex>
+						<Flex className={styles.members} grow="1" style={{ height: 230 }}>
+							<ScrollArea className={styles.list} type="always" scrollbars="vertical">
+								<Flex direction="column" gap="3" py="3">
+									{members?.map((user) => (
+										<Flex key={user.id} gap="3" px="3" align="center">
+											<Avatar size="2" variant="solid" radius="full" fallback={getInitials(user.fullName)} />
+											<div className={styles.header}>
+												<Text weight="medium" size="2" trim="end">
+													{user.fullName}
+												</Text>
+												<Text color="gray" size="1">
+													{user.username}
+												</Text>
+											</div>
+										</Flex>
+									))}
+								</Flex>
+							</ScrollArea>
 						</Flex>
 					</Flex>
 				)}

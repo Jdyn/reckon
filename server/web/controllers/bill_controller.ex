@@ -15,7 +15,7 @@ defmodule Nimble.BillController do
   end
 
   def group_bills(conn, _params) do
-    group_id = conn.assigns[:group_id]
+    group_id = current_group(conn)
     user = current_user(conn)
 
     with {:ok, bills} <- Bills.index(%{group_id: group_id, user_id: user.id}, :group) do
@@ -38,7 +38,7 @@ defmodule Nimble.BillController do
   end
 
   def create(conn, params) do
-    %{group_id: group_id } = conn.assigns
+    group_id = current_group(conn)
     user = current_user(conn)
 
     params = Map.merge(params, %{"creator_id" => user.id, "group_id" => group_id})
@@ -61,17 +61,5 @@ defmodule Nimble.BillController do
 
     Bills.like(bill_id, user.id)
     json(conn, %{ok: true})
-  end
-
-  def create_category(conn, params) do
-    with {:ok, category} <- Bills.create_category(params) do
-      render(conn, "show_category.json", category: category)
-    end
-  end
-
-  def delete_category(conn, %{ "category_id" => id}) do
-    with :ok <- Bills.delete_category(id) do
-      json(conn, %{ok: true})
-    end
   end
 end
