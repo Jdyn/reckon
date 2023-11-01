@@ -50,13 +50,14 @@ defmodule Nimble.Bill do
 
     belongs_to(:group, Nimble.Group)
     belongs_to(:creator, Nimble.User)
+    belongs_to(:category, Nimble.BillCategory, foreign_key: :category_id)
 
     timestamps()
   end
 
   def create_changeset(bill, attrs \\ %{}) do
     bill
-    |> cast(attrs, [:description, :total, :status, :group_id, :creator_id])
+    |> cast(attrs, [:description, :total, :status, :group_id, :creator_id, :category_id])
     |> validate_required([:description, :total, :group_id, :creator_id])
     |> validate_inclusion(:type, ["split", "fixed", "custom"])
     |> cast_embed(:options, required: true, with: &options_changeset/2)

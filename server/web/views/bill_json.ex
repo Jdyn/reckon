@@ -18,6 +18,10 @@ defmodule Nimble.BillJSON do
     for(bill <- bills, do: external_bill(bill))
   end
 
+  def render("show_category.json", %{category: category}) do
+    bill_category(category)
+  end
+
   def external_bill(bill) do
     %{
       id: bill.id,
@@ -44,6 +48,7 @@ defmodule Nimble.BillJSON do
       liked: bill.liked,
       creator_id: bill.creator_id,
       inserted_at: bill.inserted_at,
+      category_id: bill.category_id,
       updated_at: bill.updated_at,
       items: for(bill_item <- bill.items, do: bill_item(bill_item)),
       charges: for(bill_charge <- bill.charges, do: bill_charge(bill_charge)),
@@ -68,6 +73,15 @@ defmodule Nimble.BillJSON do
       approval_status: bill_charge.approval_status,
       payment_status: bill_charge.payment_status,
       user: Nimble.UserJSON.user(bill_charge.user)
+    }
+  end
+
+  def bill_category(category) do
+    %{
+      id: category.id,
+      name: category.name,
+      color: category.color,
+      group_id: category.group_id
     }
   end
 end

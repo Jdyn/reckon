@@ -1,4 +1,5 @@
 import { User } from "../account/types";
+import { BillCategory } from "../bill";
 
 export interface Group {
 	id: number;
@@ -7,6 +8,7 @@ export interface Group {
 	createdAt: string;
 	updatedAt: string;
 	members?: User[];
+	bill_categories?: BillCategory[];
 }
 
 export interface GroupInvite {

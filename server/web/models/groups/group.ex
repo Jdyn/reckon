@@ -2,13 +2,16 @@ defmodule Nimble.Group do
   @moduledoc false
   use Nimble.Web, :model
 
+  alias Nimble.Bill
+  alias Nimble.BillCategory
   alias Nimble.GroupMember
   alias Nimble.User
 
   schema "groups" do
     field(:name, :string)
 
-    has_many(:bills, Nimble.Bill)
+    has_many(:bills, Bill)
+    has_many(:bill_categories, BillCategory)
 
     many_to_many(:members, User, join_through: GroupMember)
 

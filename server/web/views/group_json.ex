@@ -1,6 +1,7 @@
 defmodule Nimble.GroupJSON do
   alias Nimble.Group
   alias Nimble.UserJSON
+  alias Nimble.BillJSON
 
   @doc """
   Renders a list of groups.
@@ -36,6 +37,7 @@ defmodule Nimble.GroupJSON do
       id: group.id,
       name: group.name,
       creator: UserJSON.user(group.creator),
+      bill_categories: for(category <- group.bill_categories, do: BillJSON.bill_category(category)),
       members:
         for(
           member <- group.members,

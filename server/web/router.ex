@@ -82,8 +82,11 @@ defmodule Nimble.Router do
       get("/members", GroupController, :list_members)
       post("/invite", GroupInviteController, :create)
       delete("/leave", GroupController, :leave)
+
       get("/bills", BillController, :group_bills)
       post("/bills", BillController, :create)
+      post("/categories", BillController, :create_category)
+      delete("/categories/:category_id", BillController, :delete_category)
     end
   end
 end

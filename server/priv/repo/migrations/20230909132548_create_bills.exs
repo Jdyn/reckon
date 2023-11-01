@@ -2,6 +2,15 @@ defmodule Nimble.Repo.Migrations.CreateBills do
   use Ecto.Migration
 
   def change do
+    create table(:bills_categories) do
+      add(:name, :string)
+      add(:color, :string)
+
+      add(:group_id, references(:groups, on_delete: :delete_all))
+
+      timestamps()
+    end
+
     create table(:bills) do
       add(:description, :text)
       add(:type, :string)
@@ -13,10 +22,13 @@ defmodule Nimble.Repo.Migrations.CreateBills do
       add(:like_count, :integer, default: 0)
 
       add(:group_id, references(:groups, on_delete: :nilify_all))
+      add(:category_id, references(:bills_categories, on_delete: :nilify_all))
       add(:creator_id, references(:users, on_delete: :nothing))
 
       timestamps()
     end
+
+    create unique_index(:bills_categories, [:name, :group_id], name: :no_duplicate_categories)
 
     create table(:bills_charges) do
       add(:amount, :money_with_currency)

@@ -13,7 +13,7 @@ export function formatTimeAgo(dateString: string, ago = true): string {
 	for (const interval of intervals) {
 		const count = Math.floor(seconds / interval.secondsInInterval);
 		if (count >= 1) {
-			return `1${interval.label} ${ago ? 'ago' : ''}`
+			return  count === 1 ? `1${interval.label} ${ago ? 'ago' : ''}` : `${count}${interval.label} ${ago ? 'ago' : ''}`;
 		}
 	}
 

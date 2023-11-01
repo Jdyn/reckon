@@ -6,7 +6,7 @@ export type Money = {
 	currency: string;
 };
 
-export type BillType = "split" | "pool";
+export type BillType = 'split' | 'pool';
 
 export type Bill = {
 	id: number;
@@ -14,6 +14,7 @@ export type Bill = {
 	type: BillType;
 	total?: Money;
 	group_id?: number;
+	category_id: number;
 	inserted_at: string;
 	items?: BillItem[];
 	charges?: BillCharge[];
@@ -31,7 +32,14 @@ export type BillItem = {
 	note?: string;
 };
 
-export type ApprovalStatus = "approved" | "declined" | "pending";
+export type ApprovalStatus = 'approved' | 'declined' | 'pending';
+
+export type BillCategory = {
+	id: number;
+	name: string;
+	color?: string;
+	group_id: number;
+};
 
 export type BillCharge = {
 	id: number;

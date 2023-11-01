@@ -4,6 +4,7 @@ defmodule Nimble.Bills do
 
   alias Nimble.Bill
   alias Nimble.BillCharge
+  alias Nimble.BillCategory
   alias Nimble.Bills.Query
   alias Nimble.Repo
   alias Nimble.User
@@ -93,6 +94,18 @@ defmodule Nimble.Bills do
 
   def inc_likes(id, value) do
     Repo.update_all(from(b in Bill, where: b.id == ^id, update: [inc: [like_count: ^value]]), [])
+    :ok
+  end
+
+  def create_category(attrs \\ %{}) do
+    %BillCategory{}
+    |> BillCategory.create_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def delete_category(category_id) do
+    category = Repo.get(BillCategory, category_id)
+    Repo.delete!(category)
     :ok
   end
 end

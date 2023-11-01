@@ -31,6 +31,21 @@ const groupApi = baseApi.injectEndpoints({
 		memberList: query<User[], string | undefined>({
 			query: (groupId) => `/groups/${groupId}/members`,
 			providesTags: ['groupMembers']
+		}),
+		createCategory: mutation<void, { groupId: number; body: { name: string } }>({
+			query: ({ groupId, body }) => ({
+				url: `/groups/${groupId}/categories`,
+				method: 'POST',
+				body
+			}),
+			invalidatesTags: (_result, _error, { groupId }) => [{ type: 'group', id: groupId }]
+		}),
+		deleteCategory: mutation<void, { groupId: number; categoryId: number }>({
+			query: ({ groupId, categoryId }) => ({
+				url: `/groups/${groupId}/categories/${categoryId}`,
+				method: 'DELETE'
+			}),
+			invalidatesTags: (_result, _error, { groupId }) => [{ type: 'group', id: groupId }]
 		})
 	})
 });
@@ -43,7 +58,9 @@ export const {
 	useLeaveGroupMutation,
 	useInviteUserMutation,
 	useJoinGroupMutation,
-	useMemberListQuery
+	useMemberListQuery,
+	useCreateCategoryMutation,
+	useDeleteCategoryMutation
 } = groupApi;
 
 export default groupApi;

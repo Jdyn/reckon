@@ -62,4 +62,16 @@ defmodule Nimble.BillController do
     Bills.like(bill_id, user.id)
     json(conn, %{ok: true})
   end
+
+  def create_category(conn, params) do
+    with {:ok, category} <- Bills.create_category(params) do
+      render(conn, "show_category.json", category: category)
+    end
+  end
+
+  def delete_category(conn, %{ "category_id" => id}) do
+    with :ok <- Bills.delete_category(id) do
+      json(conn, %{ok: true})
+    end
+  end
 end

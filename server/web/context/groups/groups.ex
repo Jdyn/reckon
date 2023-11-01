@@ -108,7 +108,7 @@ defmodule Nimble.Groups do
         {:error, "You are not a member, or this group does not exist."}
 
       group ->
-        {:ok, Repo.preload(group, [:creator, :members])}
+        {:ok, Repo.preload(group, [:creator, :members, :bill_categories])}
     end
   end
 
