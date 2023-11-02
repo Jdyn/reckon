@@ -13,8 +13,8 @@ const MemberCard = ({ user, online }: MemberCardProps) => {
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
-				<Flex className={styles.root} gap="3" px="3" align="center">
-					<Avatar variant="solid" radius="full" fallback={getInitials(user.fullName)} />
+				<Flex className={styles.root} gap="5" pl="2" align="center">
+					<Avatar color="indigo" variant="solid" radius="full" fallback={getInitials(user.fullName)} />
 					<div className={styles.header}>
 						<Text weight="medium" size="2" trim="end">
 							{user.fullName}

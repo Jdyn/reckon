@@ -131,7 +131,7 @@ export function RootLayout() {
 			<SideMenu
 				expand="left"
 				controlled={isBillView ? true : false}
-				maxWidth={isBillView ? '225px' : '225px'}
+				maxWidth={isBillView ? '275px' : '275px'}
 				expanded={isBillView ? true : userListExpanded}
 				onExpandedChange={(e) => setUserListExpanded(e)}
 			>

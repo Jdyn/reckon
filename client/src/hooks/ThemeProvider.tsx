@@ -57,7 +57,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 				scaling="100%"
 				radius="large"
 				grayColor="auto"
-				accentColor="gray"
+				accentColor="grass"
 				panelBackground="solid"
 				style={{ background: 'var(--accent-5)'}}
 			>

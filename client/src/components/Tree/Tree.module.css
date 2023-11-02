@@ -8,12 +8,11 @@
 
 .header {
 	display: flex;
-	gap: var(--space-1);
 	flex-direction: row;
 	align-items: center;
 	cursor: pointer;
 	border-radius: var(--radius-2);
-
+	padding: var(--space-1);
 	&:hover {
 		background: var(--accent-7);
 	}

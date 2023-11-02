@@ -181,10 +181,11 @@ const BillCard = ({ bill }: BillCardProps) => {
 
 				{bill.charges &&
 					bill.charges.map((charge) => (
-						<Flex key={charge.id} className={styles.event} gap="3" align="center" justify="between">
-							{/* <Avatar size="3" text={charge.user.fullName} /> */}
+						<Flex key={charge.id} className={styles.event} gap="3" pt="2" align="center">
+							<Avatar size="2" text={charge.user.fullName} />
 
-							<Flex direction="row" gap="3" align="center">
+							<Flex direction="row" gap="1" align="start">
+								{/*
 								<div
 									className={clsx(
 										styles.circle,
@@ -194,23 +195,24 @@ const BillCard = ({ bill }: BillCardProps) => {
 									)}
 								>
 									<CheckIcon width="20px" height="20px" />
-								</div>
+								</div> */}
 								<Text size="2" align="center">
 									{charge.user.id === session?.user.id ? 'You pay' : `${charge.user.fullName} pays`}{' '}
 									<Text>${charge.amount.amount}</Text>
 								</Text>
+								<Badge
+									size="1"
+									color={
+										clsx(
+											charge.approval_status === 'approved' && 'green',
+											charge.approval_status === 'declined' && 'red',
+											charge.approval_status === 'pending' && 'gray'
+										) as any
+									}
+								>
+									{charge.approval_status}
+								</Badge>
 							</Flex>
-							<Badge
-								color={
-									clsx(
-										charge.approval_status === 'approved' && 'green',
-										charge.approval_status === 'declined' && 'red',
-										charge.approval_status === 'pending' && 'gray'
-									) as any
-								}
-							>
-								{charge.approval_status}
-							</Badge>
 						</Flex>
 					))}
 			</Flex>

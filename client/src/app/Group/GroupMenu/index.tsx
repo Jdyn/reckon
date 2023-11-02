@@ -1,13 +1,10 @@
-import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd';
+import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import {
 	EllipsisHorizontalIcon,
-	HashtagIcon,
 	NewspaperIcon,
 	RectangleStackIcon
 } from '@heroicons/react/24/outline';
 import {
-	Button,
-	Dialog,
 	DropdownMenu,
 	Flex,
 	Heading,
@@ -22,15 +19,13 @@ import {
 	useGetGroupQuery,
 	useUpdateBillMutation
 } from '@reckon/core';
-import { FormEvent, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useMatch } from 'react-router-dom';
+import DialogItem from '~/components/DialogItem';
 import SideMenuList from '~/components/SideMenu/SideMenuList';
 import Tree from '~/components/Tree';
-import { formatTimeAgo } from '~/utils/dates';
 
 import MenuTreeItem from './MenuTreeItem';
-
-// import styles from './Group.module.css';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
@@ -41,27 +36,10 @@ const GroupMenu = () => {
 		return parseInt(match.params.id, 10);
 	}, [match]);
 
-	const [open, setOpen] = useState({
-		category: false
-	});
-
 	const [createCategory] = useCreateCategoryMutation();
-
-	const handleDialog = (key: string, state: boolean) => {
-		setOpen((prev) => ({ ...prev, [key]: state }));
-	};
-
-	const handleCreateCategory = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		if (groupId) {
-			createCategory({ groupId, body: { name: newName } });
-		}
-	};
-
 	const { data: bills } = useBillListQuery({ groupId, type: 'group' }, { skip: !groupId });
-
 	const { data: group } = useGetGroupQuery(groupId, { skip: !groupId });
+
 	const [updateBill] = useUpdateBillMutation();
 
 	const onDragEnd = ({ destination, source, draggableId }: DropResult) => {
@@ -71,6 +49,14 @@ const GroupMenu = () => {
 			billId: parseInt(draggableId),
 			body: { category_id: parseInt(destination.droppableId) }
 		});
+	};
+
+	const handleCreateCategory = (e: any) => {
+		e.preventDefault();
+
+		if (groupId) {
+			createCategory({ groupId, body: { name: newName } });
+		}
 	};
 
 	return match ? (
@@ -84,48 +70,26 @@ const GroupMenu = () => {
 						</IconButton>
 					</DropdownMenu.Trigger>
 					<DropdownMenu.Content style={{ width: '216px' }}>
-						<Dialog.Root
-							open={open['category']}
-							onOpenChange={(open) => handleDialog('category', open)}
+						<DialogItem
+							title="Create Category"
+							description="Orangize your bills into different categories to keep them easy to find."
+							type="dropdown"
+							action="Create"
+							onClick={handleCreateCategory}
 						>
-							<Dialog.Trigger>
-								<DropdownMenu.Item
-									onClick={(e) => {
-										e.preventDefault();
-										handleDialog('category', true);
-									}}
-								>
-									Create category
-									<RectangleStackIcon width="18px" />
-								</DropdownMenu.Item>
-							</Dialog.Trigger>
-							<Dialog.Content style={{ maxWidth: 450 }}>
-								<Dialog.Title align="center">Create Category</Dialog.Title>
-								<Dialog.Description color="gray" align="center">
-									Orangize your bills into different categories to keep them easy to find.
-								</Dialog.Description>
-								<Flex direction="column" mt="3">
-									<form onSubmit={handleCreateCategory}>
-										<Text>Category Name</Text>
-										<TextField.Input
-											placeholder="New category"
-											value={newName}
-											onChange={(e) => setName(e.target.value)}
-										/>
-										<Flex gap="3" mt="4" justify="end">
-											<Dialog.Close>
-												<Button variant="soft" color="gray">
-													cancel
-												</Button>
-											</Dialog.Close>
-											<Button type="submit" variant="soft" color="green">
-												Create
-											</Button>
-										</Flex>
-									</form>
-								</Flex>
-							</Dialog.Content>
-						</Dialog.Root>
+							<>
+								Create category
+								<RectangleStackIcon width="18px" />
+							</>
+							<Flex direction="column">
+								<Text>Category Name</Text>
+								<TextField.Input
+									placeholder="New category"
+									value={newName}
+									onChange={(e) => setName(e.target.value)}
+								/>
+							</Flex>
+						</DialogItem>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</Flex>
@@ -142,7 +106,7 @@ const GroupMenu = () => {
 				<Separator size="4" />
 			</Flex>
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Flex direction="column" gap="2">
+				<Flex direction="column" gap="1">
 					<Droppable droppableId="null">
 						{(provided, snapshot) => (
 							<div
@@ -167,8 +131,8 @@ const GroupMenu = () => {
 						<Tree key={category.id} category={category}>
 							{bills
 								?.filter((b) => b.category_id === category.id)
-								.map((bill, index) => (
-									<MenuTreeItem key={bill.id} bill={bill} index={index} />
+								.map((bill, i) => (
+									<MenuTreeItem key={bill.id} bill={bill} index={i} />
 								))}
 						</Tree>
 					))}

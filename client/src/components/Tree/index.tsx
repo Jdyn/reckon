@@ -54,7 +54,7 @@ const Tree = React.memo<
 									onClick={() => setOpen(!isOpen)}
 								>
 									<IconButton size="1" variant="ghost" style={{ margin: 0 }}>
-										{isOpen ? <MinusIcon width="14px" /> : <PlusIcon width="14px" />}
+										{isOpen ? <MinusIcon width="12px" /> : <PlusIcon width="12px" />}
 									</IconButton>
 									<Text className={styles.label} color="gray" weight="medium" size="2" trim="both">
 										{category.name}
