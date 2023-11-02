@@ -48,6 +48,12 @@ defmodule Nimble.BillController do
     end
   end
 
+  def update(conn, %{"id" => id} = params) do
+    with {:ok, _bill} <- Bills.update(id, params) do
+      json(conn, %{ok: true})
+    end
+  end
+
   def update_charge(conn, %{"id" => charge_id} = params) do
     user = current_user(conn)
 

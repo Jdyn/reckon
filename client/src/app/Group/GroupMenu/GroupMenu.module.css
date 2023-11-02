@@ -1,0 +1,25 @@
+.listItem {
+	display: flex;
+	justify-content: space-between;
+	padding: var(--space-1) var(--space-2);
+	border-radius: var(--radius-3);
+	color: var(--accent-a11);
+	&:hover {
+		background: var(--accent-a3);
+	}
+}
+
+.list {
+	position: relative;
+}
+
+.unlisted {
+	position: absolute;
+	min-height: 10px;
+	width: 100%;
+	top: -10px;
+}
+
+.dragging {
+	background: var(--accent-a3);
+}

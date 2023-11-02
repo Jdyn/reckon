@@ -1,3 +1,4 @@
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ContextMenu, Flex, IconButton, Text } from '@radix-ui/themes';
 import { animated, useSpring } from '@react-spring/web';
@@ -34,46 +35,63 @@ const Tree = React.memo<
 	});
 
 	return (
-		<Flex direction="column" className={styles.root}>
-			<ContextMenu.Root>
-				<ContextMenu.Trigger>
-					<animated.div
-						className={styles.header}
-						style={{ opacity: children ? 1 : 0.3 }}
-						onClick={() => setOpen(!isOpen)}>
-						<IconButton size="1" variant="ghost" style={{ margin: 0 }}>
-							{isOpen ? <MinusIcon width="14px" /> : <PlusIcon width="14px" />}
-						</IconButton>
-						<Text className={styles.label} color="gray" weight="medium" size="2" trim="both">
-							{category.name}
-						</Text>
-					</animated.div>
-				</ContextMenu.Trigger>
-				<ContextMenu.Content alignOffset={50} size="1">
-					<Alert
-						title="Delete Category"
-						description="Are you sure? This cannot be undone."
-						action="delete"
-						type="context"
-						onClick={() => {
-							deleteCategory({ categoryId: category.id, groupId: category.group_id });
-						}}>
-						Delete Category
-					</Alert>
-				</ContextMenu.Content>
-			</ContextMenu.Root>
-			<Flex direction="column" asChild>
-				<animated.div
+		<Droppable droppableId={category.id.toString()}>
+			{(provided, snapshot) => (
+				<div
+					ref={provided.innerRef}
 					style={{
-						opacity,
-						height: isOpen && previous === isOpen ? 'auto' : height
-					}}>
-					<Flex direction="column" asChild>
-						<animated.div ref={ref}>{children}</animated.div>
+						borderRadius: 'var(--radius-3)',
+						background: snapshot.isDraggingOver ? `var(--accent-a3)` : ''
+					}}
+					{...provided.droppableProps}
+				>
+					<Flex direction="column" className={styles.root}>
+						<ContextMenu.Root>
+							<ContextMenu.Trigger>
+								<animated.div
+									className={styles.header}
+									style={{ opacity: children ? 1 : 0.3 }}
+									onClick={() => setOpen(!isOpen)}
+								>
+									<IconButton size="1" variant="ghost" style={{ margin: 0 }}>
+										{isOpen ? <MinusIcon width="14px" /> : <PlusIcon width="14px" />}
+									</IconButton>
+									<Text className={styles.label} color="gray" weight="medium" size="2" trim="both">
+										{category.name}
+									</Text>
+								</animated.div>
+							</ContextMenu.Trigger>
+							<ContextMenu.Content alignOffset={50} size="1">
+								<Alert
+									title="Delete Category"
+									description="Are you sure? This cannot be undone."
+									action="delete"
+									type="context"
+									onClick={() => {
+										deleteCategory({ categoryId: category.id, groupId: category.group_id });
+									}}
+								>
+									Delete Category
+								</Alert>
+							</ContextMenu.Content>
+						</ContextMenu.Root>
+						<Flex direction="column" asChild>
+							<animated.div
+								style={{
+									opacity,
+									height: isOpen && previous === isOpen ? 'auto' : height
+								}}
+							>
+								<Flex direction="column" asChild>
+									<animated.div ref={ref}>{children}</animated.div>
+								</Flex>
+							</animated.div>
+						</Flex>
 					</Flex>
-				</animated.div>
-			</Flex>
-		</Flex>
+					{provided.placeholder}
+				</div>
+			)}
+		</Droppable>
 	);
 });
 

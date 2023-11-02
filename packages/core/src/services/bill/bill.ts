@@ -23,6 +23,34 @@ const billsApi = baseApi.injectEndpoints({
 			query: (id) => `/bills/${id}`,
 			providesTags: (_, __, id) => [{ type: 'bill', id }]
 		}),
+		updateBill: mutation<void, { billId: number; body: Partial<Bill> }>({
+			query: ({ billId, body }) => ({
+				url: `/bills/${billId}`,
+				method: 'PATCH',
+				body
+			}),
+			invalidatesTags: (_, __, { billId }) => [{ type: 'bill', id: billId }, 'bills']
+			// onQueryStarted({ bill, body, chargeId }, { dispatch, queryFulfilled }) {
+			// 	if (bill.group_id) {
+			// 		/* Update the charge within the group bill optimistically. */
+			// 		const patch = dispatch(
+			// 			billsApi.util.updateQueryData(
+			// 				'billList',
+			// 				{ groupId: bill.group_id, type: 'group' },
+			// 				(draft) => {
+			// 					const charge = draft
+			// 						.find((b) => b.id === bill.id)
+			// 						?.charges?.find((c) => c.id === chargeId);
+
+			// 					if (charge) Object.assign(charge, body);
+			// 				}
+			// 			)
+			// 		);
+
+			// 		queryFulfilled.catch(patch.undo);
+			// 	}
+			// }
+		}),
 		updateCharge: mutation<void, { chargeId: number; body: Partial<BillCharge>; bill: Bill }>({
 			query: ({ chargeId, body }) => ({
 				url: `/charges/${chargeId}`,
@@ -96,7 +124,12 @@ const updateLikes = (draft: Bill[], billId: number) => {
 	}
 };
 
-export const { useBillListQuery, useGetBillQuery, useUpdateChargeMutation, useLikeBillMutation } =
-	billsApi;
+export const {
+	useBillListQuery,
+	useGetBillQuery,
+	useUpdateChargeMutation,
+	useLikeBillMutation,
+	useUpdateBillMutation
+} = billsApi;
 
 export default billsApi;

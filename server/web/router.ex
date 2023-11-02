@@ -62,6 +62,7 @@ defmodule Nimble.Router do
     end
 
     get("/bills", BillController, :global_bills)
+    patch("/bills/:id", BillController, :update)
 
     resources("/bills", BillController, only: [:show]) do
       post("/like", BillController, :like)

@@ -6,10 +6,10 @@ import GroupContextMenu from './GroupContextMenu';
 
 function getInitials(input: string): string {
 	return input
-		.split(' ')
-		.map((word) => (word[0] as string).toUpperCase())
-		.slice(0, 2)
-		.join('');
+		// .split(' ')
+		// .map((word) => (word[0] as string).toUpperCase())
+		// .slice(0, 2)
+		// .join('');
 }
 
 const GroupList = () => {

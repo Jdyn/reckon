@@ -68,6 +68,10 @@ defmodule Nimble.Bill do
     |> cross_validate_total(:charges, :amount)
   end
 
+  def update_changeset(bill, attrs \\ %{}) do
+    cast(bill, attrs, [:category_id])
+  end
+
   def options_changeset(bill_options, attrs \\ %{}) do
     cast(bill_options, attrs, [:requires_confirmation, :start_date, :due_date])
   end

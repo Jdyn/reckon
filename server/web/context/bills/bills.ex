@@ -3,8 +3,8 @@ defmodule Nimble.Bills do
   use Nimble.Web, :context
 
   alias Nimble.Bill
-  alias Nimble.BillCharge
   alias Nimble.BillCategory
+  alias Nimble.BillCharge
   alias Nimble.Bills.Query
   alias Nimble.Repo
   alias Nimble.User
@@ -48,6 +48,15 @@ defmodule Nimble.Bills do
            |> Repo.insert() do
       {:ok, Repo.preload(bill, [:items, :creator, charges: [:user]])}
     end
+  end
+
+  # TODO improve
+  def update(bill_id, params) do
+    bill = get_bill(bill_id)
+    dbg params
+    bill
+    |> Bill.update_changeset(params)
+    |> Repo.update()
   end
 
   def get_bill(id) do
