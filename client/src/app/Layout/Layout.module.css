@@ -8,7 +8,6 @@
 	grid-template-rows: 1fr;
 	grid-template-areas:
 		'main';
-	overflow: hidden;
 
 	--layout-background: var(--accent-panel);
 }
@@ -24,7 +23,6 @@
 		grid-template-rows: calc(100vh);
 		grid-template-areas:
 			'left main right';
-		overflow: hidden;
 	}
 }
 
@@ -42,7 +40,7 @@
 	width: 100%;
 	grid-area: main;
 	overflow: hidden;
-	padding-bottom: var(--space-1);
+	/* padding-bottom: var(--space-1); */
 }
 
 .wrapper {
@@ -55,7 +53,7 @@
 	border-radius: var(--radius-4);
 	border: 1.5px solid var(--accent-6);
 	box-shadow: 0 0 0 300vh var(--layout-background);
-	background: var(--accent-3);
+	background: var(--accent-1);
 }
 
 .optionMenu {

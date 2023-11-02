@@ -1,6 +1,7 @@
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import {
 	EllipsisHorizontalIcon,
+	FolderPlusIcon,
 	NewspaperIcon,
 	RectangleStackIcon
 } from '@heroicons/react/24/outline';
@@ -79,7 +80,7 @@ const GroupMenu = () => {
 						>
 							<>
 								Create category
-								<RectangleStackIcon width="18px" />
+								<FolderPlusIcon width="18px" />
 							</>
 							<Flex direction="column">
 								<Text>Category Name</Text>

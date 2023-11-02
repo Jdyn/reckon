@@ -45,12 +45,12 @@ const UserList = ({ title, presence }: UserListProps) => {
 
 	return (
 		<Flex grow="1" direction="column" px="3">
-			<Flex gap="3" px="3" asChild>
+			{/* <Flex gap="3" px="3" asChild>
 				<Text size="4" mb="3" weight="bold">
 					<UserGroupIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
 					{title}
 				</Text>
-			</Flex>
+			</Flex> */}
 			<Flex direction="column" gap="3">
 				{userList.map((presence) => (
 					<MemberCard

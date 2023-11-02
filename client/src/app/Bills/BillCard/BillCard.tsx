@@ -183,7 +183,6 @@ const BillCard = ({ bill }: BillCardProps) => {
 					bill.charges.map((charge) => (
 						<Flex key={charge.id} className={styles.event} gap="3" pt="2" align="center">
 							<Avatar size="2" text={charge.user.fullName} />
-
 							<Flex direction="row" gap="1" align="start">
 								{/*
 								<div
