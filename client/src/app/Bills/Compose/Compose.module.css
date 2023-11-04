@@ -15,8 +15,9 @@
 	display: flex;
 	position: relative;
 	pointer-events: auto;
-	background: var(--accent-panel);
-	border: 1.5px solid var(--accent-6);
+	background: var(--accent-1);
+	box-shadow: var(--shadow-4);
+	/* border: 1.5px solid var(--accent-6); */
 	border-bottom: none;
 	border-radius: var(--radius-4) var(--radius-4) 0 0;
 	cursor: pointer;
@@ -26,7 +27,7 @@
 .draft {
 	width: 400px;
 	height: 500px;
-	background: var(--accent-3);
+	background: var(--accent-1);
 }
 
 .tab {

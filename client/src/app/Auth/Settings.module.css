@@ -10,7 +10,7 @@
 	grid-template-rows: 1fr;
 	padding: var(--space-4);
 	width: 100%;
-	max-width: var(--container-4);
+	/* max-width: var(--container-4); */
 	gap: var(--space-4);
 }
 

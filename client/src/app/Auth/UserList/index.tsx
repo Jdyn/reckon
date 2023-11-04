@@ -1,24 +1,22 @@
 import { UserGroupIcon } from '@heroicons/react/24/outline';
-import { Flex, Text } from '@radix-ui/themes';
-import { useGetGroupQuery, useMemberListQuery, useSessionQuery } from '@reckon/core';
-import { useEffect, useMemo } from 'react';
+import { Button, Flex, Heading, ScrollArea, Text } from '@radix-ui/themes';
+import { useGetGroupQuery } from '@reckon/core';
+import { useMemo } from 'react';
 import { useParams } from 'react-router';
-import { usePhoenix, usePresence } from 'use-phoenix';
+import { useMatch } from 'react-router-dom';
+import { usePresence } from 'use-phoenix';
 
 import MemberCard from './UserCard';
+import styles from './UserList.module.css';
 
-interface UserListProps {
-	title: string;
-	presence: string;
-}
-
-const UserList = ({ title, presence }: UserListProps) => {
+const UserList = () => {
 	const { id } = useParams<{ id: string }>();
+	const match = useMatch({ path: '/g/:id', end: false });
 
-	const { data: session } = useSessionQuery();
+	const title = match ? 'Members' : 'Friends';
+	const presence = match ? `group:${id}` : '';
+
 	const { data: group } = useGetGroupQuery(parseInt(id!, 10), { skip: !id });
-
-	const { connect } = usePhoenix();
 
 	const presences = usePresence<void, { lastSeen: string }>(presence);
 
@@ -32,35 +30,48 @@ const UserList = ({ title, presence }: UserListProps) => {
 		return [];
 	}, [group, presences]);
 
-	useEffect(() => {
-		if (session) {
-			connect('ws://localhost:4000/socket', {
-				params: { token: session.token },
-				reconnectAfterMs(tries) {
-					return tries * 10000;
-				}
-			});
-		}
-	}, [connect, session]);
-
 	return (
-		<Flex grow="1" direction="column" px="3">
-			{/* <Flex gap="3" px="3" asChild>
-				<Text size="4" mb="3" weight="bold">
+		<div className={styles.root}>
+			<Flex className={styles.header}>
+				<Flex gap="2">
 					<UserGroupIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
-					{title}
-				</Text>
-			</Flex> */}
-			<Flex direction="column" gap="3">
-				{userList.map((presence) => (
-					<MemberCard
-						key={presence.user.id}
-						user={presence.user}
-						online={presence.metas && presence.metas.lastSeen}
-					/>
-				))}
+					<Text size="4" weight="bold">
+						{title}
+					</Text>
+				</Flex>
+				<Button variant="soft" size="1">
+					Invite friends
+				</Button>
 			</Flex>
-		</Flex>
+			<ScrollArea className={styles.container}>
+				<Flex direction="column" gap="3" p="4" grow="1">
+					<Heading className={styles.label} size="2">
+						Online
+					</Heading>
+					{userList
+						.filter((u) => u.metas?.lastSeen)
+						.map((presence) => (
+							<MemberCard
+								key={presence.user.id}
+								user={presence.user}
+								online={presence.metas && presence.metas.lastSeen}
+							/>
+						))}
+					<Heading className={styles.label} size="2">
+						Offline
+					</Heading>
+					{userList
+						.filter((u) => !u.metas?.lastSeen)
+						.map((presence) => (
+							<MemberCard
+								key={presence.user.id}
+								user={presence.user}
+								online={presence.metas && presence.metas.lastSeen}
+							/>
+						))}
+				</Flex>
+			</ScrollArea>
+		</div>
 	);
 };
 

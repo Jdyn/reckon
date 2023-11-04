@@ -1,10 +1,12 @@
 import { NewspaperIcon } from '@heroicons/react/24/outline';
 import { Flex, Heading, Text } from '@radix-ui/themes';
 import { useMatch } from 'react-router-dom';
-import SideMenuList from '~/components/SideMenu/SideMenuList';
+import { useSidePanel } from '~/components/SidePanel';
+import SideMenuList from '~/components/SidePanel/SideMenuList';
 
 const HomeMenu = () => {
 	const match = useMatch({ path: '/home', caseSensitive: false, end: false });
+	const { expanded } = useSidePanel();
 
 	return match ? (
 		<SideMenuList>

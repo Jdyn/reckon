@@ -12,9 +12,9 @@ const ProfileLink = () => {
 	const navigate = useNavigate();
 
 	return (
-		<DropdownMenu.Root>
-			<DropdownMenu.Trigger>
-				<Flex height="9" align="center" justify="end">
+		<Flex height="9" align="center" justify="end">
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger>
 					<button className={styles.profileRoot}>
 						<Text weight="medium">{session?.user.username}</Text>
 						<Avatar
@@ -24,27 +24,27 @@ const ProfileLink = () => {
 							variant="solid"
 						/>
 					</button>
-				</Flex>
-			</DropdownMenu.Trigger>
-			<DropdownMenu.Content size="2" className={styles.profileMenuContent}>
-				<DropdownMenu.Item>Profile</DropdownMenu.Item>
-				<DropdownMenu.Item asChild>
-					<NavLink to="settings">
-						<Text>Settings</Text>
-					</NavLink>
-				</DropdownMenu.Item>
-				<DropdownMenu.Separator />
-				<DropdownMenu.Item
-					color="red"
-					onClick={() => {
-						signOut();
-						navigate('/login');
-					}}
-				>
-					Log out
-				</DropdownMenu.Item>
-			</DropdownMenu.Content>
-		</DropdownMenu.Root>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content side="bottom" size="2" className={styles.profileMenuContent}>
+					<DropdownMenu.Item>Profile</DropdownMenu.Item>
+					<DropdownMenu.Item asChild>
+						<NavLink to="settings">
+							<Text>Settings</Text>
+						</NavLink>
+					</DropdownMenu.Item>
+					<DropdownMenu.Separator />
+					<DropdownMenu.Item
+						color="red"
+						onClick={() => {
+							signOut();
+							navigate('/login');
+						}}
+					>
+						Log out
+					</DropdownMenu.Item>
+				</DropdownMenu.Content>
+			</DropdownMenu.Root>
+		</Flex>
 	);
 };
 

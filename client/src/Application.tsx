@@ -8,9 +8,10 @@ import { PhoenixProvider } from 'use-phoenix';
 import router from '~/app/Router';
 import { ErrorFallback } from '~/components/ErrorFallback';
 
+import { ComposeProvider } from './app/Bills/Compose/ComposeProvider';
+import './assets/styles/global.css';
 import { ThemeProvider } from './hooks/ThemeProvider';
 
-import './assets/styles/global.css';
 import '@reckon/ui/theme-config.css';
 
 function ReckonInterface() {
@@ -19,11 +20,9 @@ function ReckonInterface() {
 			<Provider store={store}>
 				<PhoenixProvider>
 					<ThemeProvider defaultTheme="light" storageKey="theme">
-						<Flex direction="column" align="center">
-							<div style={{ maxWidth: '1380px', width: '100%' }}>
-								<RouterProvider router={router} />
-							</div>
-						</Flex>
+						<ComposeProvider>
+							<RouterProvider router={router} />
+						</ComposeProvider>
 					</ThemeProvider>
 				</PhoenixProvider>
 			</Provider>

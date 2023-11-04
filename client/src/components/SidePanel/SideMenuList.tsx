@@ -1,18 +1,19 @@
 import { Button, Flex, Heading, Separator } from '@radix-ui/themes';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { NavLink, To } from 'react-router-dom';
 
-import styles from './SideMenu.module.css';
+import styles from './SidePanel.module.css';
 
 interface SideMenuList {
 	children: ReactNode[];
+	style?: CSSProperties;
 }
 
-const SideMenulist = ({ children }: SideMenuList) => {
+const SideMenulist = ({ children, style }: SideMenuList) => {
 	const [header, ...rest] = children;
 
 	return (
-		<div className={styles.listRoot}>
+		<div className={styles.listRoot} style={style}>
 			{header}
 			<Separator size="4" />
 			<Flex gap="2" direction="column">

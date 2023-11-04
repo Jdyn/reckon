@@ -1,6 +1,6 @@
 import { PinLeftIcon, PinRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import { Flex } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import {
 	AnchorHTMLAttributes,
@@ -11,75 +11,69 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import type { DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
+import type { CSSProperties, DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { Link, LinkProps, matchPath, useLocation } from 'react-router-dom';
-import ProfileLink from '~/app/Layout/ProfileLink';
+import { Link, To, matchPath, useLocation } from 'react-router-dom';
 
-import styles from './SideMenu.module.css';
+import styles from './SidePanel.module.css';
 
-const SideMenuContext = createContext<{
+const SidePanelContext = createContext<{
 	value: string | undefined;
 	setValue: Dispatch<React.SetStateAction<string | undefined>>;
+	expanded: boolean;
 } | null>(null);
 
-const useSideMenu = () => {
-	const context = useContext(SideMenuContext);
-	if (!context) throw new Error('useSideMenu must be used within a SideMenuProvider');
+export const useSidePanel = () => {
+	const context = useContext(SidePanelContext);
+	if (!context) throw new Error('useSidePanel must be used within a SidePanelProvider');
 	return context;
 };
 
-interface SideMenuProps {
-	expand: 'left' | 'right';
-	children: [ReactNode, ReactElement<LinkProps>[] | ReactNode];
+interface SidePanelProps {
+	direction: 'left' | 'right';
+	children: ReactNode;
 	style?: React.CSSProperties;
 	maxWidth?: string;
-	expanded?: boolean | undefined;
+	expanded: boolean;
 	onExpandedChange?: (expanded: boolean) => void;
 	controlled?: boolean;
 }
 
-export function SideMenu(props: SideMenuProps) {
-	const { style, expand, children, maxWidth, expanded, onExpandedChange, controlled } = props;
+export function SidePanel(props: SidePanelProps) {
+	const { style, direction, children, maxWidth, expanded, onExpandedChange, controlled } = props;
 	const [value, setValue] = useState<string | undefined>(undefined);
 
-	const [_expanded, setExpanded] = useState<boolean | undefined>(expanded || true);
-
-	useEffect(() => {
-		if (expanded !== null) {
-			setExpanded(expanded);
-		}
-	}, [expanded]);
+	const [_expanded, setExpanded] = useState(true);
 
 	const ArrowIcon = useMemo(
 		() =>
-			_expanded && expand === 'left' ? (
+			_expanded && direction === 'left' ? (
 				<PinRightIcon width="20px" height="20px" />
-			) : _expanded && expand === 'right' ? (
+			) : _expanded && direction === 'right' ? (
 				<PinLeftIcon width="20px" height="20px" />
-			) : expand === 'left' ? (
+			) : direction === 'left' ? (
 				<PinLeftIcon width="20px" height="20px" />
 			) : (
 				<PinRightIcon width="20px" height="20px" />
 			),
-		[_expanded, expand]
+		[_expanded, direction]
 	);
-
+				console.log(_expanded)
 	return (
 		<NavigationMenu.Root
-			className={styles.root}
-			style={{ ...style, width: _expanded ? maxWidth : '75px' }}
+			className={styles.sidePanel}
+			// style={{ ...style, width: _expanded ? maxWidth : '75px' }}
 			orientation="vertical"
 			data-expanded={_expanded}
-			data-expand={expand}
+			data-direction={direction}
 			value={value}
+			// onMouseEnter={() => setExpanded(true)}
+			// onMouseLeave={() => setExpanded(false)}
 		>
-			<SideMenuContext.Provider value={{ value, setValue }}>
-				<div className={styles.wrapper} data-expand={expand}>
-					{children[0]}
-
-					{children[1]}
-					{!controlled && (
+			<SidePanelContext.Provider value={{ value, setValue, expanded: _expanded }}>
+				<div className={styles.wrapper} data-direction={direction}>
+				{children}
+				{/* {!controlled && (
 						<NavigationMenu.Item asChild>
 							<button
 								className={styles.collapse}
@@ -94,14 +88,14 @@ export function SideMenu(props: SideMenuProps) {
 								{ArrowIcon}
 							</button>
 						</NavigationMenu.Item>
-					)}
+					)} */}
 				</div>
-			</SideMenuContext.Provider>
+			</SidePanelContext.Provider>
 		</NavigationMenu.Root>
 	);
 }
 
-SideMenu.defaultProps = {
+SidePanel.defaultProps = {
 	style: {},
 	children: null,
 	maxWidth: '275px',
@@ -113,13 +107,14 @@ SideMenu.defaultProps = {
 
 interface SideNavigationListProps {
 	children?: ReactNode[];
+	style?: CSSProperties
 }
 
-export const SideNavigationList = ({ children }: SideNavigationListProps) => {
+export const SideNavigationList = ({ children, style }: SideNavigationListProps) => {
 	const { observe, width } = useDimensions();
 
 	return (
-		<NavigationMenu.List ref={observe} asChild>
+		<NavigationMenu.List ref={observe} style={style} asChild>
 			<div className={styles.list}>
 				{children}
 				<NavigationMenu.Indicator className={styles.indicator} style={{ width: width }} />
@@ -130,30 +125,34 @@ export const SideNavigationList = ({ children }: SideNavigationListProps) => {
 
 export const SideNavigationLink = forwardRef<
 	HTMLButtonElement,
-	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & LinkProps, HTMLAnchorElement>
+	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & { to?: To }, HTMLAnchorElement>
 >(({ children, to, onClick }, ref) => {
-	const { setValue } = useSideMenu();
+	const { setValue } = useSidePanel();
 	const { pathname } = useLocation();
 
 	useEffect(() => {
-		const match = matchPath({ path: to.toString(), end: false }, location.pathname);
-		if (match) setValue(to.toString());
+		if (to) {
+			const match = matchPath({ path: to.toString(), end: false }, location.pathname);
+			if (match) setValue(to.toString());
+		}
 	}, [pathname, setValue, to]);
 
-	return (
-		<NavigationMenu.Item value={to.toString()} asChild>
+	return to ? (
+		<NavigationMenu.Item value={to && to.toString()} asChild>
 			<NavigationMenu.Trigger ref={ref} asChild>
 				<Link
+					className={styles.listItem}
 					onClick={(e) => {
 						setValue(to.toString());
 						onClick && onClick(e);
 					}}
-					className={clsx(styles.listItem)}
 					to={to}
 				>
 					{children}
 				</Link>
 			</NavigationMenu.Trigger>
 		</NavigationMenu.Item>
+	) : (
+		<div className={styles.listItem}>{children}</div>
 	);
 });

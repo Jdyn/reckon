@@ -2,21 +2,19 @@
 
 - Bill Status bar
   - Delete bill
-  - edit bill
-  - `$$$` bill ratings
-  - Maybe add commenting on a bill??
-- Inviting users from the UI
-  - Ignore rich user search for now
+  - Edit bill
+  - Value ratings ($$$)
+  - Add commenting on bills
 
-- Bill categories
-  - Similar to Discord's channel categories
-  - For groups, the left drawer gets populated by bills separated by custom group categories
-  - For You, the left drawer gets populated by bills separated by group
-  - The bills on the drawer are clickable and navigate the user to the bill.
-    - Could make a separate bill page, or make it so it auto scrolls to the bill in the list??
 - bill tags
   - custom tags per group that can be applied to individual bills. Things like 'rent', 'food', etc. would be useful
 
+- follow feature
+  - two users who follow each other are considered "friends"
+
+- provider agnostic payment implementation
+  - Define set of fields that all payment processors should adhere to
+  - Use Adapter pattern to create modules for each processor we have that `impl` the functions we expect, then use those functions in our code, not the processor itself
 ## Larger overhaul - Communities for Real Life
 - Reimagine bills as "stories" that essentially tell a sequential story about an event from start to finish.
 - This intuitively allows for more interesting features like commenting and adding pictures to "stories"

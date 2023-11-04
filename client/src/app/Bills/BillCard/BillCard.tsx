@@ -181,10 +181,8 @@ const BillCard = ({ bill }: BillCardProps) => {
 
 				{bill.charges &&
 					bill.charges.map((charge) => (
-						<Flex key={charge.id} className={styles.event} gap="3" pt="2" align="center">
-							<Avatar size="2" text={charge.user.fullName} />
-							<Flex direction="row" gap="1" align="start">
-								{/*
+						<Flex key={charge.id} className={styles.event} gap="3" align="center">
+							{/* <Avatar size="2" text={charge.user.fullName} /> */}
 								<div
 									className={clsx(
 										styles.circle,
@@ -194,12 +192,14 @@ const BillCard = ({ bill }: BillCardProps) => {
 									)}
 								>
 									<CheckIcon width="20px" height="20px" />
-								</div> */}
+								</div>
+							<Flex direction="row" gap="1" align="start">
+
 								<Text size="2" align="center">
 									{charge.user.id === session?.user.id ? 'You pay' : `${charge.user.fullName} pays`}{' '}
 									<Text>${charge.amount.amount}</Text>
 								</Text>
-								<Badge
+								{/* <Badge
 									size="1"
 									color={
 										clsx(
@@ -210,7 +210,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 									}
 								>
 									{charge.approval_status}
-								</Badge>
+								</Badge> */}
 							</Flex>
 						</Flex>
 					))}

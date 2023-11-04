@@ -8,7 +8,10 @@
   --color-panel-solid: white;
   --color-panel-translucent: rgba(255, 255, 255, 0.8);
   --color-surface: rgba(255, 255, 255, 0.9);
+
 	--accent-panel: var(--accent-5);
+	--accent-surface: var(--accent-3);
+
 	--color-page-background: var(--accent-5) !important;
 }
 
@@ -22,7 +25,9 @@
   --color-panel-solid: var(--gray-1);
   --color-panel-translucent: var(--gray-2-translucent);
   --color-surface: rgba(0, 0, 0, 0.25);
-	--accent-panel: var(--gray-2);
+
+	--accent-panel: var(--accent-1);
+	--accent-surface: var(--accent-1);
 
 	/* page-background would be the background of the html */
 	--color-page-background: var(--accent-5);

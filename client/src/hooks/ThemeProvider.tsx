@@ -59,7 +59,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 				grayColor="auto"
 				accentColor="gray"
 				panelBackground="solid"
-				style={{ background: 'var(--accent-5)'}}
+				style={{ background: 'var(--accent-panel)'}}
 			>
 				{children}
 				{/* <ThemePanel /> */}

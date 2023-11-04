@@ -23,14 +23,16 @@ import {
 import { useMemo, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import DialogItem from '~/components/DialogItem';
-import SideMenuList from '~/components/SideMenu/SideMenuList';
+import SideMenuList from '~/components/SidePanel/SideMenuList';
 import Tree from '~/components/Tree';
 
 import MenuTreeItem from './MenuTreeItem';
+import { useSidePanel } from '~/components/SidePanel';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
 	const [newName, setName] = useState('');
+	const { expanded } = useSidePanel();
 
 	const groupId = useMemo(() => {
 		if (!match?.params.id || isNaN(parseInt(match.params.id, 10))) return undefined;

@@ -18,12 +18,13 @@ import {
 	Text,
 	TextField
 } from '@radix-ui/themes';
-import { GroupInvite, useJoinGroupMutation } from '@reckon/core';
-import { Link, useSearchParams } from 'react-router-dom';
-import { useEvent } from 'use-phoenix';
+import { GroupInvite, useJoinGroupMutation, useSessionQuery } from '@reckon/core';
+import { useEffect } from 'react';
+import { useEvent, usePhoenix } from 'use-phoenix';
 
 import { useCompose } from '../Bills/Compose/ComposeProvider';
 import styles from './Layout.module.css';
+import ProfileLink from './ProfileLink';
 
 interface InviteEvent {
 	event: 'invites';
@@ -33,8 +34,24 @@ interface InviteEvent {
 function Headers() {
 	const { data } = useEvent<InviteEvent>('user:notifications', 'invites');
 	const [joinGroup] = useJoinGroupMutation();
-	const [searchParams, setSearchParams] = useSearchParams();
 	const { newCompose } = useCompose();
+
+	const { data: session } = useSessionQuery();
+
+	const { connect } = usePhoenix();
+
+	useEffect(() => {
+		if (session) {
+			console.log(session, 'coonnect');
+			connect('ws://localhost:4000/socket', {
+				params: { token: session.token },
+				reconnectAfterMs(tries) {
+					return tries * 10000;
+				}
+			});
+		}
+	}, [connect, session]);
+
 	return (
 		<Flex
 			className={styles.header}
@@ -43,8 +60,13 @@ function Headers() {
 			grow="1"
 			justify="between"
 			align="center"
-			px="4"
+			px="3"
 		>
+			<Flex height="9" justify="start" align="center">
+				<Heading size="5" trim="both">
+					Teehee
+				</Heading>
+			</Flex>
 			<Flex>
 				<Button
 					type="button"
@@ -52,15 +74,12 @@ function Headers() {
 					color="jade"
 					onClick={(e) => {
 						e.preventDefault();
-						// searchParams.set('compose', 'new');
-						// setSearchParams(searchParams);
 						newCompose(`${Date.now()}`);
 					}}
 				>
 					<PlusSmallIcon width="18px" />
 					<Text>Create</Text>
 				</Button>
-			</Flex>
 			<Container size="1" px="3">
 				<TextField.Root>
 					<TextField.Slot>
@@ -117,6 +136,9 @@ function Headers() {
 					</Popover.Content>
 				</Popover.Root>
 			</Flex>
+			</Flex>
+
+			<ProfileLink />
 		</Flex>
 	);
 }

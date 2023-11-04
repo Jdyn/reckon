@@ -1,0 +1,7 @@
+.leftPanel {
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+	flex: 1;
+	margin: 0 var(--space-2);
+}
