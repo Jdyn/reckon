@@ -61,6 +61,12 @@ defmodule Nimble.Router do
       get("/bills", BillController, :user_bills)
     end
 
+    resources("/payments", PaymentController, only: []) do
+      post("/plaid_link", PaymentController, :plaid_link)
+      post("/plaid_exchange", PaymentController, :plaid_exchange)
+    end
+
+
     get("/bills", BillController, :global_bills)
     patch("/bills/:id", BillController, :update)
 

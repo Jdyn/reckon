@@ -41,8 +41,8 @@ const BillFeed = ({ type }: BillListProps) => {
 
 	return (
 		<div className={styles.bills} ref={observe}>
-			<ScrollArea style={{ height }}>
-				<Flex direction="column" m="5" mb="0" pb="8">
+			<ScrollArea style={{ height }} type="scroll">
+				<Flex direction="column" ml="4" mt="4" pb="8">
 					<Flex gap="2" align="center" pb="4">
 						<div className={styles.circle}>
 							<CalendarDaysIcon width="21px" />
@@ -65,7 +65,7 @@ const BillFeed = ({ type }: BillListProps) => {
 						</Flex>
 					</Flex>
 
-					{upcoming && upcoming.map((bill) => <BillCard key={bill.id} bill={bill} />)}
+					{upcoming && thisWeek.map((bill) => <BillCard key={bill.id} bill={bill} />)}
 				</Flex>
 			</ScrollArea>
 		</div>

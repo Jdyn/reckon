@@ -1,10 +1,5 @@
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
-import {
-	EllipsisHorizontalIcon,
-	FolderPlusIcon,
-	NewspaperIcon,
-	RectangleStackIcon
-} from '@heroicons/react/24/outline';
+import { EllipsisHorizontalIcon, FolderPlusIcon, NewspaperIcon } from '@heroicons/react/24/outline';
 import {
 	DropdownMenu,
 	Flex,
@@ -21,13 +16,14 @@ import {
 	useUpdateBillMutation
 } from '@reckon/core';
 import { useMemo, useState } from 'react';
-import { useMatch } from 'react-router-dom';
+import { NavLink, useMatch } from 'react-router-dom';
 import DialogItem from '~/components/DialogItem';
+import { useSidePanel } from '~/components/SidePanel';
 import SideMenuList from '~/components/SidePanel/SideMenuList';
 import Tree from '~/components/Tree';
 
+import styles from './GroupMenu.module.css';
 import MenuTreeItem from './MenuTreeItem';
-import { useSidePanel } from '~/components/SidePanel';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
@@ -56,7 +52,7 @@ const GroupMenu = () => {
 
 	const handleCreateCategory = (e: any) => {
 		e.preventDefault();
-
+		console.log(groupId)
 		if (groupId) {
 			createCategory({ groupId, body: { name: newName } });
 		}
@@ -64,8 +60,9 @@ const GroupMenu = () => {
 
 	return match ? (
 		<SideMenuList>
-			<Flex align="center" justify="between" pt="2">
-				<Heading size="3">{group?.name}</Heading>
+			<Flex align="center" justify="between">
+				<Heading size="4">{group?.name}</Heading>
+
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						<IconButton variant="ghost">
@@ -97,10 +94,15 @@ const GroupMenu = () => {
 				</DropdownMenu.Root>
 			</Flex>
 
-			<SideMenuList.Link to={`${match.pathname}/feed`}>
-				<NewspaperIcon width="18px" />
-				Feed
-			</SideMenuList.Link>
+			<NavLink className={styles.listItem} to={`${match.pathname}/feed`}>
+					<Flex gap="1" align="center">
+						<NewspaperIcon width="18px" />
+						<Text weight="medium">
+							Feed
+						</Text>
+					</Flex>
+			</NavLink>
+
 			<Flex align="center" gap="1">
 				<Separator size="4" />
 				<Text size="1" color="gray" weight="medium" style={{ textTransform: 'uppercase' }}>
@@ -108,6 +110,7 @@ const GroupMenu = () => {
 				</Text>
 				<Separator size="4" />
 			</Flex>
+
 			<DragDropContext onDragEnd={onDragEnd}>
 				<Flex direction="column" gap="1">
 					<Droppable droppableId="null">
@@ -117,6 +120,7 @@ const GroupMenu = () => {
 								{...provided.droppableProps}
 								style={{
 									minHeight: snapshot.draggingFromThisWith ? 32 : 0,
+									gap: 'var(--space-3)',
 									borderRadius: 'var(--radius-3)',
 									background: snapshot.isDraggingOver ? `var(--accent-a3)` : ''
 								}}

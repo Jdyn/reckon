@@ -27,6 +27,7 @@ const router = createBrowserRouter([
 			{ path: 'home', element: <BillFeed type="user" /> },
 			{ path: 'feed', element: <BillFeed type="global" /> },
 			{ path: 'g/:id/feed', element: <BillFeed type="group" /> },
+			{ path: 'g/:id/bill/:billId', element: <Settings />},
 			{ path: 'settings', element: <Settings /> },
 			{ path: '/bill/new', element: <Compose /> }
 		]

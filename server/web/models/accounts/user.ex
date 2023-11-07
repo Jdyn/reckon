@@ -5,6 +5,7 @@ defmodule Nimble.User do
   use Nimble.Web, :model
 
   alias Nimble.GroupMember
+  alias Nimble.PaymentMethod
   alias Nimble.Repo
   alias Nimble.User
   alias Nimble.UserToken
@@ -37,6 +38,7 @@ defmodule Nimble.User do
     has_many(:associated_bills, through: [:bill_charges, :bill])
 
     has_many(:tokens, UserToken)
+    has_many(:payment_methods, PaymentMethod)
     many_to_many(:groups, Nimble.Group, join_through: GroupMember)
 
     has_many(:likes, Nimble.UserLike)

@@ -3,7 +3,8 @@
 	flex-direction: column;
 	flex: 1;
 	margin: 0 var(--space-2);
-	border-radius: var(--radius-3);
+	margin-left: var(--space-3);
+	border-radius: var(--radius-5);
 	overflow: hidden;
 	height: 100%;
 	background: transparent;

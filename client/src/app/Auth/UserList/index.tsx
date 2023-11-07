@@ -32,7 +32,7 @@ const UserList = () => {
 
 	return (
 		<div className={styles.root}>
-			<Flex className={styles.header}>
+			{/* <Flex className={styles.header}>
 				<Flex gap="2">
 					<UserGroupIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
 					<Text size="4" weight="bold">
@@ -42,10 +42,10 @@ const UserList = () => {
 				<Button variant="soft" size="1">
 					Invite friends
 				</Button>
-			</Flex>
+			</Flex> */}
 			<ScrollArea className={styles.container}>
-				<Flex direction="column" gap="3" p="4" grow="1">
-					<Heading className={styles.label} size="2">
+				<Flex direction="column" gap="2" p="4" grow="1">
+					<Heading className={styles.label} size="3">
 						Online
 					</Heading>
 					{userList
@@ -57,7 +57,7 @@ const UserList = () => {
 								online={presence.metas && presence.metas.lastSeen}
 							/>
 						))}
-					<Heading className={styles.label} size="2">
+					<Heading className={styles.label} size="3">
 						Offline
 					</Heading>
 					{userList

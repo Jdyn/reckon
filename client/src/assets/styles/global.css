@@ -55,6 +55,5 @@ html {
 }
 
 a.active {
-	background: var(--accent-9) !important;
-	color: white !important;
+	background: var(--accent-a3) !important;
 }

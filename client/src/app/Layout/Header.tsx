@@ -53,25 +53,16 @@ function Headers() {
 	}, [connect, session]);
 
 	return (
-		<Flex
-			className={styles.header}
-			height="9"
-			width="100%"
-			grow="1"
-			justify="between"
-			align="center"
-			px="3"
-		>
-			<Flex height="9" justify="start" align="center">
+		<Flex className={styles.header} height="9" grow="1" justify="between" align="center" mx="3">
+			<Flex grow="1" height="9" justify="start" align="center">
 				<Heading size="5" trim="both">
 					Teehee
 				</Heading>
 			</Flex>
-			<Flex>
+			<Flex grow="1" gap="4">
 				<Button
 					type="button"
 					variant="soft"
-					color="jade"
 					onClick={(e) => {
 						e.preventDefault();
 						newCompose(`${Date.now()}`);
@@ -80,62 +71,62 @@ function Headers() {
 					<PlusSmallIcon width="18px" />
 					<Text>Create</Text>
 				</Button>
-			<Container size="1" px="3">
-				<TextField.Root>
-					<TextField.Slot>
-						<MagnifyingGlassIcon width="18px" />
-					</TextField.Slot>
-					<TextField.Input variant="soft" placeholder="search for bills, groups, users" />
-				</TextField.Root>
-			</Container>
-			<Flex gap="3">
-				<IconButton variant="soft">
-					<BellAlertIcon width="18px" />
-				</IconButton>
-				<Popover.Root>
-					<Popover.Trigger>
-						<Button type="button" variant="soft">
-							{data && data.invites.length > 0 ? (
-								<Badge color="red">{data.invites.length}</Badge>
-							) : (
-								<EnvelopeIcon width="18px" />
-							)}
-							<Text>Invites</Text>
-						</Button>
-					</Popover.Trigger>
-					<Popover.Content size="2">
-						<Flex direction="column">
-							<Heading size="4">Invites</Heading>
-							<Separator size="4" />
-							{data && data.invites.length > 0 ? (
-								data.invites.map((invite) => (
-									<Flex direction="row" align="center" key={invite.id} gap="4" py="3">
-										<Text>
-											{invite.sender.fullName} invited you to {invite.group.name}
-										</Text>
-										<Flex justify="end" align="center" gap="1">
-											<IconButton variant="soft" color="red">
-												<XMarkIcon width="18px" />
-											</IconButton>
-											<IconButton
-												variant="soft"
-												color="green"
-												onClick={() => {
-													joinGroup({ groupId: invite.group.id });
-												}}
-											>
-												<CheckIcon width="18px" />
-											</IconButton>
+				<Container size="1" px="3">
+					<TextField.Root>
+						<TextField.Slot>
+							<MagnifyingGlassIcon width="18px" />
+						</TextField.Slot>
+						<TextField.Input variant="soft" placeholder="search for bills, groups, users" />
+					</TextField.Root>
+				</Container>
+				<Flex gap="3">
+					<IconButton variant="soft">
+						<BellAlertIcon width="18px" />
+					</IconButton>
+					<Popover.Root>
+						<Popover.Trigger>
+							<Button type="button" variant="soft">
+								{data && data.invites.length > 0 ? (
+									<Badge color="red">{data.invites.length}</Badge>
+								) : (
+									<EnvelopeIcon width="18px" />
+								)}
+								<Text>Invites</Text>
+							</Button>
+						</Popover.Trigger>
+						<Popover.Content size="2">
+							<Flex direction="column">
+								<Heading size="4">Invites</Heading>
+								<Separator size="4" />
+								{data && data.invites.length > 0 ? (
+									data.invites.map((invite) => (
+										<Flex direction="row" align="center" key={invite.id} gap="4" py="3">
+											<Text>
+												{invite.sender.fullName} invited you to {invite.group.name}
+											</Text>
+											<Flex justify="end" align="center" gap="1">
+												<IconButton variant="soft" color="red">
+													<XMarkIcon width="18px" />
+												</IconButton>
+												<IconButton
+													variant="soft"
+													color="green"
+													onClick={() => {
+														joinGroup({ groupId: invite.group.id });
+													}}
+												>
+													<CheckIcon width="18px" />
+												</IconButton>
+											</Flex>
 										</Flex>
-									</Flex>
-								))
-							) : (
-								<Flex py="3">You have no pending invites.</Flex>
-							)}
-						</Flex>
-					</Popover.Content>
-				</Popover.Root>
-			</Flex>
+									))
+								) : (
+									<Flex py="3">You have no pending invites.</Flex>
+								)}
+							</Flex>
+						</Popover.Content>
+					</Popover.Root>
+				</Flex>
 			</Flex>
 
 			<ProfileLink />

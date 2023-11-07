@@ -56,7 +56,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 
 	return (
 		<div className={styles.timeRange} onClick={updateQueryParam}>
-			<Avatar text={bill.creator.fullName} />
+			<Avatar radius="full" text={bill.creator.fullName} />
 			<Flex direction="column" gap="3">
 				<Flex className={styles.body} gap="4" direction="column">
 					<Flex direction="column">
@@ -73,7 +73,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 							<Text weight="bold">{bill.creator.fullName}</Text> opened a{' '}
 							{bill.total && `$${bill.total.amount}`} bill
 						</Text>
-						<Text color="gray" size="2">
+						<Text color="gray" size="3">
 							{formatTimeAgo(bill.inserted_at)}
 						</Text>
 					</Flex>
@@ -183,19 +183,18 @@ const BillCard = ({ bill }: BillCardProps) => {
 					bill.charges.map((charge) => (
 						<Flex key={charge.id} className={styles.event} gap="3" align="center">
 							{/* <Avatar size="2" text={charge.user.fullName} /> */}
-								<div
-									className={clsx(
-										styles.circle,
-										charge.approval_status === 'approved' && styles.approved,
-										charge.approval_status === 'declined' && styles.declined,
-										charge.approval_status === 'pending' && styles.pending
-									)}
-								>
-									<CheckIcon width="20px" height="20px" />
-								</div>
+							<div
+								className={clsx(
+									styles.circle,
+									charge.approval_status === 'approved' && styles.approved,
+									charge.approval_status === 'declined' && styles.declined,
+									charge.approval_status === 'pending' && styles.pending
+								)}
+							>
+								<CheckIcon width="20px" height="20px" />
+							</div>
 							<Flex direction="row" gap="1" align="start">
-
-								<Text size="2" align="center">
+								<Text size="3" align="center">
 									{charge.user.id === session?.user.id ? 'You pay' : `${charge.user.fullName} pays`}{' '}
 									<Text>${charge.amount.amount}</Text>
 								</Text>

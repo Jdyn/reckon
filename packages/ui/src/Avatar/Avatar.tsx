@@ -17,7 +17,7 @@ interface Props {
 
 export function Avatar({ text, size }: Omit<AvatarProps, 'fallback'> & Props) {
 	return (
-		<AvatarPrimative className={styles.root} size={size} variant="solid" fallback={getInitials(text)} />
+		<AvatarPrimative className={styles.root} radius="full" size={size} variant="solid" fallback={getInitials(text)} />
 	);
 }
 

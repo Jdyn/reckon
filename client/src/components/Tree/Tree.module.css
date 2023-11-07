@@ -11,11 +11,17 @@
 	flex-direction: row;
 	align-items: center;
 	cursor: pointer;
-	height: var(--space-5);
 	gap: var(--space-2);
 	border-radius: var(--radius-2);
 	padding: var(--space-1);
 	&:hover {
-		background: var(--accent-7);
+		background: var(--accent-3);
 	}
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+	padding-top: var(--space-1);
 }

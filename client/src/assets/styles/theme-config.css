@@ -1,18 +1,26 @@
 .radix-themes {
 	/* ORIGINAL */
-	color: var(--gray-12);
+	/* color: var(--gray-12);
 	--subcolor: var(--gray-10);
-	--default-font-family: dinn;
 
   --color-overlay: var(--gray-a8);
   --color-panel-solid: white;
   --color-panel-translucent: rgba(255, 255, 255, 0.8);
-  --color-surface: rgba(255, 255, 255, 0.9);
+  --color-surface: rgba(255, 255, 255, 0.9); */
 
-	--accent-panel: var(--accent-5);
-	--accent-surface: var(--accent-3);
+	/* --accent-panel: var(--accent-5);
+	--accent-surface: var(--accent-3); */
+	--accent-panel: var(--accent-3);
+	--accent-surface: var(--color-surface-accent);
+	/* --accent-panel: #fff;
+	--accent-surface: #fff; */
 
-	--color-page-background: var(--accent-5) !important;
+	--default-font-family: dinn;
+	--font-size-3: 14px;
+	--font-size-2: 12px;
+
+
+	/* --color-page-background: var(--accent-5) !important; */
 }
 
 :is(.dark, .dark-theme),

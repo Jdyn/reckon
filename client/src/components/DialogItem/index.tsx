@@ -40,7 +40,7 @@ const DialogItem = forwardRef<unknown, DialogItemProps>(
 						<Button variant="soft" color="gray">
 							cancel
 						</Button>
-						<Button type="submit" variant="soft" color="green" onClick={e => onClick}>
+						<Button type="submit" variant="soft" color="green" onClick={onClick}>
 							{action}
 						</Button>
 					</Flex>

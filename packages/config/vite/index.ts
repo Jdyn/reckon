@@ -25,7 +25,10 @@ export default defineConfig({
 	},
 	root: 'src',
 	build: {
+		minify: 'terser',
+		cssCodeSplit: true,
 		outDir: '../dist',
-		assetsDir: '.'
+		assetsDir: '.',
+		
 	}
 });

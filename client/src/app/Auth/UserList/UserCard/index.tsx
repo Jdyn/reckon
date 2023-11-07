@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Heading, Popover, Text } from '@radix-ui/themes';
+import { Avatar, Box, Card, Flex, Heading, Popover, Text } from '@radix-ui/themes';
 import { User } from '@reckon/core';
 import { getInitials } from '@reckon/ui';
 
@@ -16,13 +16,13 @@ const MemberCard = ({ user, online }: MemberCardProps) => {
 				<Flex className={styles.root} gap="2" align="center">
 					<Avatar variant="solid" radius="full" fallback={getInitials(user.fullName)} />
 					<div className={styles.header}>
-						<Text weight="medium" size="2" trim="end">
+						<Text weight="medium">
 							{user.fullName}
 						</Text>
 						<Text color="gray" size="1">
 							{user.username}
 						</Text>
-						<Text color={online ? 'green' : 'gray'} size="1">{online ? 'Online' : 'Offline'}</Text>
+						{/* <Text color={online ? 'green' : 'gray'} size="1">{online ? 'Online' : 'Offline'}</Text> */}
 					</div>
 				</Flex>
 			</Popover.Trigger>

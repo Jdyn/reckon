@@ -54,7 +54,7 @@ const Tree = React.memo<
 									onClick={() => setOpen(!isOpen)}
 								>
 									{isOpen ? <MinusIcon width="12px" /> : <PlusIcon width="12px" />}
-									<Text className={styles.label} color="gray" weight="medium" size="2" trim="both">
+									<Text className={styles.label} color="gray" weight="medium">
 										{category.name}
 									</Text>
 								</animated.div>
@@ -73,18 +73,16 @@ const Tree = React.memo<
 								</Alert>
 							</ContextMenu.Content>
 						</ContextMenu.Root>
-						<Flex direction="column" asChild>
-							<animated.div
-								style={{
-									opacity,
-									height: isOpen && previous === isOpen ? 'auto' : height
-								}}
-							>
-								<Flex direction="column" asChild>
-									<animated.div ref={ref}>{children}</animated.div>
-								</Flex>
+						<animated.div
+							style={{
+								opacity,
+								height: isOpen && previous === isOpen ? 'auto' : height
+							}}
+						>
+							<animated.div className={styles.container} ref={ref}>
+								{children}
 							</animated.div>
-						</Flex>
+						</animated.div>
 					</Flex>
 					{provided.placeholder}
 				</div>
