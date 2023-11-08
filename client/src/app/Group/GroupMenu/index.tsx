@@ -60,9 +60,8 @@ const GroupMenu = () => {
 
 	return match ? (
 		<SideMenuList>
-			<Flex align="center" justify="between">
+			<Flex align="center" height="6" justify="between" mt="4" mx="2">
 				<Heading size="4">{group?.name}</Heading>
-
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						<IconButton variant="ghost">

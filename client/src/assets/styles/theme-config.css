@@ -10,14 +10,15 @@
 
 	/* --accent-panel: var(--accent-5);
 	--accent-surface: var(--accent-3); */
-	--accent-surface: var(--accent-3);
-	--accent-panel: var(--color-surface-accent);
+	/* --accent-surface: var(--accent-a3); */
+	--accent-panel: #fff;
+	/* var(--color-surface-accent); */
 	/* --accent-panel: #fff;
 	--accent-surface: #fff; */
 
 	--default-font-family: dinn;
-	--font-size-3: 14px;
-	--font-size-2: 12px;
+	/* --font-size-3: 14px;
+	--font-size-2: 12px; */ 	
 
 
 	/* --color-page-background: var(--accent-5) !important; */

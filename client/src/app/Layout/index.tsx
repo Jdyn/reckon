@@ -8,34 +8,20 @@ import Compose from '../Bills/Compose';
 import Header from './Header';
 import styles from './Layout.module.css';
 import LeftPanel from './LeftPanel';
+import RightPanel from './RightPanel';
 
 export function RootLayout() {
-	const [queryParams] = useSearchParams();
-	const isBillView = useMemo(() => queryParams.get('bill') !== null, [queryParams]);
-
-	const [userListExpanded, setUserListExpanded] = useState(true);
-
 	return (
 		<div className={styles.root}>
-			<Header />
-			<div className={styles.full}>
-				<div className={styles.container}>
-					<LeftPanel />
-					<div className={styles.wrapper}>
-						<Outlet />
-						<Compose />
-					</div>
-					<SidePanel
-						direction="left"
-						controlled={isBillView ? true : false}
-						maxWidth={isBillView ? '275px' : '275px'}
-						expanded={isBillView ? true : userListExpanded}
-						onExpandedChange={(e) => setUserListExpanded(e)}
-					>
-						{isBillView ? <BillView /> : <UserList />}
-					</SidePanel>
+			<LeftPanel />
+			<div className={styles.main}>
+				<Header />
+				<div className={styles.wrapper}>
+					<Outlet />
+					<Compose />
 				</div>
 			</div>
+			<RightPanel />
 		</div>
 	);
 }

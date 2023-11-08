@@ -24,7 +24,7 @@ import { useEvent, usePhoenix } from 'use-phoenix';
 
 import { useCompose } from '../Bills/Compose/ComposeProvider';
 import styles from './Layout.module.css';
-import ProfileLink from './ProfileLink';
+import ProfileLink from './RightPanel/ProfileLink';
 
 interface InviteEvent {
 	event: 'invites';
@@ -53,13 +53,8 @@ function Headers() {
 	}, [connect, session]);
 
 	return (
-		<Flex className={styles.header} height="9" grow="1" justify="between" align="center" mx="3">
-			<Flex grow="1" height="9" justify="start" align="center">
-				<Heading size="5" trim="both">
-					Teehee
-				</Heading>
-			</Flex>
-			<Flex grow="1" gap="4">
+		<Flex className={styles.header} grow="1" justify="between" align="center">
+			<Flex grow="1" gap="6">
 				<Button
 					type="button"
 					variant="soft"
@@ -71,7 +66,7 @@ function Headers() {
 					<PlusSmallIcon width="18px" />
 					<Text>Create</Text>
 				</Button>
-				<Container size="1" px="3">
+				<Container size="1">
 					<TextField.Root>
 						<TextField.Slot>
 							<MagnifyingGlassIcon width="18px" />
@@ -129,7 +124,7 @@ function Headers() {
 				</Flex>
 			</Flex>
 
-			<ProfileLink />
+			{/* <ProfileLink /> */}
 		</Flex>
 	);
 }

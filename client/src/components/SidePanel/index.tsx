@@ -1,5 +1,6 @@
 import { PinLeftIcon, PinRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import clsx from 'clsx';
 import {
 	AnchorHTMLAttributes,
 	createContext,
@@ -9,12 +10,18 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import type { CSSProperties, DetailedHTMLProps, Dispatch, HTMLAttributes, ReactElement, ReactNode } from 'react';
+import type {
+	CSSProperties,
+	DetailedHTMLProps,
+	Dispatch,
+	HTMLAttributes,
+	ReactElement,
+	ReactNode
+} from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, To, matchPath, useLocation } from 'react-router-dom';
 
 import styles from './SidePanel.module.css';
-import clsx from 'clsx';
 
 const SidePanelContext = createContext<{
 	value: string | undefined;
@@ -39,7 +46,17 @@ interface SidePanelProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function SidePanel(props: SidePanelProps) {
-	const { style, direction, children, maxWidth, expanded, onExpandedChange, controlled, className, ...rest } = props;
+	const {
+		style,
+		direction,
+		children,
+		maxWidth,
+		expanded,
+		onExpandedChange,
+		controlled,
+		className,
+		...rest
+	} = props;
 	const [value, setValue] = useState<string | undefined>(undefined);
 
 	const [_expanded, setExpanded] = useState(true);
@@ -57,20 +74,25 @@ export function SidePanel(props: SidePanelProps) {
 			),
 		[_expanded, direction]
 	);
-				console.log(_expanded)
+
 	return (
 		<NavigationMenu.Root
 			className={styles.sidePanel}
-			// style={{ ...style, width: _expanded ? maxWidth : '75px' }}
+			style={{ ...style, width: _expanded ? maxWidth : '75px' }}
 			orientation="vertical"
 			data-expanded={_expanded}
 			data-direction={direction}
 			value={value}
 		>
 			<SidePanelContext.Provider value={{ value, setValue, expanded: _expanded }}>
-				<div className={clsx(styles.wrapper, className)} {...rest} data-direction={direction}>
-				{children}
-				{/* {!controlled && (
+				<div
+					style={{ ...style, width: _expanded ? maxWidth : '75px' }}
+					className={clsx(styles.wrapper, className)}
+					{...rest}
+					data-direction={direction}
+				>
+					{children}
+					{/* {!controlled && (
 						<NavigationMenu.Item asChild>
 							<button
 								className={styles.collapse}
@@ -104,7 +126,7 @@ SidePanel.defaultProps = {
 
 interface SideNavigationListProps {
 	children?: ReactNode[];
-	style?: CSSProperties
+	style?: CSSProperties;
 }
 
 export const SideNavigationList = ({ children, style }: SideNavigationListProps) => {

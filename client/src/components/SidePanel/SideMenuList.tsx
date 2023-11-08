@@ -15,7 +15,6 @@ const SideMenulist = ({ children, style }: SideMenuList) => {
 	return (
 		<div className={styles.listRoot} style={style}>
 			{header}
-			<Separator size="4" />
 			<Flex gap="2" direction="column">
 				{rest}
 			</Flex>

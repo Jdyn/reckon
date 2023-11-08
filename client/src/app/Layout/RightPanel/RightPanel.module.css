@@ -1,0 +1,11 @@
+.profileTrigger {
+	border-radius: var(--radius-2);
+	&:hover {
+		background: var(--accent-a3)
+	}
+}
+
+.profileMenu {
+	min-width: 185px;
+	border-radius: var(--radius-3);
+}

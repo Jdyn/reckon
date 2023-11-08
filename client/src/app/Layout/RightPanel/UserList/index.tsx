@@ -1,5 +1,10 @@
-import { UserGroupIcon } from '@heroicons/react/24/outline';
-import { Button, Flex, Heading, ScrollArea, Text } from '@radix-ui/themes';
+import {
+	MagnifyingGlassIcon,
+	UserGroupIcon,
+	UserMinusIcon,
+	UserPlusIcon
+} from '@heroicons/react/24/outline';
+import { Button, Flex, Heading, IconButton, ScrollArea, Text, TextField } from '@radix-ui/themes';
 import { useGetGroupQuery } from '@reckon/core';
 import { useMemo } from 'react';
 import { useParams } from 'react-router';
@@ -32,22 +37,26 @@ const UserList = () => {
 
 	return (
 		<div className={styles.root}>
-			{/* <Flex className={styles.header}>
-				<Flex gap="2">
-					<UserGroupIcon width="24px" height="24px" style={{ overflow: 'visible' }} />
-					<Text size="4" weight="bold">
-						{title}
-					</Text>
-				</Flex>
-				<Button variant="soft" size="1">
-					Invite friends
-				</Button>
-			</Flex> */}
-			<ScrollArea className={styles.container}>
-				<Flex direction="column" gap="2" p="4" grow="1">
-					<Heading className={styles.label} size="3">
-						Online
-					</Heading>
+			<Flex gap="2">
+				<IconButton type="button" variant="soft" title="add friend">
+					<UserPlusIcon width="18px" />
+				</IconButton>
+				<IconButton type="button" variant="soft" title="remove friend">
+					<UserMinusIcon width="18px" />
+				</IconButton>
+				<TextField.Root>
+					<TextField.Input variant="soft" />
+					<TextField.Slot>
+						<MagnifyingGlassIcon width="18px" />
+					</TextField.Slot>
+				</TextField.Root>
+			</Flex>
+			{/* <ScrollArea className={styles.container}> */}
+			<Flex direction="column" grow="1" gap="2">
+				<Heading className={styles.label} size="2">
+					Online
+				</Heading>
+				<Flex direction="column">
 					{userList
 						.filter((u) => u.metas?.lastSeen)
 						.map((presence) => (
@@ -57,9 +66,11 @@ const UserList = () => {
 								online={presence.metas && presence.metas.lastSeen}
 							/>
 						))}
-					<Heading className={styles.label} size="3">
-						Offline
-					</Heading>
+				</Flex>
+				<Heading className={styles.label} size="2">
+					Offline
+				</Heading>
+				<Flex direction="column">
 					{userList
 						.filter((u) => !u.metas?.lastSeen)
 						.map((presence) => (
@@ -70,7 +81,9 @@ const UserList = () => {
 							/>
 						))}
 				</Flex>
-			</ScrollArea>
+			</Flex>
+			{/* </ScrollArea> */}
+			<Button variant="soft">Chats</Button>
 		</div>
 	);
 };

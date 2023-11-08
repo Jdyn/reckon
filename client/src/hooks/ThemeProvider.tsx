@@ -57,9 +57,9 @@ export function ThemeProvider(props: ThemeProviderProps) {
 				scaling="100%"
 				radius="large"
 				grayColor="auto"
-				accentColor="indigo"
+				accentColor="gray"
 				panelBackground="solid"
-				style={{ background: 'var(--color-panel)'}}
+				style={{ background: 'var(--color-panel)' }}
 			>
 				{children}
 				{/* <ThemePanel /> */}

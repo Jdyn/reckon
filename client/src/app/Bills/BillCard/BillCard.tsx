@@ -56,7 +56,7 @@ const BillCard = ({ bill }: BillCardProps) => {
 
 	return (
 		<div className={styles.timeRange} onClick={updateQueryParam}>
-			<Avatar radius="full" text={bill.creator.fullName} />
+			<Avatar variant="soft" radius="full" text={bill.creator.fullName} />
 			<Flex direction="column" gap="3">
 				<Flex className={styles.body} gap="4" direction="column">
 					<Flex direction="column">

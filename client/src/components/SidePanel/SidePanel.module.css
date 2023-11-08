@@ -85,6 +85,7 @@
 	width: 52px;
 	overflow: auto;
 	overflow-x: hidden;
+	padding-top: var(--space-4);
 }
 
 .listItem {
@@ -103,7 +104,7 @@
 	font-weight: 700;
 	white-space: nowrap;
 	background: var(--accent-a4);
-	border-radius: 12px;
+	border-radius: var(--radius-4);
 
 	& > span {
 		transition: color 0.1s linear;
@@ -138,6 +139,5 @@
 	flex-direction: column;
 	gap: var(--space-2);
 	background: var(--accent-surface);
-	padding: var(--space-4);
 	border-radius: var(--radius-5);
 }
