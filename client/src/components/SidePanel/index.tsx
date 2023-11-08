@@ -1,7 +1,5 @@
 import { PinLeftIcon, PinRightIcon } from '@radix-ui/react-icons';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import { Text } from '@radix-ui/themes';
-import clsx from 'clsx';
 import {
 	AnchorHTMLAttributes,
 	createContext,
@@ -11,11 +9,12 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import type { CSSProperties, DetailedHTMLProps, Dispatch, ReactElement, ReactNode } from 'react';
+import type { CSSProperties, DetailedHTMLProps, Dispatch, HTMLAttributes, ReactElement, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
 import { Link, To, matchPath, useLocation } from 'react-router-dom';
 
 import styles from './SidePanel.module.css';
+import clsx from 'clsx';
 
 const SidePanelContext = createContext<{
 	value: string | undefined;
@@ -29,7 +28,7 @@ export const useSidePanel = () => {
 	return context;
 };
 
-interface SidePanelProps {
+interface SidePanelProps extends HTMLAttributes<HTMLDivElement> {
 	direction: 'left' | 'right';
 	children: ReactNode;
 	style?: React.CSSProperties;
@@ -40,7 +39,7 @@ interface SidePanelProps {
 }
 
 export function SidePanel(props: SidePanelProps) {
-	const { style, direction, children, maxWidth, expanded, onExpandedChange, controlled } = props;
+	const { style, direction, children, maxWidth, expanded, onExpandedChange, controlled, className, ...rest } = props;
 	const [value, setValue] = useState<string | undefined>(undefined);
 
 	const [_expanded, setExpanded] = useState(true);
@@ -67,11 +66,9 @@ export function SidePanel(props: SidePanelProps) {
 			data-expanded={_expanded}
 			data-direction={direction}
 			value={value}
-			// onMouseEnter={() => setExpanded(true)}
-			// onMouseLeave={() => setExpanded(false)}
 		>
 			<SidePanelContext.Provider value={{ value, setValue, expanded: _expanded }}>
-				<div className={styles.wrapper} data-direction={direction}>
+				<div className={clsx(styles.wrapper, className)} {...rest} data-direction={direction}>
 				{children}
 				{/* {!controlled && (
 						<NavigationMenu.Item asChild>

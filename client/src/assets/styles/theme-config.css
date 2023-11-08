@@ -10,8 +10,8 @@
 
 	/* --accent-panel: var(--accent-5);
 	--accent-surface: var(--accent-3); */
-	--accent-panel: var(--accent-3);
-	--accent-surface: var(--color-surface-accent);
+	--accent-surface: var(--accent-3);
+	--accent-panel: var(--color-surface-accent);
 	/* --accent-panel: #fff;
 	--accent-surface: #fff; */
 

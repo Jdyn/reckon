@@ -31,7 +31,7 @@ const BillView = () => {
 			</Flex>
 			{bill && (
 				<ScrollArea>
-					<Flex  direction="column" gap="4" px="3">
+					<Flex  direction="column" gap="4">
 						<Flex direction="row" gap="3" justify="between">
 							<Flex direction="column">
 								<Heading size="2">{bill.group?.name}</Heading>

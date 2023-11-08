@@ -39,10 +39,11 @@
 	grid-template-columns: min-content 1fr min-content;
 	grid-template-rows: 1fr;
 	width: 100%;
-	max-width: 1340px;
+	max-width: 1540px;
+	gap: var(--space-3);
 	height: 100%;
 	overflow: hidden;
-	padding-bottom: var(--space-2);
+	padding: var(--space-2);
 }
 
 .wrapper {
@@ -54,7 +55,8 @@
 	border-radius: var(--radius-5);
 	align-items: center;
 	box-shadow: 0 0 0 300vh var(--accent-panel);
-	background: var(--accent-surface);
+	/* background: var(--accent-surface); */
+	/* border: 1px solid var(--accent-4); */
 }
 
 .optionMenu {

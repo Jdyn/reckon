@@ -20,9 +20,7 @@ export function RootLayout() {
 			<Header />
 			<div className={styles.full}>
 				<div className={styles.container}>
-					<SidePanel direction="right">
-						<LeftPanel />
-					</SidePanel>
+					<LeftPanel />
 					<div className={styles.wrapper}>
 						<Outlet />
 						<Compose />

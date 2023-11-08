@@ -3,7 +3,7 @@
 	justify-content: space-between;
 	padding: var(--space-1) var(--space-4) var(--space-1) var(--space-4) ;
 	border-radius: var(--radius-3);
-	color: var(--accent-a11);
+	color: var(--gray-a11);
 	text-decoration: none;
 	&:hover {
 		background: var(--accent-a3);

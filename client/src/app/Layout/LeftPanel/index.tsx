@@ -1,5 +1,5 @@
 import GroupMenu from '~/app/Group/GroupMenu';
-import { useSidePanel } from '~/components/SidePanel';
+import { SidePanel } from '~/components/SidePanel';
 
 import HomeMenu from '../HomeMenu';
 import styles from './LeftPanel.module.css';
@@ -7,11 +7,11 @@ import VerticalMenu from './VerticalMenu';
 
 const LeftPanel = () => {
 	return (
-		<div className={styles.leftPanel}>
+		<SidePanel className={styles.leftPanel} direction="right">
 			<VerticalMenu />
 			<GroupMenu />
 			<HomeMenu />
-		</div>
+		</SidePanel>
 	);
 };
 
