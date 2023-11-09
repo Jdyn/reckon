@@ -1,5 +1,5 @@
 .timeRange {
-	--inset: 40px;
+	--inset: calc(45px * var(--scaling));
 	--half-inset: calc(var(--inset) / 2);
 	z-index: 0;
 	display: flex;

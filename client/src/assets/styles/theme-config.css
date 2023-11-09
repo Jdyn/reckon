@@ -11,8 +11,8 @@
 
 :is(.dark, .dark-theme),
 :is(.dark, .dark-theme) .radix-themes:not(.light, .light-theme) {
-	--accent-panel: var(--gray-2);
-	--accent-surface: var(--gray-2);
+	--accent-panel: var(--gray-3);
+	--accent-surface: var(--gray-3);
 }
 
 .radix-themes:where([data-panel-background='translucent']) {

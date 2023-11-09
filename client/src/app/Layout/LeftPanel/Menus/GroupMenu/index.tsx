@@ -78,7 +78,7 @@ const GroupMenu = () => {
 								Create category
 								<FolderPlusIcon width="18px" />
 							</>
-							<Flex direction="column">
+							<Flex direction="column" gap="2" my="4">
 								<Text>Category Name</Text>
 								<TextField.Input
 									placeholder="New category"

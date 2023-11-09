@@ -28,8 +28,8 @@ const DialogItem = forwardRef<unknown, DialogItemProps>(
 						{header}
 					</Wrapper>
 				</Dialog.Trigger>
-				<Dialog.Content style={{ maxWidth: 400 }}>
-					{title && <Dialog.Title align="center">{title}</Dialog.Title>}
+				<Dialog.Content style={{ maxWidth: 500 }}>
+					{title && <Dialog.Title>{title}</Dialog.Title>}
 					{description && (
 						<Dialog.Description align="center" color="gray">
 							{description}
@@ -37,9 +37,11 @@ const DialogItem = forwardRef<unknown, DialogItemProps>(
 					)}
 					{content}
 					<Flex gap="3" mt="4" justify="end">
-						<Button variant="soft" color="gray">
-							cancel
-						</Button>
+						<Dialog.Close>
+							<Button variant="soft" color="gray">
+								Cancel
+							</Button>
+						</Dialog.Close>
 						<Button type="submit" variant="soft" color="green" onClick={onClick}>
 							{action}
 						</Button>
