@@ -5,7 +5,7 @@ import { Bill } from '@reckon/core';
 import clsx from 'clsx';
 import { formatTimeAgo } from '~/utils/dates';
 
-import styles from './GroupMenu.module.css';
+import styles from '../Menu.module.css';
 import { NavLink, useMatch } from 'react-router-dom';
 
 interface MenuTreeItemProps {
@@ -30,7 +30,7 @@ const MenuTreeItem = (props: MenuTreeItemProps) => {
 				>
 					<Flex gap="1" align="center">
 						<HashtagIcon height="14px" />
-						<Text weight="medium">
+						<Text size="2">
 							{bill.description}
 						</Text>
 					</Flex>

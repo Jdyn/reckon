@@ -53,11 +53,11 @@ function Headers() {
 	}, [connect, session]);
 
 	return (
-		<Flex className={styles.header} grow="1" justify="between" align="center">
-			<Flex grow="1" gap="6">
+		<div className={styles.header}>
+			<Flex className={styles.headerInner} grow="1" gap="6">
 				<Button
 					type="button"
-					variant="soft"
+					variant="ghost"
 					onClick={(e) => {
 						e.preventDefault();
 						newCompose(`${Date.now()}`);
@@ -71,16 +71,16 @@ function Headers() {
 						<TextField.Slot>
 							<MagnifyingGlassIcon width="18px" />
 						</TextField.Slot>
-						<TextField.Input variant="soft" placeholder="search for bills, groups, users" />
+						<TextField.Input placeholder="search for bills, groups, users" />
 					</TextField.Root>
 				</Container>
-				<Flex gap="3">
-					<IconButton variant="soft">
+				<Flex gap="5" align="center">
+					<IconButton variant="ghost">
 						<BellAlertIcon width="18px" />
 					</IconButton>
 					<Popover.Root>
 						<Popover.Trigger>
-							<Button type="button" variant="soft">
+							<Button type="button" variant="ghost">
 								{data && data.invites.length > 0 ? (
 									<Badge color="red">{data.invites.length}</Badge>
 								) : (
@@ -123,9 +123,7 @@ function Headers() {
 					</Popover.Root>
 				</Flex>
 			</Flex>
-
-			{/* <ProfileLink /> */}
-		</Flex>
+		</div>
 	);
 }
 

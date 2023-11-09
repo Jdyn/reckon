@@ -5,3 +5,47 @@
 	flex: 1;
 	gap: var(--space-2);
 }
+
+.verticalMenu {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 10px;
+	overflow: auto;
+	overflow-x: hidden;
+	padding-top: var(--space-4);
+}
+
+.menuItem {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.1s linear;
+	border-left: none;
+	height: var(--space-8);
+	width: var(--space-8);
+	color: var(--color);
+	text-decoration: none;
+	cursor: pointer;
+	overflow: hidden;
+	text-transform: uppercase;
+	font-weight: 500;
+	white-space: nowrap;
+	background: var(--accent-a4);
+	border-radius: var(--radius-4);
+
+	& > span {
+		transition: color 0.1s linear;
+		z-index: 2;
+		overflow: hidden;
+	}
+	& > svg {
+		z-index: 2;
+		transition: transform 0.1s linear;
+		overflow: visible;
+	}
+	&[data-state='open'] {
+		color: white;
+	}
+}

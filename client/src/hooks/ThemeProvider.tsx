@@ -40,7 +40,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 			return;
 		}
 
-		root.classList.add(theme);
+		root.classList.add('dark');
 	}, [theme]);
 
 	const setTheme = useCallback(
@@ -54,7 +54,7 @@ export function ThemeProvider(props: ThemeProviderProps) {
 	return (
 		<ThemeProviderContext.Provider value={{ theme, setTheme }}>
 			<Theme
-				scaling="100%"
+				scaling="110%"
 				radius="large"
 				grayColor="auto"
 				accentColor="gray"

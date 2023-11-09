@@ -1,7 +1,9 @@
-import { Tooltip } from '@radix-ui/themes';
+import { Button, Flex, Tooltip } from '@radix-ui/themes';
 import { ReactNode, forwardRef, memo } from 'react';
-import { To } from 'react-router-dom';
-import { SideNavigationLink } from '~/components/SidePanel';
+import { NavLink, To } from 'react-router-dom';
+import SidePanel from '~/components/SidePanel';
+
+import styles from './LeftPanel.module.css';
 
 interface VerticalMenuItemProps {
 	children: ReactNode;
@@ -12,7 +14,7 @@ interface VerticalMenuItemProps {
 const VerticalMenuItem = ({ children, tooltip, to }: VerticalMenuItemProps) => {
 	return (
 		<Tooltip content={tooltip} side="right" delayDuration={300}>
-			<SideNavigationLink to={to}>{children}</SideNavigationLink>
+			<SidePanel.Item className={styles.menuItem} to={to}>{children}</SidePanel.Item>
 		</Tooltip>
 	);
 };

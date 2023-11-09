@@ -2,7 +2,7 @@
 	--card-inset: 45px;
 	height: 100%;
 	width: 100%;
-	max-width: 750px;
+	max-width: calc(750px * var(--scaling));
 	flex-grow: 1;
 	position: relative;
 	box-sizing: border-box !important;

@@ -1,7 +1,7 @@
-import GroupMenu from '~/app/Group/GroupMenu';
+import GroupMenu from '~/app/Layout/LeftPanel/Menus/GroupMenu';
 import { SidePanel } from '~/components/SidePanel';
 
-import HomeMenu from '../HomeMenu';
+import HomeMenu from './Menus/HomeMenu';
 import styles from './LeftPanel.module.css';
 import VerticalMenu from './VerticalMenu';
 import { Separator } from '@radix-ui/themes';

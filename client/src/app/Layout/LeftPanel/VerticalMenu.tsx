@@ -3,10 +3,12 @@ import { HomeIcon, PlusIcon } from '@radix-ui/react-icons';
 import { Button, Dialog, Flex, Heading, Separator, Text, TextField } from '@radix-ui/themes';
 import { useCreateGroupMutation, useGetGroupsQuery } from '@reckon/core';
 import { useState } from 'react';
-import { SideNavigationList } from '~/components/SidePanel';
+import SidePanel from '~/components/SidePanel';
 
 import GroupContextMenu from '../../Group/GroupContextMenu';
 import VerticalMenuItem from './VerticalMenuItem';
+
+import styles from './LeftPanel.module.css'
 
 function getInitials(input: string): string {
 	return input
@@ -22,12 +24,12 @@ const VerticalMenu = () => {
 	const [form, setForm] = useState({ name: '' });
 
 	return (
-		<SideNavigationList>
+		<SidePanel.List className={styles.verticalMenu}>
 			<Dialog.Root>
 				<Dialog.Trigger>
 					<div>
 						<VerticalMenuItem tooltip="New Group">
-							<PlusIcon width="24px" />
+							<PlusIcon width="24px" height="24px" />
 						</VerticalMenuItem>
 					</div>
 				</Dialog.Trigger>
@@ -72,7 +74,7 @@ const VerticalMenu = () => {
 						</VerticalMenuItem>
 					</GroupContextMenu>
 				))}
-		</SideNavigationList>
+		</SidePanel.List>
 	);
 };
 

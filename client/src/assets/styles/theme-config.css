@@ -1,49 +1,26 @@
 .radix-themes {
-	/* ORIGINAL */
-	/* color: var(--gray-12);
-	--subcolor: var(--gray-10);
-
-  --color-overlay: var(--gray-a8);
-  --color-panel-solid: white;
-  --color-panel-translucent: rgba(255, 255, 255, 0.8);
-  --color-surface: rgba(255, 255, 255, 0.9); */
-
-	/* --accent-panel: var(--accent-5);
-	--accent-surface: var(--accent-3); */
-	/* --accent-surface: var(--accent-a3); */
-	--accent-panel: #fff;
-	/* var(--color-surface-accent); */
-	/* --accent-panel: #fff;
-	--accent-surface: #fff; */
+	--accent-panel: var(--color-panel);
+	--accent-surface: var(--color-panel);
 
 	--default-font-family: dinn;
-	/* --font-size-3: 14px;
-	--font-size-2: 12px; */ 	
 
+	--font-size-3: calc(14px * var(--scaling));
+	--font-size-2: calc(12px * var(--scaling));
 
-	/* --color-page-background: var(--accent-5) !important; */
 }
 
 :is(.dark, .dark-theme),
 :is(.dark, .dark-theme) .radix-themes:not(.light, .light-theme) {
-
-	/* Overlay would be the transparent background of a modal for example */
-  --color-overlay: rgba(0, 0, 0, 0.75);
-
-	/* panel-solid would be the color of most UI elements like dialogs and dropdowns */
-  --color-panel-solid: var(--gray-1);
-  --color-panel-translucent: var(--gray-2-translucent);
-  --color-surface: rgba(0, 0, 0, 0.25);
-
-	--accent-panel: var(--accent-1);
-	--accent-surface: var(--accent-1);
-
-	/* page-background would be the background of the html */
-	--color-page-background: var(--accent-5);
+	--accent-panel: var(--gray-2);
+	--accent-surface: var(--gray-2);
 }
 
 .radix-themes:where([data-panel-background='translucent']) {
 	--color-panel: var(--color-panel-translucent);
+}
+
+.radix-themes:where([data-scaling='110%']) {
+	--scaling: 1.3
 }
 
 body {

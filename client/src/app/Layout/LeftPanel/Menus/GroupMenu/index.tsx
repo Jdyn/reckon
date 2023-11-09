@@ -19,16 +19,14 @@ import { useMemo, useState } from 'react';
 import { NavLink, useMatch } from 'react-router-dom';
 import DialogItem from '~/components/DialogItem';
 import { useSidePanel } from '~/components/SidePanel';
-import SideMenuList from '~/components/SidePanel/SideMenuList';
 import Tree from '~/components/Tree';
 
-import styles from './GroupMenu.module.css';
+import styles from '../Menu.module.css';
 import MenuTreeItem from './MenuTreeItem';
 
 const GroupMenu = () => {
 	const match = useMatch({ path: '/g/:id', caseSensitive: false, end: false });
 	const [newName, setName] = useState('');
-	const { expanded } = useSidePanel();
 
 	const groupId = useMemo(() => {
 		if (!match?.params.id || isNaN(parseInt(match.params.id, 10))) return undefined;
@@ -52,14 +50,14 @@ const GroupMenu = () => {
 
 	const handleCreateCategory = (e: any) => {
 		e.preventDefault();
-		console.log(groupId)
+		console.log(groupId);
 		if (groupId) {
 			createCategory({ groupId, body: { name: newName } });
 		}
 	};
 
 	return match ? (
-		<SideMenuList>
+		<div className={styles.root}>
 			<Flex align="center" height="6" justify="between" mt="4" mx="2">
 				<Heading size="4">{group?.name}</Heading>
 				<DropdownMenu.Root>
@@ -94,12 +92,10 @@ const GroupMenu = () => {
 			</Flex>
 
 			<NavLink className={styles.listItem} to={`${match.pathname}/feed`}>
-					<Flex gap="1" align="center">
-						<NewspaperIcon width="18px" />
-						<Text weight="medium">
-							Feed
-						</Text>
-					</Flex>
+				<Flex gap="1" align="center">
+					<NewspaperIcon width="18px" />
+					<Text weight="medium">Feed</Text>
+				</Flex>
 			</NavLink>
 
 			<Flex align="center" gap="1">
@@ -144,7 +140,7 @@ const GroupMenu = () => {
 					))}
 				</Flex>
 			</DragDropContext>
-		</SideMenuList>
+		</div>
 	) : null;
 };
 

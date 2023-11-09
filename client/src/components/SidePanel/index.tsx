@@ -10,16 +10,9 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import type {
-	CSSProperties,
-	DetailedHTMLProps,
-	Dispatch,
-	HTMLAttributes,
-	ReactElement,
-	ReactNode
-} from 'react';
+import type { CSSProperties, DetailedHTMLProps, Dispatch, HTMLAttributes, ReactNode } from 'react';
 import useDimensions from 'react-cool-dimensions';
-import { Link, To, matchPath, useLocation } from 'react-router-dom';
+import { Link, LinkProps, To, matchPath, useLocation } from 'react-router-dom';
 
 import styles from './SidePanel.module.css';
 
@@ -78,7 +71,7 @@ export function SidePanel(props: SidePanelProps) {
 	return (
 		<NavigationMenu.Root
 			className={styles.sidePanel}
-			style={{ ...style, width: _expanded ? maxWidth : '75px' }}
+			// style={{ ...style, width: _expanded ? maxWidth : '75px' }}
 			orientation="vertical"
 			data-expanded={_expanded}
 			data-direction={direction}
@@ -86,7 +79,7 @@ export function SidePanel(props: SidePanelProps) {
 		>
 			<SidePanelContext.Provider value={{ value, setValue, expanded: _expanded }}>
 				<div
-					style={{ ...style, width: _expanded ? maxWidth : '75px' }}
+					// style={{ ...style, width: _expanded ? maxWidth : '75px' }}
 					className={clsx(styles.wrapper, className)}
 					{...rest}
 					data-direction={direction}
@@ -124,17 +117,12 @@ SidePanel.defaultProps = {
 	onExpandedChange: null
 };
 
-interface SideNavigationListProps {
-	children?: ReactNode[];
-	style?: CSSProperties;
-}
-
-export const SideNavigationList = ({ children, style }: SideNavigationListProps) => {
+const SidePanelList = ({ children, ...rest }: HTMLAttributes<HTMLDivElement>) => {
 	const { observe, width } = useDimensions();
 
 	return (
-		<NavigationMenu.List ref={observe} style={style} asChild>
-			<div className={styles.list}>
+		<NavigationMenu.List ref={observe} asChild>
+			<div {...rest}>
 				{children}
 				<NavigationMenu.Indicator className={styles.indicator} style={{ width: width }} />
 			</div>
@@ -142,10 +130,10 @@ export const SideNavigationList = ({ children, style }: SideNavigationListProps)
 	);
 };
 
-export const SideNavigationLink = forwardRef<
+const SidePanelItem = forwardRef<
 	HTMLButtonElement,
-	DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement> & { to?: To }, HTMLAnchorElement>
->(({ children, to, onClick }, ref) => {
+	HTMLAttributes<HTMLAnchorElement> & { to?: To }
+>(({ children, to, onClick, ...rest }, ref) => {
 	const { setValue } = useSidePanel();
 	const { pathname } = useLocation();
 
@@ -160,18 +148,20 @@ export const SideNavigationLink = forwardRef<
 		<NavigationMenu.Item value={to && to.toString()} asChild>
 			<NavigationMenu.Trigger ref={ref} asChild>
 				<Link
-					className={styles.listItem}
 					onClick={(e) => {
 						setValue(to.toString());
 						onClick && onClick(e);
 					}}
 					to={to}
+					{...rest}
 				>
 					{children}
 				</Link>
 			</NavigationMenu.Trigger>
 		</NavigationMenu.Item>
 	) : (
-		<div className={styles.listItem}>{children}</div>
+		<a {...rest}>{children}</a>
 	);
 });
+
+export default Object.assign(SidePanel, { List: SidePanelList, Item: SidePanelItem });

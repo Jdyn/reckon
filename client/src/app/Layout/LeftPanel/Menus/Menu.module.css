@@ -1,3 +1,12 @@
+.root {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--space-2);
+	background: var(--accent-surface);
+	border-radius: var(--radius-5);
+}
+
 .listItem {
 	display: flex;
 	justify-content: space-between;
@@ -8,10 +17,6 @@
 	&:hover {
 		background: var(--accent-a3);
 	}
-}
-
-.list {
-	position: relative;
 }
 
 .unlisted {

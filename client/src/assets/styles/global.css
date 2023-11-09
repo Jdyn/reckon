@@ -30,11 +30,12 @@
 	font-style: normal;
 }
 
-@custom-media --xs (min-width: 520px);
+/* @custom-media --xs (min-width: 520px);
 @custom-media --sm (min-width: 768px);
 @custom-media --md (min-width: 1024px);
 @custom-media --lg (min-width: 1280px);
-@custom-media --xl (min-width: 1640px);
+@custom-media --xl (min-width: 1640px); */
+
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -51,7 +52,7 @@
 }
 
 html {
-	background: var(--indigo-5);
+	background: var(--gray-2);
 }
 
 a.active {
