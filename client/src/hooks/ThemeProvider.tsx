@@ -2,6 +2,8 @@ import { Theme } from '@radix-ui/themes';
 import { ThemePanel } from '@radix-ui/themes';
 import { ThemeProps } from '@radix-ui/themes/dist/cjs/theme';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import useDimensions from 'react-cool-dimensions';
+import useMeasure from 'react-use-measure';
 
 type ThemeKey = 'light' | 'dark' | 'system';
 
@@ -25,6 +27,23 @@ export function ThemeProvider(props: ThemeProviderProps) {
 	const [theme, _setTheme] = useState<ThemeKey>(
 		() => (localStorage.getItem(storageKey) as ThemeKey) || defaultTheme
 	);
+
+
+	const { observe, currentBreakpoint } = useDimensions({
+		breakpoints: {
+			'90%': 0,
+			'95%': 1300,
+			'100%': 1500,
+			'105%': 1850,
+			'110%': 2150,
+		},
+		updateOnBreakpointChange: true,
+		onResize: ({ width, height, currentBreakpoint }) => {
+			setScale(currentBreakpoint as ThemeProps['scaling'])
+		}
+	});
+
+	const [scale, setScale] = useState<ThemeProps['scaling']>(currentBreakpoint as ThemeProps['scaling'] || '100%');
 
 	useEffect(() => {
 		const root = window.document.documentElement;
@@ -51,15 +70,18 @@ export function ThemeProvider(props: ThemeProviderProps) {
 		[_setTheme, storageKey]
 	);
 
+	console.log(currentBreakpoint)
+
 	return (
 		<ThemeProviderContext.Provider value={{ theme, setTheme }}>
 			<Theme
-				scaling="110%"
+				ref={observe}
+				scaling={scale}
 				radius="large"
 				grayColor="auto"
 				accentColor="gray"
 				panelBackground="solid"
-				style={{ background: 'var(--color-panel)' }}
+				style={{ background: 'var(--accent-panel)' }}
 			>
 				{children}
 				{/* <ThemePanel /> */}

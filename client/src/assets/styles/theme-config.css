@@ -19,8 +19,24 @@
 	--color-panel: var(--color-panel-translucent);
 }
 
-.radix-themes:where([data-scaling='110%']) {
+.radix-themes:where([data-scaling='90%']) {
+	--scaling: 1
+}
+
+.radix-themes:where([data-scaling='95%']) {
+	--scaling: 1.1
+}
+
+.radix-themes:where([data-scaling='100%']) {
 	--scaling: 1.3
+}
+
+.radix-themes:where([data-scaling='105%']) {
+	--scaling: 1.5
+}
+
+.radix-themes:where([data-scaling='110%']) {
+	--scaling: 1.7
 }
 
 body {
