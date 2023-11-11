@@ -12,6 +12,8 @@
 - follow feature
   - two users who follow each other are considered "friends"
 
+- create `ToastProvider` with `useToast => popToast` to pop a toast box from anywhere in the app
+
 - provider agnostic payment implementation
   - Define set of fields that all payment processors should adhere to
   - Use Adapter pattern to create modules for each processor we have that `impl` the functions we expect, then use those functions in our code, not the processor itself

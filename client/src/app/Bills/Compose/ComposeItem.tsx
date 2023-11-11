@@ -1,5 +1,4 @@
 import {
-	ArrowsRightLeftIcon,
 	BanknotesIcon,
 	ChevronLeftIcon,
 	ChevronRightIcon,
@@ -16,10 +15,7 @@ import {
 	Popover,
 	ScrollArea,
 	Select,
-	Separator,
-	Tabs,
 	Text,
-	TextArea,
 	TextField
 } from '@radix-ui/themes';
 import { Bill, useGetGroupsQuery, useMemberListQuery } from '@reckon/core';
@@ -27,11 +23,14 @@ import { getInitials } from '@reckon/ui';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useMeasure from 'react-use-measure';
 
 import styles from './Compose.module.css';
 import { useCompose } from './ComposeProvider';
 
-export type BillForm = Pick<Bill, 'description' | 'type' | 'group_id'>;
+export type BillForm = Pick<Bill, 'description' | 'type' | 'group_id'> & {
+	charges?: ({ user_id?: number } | undefined)[];
+};
 
 type ComposeItemProps = {
 	itemKey: string;
@@ -43,8 +42,13 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 	const { register, unregister, handleSubmit, watch, setValue } = useForm<BillForm>({
 		defaultValues: defaultValues
 	});
-
-	const [description, type, group_id] = watch(['description', 'type', 'group_id']);
+	const [ref, { height }] = useMeasure();
+	const [description, type, group_id, charges] = watch([
+		'description',
+		'type',
+		'group_id',
+		'charges'
+	]);
 
 	const { updateCompose, deleteCompose } = useCompose();
 	const { data: groups } = useGetGroupsQuery();
@@ -61,7 +65,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 		});
 		return () => subscription.unsubscribe();
 	}, [itemKey, updateCompose, watch]);
-
+	console.log(phase);
 	return (
 		<Popover.Root>
 			<Popover.Trigger>
@@ -79,7 +83,8 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 							onClick={(e) => {
 								e.preventDefault();
 								deleteCompose(itemKey);
-							}}>
+							}}
+						>
 							<XMarkIcon width="14px" />
 						</IconButton>
 					</Flex>
@@ -121,7 +126,8 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 							onClick={() => {
 								setPhase(1);
 								setValue('type', 'split');
-							}}>
+							}}
+						>
 							<BanknotesIcon width="32px" />
 							<Flex justify="between" grow="1">
 								<Flex direction="column">
@@ -139,7 +145,8 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 							onClick={() => {
 								setPhase(1);
 								setValue('type', 'pool');
-							}}>
+							}}
+						>
 							<BanknotesIcon width="32px" />
 							<Flex justify="between" grow="1">
 								<Flex direction="column">
@@ -154,7 +161,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 					</Flex>
 				)}
 				{phase === 1 && (
-					<Flex direction="column" gap="2">
+					<>
 						<Flex justify="between" gap="3">
 							<TextField.Root className={styles.description} size="3">
 								<TextField.Slot>
@@ -174,7 +181,8 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 								value={group_id?.toString()}
 								onValueChange={(val) => {
 									setValue('group_id', parseInt(val, 10));
-								}}>
+								}}
+							>
 								<Select.Trigger variant="soft">Select group</Select.Trigger>
 								<Select.Content side="bottom">
 									{groups?.map((group) => (
@@ -185,12 +193,36 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 								</Select.Content>
 							</Select.Root>
 						</Flex>
-						<Flex className={styles.members} grow="1" style={{ height: 230 }}>
-							<ScrollArea className={styles.list} type="always" scrollbars="vertical">
-								<Flex direction="column" gap="3" py="3">
-									{members?.map((user) => (
-										<Flex key={user.id} gap="3" px="3" align="center">
-											<Avatar size="2" variant="solid" radius="full" fallback={getInitials(user.fullName)} />
+						<ScrollArea className={styles.container} type="scroll" scrollbars="vertical">
+							<div className={styles.list}>
+								{members?.map((user) => {
+									const selected = charges?.some((charge) => charge?.user_id === user.id);
+
+									return (
+										<Flex
+											key={user.id}
+											gap="3"
+											align="center"
+											className={clsx(styles.memberCard, selected && styles.memberSelected)}
+											onClick={() => {
+												if (charges?.some((charge) => charge?.user_id === user.id)) {
+													// If it's already in charges, remove it
+													setValue(
+														'charges',
+														charges?.filter((charge) => charge?.user_id !== user.id)
+													);
+												} else {
+													// If it's not in charges, add it
+													setValue('charges', [...(charges || []), { user_id: user.id }]);
+												}
+											}}
+										>
+											<Avatar
+												size="2"
+												variant="soft"
+												radius="full"
+												fallback={getInitials(user.fullName)}
+											/>
 											<div className={styles.header}>
 												<Text weight="medium" size="2" trim="end">
 													{user.fullName}
@@ -200,11 +232,38 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 												</Text>
 											</div>
 										</Flex>
-									))}
+									);
+								})}
+							</div>
+						</ScrollArea>
+						<Button size="1" onClick={() => setPhase(2)}>
+							Next
+						</Button>
+					</>
+				)}
+				{phase === 2 && (
+					<>
+						{members
+							?.filter((u) => charges?.some((c) => c?.user_id === u.id))
+							?.map((user) => (
+								<Flex key={user.id} gap="3" align="center" className={clsx(styles.memberCard)}>
+									<Avatar
+										size="2"
+										variant="soft"
+										radius="full"
+										fallback={getInitials(user.fullName)}
+									/>
+									<div className={styles.header}>
+										<Text weight="medium" size="2" trim="end">
+											{user.fullName}
+										</Text>
+										<Text color="gray" size="1">
+											{user.username}
+										</Text>
+									</div>
 								</Flex>
-							</ScrollArea>
-						</Flex>
-					</Flex>
+							))}
+					</>
 				)}
 			</Popover.Content>
 		</Popover.Root>
@@ -212,16 +271,3 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 };
 
 export default ComposeItem;
-{
-	/* <Flex direction="column">
-						<Separator size="4" />
-						<Flex grow="1" gap="2" align="center" py="2">
-							<div className={styles.tab}>Details</div>
-							<Separator size="2" orientation="vertical" />
-							<div className={styles.tab}>People</div>
-							<Separator size="2" orientation="vertical" />
-							<div className={styles.tab}>Review</div>
-						</Flex>
-						<Separator size="4" />
-					</Flex> */
-}

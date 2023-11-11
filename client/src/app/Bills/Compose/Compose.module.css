@@ -25,8 +25,14 @@
 }
 
 .draft {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	overflow: hidden !important;
+	gap: var(--space-2);
 	width: 400px;
 	height: 500px;
+	max-height: 500px;
 	background: var(--accent-1);
 }
 
@@ -101,7 +107,26 @@
 	background: var(--accent-5);
 }
 
+.container {
+	border-radius: var(--radius-3);
+}
+
 .list {
-	background: var(--accent-a3);
+	display: flex;
+	flex-direction: column;
+	background: var(--accent-4);
+	padding: var(--space-1);
+	border-radius: var(--radius-3);
+	gap: var(--space-1);
+}
+
+.memberCard {
+	transition-duration: 0.1s;
+	padding: var(--space-1) var(--space-3);
+	cursor: pointer;
+}
+
+.memberSelected {
+	background: var(--green-a3);
 	border-radius: var(--radius-3);
 }
