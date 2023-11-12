@@ -13,7 +13,7 @@ const Compose = () => {
 				<ComposeItem
 					key={itemKey}
 					itemKey={itemKey}
-					defaultValues={composeState[itemKey] as Partial<BillForm>}
+					defaultValues={composeState[itemKey] as BillForm}
 				/>
 			))}
 		</div>

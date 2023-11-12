@@ -42,7 +42,6 @@ function Headers() {
 
 	useEffect(() => {
 		if (session) {
-			console.log(session, 'coonnect');
 			connect('ws://localhost:4000/socket', {
 				params: { token: session.token },
 				reconnectAfterMs(tries) {

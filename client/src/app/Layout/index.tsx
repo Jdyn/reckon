@@ -1,9 +1,9 @@
 import { Toast, createToaster } from '@ark-ui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Card, Flex, IconButton } from '@radix-ui/themes';
+import { session } from '@reckon/core';
 import { useEffect } from 'react';
 import { Outlet, useLoaderData } from 'react-router-dom';
-import { session } from '@reckon/core';
 
 import Compose from '../Bills/Compose';
 import Header from './Header';
@@ -48,7 +48,8 @@ export function RootLayout() {
 					toast.create({ title: 'Success', description: 'Successfully logged in.' });
 				}
 			});
-	}, [auth, toast]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div className={styles.root}>

@@ -50,7 +50,7 @@ const GroupMenu = () => {
 
 	const handleCreateCategory = (e: any) => {
 		e.preventDefault();
-		console.log(groupId);
+
 		if (groupId) {
 			createCategory({ groupId, body: { name: newName } });
 		}

@@ -70,8 +70,6 @@ export function ThemeProvider(props: ThemeProviderProps) {
 		[_setTheme, storageKey]
 	);
 
-	console.log(currentBreakpoint)
-
 	return (
 		<ThemeProviderContext.Provider value={{ theme, setTheme }}>
 			<Theme
