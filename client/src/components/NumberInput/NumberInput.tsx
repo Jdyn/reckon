@@ -1,6 +1,6 @@
 import { NumberInputProps, NumberInput as Primative } from '@ark-ui/react';
 import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline';
-import { IconButton } from '@radix-ui/themes';
+import { Flex, Text } from '@radix-ui/themes';
 import { Ref, forwardRef } from 'react';
 import { useController, useForm } from 'react-hook-form';
 
@@ -8,28 +8,32 @@ import styles from './NumberInput.module.css';
 
 interface Props extends NumberInputProps {
 	name: string;
+	money: boolean;
 }
 
-export const NumberInput = ({ name, ...props }: Props) => {
+export const NumberInput = ({ name, money, disabled, ...props }: Props) => {
 	const { field } = useController({
 		name,
 		rules: { required: true }
 	});
 
 	const { onChange, ...fieldProps } = field;
-	return (
+	return !disabled ? (
 		<Primative.Root
 			className={styles.root}
 			{...fieldProps}
 			{...props}
 			onValueChange={(details) => {
-				console.log(details)
-				isNaN(details.valueAsNumber)
-					? field.onChange(0)
-					: field.onChange(details.valueAsNumber);
+				field.onChange(details.value);
 			}}
+			clampValueOnBlur
 		>
 			<Primative.Scrubber />
+			{money && (
+				<Text trim="both" align="center">
+					$
+				</Text>
+			)}
 			<Primative.Input className={styles.input} />
 			<Primative.Control className={styles.control}>
 				<Primative.IncrementTrigger className={styles.trigger}>
@@ -40,5 +44,13 @@ export const NumberInput = ({ name, ...props }: Props) => {
 				</Primative.DecrementTrigger>
 			</Primative.Control>
 		</Primative.Root>
+	) : (
+		<Flex className={styles.root}>
+			{field.value}
+		</Flex>
 	);
+};
+
+NumberInput.defaultProps = {
+	money: false
 };

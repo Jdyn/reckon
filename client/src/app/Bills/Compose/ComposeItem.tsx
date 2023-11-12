@@ -8,19 +8,22 @@ import styles from './Compose.module.css';
 import { useCompose } from './ComposeProvider';
 import ComposeDraft from './Draft';
 
-export type BillForm = Pick<Bill, 'description' | 'type' | 'group_id'> & {
+export type BillForm = {
+	description?: string;
+	type?: string;
+	group_id?: number;
 	charges?: {
-		[user_id: number]: {
-			user_id: number;
-			amount: number;
-		};
+		[id: string]: {
+			amount?: string;
+			user_id?: number;
+		} | undefined;
 	};
-	total?: number;
+	total?: string;
 };
 
 type ComposeItemProps = {
 	itemKey: string;
-	defaultValues: Partial<BillForm>;
+	defaultValues: BillForm;
 };
 
 const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {

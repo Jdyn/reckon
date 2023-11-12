@@ -5,18 +5,25 @@
 	box-sizing: border-box;
 	background: var(--accent-a3);
 	border-radius: var(--radius-2);
-	padding: 0;
+	padding-left: var(--space-1);
+	max-height: var(--space-6);
+	align-items: center;
+	& > span {
+		display: flex;
+		align-items: center;
+	}
 }
 
 .input {
 	display: flex;
+	align-items: center;
 	flex: 1;
 	background: transparent;
 	outline: none;
 	border: none;
 	width: 100% !important;
 	color: var(--color);
-	padding: 0 var(--space-2);
+	padding: 0;
 }
 
 .control {
