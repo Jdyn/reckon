@@ -15,7 +15,7 @@ interface Props {
 	text: string;
 }
 
-export function Avatar({ text, size }: Omit<AvatarProps, 'fallback'> & Props) {
+function Avatar({ text, size }: Omit<AvatarProps, 'fallback'> & Props) {
 	return (
 		<AvatarPrimative className={styles.root} radius="full" size={size} variant="solid" fallback={getInitials(text)} />
 	);
@@ -26,3 +26,5 @@ Avatar.defaultProps = {
 	height: '45px',
 	size: '3'
 };
+
+export default Avatar

@@ -12,7 +12,7 @@ import {
 	useSessionQuery,
 	useUpdateChargeMutation
 } from '@reckon/core';
-import { Avatar } from '@reckon/ui';
+import Avatar from '~/components/Avatar';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';

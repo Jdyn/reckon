@@ -1,9 +1,9 @@
-import { CheckCircleIcon, CheckIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { Avatar, Button, Flex, ScrollArea, Select, Text, TextField } from '@radix-ui/themes';
 import { useGetGroupsQuery, useMemberListQuery } from '@reckon/core';
-import { getInitials } from '@reckon/ui';
+import { getInitials } from '~/components/Avatar';
 import clsx from 'clsx';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import styles from '../Compose.module.css';
 import { BillForm } from '../ComposeItem';

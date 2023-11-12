@@ -1,8 +1,7 @@
-import { Container, Flex, Grid, Heading, Separator, Text } from '@radix-ui/themes';
+import { Flex, Heading, Separator, Text } from '@radix-ui/themes';
 import { useSessionsQuery } from '@reckon/core';
 
 import styles from './Settings.module.css';
-import { Avatar } from '@reckon/ui';
 
 const Settings = () => {
 	const { data: sessions } = useSessionsQuery();

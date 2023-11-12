@@ -23,7 +23,6 @@
 		"@radix-ui/themes": "^2.0.0",
 		"@react-spring/web": "9.6.0",
 		"@reckon/core": "workspace:*",
-		"@reckon/ui": "workspace:*",
 		"@reduxjs/toolkit": "1.9.x",
 		"clsx": "^1.2.1",
 		"react": "^18.2.0",

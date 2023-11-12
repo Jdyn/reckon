@@ -24,7 +24,6 @@ import { useEvent, usePhoenix } from 'use-phoenix';
 
 import { useCompose } from '../Bills/Compose/ComposeProvider';
 import styles from './Layout.module.css';
-import ProfileLink from './RightPanel/ProfileLink';
 
 interface InviteEvent {
 	event: 'invites';

@@ -1,7 +1,7 @@
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
 import { Avatar, Flex, Text } from '@radix-ui/themes';
 import { useMemberListQuery } from '@reckon/core';
-import { getInitials } from '@reckon/ui';
+import { getInitials } from '~/components/Avatar';
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
