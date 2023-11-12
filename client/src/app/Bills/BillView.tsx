@@ -1,7 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Button, Flex, Heading, ScrollArea, Separator, Text } from '@radix-ui/themes';
 import { useGetBillQuery } from '@reckon/core';
-import { Avatar } from '@reckon/ui';
+import Avatar from '~/components/Avatar';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { formatTimeAgo } from '~/utils/dates';

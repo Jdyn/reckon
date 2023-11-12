@@ -1,7 +1,7 @@
 import { DropdownMenu, Flex, Text } from '@radix-ui/themes';
 import { Avatar } from '@radix-ui/themes';
 import { useSessionQuery, useSignOutMutation } from '@reckon/core';
-import { getInitials } from '@reckon/ui';
+import { getInitials } from '~/components/Avatar';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './RightPanel.module.css';

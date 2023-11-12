@@ -1,6 +1,6 @@
-import { Avatar, Box, Card, Flex, Heading, Popover, Text } from '@radix-ui/themes';
+import { Avatar, Box, Flex, Heading, Popover, Text } from '@radix-ui/themes';
 import { User } from '@reckon/core';
-import { getInitials } from '@reckon/ui';
+import { getInitials } from '~/components/Avatar';
 
 import styles from './MemberCard.module.css';
 
