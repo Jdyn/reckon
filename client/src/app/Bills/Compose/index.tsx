@@ -1,19 +1,17 @@
-import { useSearchParams } from 'react-router-dom';
-
 import styles from './Compose.module.css';
-import ComposeItem, { BillForm } from './ComposeItem';
+import ComposeItem from './ComposeItem';
 import { useCompose } from './ComposeProvider';
 
 const Compose = () => {
-	const { composeState } = useCompose();
+	const { compose } = useCompose();
 
 	return (
 		<div className={styles.root}>
-			{Object.keys(composeState).map((itemKey) => (
+			{Object.keys(compose.state).map((key) => (
 				<ComposeItem
-					key={itemKey}
-					itemKey={itemKey}
-					defaultValues={composeState[itemKey] as BillForm}
+					key={key}
+					itemKey={key}
+					defaultValues={compose.show(key)}
 				/>
 			))}
 		</div>

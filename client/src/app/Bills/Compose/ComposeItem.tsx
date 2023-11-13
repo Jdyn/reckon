@@ -1,6 +1,5 @@
 import { ChevronLeftIcon, MinusSmallIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Flex, IconButton, Popover, Text } from '@radix-ui/themes';
-import { Bill } from '@reckon/core';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -13,12 +12,15 @@ export type BillForm = {
 	type?: string;
 	group_id?: number;
 	charges?: {
-		[id: string]: {
-			amount?: string;
-			user_id?: number;
-		} | undefined;
+		[id: string]:
+			| {
+					amount?: string;
+					user_id?: number;
+			  }
+			| undefined;
 	};
 	total?: string;
+	splitAmount?: string;
 };
 
 type ComposeItemProps = {
@@ -29,15 +31,13 @@ type ComposeItemProps = {
 const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 	const [phase, setPhase] = useState(Object.keys(defaultValues).length > 0 ? 1 : 0);
 
-	const methods = useForm<BillForm>({
-		defaultValues: defaultValues
-	});
+	const methods = useForm<BillForm>({ defaultValues });
 
 	const { watch } = methods;
 
 	const [description, type] = watch(['description', 'type']);
 
-	const { updateCompose, deleteCompose } = useCompose();
+	const { compose } = useCompose();
 
 	const onSubmit = (data: BillForm) => {
 		console.log(data);
@@ -45,10 +45,11 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 
 	useEffect(() => {
 		const subscription = watch((data) => {
-			updateCompose(itemKey, data);
+			compose.update(itemKey, data);
 		});
+
 		return () => subscription.unsubscribe();
-	}, [itemKey, updateCompose, watch]);
+	}, [compose, itemKey, watch]);
 
 	return (
 		<Popover.Root>
@@ -66,7 +67,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 							variant="ghost"
 							onClick={(e) => {
 								e.preventDefault();
-								deleteCompose(itemKey);
+								compose.delete(itemKey);
 							}}
 						>
 							<XMarkIcon width="14px" />

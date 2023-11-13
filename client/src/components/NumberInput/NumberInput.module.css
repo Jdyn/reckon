@@ -17,6 +17,8 @@
 .input {
 	display: flex;
 	align-items: center;
+	font-family: dinn;
+	font-size: var(--font-size-3);
 	flex: 1;
 	background: transparent;
 	outline: none;

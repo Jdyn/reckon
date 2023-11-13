@@ -20,11 +20,26 @@ export const evenSplit = (oldCharges: Record<string, any>, total: string) => {
 			}
 		}
 
+		return {newCharges, split: `${rounded}`};
+	} catch (e) {
+		return {newCharges, split: '0' };
+	}
+};
+
+export const perPersonSplit = (oldCharges: Record<string, any>, amount: string) => {
+	const newCharges = { ...oldCharges };
+
+	try {
+			for (const key in newCharges) {
+					newCharges[key] = { ...newCharges[key], amount };
+			}
+
 		return newCharges;
 	} catch (e) {
 		return oldCharges;
 	}
 };
+
 
 export function deepEqual(obj1: any, obj2: any): boolean {
 	if (obj1 === obj2) {

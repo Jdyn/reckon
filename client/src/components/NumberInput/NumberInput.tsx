@@ -46,7 +46,7 @@ export const NumberInput = ({ name, money, disabled, ...props }: Props) => {
 		</Primative.Root>
 	) : (
 		<Flex className={styles.root}>
-			{field.value}
+			<Text>{field.value}</Text>
 		</Flex>
 	);
 };

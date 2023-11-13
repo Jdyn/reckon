@@ -4,7 +4,7 @@ import {
 	HeartIcon
 } from '@heroicons/react/24/outline';
 import { CheckIcon, UploadIcon } from '@radix-ui/react-icons';
-import { Badge, Button, Flex, Text } from '@radix-ui/themes';
+import { Button, Flex, Text } from '@radix-ui/themes';
 import {
 	Bill,
 	BillCharge,

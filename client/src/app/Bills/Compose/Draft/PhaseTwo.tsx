@@ -1,40 +1,82 @@
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
 import { Avatar, Flex, Text } from '@radix-ui/themes';
 import { useMemberListQuery } from '@reckon/core';
-import { getInitials } from '~/components/Avatar';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { getInitials } from '~/components/Avatar';
 import { NumberInput } from '~/components/NumberInput';
 
 import styles from '../Compose.module.css';
 import { BillForm } from '../ComposeItem';
-import { deepEqual, evenSplit } from '../service';
+import { deepEqual, evenSplit, perPersonSplit } from '../service';
 
 interface PhaseOneProps {
 	setPhase: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const PhaseOne = ({ setPhase }: PhaseOneProps) => {
-	const [splitType, setType] = useState<'total' | 'individual'>('total');
+	const [splitType, setType] = useState<'total' | 'person'>('total');
 	const { watch, setValue } = useFormContext<BillForm>();
-	const [group_id, charges, total] = watch(['group_id', 'charges', 'total']);
+	const [group_id, charges, total, splitAmount] = watch([
+		'group_id',
+		'charges',
+		'total',
+		'splitAmount'
+	]);
 	const { data: members } = useMemberListQuery(group_id!, { skip: !group_id });
+
+	const bulkUpdateCharges = (
+		charges: Record<string, any>,
+		total: string | undefined,
+		type: 'total' | 'person'
+	) => {
+		if (total && charges) {
+			if (type === 'total') {
+				const { newCharges, split } = evenSplit(charges, total);
+
+				if (deepEqual(charges, newCharges)) return;
+
+				setValue('charges', newCharges);
+				setValue('splitAmount', split);
+			} else {
+				if (splitAmount) {
+					const newCharges = perPersonSplit(charges, splitAmount);
+					setValue('charges', newCharges);
+					const newTotal = (parseInt(splitAmount) * Object.keys(newCharges).length).toString();
+					setValue('total', newTotal);
+				}
+			}
+		}
+	};
 
 	useEffect(() => {
 		if (total && charges) {
-			const newCharges = evenSplit(charges, total);
+			if (splitType === 'total') {
+				const { newCharges, split } = evenSplit(charges, total);
 
-			if (deepEqual(charges, newCharges)) return;
+				if (deepEqual(charges, newCharges)) return;
 
-			setValue('charges', newCharges);
+				setValue('charges', newCharges);
+				setValue('splitAmount', split);
+			} else {
+				if (splitAmount) {
+					const newCharges = perPersonSplit(charges, splitAmount);
+
+					if (deepEqual(charges, newCharges)) return;
+
+					setValue('charges', newCharges);
+					const newTotal = (parseInt(splitAmount) * Object.keys(newCharges).length).toString();
+					setValue('total', newTotal);
+				}
+			}
 		}
-	}, [total, charges, setValue]);
+	}, [total, charges, setValue, splitType, splitAmount]);
 
 	return (
 		<>
 			<div className={clsx(styles.switcher)}>
-				<Flex direction="column" style={{ opacity: splitType === 'individual' ? '0.3' : 1 }}>
+				<Flex direction="column" style={{ opacity: splitType === 'person' ? '0.3' : 1 }}>
 					<Text weight="medium">Total</Text>
 					<NumberInput
 						name="total"
@@ -49,7 +91,13 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 
 				<div
 					className={styles.switch}
-					onClick={() => setType((prev) => (prev === 'total' ? 'individual' : 'total'))}
+					onClick={() => {
+						setType((prev) => {
+							const next = prev === 'total' ? 'person' : 'total';
+							bulkUpdateCharges(charges as any, total, next);
+							return next;
+						});
+					}}
 				>
 					<ArrowsRightLeftIcon width="18px" />
 				</div>
@@ -57,7 +105,7 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 				<Flex direction="column" style={{ opacity: splitType === 'total' ? '0.3' : 1 }}>
 					<Text weight="medium">Per person</Text>
 					<NumberInput
-						name="total"
+						name="splitAmount"
 						min={0}
 						formatOptions={{
 							minimumFractionDigits: 2,
