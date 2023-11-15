@@ -1,5 +1,5 @@
 import { Button, ContextMenu, Dialog, DropdownMenu, Flex } from '@radix-ui/themes';
-import { ReactNode, forwardRef, useState } from 'react';
+import React, { ReactNode, forwardRef, useMemo, useState } from 'react';
 
 interface DialogItemProps {
 	children: [ReactNode, ReactNode];
@@ -7,14 +7,23 @@ interface DialogItemProps {
 	description?: string;
 	action: string;
 	onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-	type: 'dropdown' | 'context';
+	type: 'dropdown' | 'context' | 'none';
 }
 const DialogItem = forwardRef<unknown, DialogItemProps>(
 	({ children, title, description, action, onClick, type }, forwardedRef) => {
 		const [header, content] = children;
 		const [isOpen, setOpen] = useState(false);
 
-		const Wrapper = type === 'dropdown' ? DropdownMenu.Item : ContextMenu.Item;
+		const Wrapper = useMemo(() => {
+			switch (type) {
+				case 'dropdown':
+					return DropdownMenu.Item;
+				case 'context':
+					return ContextMenu.Item;
+				case 'none':
+					return 'div';
+			}
+		}, [type]);
 
 		return (
 			<Dialog.Root open={isOpen} onOpenChange={(open) => setOpen(open)}>
@@ -42,9 +51,11 @@ const DialogItem = forwardRef<unknown, DialogItemProps>(
 								Cancel
 							</Button>
 						</Dialog.Close>
-						<Button type="submit" variant="soft" color="green" onClick={onClick}>
-							{action}
-						</Button>
+						<Dialog.Close>
+							<Button type="submit" variant="soft" color="green" onClick={onClick}>
+								{action}
+							</Button>
+						</Dialog.Close>
 					</Flex>
 				</Dialog.Content>
 			</Dialog.Root>

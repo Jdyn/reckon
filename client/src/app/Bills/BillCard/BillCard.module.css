@@ -97,19 +97,19 @@
 }
 
 .approved {
-	background: var(--jade-4);
-	border: 1px solid var(--jade-a4);
-	color: var(--jade-a9);
+	background: var(--jade-5);
+	border: 1px solid var(--jade-6);
+	color: var(--jade-a11);
 }
 
 .declined {
-	background: var(--red-4);
-	border: 1px solid var(--red-a4);
-	color: var(--red-a9)
+	background: var(--crimson-5);
+	border: 1px solid var(--crimson-6);
+	color: var(--crimson-a11)
 }
 
 .pending {
-	background: var(--gray-4);
-	border: 1px solid var(--gray-a4);
-	color: var(--gray-a9)
+	background: var(--gray-5);
+	border: 1px solid var(--gray-6);
+	color: var(--gray-a11)
 }

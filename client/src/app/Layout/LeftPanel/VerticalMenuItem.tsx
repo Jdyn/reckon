@@ -14,7 +14,11 @@ interface VerticalMenuItemProps {
 const VerticalMenuItem = ({ children, tooltip, to }: VerticalMenuItemProps) => {
 	return (
 		<Tooltip content={tooltip} side="right" delayDuration={300}>
-			<SidePanel.Item className={styles.menuItem} to={to}>{children}</SidePanel.Item>
+			<div>
+				<SidePanel.Item className={styles.menuItem} to={to}>
+					{children}
+				</SidePanel.Item>
+			</div>
 		</Tooltip>
 	);
 };

@@ -1,7 +1,6 @@
 import { NewspaperIcon } from '@heroicons/react/24/outline';
 import { Flex, Heading, Text } from '@radix-ui/themes';
 import { NavLink, useMatch } from 'react-router-dom';
-import { useSidePanel } from '~/components/SidePanel';
 
 import styles from './Menu.module.css';
 

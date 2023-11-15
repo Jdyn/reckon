@@ -28,22 +28,24 @@ export function ThemeProvider(props: ThemeProviderProps) {
 		() => (localStorage.getItem(storageKey) as ThemeKey) || defaultTheme
 	);
 
-
-	const { observe, currentBreakpoint } = useDimensions({
+	const { observe } = useDimensions({
 		breakpoints: {
 			'90%': 0,
 			'95%': 1300,
 			'100%': 1500,
 			'105%': 1850,
-			'110%': 2150,
+			'110%': 2150
 		},
 		updateOnBreakpointChange: true,
 		onResize: ({ width, height, currentBreakpoint }) => {
-			setScale(currentBreakpoint as ThemeProps['scaling'])
+			setScale(currentBreakpoint as ThemeProps['scaling']);
+			localStorage.setItem('scale', currentBreakpoint);
 		}
 	});
 
-	const [scale, setScale] = useState<ThemeProps['scaling']>(currentBreakpoint as ThemeProps['scaling'] || '100%');
+	const [scale, setScale] = useState<ThemeProps['scaling']>(
+		(localStorage.getItem('scale') as ThemeProps['scaling']) || '100%'
+	);
 
 	useEffect(() => {
 		const root = window.document.documentElement;
