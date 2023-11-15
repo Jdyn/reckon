@@ -33,7 +33,7 @@ interface InviteEvent {
 function Headers() {
 	const { data } = useEvent<InviteEvent>('user:notifications', 'invites');
 	const [joinGroup] = useJoinGroupMutation();
-	const { newCompose } = useCompose();
+	const { compose } = useCompose();
 
 	const { data: session } = useSessionQuery();
 
@@ -58,7 +58,7 @@ function Headers() {
 					variant="ghost"
 					onClick={(e) => {
 						e.preventDefault();
-						newCompose(`${Date.now()}`);
+						compose.create(`${Date.now()}`);
 					}}
 				>
 					<PlusSmallIcon width="18px" />

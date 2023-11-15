@@ -28,9 +28,17 @@ type ComposeItemProps = {
 	defaultValues: BillForm;
 };
 
+/**
+ * If the itemKey is less than 5 seconds old, it is considered newly created
+ * and should be open by default on first load.
+ */
+const isNewlyCreated = (itemKey: string, delta = 5) => {
+	return (new Date().getTime() - parseInt(itemKey)) / 1000 <= delta;
+};
+
 const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 	const [phase, setPhase] = useState(Object.keys(defaultValues).length > 0 ? 1 : 0);
-
+	const [open, onOpenChange] = useState(isNewlyCreated(itemKey));
 	const methods = useForm<BillForm>({ defaultValues });
 
 	const { watch } = methods;
@@ -52,7 +60,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 	}, [compose, itemKey, watch]);
 
 	return (
-		<Popover.Root>
+		<Popover.Root open={open} onOpenChange={onOpenChange}>
 			<Popover.Trigger>
 				<Flex className={styles.trigger} py="2" px="3" align="center" gap="2">
 					<Text color="red" size="1" weight="bold" style={{ textTransform: 'uppercase' }}>

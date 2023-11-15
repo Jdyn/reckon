@@ -1,6 +1,6 @@
 import { GlobeEuropeAfricaIcon } from '@heroicons/react/24/outline';
 import { HomeIcon, PlusIcon } from '@radix-ui/react-icons';
-import { Button, Dialog, Flex, Heading, Separator, Text, TextField } from '@radix-ui/themes';
+import { Flex, Heading, Separator, Text, TextField } from '@radix-ui/themes';
 import { useCreateGroupMutation, useGetGroupsQuery } from '@reckon/core';
 import { useState } from 'react';
 import DialogItem from '~/components/DialogItem';
