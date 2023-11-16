@@ -38,7 +38,7 @@ const isNewlyCreated = (itemKey: string, delta = 5) => {
 
 const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 	const [phase, setPhase] = useState(Object.keys(defaultValues).length > 0 ? 1 : 0);
-	const [open, onOpenChange] = useState(isNewlyCreated(itemKey));
+	const [open, onOpenChange] = useState(true || isNewlyCreated(itemKey));
 	const methods = useForm<BillForm>({ defaultValues });
 
 	const { watch } = methods;

@@ -42,6 +42,7 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 			} else {
 				if (splitAmount) {
 					const newCharges = perPersonSplit(charges, splitAmount);
+					console.log(newCharges)
 					setValue('charges', newCharges);
 					const newTotal = (parseInt(splitAmount) * Object.keys(newCharges).length).toString();
 					setValue('total', newTotal);
@@ -75,47 +76,35 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 
 	return (
 		<>
-			<div className={clsx(styles.switcher)}>
-				<Flex direction="column" style={{ opacity: splitType === 'person' ? '0.3' : 1 }}>
-					<Text weight="medium">Total</Text>
-					<NumberInput
-						name="total"
-						min={0}
-						formatOptions={{
-							minimumFractionDigits: 2,
-							maximumFractionDigits: 2
+			<Flex align="center" justify="between" className={clsx(styles.memberCard, styles.switcher)}>
+				<Flex gap="3" align="center">
+					<div
+						className={styles.switch}
+						onClick={() => {
+							setType((prev) => {
+								const next = prev === 'total' ? 'person' : 'total';
+								bulkUpdateCharges(charges as any, total, next);
+								return next;
+							});
 						}}
-						allowMouseWheel
-					/>
+					>
+						<ArrowsRightLeftIcon width="18px" />
+					</div>
+					<Text weight="medium" trim="both">
+						{splitType === 'total' ? 'Total' : 'Per Person'}
+					</Text>
 				</Flex>
-
-				<div
-					className={styles.switch}
-					onClick={() => {
-						setType((prev) => {
-							const next = prev === 'total' ? 'person' : 'total';
-							bulkUpdateCharges(charges as any, total, next);
-							return next;
-						});
+				<NumberInput
+					name="total"
+					min={0}
+					formatOptions={{
+						minimumFractionDigits: 2,
+						maximumFractionDigits: 2
 					}}
-				>
-					<ArrowsRightLeftIcon width="18px" />
-				</div>
-
-				<Flex direction="column" style={{ opacity: splitType === 'total' ? '0.3' : 1 }}>
-					<Text weight="medium">Per person</Text>
-					<NumberInput
-						name="splitAmount"
-						min={0}
-						formatOptions={{
-							minimumFractionDigits: 2,
-							maximumFractionDigits: 2
-						}}
-						allowMouseWheel
-						disabled={splitType === 'total'}
-					/>
-				</Flex>
-			</div>
+					allowMouseWheel
+					money
+				/>
+			</Flex>
 			{members
 				?.filter((u) => Object.keys(charges || {})?.some((id) => parseInt(id) === u.id))
 				?.map((user) => (
