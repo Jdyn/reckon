@@ -4,15 +4,14 @@ import PhaseZero from './PhaseZero';
 
 interface ComposeDraftProps {
 	phase: number;
-	setPhase: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const ComposeDraft = ({ phase, setPhase }: ComposeDraftProps) => {
+const ComposeDraft = ({ phase }: ComposeDraftProps) => {
 	return (
 		<>
-			{phase === 0 && <PhaseZero setPhase={setPhase} />}
-			{phase === 1 && <PhaseOne setPhase={setPhase} />}
-			{phase === 2 && <PhaseTwo setPhase={setPhase} />}
+			{phase === 0 && <PhaseZero />}
+			{phase === 1 && <PhaseOne />}
+			{phase === 2 && <PhaseTwo />}
 		</>
 	);
 };

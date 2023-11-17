@@ -1,21 +1,13 @@
 import { BanknotesIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
-import {
-	Flex,
-	Heading,
-	Text,
-} from '@radix-ui/themes';
+import { Flex, Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 
-import { BillForm } from '../ComposeItem';
-import styles from '../Compose.module.css'
+import styles from '../Compose.module.css';
+import { ComposeItemType } from '../ComposeProvider';
 
-interface PhaseOneProps {
-	setPhase: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const PhaseOne = ({ setPhase }: PhaseOneProps) => {
-	const { watch, setValue } = useFormContext<BillForm>();
+const PhaseOne = () => {
+	const { watch, setValue } = useFormContext<ComposeItemType>();
 	const [group_id, type] = watch(['group_id', 'type']);
 
 	return (
@@ -33,7 +25,7 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 				<div
 					className={clsx(styles.type, type === 'split' && styles.active)}
 					onClick={() => {
-						setPhase(1);
+						setValue('phase', 1);
 						setValue('type', 'split');
 					}}
 				>
@@ -52,7 +44,7 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 				<div
 					className={clsx(styles.type, type === 'pool' && styles.active)}
 					onClick={() => {
-						setPhase(1);
+						setValue('phase', 1);
 						setValue('type', 'pool');
 					}}
 				>

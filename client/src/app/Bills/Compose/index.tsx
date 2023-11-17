@@ -9,10 +9,10 @@ const Compose = () => {
 		<div className={styles.root}>
 			{Object.keys(compose.state).map((key) => (
 				<ComposeItem
-					key={key}
-					itemKey={key}
-					defaultValues={compose.show(key)}
-				/>
+				key={key}
+				itemKey={key}
+				defaultValues={compose.show(key)}
+			/>
 			))}
 		</div>
 	);

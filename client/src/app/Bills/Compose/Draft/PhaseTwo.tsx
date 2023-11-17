@@ -8,22 +8,19 @@ import { getInitials } from '~/components/Avatar';
 import { NumberInput } from '~/components/NumberInput';
 
 import styles from '../Compose.module.css';
-import { BillForm } from '../ComposeItem';
 import { deepEqual, evenSplit, perPersonSplit } from '../service';
+import { ComposeItemType } from '../ComposeProvider';
 
-interface PhaseOneProps {
-	setPhase: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const PhaseOne = ({ setPhase }: PhaseOneProps) => {
+const PhaseTwo = () => {
 	const [splitType, setType] = useState<'total' | 'person'>('total');
-	const { watch, setValue } = useFormContext<BillForm>();
+	const { watch, setValue } = useFormContext<ComposeItemType>();
 	const [group_id, charges, total, splitAmount] = watch([
 		'group_id',
 		'charges',
 		'total',
 		'splitAmount'
 	]);
+
 	const { data: members } = useMemberListQuery(group_id!, { skip: !group_id });
 
 	const bulkUpdateCharges = (
@@ -42,7 +39,7 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 			} else {
 				if (splitAmount) {
 					const newCharges = perPersonSplit(charges, splitAmount);
-					console.log(newCharges)
+					console.log(newCharges);
 					setValue('charges', newCharges);
 					const newTotal = (parseInt(splitAmount) * Object.keys(newCharges).length).toString();
 					setValue('total', newTotal);
@@ -136,4 +133,4 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 	);
 };
 
-export default PhaseOne;
+export default PhaseTwo;

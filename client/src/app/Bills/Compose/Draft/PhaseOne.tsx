@@ -6,15 +6,11 @@ import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 
 import styles from '../Compose.module.css';
-import { BillForm } from '../ComposeItem';
+import { ComposeItemType } from '../ComposeProvider';
 
-interface PhaseOneProps {
-	setPhase: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const PhaseOne = ({ setPhase }: PhaseOneProps) => {
-	const { register, watch, setValue } = useFormContext<BillForm>();
-	const [group_id, charges] = watch(['group_id', 'charges']);
+const PhaseOne = () => {
+	const { register, watch, setValue } = useFormContext<ComposeItemType>();
+	const [phase, group_id, charges] = watch(['phase', 'group_id', 'charges']);
 	const { data: groups } = useGetGroupsQuery();
 	const { data: members } = useMemberListQuery(group_id!, { skip: !group_id });
 
@@ -106,7 +102,7 @@ const PhaseOne = ({ setPhase }: PhaseOneProps) => {
 					})}
 				</div>
 			</ScrollArea>
-			<Button onClick={() => setPhase(2)}>Next</Button>
+			<Button onClick={() => setValue('phase', 2)}>Next</Button>
 		</>
 	);
 };

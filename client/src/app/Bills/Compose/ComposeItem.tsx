@@ -4,28 +4,12 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import styles from './Compose.module.css';
-import { useCompose } from './ComposeProvider';
+import { useCompose, ComposeItemType } from './ComposeProvider';
 import ComposeDraft from './Draft';
-
-export type BillForm = {
-	description?: string;
-	type?: string;
-	group_id?: number;
-	charges?: {
-		[id: string]:
-			| {
-					amount?: string;
-					user_id?: number;
-			  }
-			| undefined;
-	};
-	total?: string;
-	splitAmount?: string;
-};
 
 type ComposeItemProps = {
 	itemKey: string;
-	defaultValues: BillForm;
+	defaultValues: ComposeItemType;
 };
 
 /**
@@ -37,23 +21,24 @@ const isNewlyCreated = (itemKey: string, delta = 5) => {
 };
 
 const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
-	const [phase, setPhase] = useState(Object.keys(defaultValues).length > 0 ? 1 : 0);
-	const [open, onOpenChange] = useState(true || isNewlyCreated(itemKey));
-	const methods = useForm<BillForm>({ defaultValues });
+	const [open, onOpenChange] = useState(isNewlyCreated(itemKey));
+	const methods = useForm<ComposeItemType>({
+		defaultValues: { ...defaultValues, phase: defaultValues.phase || 0 }
+	});
 
-	const { watch } = methods;
+	const { watch, setValue } = methods;
 
-	const [description, type] = watch(['description', 'type']);
+	const [phase, description, type] = watch(['phase', 'description', 'type']);
 
 	const { compose } = useCompose();
 
-	const onSubmit = (data: BillForm) => {
+	const onSubmit = (data: ComposeItemType) => {
 		console.log(data);
 	};
 
 	useEffect(() => {
 		const subscription = watch((data) => {
-			compose.update(itemKey, data);
+			compose.update(itemKey, data as ComposeItemType);
 		});
 
 		return () => subscription.unsubscribe();
@@ -86,7 +71,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 			<Popover.Content className={styles.draft} sideOffset={20}>
 				<Flex justify="between" pb="3">
 					{phase > 0 && (
-						<IconButton size="2" variant="ghost" onClick={() => setPhase((prev) => prev - 1)}>
+						<IconButton size="2" variant="ghost" onClick={() => setValue('phase', phase - 1)}>
 							<ChevronLeftIcon width="18px" />
 						</IconButton>
 					)}
@@ -100,7 +85,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 					</Popover.Close>
 				</Flex>
 				<FormProvider {...methods}>
-					<ComposeDraft phase={phase} setPhase={setPhase} />
+					<ComposeDraft phase={phase} />
 				</FormProvider>
 			</Popover.Content>
 		</Popover.Root>

@@ -1,18 +1,32 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
 
-import { BillForm } from './ComposeItem';
-
-type ComposeState = {
-	[key: string]: Partial<BillForm>;
+type BillForm = {
+	description?: string;
+	type?: string;
+	group_id?: number;
+	charges?: {
+		[id: string]:
+			| {
+					amount?: string;
+					user_id?: number;
+			  }
+			| undefined;
+	};
+	total?: string;
+	splitAmount?: string;
+	phase: number;
 };
+
+export type ComposeItemType = Partial<BillForm> & { phase: number };
+export type ComposeState = Record<string, ComposeItemType>;
 
 type ComposeContextType = {
 	compose: {
 		state: ComposeState;
-		update: (key: string, form: Partial<BillForm>) => void;
+		update: (key: string, form: ComposeItemType) => void;
 		create: (newKey: string) => void;
 		delete: (key: string) => void;
-		show: (key: string) => Partial<BillForm>;
+		show: (key: string) => ComposeItemType;
 	};
 };
 
@@ -24,9 +38,9 @@ export const ComposeProvider = ({ children }: { children: ReactNode }) => {
 		return storedCompose ? (JSON.parse(storedCompose) as ComposeState) : {};
 	});
 
-	const updateCompose = (key: string, form: Partial<BillForm>) => {
+	const updateCompose = (key: string, form: ComposeItemType) => {
 		setState((prev) => {
-			const newCompose = { ...prev, [key]: form };
+			const newCompose = { ...prev, [key]: form } as ComposeState;
 			localStorage.setItem('compose', JSON.stringify(newCompose));
 			return newCompose;
 		});
@@ -34,7 +48,7 @@ export const ComposeProvider = ({ children }: { children: ReactNode }) => {
 
 	const newCompose = (newKey: string) => {
 		setState((prev) => {
-			const newCompose = { ...prev, [newKey]: {} };
+			const newCompose = { ...prev, [newKey]: {} } as ComposeState;
 			localStorage.setItem('compose', JSON.stringify(newCompose));
 			return newCompose;
 		});
@@ -49,12 +63,12 @@ export const ComposeProvider = ({ children }: { children: ReactNode }) => {
 		});
 	};
 
-	const show = (key: string): Partial<BillForm> => {
+	const show = (key: string): ComposeItemType => {
 		if (key in state) {
-			return state[key] as Partial<BillForm>;
+			return state[key] as ComposeItemType;
 		}
 
-		return {};
+		return { phase: 0 };
 	};
 
 	return (
