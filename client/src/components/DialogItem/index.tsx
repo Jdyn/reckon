@@ -9,6 +9,7 @@ interface DialogItemProps {
 	onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 	type: 'dropdown' | 'context' | 'none';
 }
+
 const DialogItem = forwardRef<unknown, DialogItemProps>(
 	({ children, title, description, action, onClick, type }, forwardedRef) => {
 		const [header, content] = children;

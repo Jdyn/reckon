@@ -12,10 +12,10 @@ import {
 	useSessionQuery,
 	useUpdateChargeMutation
 } from '@reckon/core';
-import Avatar from '~/components/Avatar';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Avatar from '~/components/Avatar';
 import { formatTimeAgo } from '~/utils/dates';
 
 import styles from './BillCard.module.css';

@@ -52,21 +52,19 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 					<Text color="red" size="1" weight="bold" style={{ textTransform: 'uppercase' }}>
 						Draft
 					</Text>
-					<Text className={styles.tabTitle} size="2" weight="medium">
+					<Text className={styles.triggerName} size="2" weight="medium">
 						{description || 'New Bill'}
 					</Text>
-					<Flex gap="3">
-						<IconButton
-							size="1"
-							variant="ghost"
-							onClick={(e) => {
-								e.preventDefault();
-								compose.delete(itemKey);
-							}}
-						>
-							<XMarkIcon width="14px" />
-						</IconButton>
-					</Flex>
+					<IconButton
+						size="1"
+						variant="ghost"
+						onClick={(e) => {
+							e.preventDefault();
+							compose.delete(itemKey);
+						}}
+					>
+						<XMarkIcon width="14px" />
+					</IconButton>
 				</Flex>
 			</Popover.Trigger>
 			<Popover.Content className={styles.draft} sideOffset={20}>

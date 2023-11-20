@@ -14,6 +14,17 @@
 
 - create `ToastProvider` with `useToast => popToast` to pop a toast box from anywhere in the app
 
+- Features for total completion of bill creation
+  - option to make bill recurring on a time period
+  - complete creating bill items
+  - The ability to set who is "footing" the bill
+    - who is the one paying irl? It doesn't have to be the creator of the bill.
+  - ability to create bill "request orders"
+    - I want to be able to create a request order, but anyone in the bill can fulfill it any time, and they will get reimbursed once everyone accepts that they fulfilled it.
+    - it is basically a record of notice that we need something in the house, and that anyone can fulfill it out of convenience
+  - total split and individual split types
+    - new philosophy behind this may be that more is less. dont want to provide confusing buttons and triggers that may potentially make defining the split faster.
+
 - provider agnostic payment implementation
   - Define set of fields that all payment processors should adhere to
   - Use Adapter pattern to create modules for each processor we have that `impl` the functions we expect, then use those functions in our code, not the processor itself
