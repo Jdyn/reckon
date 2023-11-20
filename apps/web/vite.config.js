@@ -3,6 +3,7 @@ import { mergeConfig } from 'vite';
 import baseConfig from '../../packages/config/vite';
 import pluginPurgeCss from "@mojojoejo/vite-plugin-purgecss";
 import { dependencies } from './package.json';
+import svg from 'vite-plugin-svgr';
 
 function renderChunks(deps) {
   let chunks = {};
@@ -22,7 +23,8 @@ export default mergeConfig(baseConfig, {
 		visualizer({
 			gzipSize: true,
 			brotliSize: true
-		})
+		}),
+    svg({ svgrOptions: { icon: true } }),
 	],
 	build: {
     sourcemap: false,

@@ -65,3 +65,5 @@ examples/*/*.lock
 /target
 prisma*.rs
 dev.db-journal
+
+apps/web/src/.vite-inspect

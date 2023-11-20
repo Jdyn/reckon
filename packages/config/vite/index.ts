@@ -1,16 +1,18 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import svg from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import Inspect from 'vite-plugin-inspect'
 
 import relativeAliasResolver from './relativeAliasResolver';
 
 export default defineConfig({
 	plugins: [
+    Inspect({
+      build: true
+    }),
 		tsconfigPaths(),
 		react(),
-		svg({ svgrOptions: { icon: true } }),
 		createHtmlPlugin({
 			minify: true
 		})
@@ -29,6 +31,5 @@ export default defineConfig({
 		cssCodeSplit: true,
 		outDir: '../dist',
 		assetsDir: '.',
-		
 	}
 });
