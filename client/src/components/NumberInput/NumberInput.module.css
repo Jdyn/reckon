@@ -5,8 +5,9 @@
 	box-sizing: border-box;
 	background: var(--accent-a3);
 	border-radius: var(--radius-2);
-	padding-left: var(--space-1);
+	padding-left: var(--space-2);
 	max-height: var(--space-6);
+	overflow: hidden;
 	align-items: center;
 	& > span {
 		display: flex;
@@ -24,34 +25,40 @@
 	outline: none;
 	border: none;
 	width: 100% !important;
-	color: var(--color);
+	color: var(--accent-a11);
 	padding: 0;
 }
 
 .control {
 	display: flex;
 	flex-direction: column;
-	border-left: calc(1px * var(--scaling)) solid var(--gray-6);
+	/* border-left: calc(1px * var(--scaling)) solid var(--accent-a5); */
+
+
+	/* &:first-child {
+		padding-top: calc(1px * var(--scaling))
+	} */
 }
 
 .trigger {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: calc(1px * var(--scaling)) var(--space-1);
+	padding: 0 var(--space-1);
 	background: transparent;
 	outline: none;
 	border: none;
-	color: var(--accent-a11);
+	color: var(--accent-10);
+
 	&:hover {
 		background: var(--accent-a3);
 	}
 
 	&:first-child {
-		border-top-right-radius: var(--radius-2);
+		padding-top: calc(2px * var(--scaling))
 	}
 
 	&:last-child {
-		border-bottom-right-radius: var(--radius-2);
+		padding-bottom: calc(2px * var(--scaling))
 	}
 }

@@ -1,45 +1,39 @@
+import { money as createMoney } from 'money-lib/v2';
+
 export const evenSplit = (oldCharges: Record<string, any>, total: string) => {
 	const newCharges = { ...oldCharges };
 
-	try {
-		const count = Object.keys(newCharges).length;
-		const divided = parseFloat(total) / count;
-		const rounded = Math.round(divided * 100) / 100;
-		const remainder = parseFloat(total) - rounded * count;
+	const count = Object.keys(newCharges).length;
+	const divided = createMoney(total as any).div(count);
+	const remainder = createMoney(total as any).sub(divided.mul(count));
+	let given = false;
 
-		let given = false;
-
-		if (!isNaN(rounded)) {
-			for (const key in newCharges) {
-				if (!given) {
-					newCharges[key] = { ...newCharges[key], amount: (rounded + remainder).toString() };
-					given = true;
-				} else {
-					newCharges[key] = { ...newCharges[key], amount: rounded.toString() };
-				}
-			}
+	for (const key in newCharges) {
+		if (!given) {
+			newCharges[key] = { ...newCharges[key], amount: divided.add(remainder).string() };
+			given = true;
+			continue;
 		}
 
-		return {newCharges, split: `${rounded}`};
-	} catch (e) {
-		return {newCharges, split: '0' };
+		newCharges[key] = { ...newCharges[key], amount: divided.string() };
 	}
+
+	return { newCharges, split: `${divided}` };
 };
 
 export const perPersonSplit = (oldCharges: Record<string, any>, amount: string) => {
 	const newCharges = { ...oldCharges };
 
 	try {
-			for (const key in newCharges) {
-					newCharges[key] = { ...newCharges[key], amount };
-			}
+		for (const key in newCharges) {
+			newCharges[key] = { ...newCharges[key], amount };
+		}
 
 		return newCharges;
 	} catch (e) {
 		return oldCharges;
 	}
 };
-
 
 export function deepEqual(obj1: any, obj2: any): boolean {
 	if (obj1 === obj2) {

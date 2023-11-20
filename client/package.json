@@ -25,6 +25,7 @@
 		"@reckon/core": "workspace:*",
 		"@reduxjs/toolkit": "1.9.x",
 		"clsx": "^1.2.1",
+		"money-lib": "^1.6.8",
 		"react": "^18.2.0",
 		"react-cool-dimensions": "^3.0.1",
 		"react-dom": "^18.2.0",

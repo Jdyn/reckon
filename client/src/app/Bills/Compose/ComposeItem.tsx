@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import styles from './Compose.module.css';
-import { useCompose, ComposeItemType } from './ComposeProvider';
+import { ComposeItemType, useCompose } from './ComposeProvider';
 import ComposeDraft from './Draft';
 
 type ComposeItemProps = {
@@ -38,6 +38,7 @@ const ComposeItem = ({ itemKey, defaultValues }: ComposeItemProps) => {
 
 	useEffect(() => {
 		const subscription = watch((data) => {
+			console.log(data);
 			compose.update(itemKey, data as ComposeItemType);
 		});
 

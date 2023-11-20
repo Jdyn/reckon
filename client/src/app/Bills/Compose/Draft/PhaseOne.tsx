@@ -54,12 +54,8 @@ const PhaseOne = () => {
 						const selected = user.id in values;
 
 						return (
-							<Flex
+							<div
 								key={user.id}
-								gap="3"
-								align="center"
-								px="3"
-								py="1"
 								className={clsx(styles.memberCard, selected && styles.memberSelected)}
 								onClick={() => {
 									if (user.id in values) {
@@ -97,7 +93,7 @@ const PhaseOne = () => {
 										</Flex>
 									)}
 								</Flex>
-							</Flex>
+							</div>
 						);
 					})}
 				</div>

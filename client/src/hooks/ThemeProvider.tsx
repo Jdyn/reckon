@@ -31,13 +31,13 @@ export function ThemeProvider(props: ThemeProviderProps) {
 	const { observe } = useDimensions({
 		breakpoints: {
 			'90%': 0,
-			'95%': 1300,
-			'100%': 1500,
+			'95%': 1000,
+			'100%': 1650,
 			'105%': 1850,
 			'110%': 2150
 		},
 		updateOnBreakpointChange: true,
-		onResize: ({ width, height, currentBreakpoint }) => {
+		onResize: ({ currentBreakpoint }) => {
 			setScale(currentBreakpoint as ThemeProps['scaling']);
 			localStorage.setItem('scale', currentBreakpoint);
 		}

@@ -3,10 +3,10 @@ import { HashtagIcon } from '@heroicons/react/24/outline';
 import { Flex, Text } from '@radix-ui/themes';
 import { Bill } from '@reckon/core';
 import clsx from 'clsx';
+import { NavLink, useMatch } from 'react-router-dom';
 import { formatTimeAgo } from '~/utils/dates';
 
 import styles from '../Menu.module.css';
-import { NavLink, useMatch } from 'react-router-dom';
 
 interface MenuTreeItemProps {
 	bill: Bill;
@@ -28,13 +28,13 @@ const MenuTreeItem = (props: MenuTreeItemProps) => {
 					{...draggableProps}
 					{...dragHandleProps}
 				>
-					<Flex gap="1" align="center">
-						<HashtagIcon height="14px" />
-						<Text size="2">
-							{bill.description}
-						</Text>
+					<Flex align="center" justify="between" width="100%">
+						<Flex gap="1" align="center">
+							<HashtagIcon height="14px" />
+							<Text size="2">{bill.description}</Text>
+						</Flex>
+						<Text size="2">{formatTimeAgo(bill.inserted_at, false)}</Text>
 					</Flex>
-					<Text size="2">{formatTimeAgo(bill.inserted_at, false)}</Text>
 				</NavLink>
 			)}
 		</Draggable>

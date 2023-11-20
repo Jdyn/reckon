@@ -5,12 +5,10 @@ type BillForm = {
 	type?: string;
 	group_id?: number;
 	charges?: {
-		[id: string]:
-			| {
-					amount?: string;
-					user_id?: number;
-			  }
-			| undefined;
+		[id: string]: {
+			amount: string;
+			user_id: number;
+		};
 	};
 	total?: string;
 	splitAmount?: string;

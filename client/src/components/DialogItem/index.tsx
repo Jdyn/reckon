@@ -37,7 +37,7 @@ const DialogItem = forwardRef<unknown, DialogItemProps>(
 						{header}
 					</Wrapper>
 				</Dialog.Trigger>
-				<Dialog.Content style={{ maxWidth: 500 }}>
+				<Dialog.Content style={{ maxWidth: 'calc(400px * var(--scaling))' }}>
 					{title && <Dialog.Title>{title}</Dialog.Title>}
 					{description && (
 						<Dialog.Description align="center" color="gray">

@@ -1,94 +1,39 @@
 import { ArrowsRightLeftIcon } from '@heroicons/react/24/outline';
-import { Avatar, Flex, Text } from '@radix-ui/themes';
+import { Avatar, Button, Flex, ScrollArea, Text } from '@radix-ui/themes';
 import { useMemberListQuery } from '@reckon/core';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { getInitials } from '~/components/Avatar';
 import { NumberInput } from '~/components/NumberInput';
+import { money as createMoney } from 'money-lib/v2';
 
 import styles from '../Compose.module.css';
-import { deepEqual, evenSplit, perPersonSplit } from '../service';
 import { ComposeItemType } from '../ComposeProvider';
+import { evenSplit } from '../service';
 
 const PhaseTwo = () => {
-	const [splitType, setType] = useState<'total' | 'person'>('total');
 	const { watch, setValue } = useFormContext<ComposeItemType>();
-	const [group_id, charges, total, splitAmount] = watch([
-		'group_id',
-		'charges',
-		'total',
-		'splitAmount'
-	]);
+	const [group_id, charges, total] = watch(['group_id', 'charges', 'total']);
 
 	const { data: members } = useMemberListQuery(group_id!, { skip: !group_id });
 
-	const bulkUpdateCharges = (
-		charges: Record<string, any>,
-		total: string | undefined,
-		type: 'total' | 'person'
-	) => {
-		if (total && charges) {
-			if (type === 'total') {
-				const { newCharges, split } = evenSplit(charges, total);
-
-				if (deepEqual(charges, newCharges)) return;
-
-				setValue('charges', newCharges);
-				setValue('splitAmount', split);
-			} else {
-				if (splitAmount) {
-					const newCharges = perPersonSplit(charges, splitAmount);
-					console.log(newCharges);
-					setValue('charges', newCharges);
-					const newTotal = (parseInt(splitAmount) * Object.keys(newCharges).length).toString();
-					setValue('total', newTotal);
-				}
-			}
-		}
-	};
-
-	useEffect(() => {
-		if (total && charges) {
-			if (splitType === 'total') {
-				const { newCharges, split } = evenSplit(charges, total);
-
-				if (deepEqual(charges, newCharges)) return;
-
-				setValue('charges', newCharges);
-				setValue('splitAmount', split);
-			} else {
-				if (splitAmount) {
-					const newCharges = perPersonSplit(charges, splitAmount);
-
-					if (deepEqual(charges, newCharges)) return;
-
-					setValue('charges', newCharges);
-					const newTotal = (parseInt(splitAmount) * Object.keys(newCharges).length).toString();
-					setValue('total', newTotal);
-				}
-			}
-		}
-	}, [total, charges, setValue, splitType, splitAmount]);
+	// const chargeSum = () => Object.keys(charges || {}).reduce((acc, id) => acc + parseFloat(charges[id].amount), 0);
 
 	return (
 		<>
-			<Flex align="center" justify="between" className={clsx(styles.memberCard, styles.switcher)}>
+			<Flex
+				align="center"
+				justify="between"
+				px="0"
+				className={clsx(styles.memberCard, styles.switcher)}
+			>
 				<Flex gap="3" align="center">
-					<div
-						className={styles.switch}
-						onClick={() => {
-							setType((prev) => {
-								const next = prev === 'total' ? 'person' : 'total';
-								bulkUpdateCharges(charges as any, total, next);
-								return next;
-							});
-						}}
-					>
+					<div className={styles.switch}>
 						<ArrowsRightLeftIcon width="18px" />
 					</div>
 					<Text weight="medium" trim="both">
-						{splitType === 'total' ? 'Total' : 'Per Person'}
+						Total
 					</Text>
 				</Flex>
 				<NumberInput
@@ -100,35 +45,65 @@ const PhaseTwo = () => {
 					}}
 					allowMouseWheel
 					money
+					onValueChange={({ value }) => {
+						const { newCharges, split } = evenSplit(charges as any, value);
+						setValue('charges', newCharges);
+					}}
 				/>
 			</Flex>
-			{members
-				?.filter((u) => Object.keys(charges || {})?.some((id) => parseInt(id) === u.id))
-				?.map((user) => (
-					<Flex key={user.id} align="center" justify="between" className={clsx(styles.memberCard)}>
-						<Flex gap="3">
-							<Avatar size="2" variant="soft" radius="full" fallback={getInitials(user.fullName)} />
-							<div className={styles.header}>
-								<Text weight="medium" size="2" trim="end">
-									{user.fullName}
-								</Text>
-								<Text color="gray" size="1">
-									{user.username}
-								</Text>
-							</div>
-						</Flex>
-						<NumberInput
-							name={`charges.${user.id}.amount`}
-							min={0}
-							formatOptions={{
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2
-							}}
-							allowMouseWheel
-							money
-						/>
-					</Flex>
-				))}
+
+			<ScrollArea type="scroll" scrollbars="vertical" style={{ margin: '0 calc(var(--space-3) * -1)', width: 'auto'}}>
+				<Flex direction="column" gap="3" p="3">
+					{members
+						?.filter((u) => Object.keys(charges || {})?.some((id) => parseInt(id) === u.id))
+						?.map((user) => {
+							const chargeAmount = charges?.[user.id]?.amount || '0';
+
+							return (
+								<Flex
+									key={user.id}
+									align="center"
+									justify="between"
+									p="0"
+									className={clsx(styles.memberCard)}
+								>
+									<Flex gap="3">
+										<Avatar
+											size="2"
+											variant="soft"
+											radius="full"
+											fallback={getInitials(user.fullName)}
+										/>
+										<Flex direction="column">
+											<Text weight="medium" trim="both">
+												{user.fullName}
+											</Text>
+											<Text color="gray" size="2">
+												{user.username}
+											</Text>
+										</Flex>
+									</Flex>
+									<NumberInput
+										name={`charges.${user.id}.amount`}
+										min={0}
+										formatOptions={{
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2
+										}}
+										allowMouseWheel
+										money
+										onValueChange={({ value }) => {
+											const newValue = createMoney(value as any, 'USD').sub(chargeAmount as any);
+											const newTotal = createMoney(total as any, 'USD').add(newValue);
+											setValue('total', newTotal.string())
+										}}
+									/>
+								</Flex>
+							);
+						})}
+				</Flex>
+			</ScrollArea>
+			<Button onClick={() => setValue('phase', 2)}>Next</Button>
 		</>
 	);
 };

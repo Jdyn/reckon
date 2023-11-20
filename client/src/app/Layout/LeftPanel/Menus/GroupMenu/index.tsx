@@ -1,11 +1,20 @@
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
-import { EllipsisHorizontalIcon, FolderPlusIcon, NewspaperIcon } from '@heroicons/react/24/outline';
 import {
+	EllipsisHorizontalIcon,
+	FolderPlusIcon,
+	InformationCircleIcon,
+	MagnifyingGlassIcon,
+	NewspaperIcon,
+	UserPlusIcon
+} from '@heroicons/react/24/outline';
+import {
+	Callout,
 	DropdownMenu,
 	Flex,
 	Heading,
 	IconButton,
 	Separator,
+	Tabs,
 	Text,
 	TextField
 } from '@radix-ui/themes';
@@ -58,15 +67,15 @@ const GroupMenu = () => {
 
 	return match ? (
 		<div className={styles.root}>
-			<Flex align="center" height="6" justify="between" mt="4" mx="2">
+			<Flex align="center" height="9" justify="between" mx="2">
 				<Heading size="4">{group?.name}</Heading>
 				<DropdownMenu.Root>
 					<DropdownMenu.Trigger>
 						<IconButton variant="ghost">
-							<EllipsisHorizontalIcon width="18px" />
+							<EllipsisHorizontalIcon width="24px" />
 						</IconButton>
 					</DropdownMenu.Trigger>
-					<DropdownMenu.Content style={{ width: '216px' }}>
+					<DropdownMenu.Content style={{ width: 'calc(216px * var(--scaling))' }}>
 						<DialogItem
 							title="Create Category"
 							description="Orangize your bills into different categories to keep them easy to find."
@@ -87,13 +96,93 @@ const GroupMenu = () => {
 								/>
 							</Flex>
 						</DialogItem>
+						<DialogItem
+							title={`Invite friends to ${group?.name}`}
+							type="dropdown"
+							action="Create"
+							onClick={handleCreateCategory}
+						>
+							<>
+								Invite Friends
+								<UserPlusIcon width="18px" />
+							</>
+							<Tabs.Root defaultValue="existing">
+								<Tabs.List>
+									<Tabs.Trigger value="existing">Existing User</Tabs.Trigger>
+									<Tabs.Trigger value="nonexisting">Non-Existing User</Tabs.Trigger>
+								</Tabs.List>
+
+								<Tabs.Content value="existing">
+									<Flex direction="column" my="3">
+										{/* <Callout.Root>
+										<Callout.Icon>
+											<InformationCircleIcon width="18px" />
+										</Callout.Icon>
+										<Callout.Text>
+											Invite an existing user of the platform to your group.
+										</Callout.Text>
+									</Callout.Root> */}
+										<Flex direction="column" gap="3" my="3">
+											<label>
+												<Text as="div" size="3" mb="1" weight="bold">
+													Identifier
+												</Text>
+												<TextField.Root>
+													<TextField.Slot>
+														<MagnifyingGlassIcon width="14px" />
+													</TextField.Slot>
+													<TextField.Input
+														id="existing-user-id"
+														placeholder="Phone, Email, Username"
+														// value={identifier}
+														// onChange={(e) => setIdentifer(e.target.value)}
+													/>
+												</TextField.Root>
+											</label>
+										</Flex>
+									</Flex>
+								</Tabs.Content>
+
+								<Tabs.Content value="nonexisting">
+									<Flex direction="column" my="3">
+										{/* <Callout.Root>
+										<Callout.Icon>
+											<InformationCircleIcon width="14px" />
+										</Callout.Icon>
+										<Callout.Text>
+											Invite a new user to the platform and to your group.
+										</Callout.Text>
+									</Callout.Root> */}
+										<Flex direction="column" gap="3" my="3">
+											<label>
+												<Text as="div" mb="1" weight="bold">
+													Name
+												</Text>
+												<TextField.Input placeholder="John" />
+											</label>
+											<label>
+												<Text as="div" mb="1" weight="bold">
+													Identifier
+												</Text>
+												<TextField.Root>
+													<TextField.Slot>
+														<MagnifyingGlassIcon width="18px" />
+													</TextField.Slot>
+													<TextField.Input placeholder="Phone, Email" />
+												</TextField.Root>
+											</label>
+										</Flex>
+									</Flex>
+								</Tabs.Content>
+							</Tabs.Root>
+						</DialogItem>
 					</DropdownMenu.Content>
 				</DropdownMenu.Root>
 			</Flex>
 
 			<NavLink className={styles.listItem} to={`${match.pathname}/feed`}>
 				<Flex gap="1" align="center">
-					<NewspaperIcon width="18px" />
+					<NewspaperIcon width="14px" />
 					<Text weight="medium">Feed</Text>
 				</Flex>
 			</NavLink>

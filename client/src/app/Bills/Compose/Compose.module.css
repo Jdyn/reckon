@@ -15,11 +15,12 @@
 	display: flex;
 	position: relative;
 	pointer-events: auto;
-	background: var(--accent-panel);
+	background: var(--color-panel);
 	box-shadow: var(--shadow-3);
 	border-bottom: none;
 	border-radius: var(--radius-4) var(--radius-4) 0 0;
 	cursor: pointer;
+	z-index: 50;
 }
 
 .draft {
@@ -105,26 +106,29 @@
 }
 
 .container {
-	background: var(--accent-4);
+	background: var(--accent-3);
 	border-radius: var(--radius-3);
 }
 
 .list {
 	display: flex;
 	flex-direction: column;
-	padding: var(--space-1);
-	border-radius: var(--radius-3);
-	gap: var(--space-1);
+	padding: var(--space-2);
+	/* border-radius: var(--radius-3); */
+	gap: 0
 }
 
 .memberCard {
-	transition-duration: 0.1s;
-	/* cursor: pointer; */
+	display: flex;
+	align-items: center;
+	padding: var(--space-1) var(--space-3);
+	gap: var(--space-3);
+	transition-duration: 0.05s;
+	cursor: pointer;
 }
 
 .memberSelected {
 	background: var(--green-a3);
-	border-radius: var(--radius-3);
 }
 
 .switch {

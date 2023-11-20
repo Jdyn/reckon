@@ -69,7 +69,7 @@ function Headers() {
 						<TextField.Slot>
 							<MagnifyingGlassIcon width="18px" />
 						</TextField.Slot>
-						<TextField.Input placeholder="search for bills, groups, users" />
+						<TextField.Input size="1"  variant="soft" placeholder="search for bills, groups, users" />
 					</TextField.Root>
 				</Container>
 				<Flex gap="5" align="center">
